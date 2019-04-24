@@ -39,7 +39,7 @@ MonoBehaviour:
   - Platform: 1
     Value: 1
   - Platform: 2
-    Value: 0
+    Value: 1
   LoggingSettings:
   - Platform: 1
     Value: 1
@@ -55,7 +55,7 @@ MonoBehaviour:
   - Platform: 1
     Value: 256
   - Platform: 2
-    Value: 32
+    Value: 256
   Plugins: []
   MasterBanks: []
   Banks: []
