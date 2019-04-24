@@ -46,8 +46,8 @@ public class TestRoom : MonoBehaviour
         for (int i = 0; i < roundCount.Count; i++)
         {
             GameObject round = roundList[roundCount[i]];
-            round.transform.localScale = new Vector3(1, 1, 1);
-            round.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 1);
+            //round.transform.localScale = new Vector3(1.25f, 1.25f, 1);
+            round.GetComponent<SpriteRenderer>().color = Color.white;
             if (roundCoroutineDic.ContainsKey(roundCount[i]))
             {
                 StopCoroutine(roundCoroutineDic[roundCount[i]]);
@@ -65,10 +65,11 @@ public class TestRoom : MonoBehaviour
         {
             roundList[i] = Instantiate(DebugRound);
             roundList[i].transform.position = new Vector3(
-                1f + (i % 16) * 0.4f,
-                -2f + (i / 16) * 0.4f
+                2f + (i % 12) * 0.4f,
+                -4f + (i / 12) * 0.4f
             );
-            roundList[i].GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0);
+            roundList[i].transform.localScale = new Vector3(1.25f, 1.25f, 1);
+            roundList[i].GetComponent<SpriteRenderer>().color = Color.black;
         }
     }
 
@@ -91,9 +92,9 @@ public class TestRoom : MonoBehaviour
     //读取曲谱
     void LoadPatternData()
     {
-        string songsPath = Path.Combine(EZR.Master.GameResourcesFolder, "EZ2ON\\Songs\\kamui");
+        string songsPath = Path.Combine(EZR.Master.GameResourcesFolder, "EZ2DJ\\Songs\\7bc");
         //读json
-        string patternFileName = Path.Combine(songsPath, "8-kamui-shd.json");
+        string patternFileName = Path.Combine(songsPath, "7streetmix1p-7bc-shd.json");
         Debug.Log(patternFileName);
 
         PatternData = PatternUtils.Parse(File.ReadAllText(patternFileName));
@@ -138,6 +139,7 @@ public class TestRoom : MonoBehaviour
                             //        break;
                             //}
                             SoundList.Add(i, sound);
+
                             break;
                         }
                     }
@@ -240,17 +242,11 @@ public class TestRoom : MonoBehaviour
                 while (NoteList[index].position <= pos)
                 {
                     int id = NoteList[index].id;
-                    float vol = Mathf.Pow(NoteList[index].vol / 127f, 5.5f);
-                    float pan = (NoteList[index].pan - 64) / 127f;
-
-                    message = string.Format("[{0}] {1} sound: {2}\n[vol: {3}] [pan: {4}]",
-                        (int)(pos / measureLength),
-                        NoteList[index].position,
-                        (string)PatternData["soundList"][Mathf.Max(0, id)]["filename"],
-                        (int)(vol * 100), (int)(pan * 100)
-                    );
+                    float vol = Mathf.Pow(NoteList[index].vol / 127f, 4f);
+                    float pan = Mathf.Sign(NoteList[index].pan - 64) * Mathf.Pow(Mathf.Abs(NoteList[index].pan - 64) / 64f, 0.35f);
 
                     if (NoteList[index].bpm > 0) bpm = NoteList[index].bpm;
+
                     if (SoundList.ContainsKey(id))
                     {
                         FMODUnity.RuntimeManager.LowlevelSystem.playSound(SoundList[id], main, true, out FMOD.Channel channel);
@@ -260,6 +256,13 @@ public class TestRoom : MonoBehaviour
                         channel.setPaused(false);
                         roundCount.Add(id);
                     }
+
+                    message = string.Format("[{0}] {1} sound: {2}\n[vol: {3}] [pan: {4}]",
+                        (int)(pos / measureLength),
+                        NoteList[index].position,
+                        (string)PatternData["soundList"][Mathf.Max(0, id)]["filename"],
+                        (int)(vol * 100), (int)(pan * 100)
+                    );
 
                     index++;
                     if (index >= NoteList.Length) break;
@@ -285,11 +288,11 @@ public class TestRoom : MonoBehaviour
         SpriteRenderer spriteRenderer = round.GetComponent<SpriteRenderer>();
         for (; ; )
         {
-            round.transform.localScale = Vector3.Lerp(
-                new Vector3(0.6f, 0.6f, 1),
-                 new Vector3(1.25f, 1.25f, 1),
-                1 - Mathf.Pow(1 - a, 8)
-            );
+            //round.transform.localScale = Vector3.Lerp(
+            //    new Vector3(0.6f, 0.6f, 1),
+            //     new Vector3(1.25f, 1.25f, 1),
+            //    1 - Mathf.Pow(1 - a, 8)
+            //);
             if (a > 1)
             {
                 spriteRenderer.color = Color.black;
@@ -298,7 +301,7 @@ public class TestRoom : MonoBehaviour
             spriteRenderer.color = Color.Lerp(
                 Color.yellow,
                 Color.black,
-                1 - Mathf.Pow(1 - a, 8)
+                Mathf.Sqrt(1 - Mathf.Pow(1-a, 2))
             );
             a += Time.deltaTime;
             yield return null;
