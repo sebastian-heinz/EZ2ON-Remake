@@ -9,9 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 0}
+  m_Script: {fileID: 11500000, guid: e33df994d4a164d4c961422c888a809e, type: 3}
   m_Name: EZR_Settings
-  m_EditorClassIdentifier: Assembly-CSharp:EZR:SettingsAsset
+  m_EditorClassIdentifier: 
   Version: 0.1 demo
   devGameResourcesFolder: D:\EZRData
   LaunchScene: TestRoom

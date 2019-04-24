@@ -1,17 +1,21 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using System.IO;
 using Newtonsoft.Json.Linq;
 using System.Threading;
+using System.Threading.Tasks;
 using System;
-
 
 public class TestRoom : MonoBehaviour
 {
     Dictionary<int, FMOD.Sound> SoundList;
     Note[] NoteList;
     JObject PatternData;
+    double deltaTime;
+    public Text text;
+    string message = "";
 
     // Start is called before the first frame update
     void Start()
@@ -24,7 +28,6 @@ public class TestRoom : MonoBehaviour
     struct Note
     {
         public int position;
-        public int[] mPos;
         public int type;
         public int id;
         public int vol;
@@ -33,13 +36,18 @@ public class TestRoom : MonoBehaviour
         public int length;
     }
 
+    void OnGUI()
+    {
+        text.text = message + "\ndelta time: " + deltaTime;
+    }
+
     void PlaySound()
     {
         FMODUnity.RuntimeManager.LowlevelSystem.createChannelGroup("main", out FMOD.ChannelGroup main);
         FMODUnity.RuntimeManager.LowlevelSystem.getDSPBufferSize(out uint bl, out int nb);
         Debug.Log(bl + "," + nb);
 
-        Thread thread = new Thread(() =>
+        Task.Run(() =>
         {
             //当前位置
             double pos = 0d;
@@ -50,18 +58,17 @@ public class TestRoom : MonoBehaviour
             int index = 0;
 
             double lastTime = new TimeSpan(DateTime.Now.Ticks).TotalSeconds;
-            double deltaTime;
 
             while (index < NoteList.Length)
             {
                 while (NoteList[index].position <= pos)
                 {
-                    Debug.Log(string.Format("[{0}] {1} sound: {2}",
-                        index,
+                    message = string.Format("[{0}] {1} sound: {2}",
+                        (int)(pos / measureLength),
                         NoteList[index].position,
                         (string)PatternData["soundList"][Mathf.Max(0, NoteList[index].id)]["filename"]
-                        ));
-                        
+                        );
+
                     if (NoteList[index].bpm > 0) bpm = NoteList[index].bpm;
                     if (SoundList.ContainsKey(NoteList[index].id))
                     {
@@ -69,7 +76,9 @@ public class TestRoom : MonoBehaviour
                     }
                     index++;
                 }
+
                 Thread.Sleep(1);
+
                 double now = new TimeSpan(DateTime.Now.Ticks).TotalSeconds;
                 deltaTime = now - lastTime;
                 lastTime = now;
@@ -79,10 +88,7 @@ public class TestRoom : MonoBehaviour
                 //debugText.text = pos.ToString();
             }
         });
-        thread.IsBackground = true;
-        thread.Start();
     }
-
 
     //读取曲谱
     void LoadPatternData()

@@ -9,7 +9,7 @@ public class Launcher : MonoBehaviour
     void Start()
     {
         EZR.Master.Version = Settings.Version;
-        EZR.Master.GameResourcesFolder = EZR.Master.DEBUG ? Settings.devGameResourcesFolder : "";
+        EZR.Master.GameResourcesFolder = EZR.Master.DEBUG ? Settings.devGameResourcesFolder : "EZRData";
         Debug.Log(string.Format("Version: {0}", EZR.Master.Version));
         Debug.Log(string.Format("devGameResourcesFolder: {0}", EZR.Master.GameResourcesFolder));
         SceneManager.LoadScene(Settings.LaunchScene);
