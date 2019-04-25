@@ -8,12 +8,13 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Runtime.InteropServices;
+using PatternUtils;
 
 public class TestRoom : MonoBehaviour
 {
     Dictionary<int, FMOD.Sound> SoundList;
     Note[] NoteList;
-    JObject PatternData;
+    Pattern PatternData;
     double deltaTime;
 
     public Text text;
@@ -83,9 +84,9 @@ public class TestRoom : MonoBehaviour
         public int position;
         public int type;
         public int id;
-        public int vol;
-        public int pan;
-        public int bpm;
+        public float vol;
+        public float pan;
+        public float bpm;
         public int length;
     }
 
@@ -97,18 +98,17 @@ public class TestRoom : MonoBehaviour
         string patternFileName = Path.Combine(songsPath, "7streetmix1p-7bc-shd.json");
         Debug.Log(patternFileName);
 
-        PatternData = PatternUtils.Parse(File.ReadAllText(patternFileName));
-        Debug.Log(PatternData.ToString());
+        PatternData = PatternUtils.Pattern.Parse(File.ReadAllText(patternFileName));
 
         SoundList = new Dictionary<int, FMOD.Sound>();
 
-        for (int i = 0; i < ((JArray)PatternData["soundList"]).Count; i++)
+        for (int i = 0; i < PatternData.SoundList.Count; i++)
         {
-            var jsound = PatternData["soundList"][i];
-            string filename = (string)jsound["filename"];
-            int type = jsound["type"] != null ? (int)jsound["type"] : 0;
+            var soundData = PatternData.SoundList[i];
+            string filename = soundData.filename;
+            int type = soundData.type;
 
-            if (filename != null)
+            if (filename != "")
             {
                 string extName = "wav";
                 string fullName;
@@ -126,9 +126,17 @@ public class TestRoom : MonoBehaviour
                     fullName = Path.Combine(songsPath, Path.ChangeExtension(filename, extName));
                     if (File.Exists(fullName))
                     {
-                        var soundResult = FMODUnity.RuntimeManager.LowlevelSystem.createSound(fullName, FMOD.MODE._2D, out FMOD.Sound sound);
+                        byte[] soundBytes = File.ReadAllBytes(fullName);
+
+                        var exinfo = new FMOD.CREATESOUNDEXINFO();
+                        exinfo.cbsize = Marshal.SizeOf(exinfo);
+                        exinfo.length = (uint)soundBytes.Length;
+
+                        var soundResult = FMODUnity.RuntimeManager.LowlevelSystem.createSound(soundBytes, FMOD.MODE._2D | FMOD.MODE.OPENMEMORY, ref exinfo, out FMOD.Sound sound);
+
                         if (soundResult == FMOD.RESULT.OK)
                         {
+                            //Debug.Log(fullName);
                             //FMOD.Channel channel;
                             //switch (type)
                             //{
@@ -148,51 +156,48 @@ public class TestRoom : MonoBehaviour
         }
 
         List<Note> notes = new List<Note>();
-        for (int i = 0; i < ((JArray)PatternData["bpmList"]).Count; i++)
+        for (int i = 0; i < PatternData.BPMList.Count; i++)
         {
-            var jbpm = PatternData["bpmList"][i];
-            if ((int)jbpm["type"] == 3)
+            var bpm = PatternData.BPMList[i];
+            if (bpm.type == 3)
             {
-                int position = (int)jbpm["position"];
                 notes.Add(new Note()
                 {
-                    position = position,
-                    type = (int)jbpm["type"],
+                    position = bpm.position,
+                    type = bpm.type,
                     id = -1,
                     vol = 0,
                     pan = 0,
-                    bpm = (int)jbpm["bpm"],
+                    bpm = bpm.bpm,
                     length = 0
                 });
             }
         }
 
-        for (int i = 0; i < ((JArray)PatternData["trackList"]).Count; i++)
+        for (int i = 0; i < PatternData.TrackList.Count; i++)
         {
-            var jtrack = PatternData["trackList"][i];
-            foreach (JProperty track in jtrack.Children())
+            var track = PatternData.TrackList[i];
+            for (int j = 0; j < track.Notes.Count; j++)
             {
-                for (int j = 0; j < ((JArray)jtrack[track.Name]).Count; j++)
+                var note = track.Notes[j];
+                if (note.type == 1)
                 {
-                    var snote = (JObject)jtrack[track.Name][j];
-                    if ((int)snote["type"] == 1)
+                    int position = note.position;
+                    notes.Add(new Note()
                     {
-                        int position = (int)snote["position"];
-                        notes.Add(new Note()
-                        {
-                            position = position,
-                            type = (int)snote["type"],
-                            id = (int)snote["id"],
-                            vol = (int)snote["vol"],
-                            pan = (int)snote["pan"],
-                            bpm = 0,
-                            length = (int)snote["length"]
-                        });
-                    }
+                        position = note.position,
+                        type = note.type,
+                        id = note.id,
+                        vol = note.vol,
+                        pan = note.pan,
+                        bpm = 0,
+                        length = note.length,
+                    });
                 }
             }
         }
 
+        // 排序
         NoteList = notes.ToArray();
         Note temp;
         for (int i = 0; i < NoteList.Length - 1; i++)
@@ -223,7 +228,7 @@ public class TestRoom : MonoBehaviour
             //当前位置
             double pos = 0d;
             //bpm
-            int bpm = 120;
+            float bpm = 120;
             //每小节划分
             int measureLength = 192;
             int index = 0;
@@ -242,8 +247,6 @@ public class TestRoom : MonoBehaviour
                 while (NoteList[index].position <= pos)
                 {
                     int id = NoteList[index].id;
-                    float vol = Mathf.Pow(NoteList[index].vol / 127f, 4f);
-                    float pan = Mathf.Sign(NoteList[index].pan - 64) * Mathf.Pow(Mathf.Abs(NoteList[index].pan - 64) / 64f, 0.35f);
 
                     if (NoteList[index].bpm > 0) bpm = NoteList[index].bpm;
 
@@ -251,8 +254,8 @@ public class TestRoom : MonoBehaviour
                     {
                         FMODUnity.RuntimeManager.LowlevelSystem.playSound(SoundList[id], main, true, out FMOD.Channel channel);
                         //FMODUnity.RuntimeManager.LowlevelSystem.playSound(SoundList[id], main, false, out FMOD.Channel channel);
-                        channel.setVolume(vol);
-                        channel.setPan(pan);
+                        channel.setVolume(NoteList[index].vol);
+                        channel.setPan(NoteList[index].pan);
                         channel.setPaused(false);
                         roundCount.Add(id);
                     }
@@ -260,21 +263,21 @@ public class TestRoom : MonoBehaviour
                     message = string.Format("[{0}] {1} sound: {2}\n[vol: {3}] [pan: {4}]",
                         (int)(pos / measureLength),
                         NoteList[index].position,
-                        (string)PatternData["soundList"][Mathf.Max(0, id)]["filename"],
-                        (int)(vol * 100), (int)(pan * 100)
+                        PatternData.SoundList[Mathf.Max(0, id)].filename,
+                        (int)(NoteList[index].vol * 100), (int)(NoteList[index].pan * 100)
                     );
 
                     index++;
                     if (index >= NoteList.Length) break;
                 }
 
-                Thread.Sleep(1);
+                Thread.Sleep(16);
 
                 long now = stopwatch.ElapsedTicks;
                 deltaTime = (now - lastTime) / 10000000d;
                 lastTime = now;
 
-                pos += deltaTime * ((new Mehroz.Fraction(bpm, 4) / 60) * measureLength).ToDouble();
+                pos += deltaTime * ((bpm / 4d / 60d) * measureLength);
             }
 
             stopwatch.Stop();
@@ -301,7 +304,7 @@ public class TestRoom : MonoBehaviour
             spriteRenderer.color = Color.Lerp(
                 Color.yellow,
                 Color.black,
-                Mathf.Sqrt(1 - Mathf.Pow(1-a, 2))
+                Mathf.Sqrt(1 - Mathf.Pow(1 - a, 2))
             );
             a += Time.deltaTime;
             yield return null;
