@@ -9,9 +9,11 @@ public class Launcher : MonoBehaviour
     void Start()
     {
         EZR.Master.Version = Settings.Version;
-        EZR.Master.GameResourcesFolder = EZR.Master.DEBUG ? Settings.devGameResourcesFolder : "EZRData";
+        EZR.Master.GameResourcesFolder = EZR.Master.IsDebug ? Settings.devGameResourcesFolder : "EZRData";
+        EZR.Master.TimePrecision = Settings.TimePrecision;
         Debug.Log(string.Format("Version: {0}", EZR.Master.Version));
         Debug.Log(string.Format("devGameResourcesFolder: {0}", EZR.Master.GameResourcesFolder));
+        Debug.Log(string.Format("TimePrecision: {0} ms", EZR.Master.TimePrecision));
         SceneManager.LoadScene(Settings.LaunchScene);
         Debug.Log("Launch!");
     }

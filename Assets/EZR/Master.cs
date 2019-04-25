@@ -42,9 +42,9 @@ namespace EZR
             {
                 while (TaskExitFlag == 0)
                 {
-                    MainLoop();
+                    if (MainLoop != null)
+                        MainLoop();
                     Thread.Sleep(TimePrecision);
-                    Debug.Log("loop");
                 }
             });
 
