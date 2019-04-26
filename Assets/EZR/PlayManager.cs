@@ -19,14 +19,29 @@ namespace EZR
 
         public static void LoadPattern()
         {
-            string jsonPath = Path.Combine(
-                EZR.Master.GameResourcesFolder,
-                GameType.ToString(),
-                "Songs",
-                SongName,
-                EZR.GameMode.GetString(GameMode) + SongName + EZR.GameDifficult.GetString(GameDifficult) +
-                ".json"
-            );
+            string jsonPath;
+            if (GameType != EZR.GameType.DJMAX)
+            {
+                jsonPath = Path.Combine(
+                   EZR.Master.GameResourcesFolder,
+                   GameType.ToString(),
+                   "Songs",
+                   SongName,
+                   EZR.GameMode.GetString(GameMode) + SongName + EZR.GameDifficult.GetString(GameDifficult) +
+                   ".json"
+               );
+            }
+            else
+            {
+                jsonPath = Path.Combine(
+                     EZR.Master.GameResourcesFolder,
+                     GameType.ToString(),
+                     "Songs",
+                     SongName,
+                    SongName + EZR.GameMode.GetString(GameMode) + EZR.GameDifficult.GetString(GameDifficult) +
+                     ".json"
+                 );
+            }
             Debug.Log(jsonPath);
 
             if (!File.Exists(jsonPath)) return;

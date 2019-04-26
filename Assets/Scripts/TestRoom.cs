@@ -14,16 +14,17 @@ public class TestRoom : MonoBehaviour
 {
     public Text text;
     public GameObject DebugRound;
-    GameObject[] roundList = new GameObject[256];
+    GameObject[] roundList = new GameObject[768];
     Dictionary<int, Coroutine> roundCoroutineDic = new Dictionary<int, Coroutine>();
     public static List<int> RoundCount = new List<int>();
 
     // Start is called before the first frame update
     void Start()
     {
-        EZR.PlayManager.SongName = "Flower";
-        EZR.PlayManager.GameMode = EZR.GameMode.Mode.ClubMix8;
-        EZR.PlayManager.GameDifficult = EZR.GameDifficult.Difficult.SHD;
+        EZR.PlayManager.GameType = EZR.GameType.DJMAX;
+        EZR.PlayManager.SongName = "fareast";
+        EZR.PlayManager.GameMode = EZR.GameMode.Mode.FourButtons;
+        EZR.PlayManager.GameDifficult = EZR.GameDifficult.Difficult.DJMAX_HD;
         EZR.PlayManager.Reset();
         EZR.PlayManager.LoadPattern();
         genDebugRound();
@@ -54,8 +55,8 @@ public class TestRoom : MonoBehaviour
         {
             roundList[i] = Instantiate(DebugRound);
             roundList[i].transform.position = new Vector3(
-                2f + (i % 12) * 0.4f,
-                -4f + (i / 12) * 0.4f
+                -8f + (i % 36) * 0.4f,
+                -4f + (i / 36) * 0.4f
             );
             roundList[i].transform.localScale = new Vector3(1.25f, 1.25f, 1);
             roundList[i].GetComponent<SpriteRenderer>().color = Color.black;

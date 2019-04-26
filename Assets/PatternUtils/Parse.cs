@@ -69,7 +69,7 @@ namespace PatternUtils
 
         static float getPan(int pan)
         {
-            return Mathf.Sign(pan - 64) * Mathf.Pow(Mathf.Abs(pan - 64) / 64f, 0.35f);
+            return Mathf.Sign(pan - 64) * Mathf.Pow(Mathf.Abs(pan - 64) / 64f, 0.5f);
         }
     }
 }
