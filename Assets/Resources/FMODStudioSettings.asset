@@ -21,7 +21,7 @@ MonoBehaviour:
   AutomaticSampleLoading: 0
   ImportType: 0
   TargetAssetPath: 
-  LoggingLevel: 2
+  LoggingLevel: 0
   SpeakerModeSettings:
   - Platform: 2
     Value: 3

@@ -55,10 +55,10 @@ public class TestRoom : MonoBehaviour
         {
             roundList[i] = Instantiate(DebugRound);
             roundList[i].transform.position = new Vector3(
-                -8f + (i % 36) * 0.4f,
-                -4f + (i / 36) * 0.4f
+                -6f + (i % 36) * 0.32f,
+                -4f + (i / 36) * 0.32f
             );
-            roundList[i].transform.localScale = new Vector3(1.25f, 1.25f, 1);
+            roundList[i].transform.localScale = Vector3.one;
             roundList[i].GetComponent<SpriteRenderer>().color = Color.black;
         }
     }
