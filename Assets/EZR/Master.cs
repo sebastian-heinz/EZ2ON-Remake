@@ -5,6 +5,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System;
 using System.Runtime.InteropServices;
+using UnityEngine.Experimental.Input;
 
 namespace EZR
 {
@@ -32,6 +33,13 @@ namespace EZR
 
         public static event Action MainLoop;
 
+        static Keyboard keyboard = Keyboard.current;
+        public static event Action<int, bool> InputEvent;
+        public static bool Key1State = false;
+        public static bool Key2State = false;
+        public static bool Key3State = false;
+        public static bool Key4State = false;
+
         static Master()
         {
 #if (UNITY_STANDALONE_WIN || UNITY_EDITOR_WIN)
@@ -42,8 +50,38 @@ namespace EZR
             {
                 while (TaskExitFlag == 0)
                 {
+                    // 发送按键状态
+                    if (Key1State != keyboard.dKey.isPressed)
+                    {
+                        Key1State = keyboard.dKey.isPressed;
+                        if (InputEvent != null)
+                            InputEvent(0, Key1State);
+                    }
+
+                    if (Key2State != keyboard.fKey.isPressed)
+                    {
+                        Key2State = keyboard.fKey.isPressed;
+                        if (InputEvent != null)
+                            InputEvent(1, Key2State);
+                    }
+
+                    if (Key3State != keyboard.jKey.isPressed)
+                    {
+                        Key3State = keyboard.jKey.isPressed;
+                        if (InputEvent != null)
+                            InputEvent(2, Key3State);
+                    }
+
+                    if (Key4State != keyboard.kKey.isPressed)
+                    {
+                        Key4State = keyboard.kKey.isPressed;
+                        if (InputEvent != null)
+                            InputEvent(3, Key4State);
+                    }
+
                     if (MainLoop != null)
                         MainLoop();
+
                     Thread.Sleep(TimePrecision);
                 }
             });

@@ -1,0 +1,347 @@
+fileFormatVersion: 2
+guid: 00fdd79f1e912414a8aa7633aa25eb92
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 3367934793266305111
+    second: GEM_BACK_LINE_blue
+  - first:
+      213: -4873020726419503267
+    second: GEM_BACK_LINE_KEYBOARD
+  - first:
+      213: 3340275705800500115
+    second: GEM_BACK_LINE_PEDAL
+  - first:
+      213: -7124187130391034698
+    second: GEM_Long_EFFECT0
+  - first:
+      213: -4344669273394445643
+    second: GEM_Long_EFFECT1
+  - first:
+      213: -7693199007165931389
+    second: GEM_Long_EFFECT2
+  - first:
+      213: -409373299209614460
+    second: GEM_Long_EFFECT3
+  - first:
+      213: 7577328287588368852
+    second: Mask
+  - first:
+      213: -710117256364220538
+    second: Mask_1
+  - first:
+      213: -7265138039870055927
+    second: Mask_2
+  - first:
+      213: 9077638449488412042
+    second: Mask_3
+  - first:
+      213: 2479159577820652394
+    second: Mask_4
+  - first:
+      213: 1740621877658385396
+    second: Mask_5
+  - first:
+      213: 2792614110373848061
+    second: Mask_6
+  - first:
+      213: -7682283746300153158
+    second: Mask_7
+  - first:
+      213: -868763729755248054
+    second: Mask_8
+  - first:
+      213: -7576431519800290640
+    second: Mask_9
+  - first:
+      213: -815504574228383573
+    second: fade25
+  - first:
+      213: 561968362080930466
+    second: fade50
+  externalObjects: {}
+  serializedVersion: 10
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: -1
+    aniso: -1
+    mipBias: -100
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  platformSettings:
+  - serializedVersion: 2
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+  - serializedVersion: 2
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: fade25
+      rect:
+        serializedVersion: 2
+        x: 121
+        y: 255
+        width: 1
+        height: 256
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d5eec616748364948966b3ef806fd51d
+      internalID: -815504574228383573
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fade50
+      rect:
+        serializedVersion: 2
+        x: 124
+        y: 255
+        width: 1
+        height: 256
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c0ecea349578e634ea7f5149148ecde8
+      internalID: 561968362080930466
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: GEM_BACK_LINE_blue
+      rect:
+        serializedVersion: 2
+        x: 103
+        y: 382
+        width: 16
+        height: 129
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b474305ff1fc56f4f8f58718784d42f8
+      internalID: 3367934793266305111
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: GEM_BACK_LINE_KEYBOARD
+      rect:
+        serializedVersion: 2
+        x: 67
+        y: 382
+        width: 16
+        height: 129
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ae8da0528e6431645ab9e434f42d0361
+      internalID: -4873020726419503267
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: GEM_BACK_LINE_PEDAL
+      rect:
+        serializedVersion: 2
+        x: 85
+        y: 382
+        width: 16
+        height: 129
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 31a0d35b449ce4c43a7a340d25a83217
+      internalID: 3340275705800500115
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: GEM_Long_EFFECT0
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 447
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f370bbffb25449240b53bd1025860f0d
+      internalID: -7124187130391034698
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: GEM_Long_EFFECT1
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 381
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1d9cbf02fd4791e47aff5d084e52bbfb
+      internalID: -4344669273394445643
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: GEM_Long_EFFECT2
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 315
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 064e48c55c14b9d458bfba5aa969b7b4
+      internalID: -7693199007165931389
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: GEM_Long_EFFECT3
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 249
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 68f3abf16d6bb4444ab247a6ccbeda63
+      internalID: -409373299209614460
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    physicsShape: []
+    bones: []
+    spriteID: 7faaf290f91c08042b07e259e9cb080f
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+  spritePackingTag: 
+  pSDRemoveMatte: 0
+  pSDShowRemoveMatteOption: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

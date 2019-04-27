@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.Diagnostics;
+using System;
 
 namespace EZR
 {
@@ -9,8 +10,13 @@ namespace EZR
     {
         public static Stopwatch Stopwatch = new Stopwatch();
         public static double DeltaTime = 0d;
-        public static string DebugMessage = "";
         static double lastTime = 0d;
+
+        public static event Action Groove;
+        static double beat = 0d;
+
+        public static event Action<string, int> DebugEvent;
+        public static event Action LoopStop;
 
         public static void Start()
         {
@@ -55,13 +61,17 @@ namespace EZR
                     else
                         MemorySound.playSound(id, vol, pan, MemorySound.Main);
 
-                    DebugMessage = string.Format(
-                        "Sound: {0}\n[vol: {1}] [pan:{2}]",
-                        TimeLines.SoundList[id].filename,
-                        (int)(vol * 100),
-                        (int)(pan * 100)
-                    );
-                    TestRoom.RoundCount.Add(id);
+                    // debug事件
+                    if (DebugEvent != null)
+                    {
+                        DebugEvent(string.Format(
+                            "Sound: {0}\n[vol: {1}] [pan:{2}]",
+                            TimeLines.SoundList[id].filename,
+                            (int)(vol * 100),
+                            (int)(pan * 100)
+                        ), id);
+                    }
+
                     TimeLines.LinesIndex[i]++;
                 }
             }
@@ -69,6 +79,8 @@ namespace EZR
             if (isEnd)
             {
                 Stop();
+                if (LoopStop != null)
+                    LoopStop();
             }
 
             long now = Stopwatch.ElapsedTicks;
@@ -76,6 +88,17 @@ namespace EZR
             lastTime = now;
 
             Position += DeltaTime * ((TimeLines.BPM / 4d / 60d) * PatternUtils.Pattern.MeasureLength);
+
+            beat += DeltaTime * (TimeLines.BPM / 60d);
+
+            // 节奏事件
+            if (beat > 1)
+            {
+                beat -= 1d;
+                if (Groove != null)
+                    Groove();
+            }
         }
     }
 }
+

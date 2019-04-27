@@ -95,7 +95,17 @@ namespace EZR
             {
                 if (pattern.TrackList[i].Notes.Count > 0)
                 {
-                    int mapping = PatternUtils.Pattern.Mapping(GameType, i);
+                    int mapping;
+                    if (GameType == EZR.GameType.DJMAX &&
+                    GameMode != EZR.GameMode.Mode.EightButtons)
+                    {
+                        mapping = PatternUtils.Pattern.Mapping(GameType, i) - 1;
+                    }
+                    else
+                    {
+                        mapping = PatternUtils.Pattern.Mapping(GameType, i);
+                    }
+
                     for (int j = 0; j < pattern.TrackList[i].Notes.Count; j++)
                     {
                         if (pattern.TrackList[i].Notes[j].type == 1)
@@ -116,6 +126,7 @@ namespace EZR
             Position = 0d;
             DeltaTime = 0d;
             lastTime = 0d;
+            beat = 0d;
             if (TimeLines != null)
                 TimeLines.Reset();
         }
