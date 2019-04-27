@@ -90,7 +90,7 @@ namespace FMODUnity
 
         void Update()
         {
-            if (forceRepaint && lastRepaintTime < Time.time + (1 / 30.0f))
+            if (forceRepaint && lastRepaintTime < Time.time + (1/30.0f))
             {
                 Repaint();
                 lastRepaintTime = Time.time;
@@ -121,7 +121,7 @@ namespace FMODUnity
             //if (item != selectedItem)
             {
                 selectedItem = item;
-
+                
                 if (item != null)
                 {
                     SetPreviewEvent(item.EventRef);
@@ -136,14 +136,14 @@ namespace FMODUnity
         void ShowEventFolder(TreeItem item, Predicate<TreeItem> filter)
         {
             eventStyle.padding.left += 17;
-
+            
             {
                 // Highlight first found item
                 if (item.EventRef != null || item.BankRef != null)
                 {
                     if (!String.IsNullOrEmpty(searchString) &&
                         itemCount == 0 &&
-                        selectedItem == null
+                        selectedItem == null                       
                         )
                     {
                         SetSelectedItem(item);
@@ -168,7 +168,7 @@ namespace FMODUnity
 
                 eventStyle.normal.background = selectedItem == item ? EditorGUIUtility.Load("FMOD/Selected.png") as Texture2D : null;
                 GUILayout.Label(content, eventStyle, GUILayout.ExpandWidth(true));
-
+                
                 Event e = Event.current;
 
                 Rect rect = GUILayoutUtility.GetLastRect();
@@ -189,11 +189,11 @@ namespace FMODUnity
 
                     SetSelectedItem(item);
                 }
-#if UNITY_2017_3_OR_NEWER
+                #if UNITY_2017_3_OR_NEWER
                 if (e.type == EventType.MouseDrag && rect.Contains(e.mousePosition) && !fromInspector)
-#else
+                #else
                 if (e.type == EventType.mouseDrag && rect.Contains(e.mousePosition) && !fromInspector)
-#endif
+                #endif
                 {
                     DragAndDrop.PrepareStartDrag();
                     DragAndDrop.objectReferences = new UnityEngine.Object[] { ScriptableObject.Instantiate(item.EventRef) };
@@ -231,11 +231,11 @@ namespace FMODUnity
 
                     SetSelectedItem(item);
                 }
-#if UNITY_2017_3_OR_NEWER
+                #if UNITY_2017_3_OR_NEWER
                 if (e.type == EventType.MouseDrag && rect.Contains(e.mousePosition) && !fromInspector)
-#else
+                #else
                 if (e.type == EventType.mouseDrag && rect.Contains(e.mousePosition) && !fromInspector)
-#endif
+                #endif
                 {
                     DragAndDrop.PrepareStartDrag();
                     DragAndDrop.objectReferences = new UnityEngine.Object[] { ScriptableObject.Instantiate(item.BankRef) };
@@ -256,21 +256,21 @@ namespace FMODUnity
                 GUILayout.Label(content, eventStyle, GUILayout.ExpandWidth(true));
 
                 Rect rect = GUILayoutUtility.GetLastRect();
-                if (Event.current.type == EventType.MouseDown &&
-                    Event.current.button == 0 &&
+                if (Event.current.type == EventType.MouseDown && 
+                    Event.current.button == 0 && 
                     rect.Contains(Event.current.mousePosition))
                 {
                     Event.current.Use();
                     item.Expanded = !item.Expanded;
                     SetSelectedItem(item);
                 }
-
+                
                 if (item.Expanded || !string.IsNullOrEmpty(searchString))
                 {
                     item.Children.Sort((a, b) => a.Name.CompareTo(b.Name));
                     if (item.Name.ToLower().Contains(searchString.ToLower()))
                     {
-                        foreach (var childFolder in item.Children)
+                        foreach(var childFolder in item.Children)
                         {
                             ShowEventFolder(childFolder, (x) => true);
                         }
@@ -353,11 +353,11 @@ namespace FMODUnity
 
             // Scroll the selected item in the tree view - put above the search box otherwise it will take
             // our key presses
-#if UNITY_2017_3_OR_NEWER
+            #if UNITY_2017_3_OR_NEWER
             if (selectedItem != null && Event.current.type == EventType.KeyDown)
-#else
+            #else
             if (selectedItem != null && Event.current.type == EventType.keyDown)
-#endif
+            #endif
             {
                 if (Event.current.keyCode == KeyCode.UpArrow)
                 {
@@ -449,7 +449,7 @@ namespace FMODUnity
                 matchForSelected = (x) => (x.Name.ToLower().Contains(searchString.ToLower()) && (x == selectedItem || x.Children.Exists(containsSelected))) || x.Children.Exists(matchForSelected);
                 if (!treeItems.Exists(matchForSelected))
                 {
-                    SetSelectedItem(null);
+                  SetSelectedItem(null);
                 }
             }
 
@@ -625,7 +625,7 @@ namespace FMODUnity
                 {
                     GUI.color = new Color(1.0f, 1.0f, 1.0f, 0.1f);
                 }
-
+                
                 Rect rect = new Rect(isNarrow ? 120 : 150, 10, 128, 128);
                 GUI.DrawTexture(rect, circle);
 
@@ -635,11 +635,11 @@ namespace FMODUnity
 
                 GUI.color = originalColour;
 
-#if UNITY_2017_3_OR_NEWER
+                #if UNITY_2017_3_OR_NEWER
                 if (selectedEvent.Is3D && (Event.current.type == EventType.MouseDown || Event.current.type == EventType.MouseDrag) && rect.Contains(Event.current.mousePosition))
-#else
+                #else
                 if (selectedEvent.Is3D && (Event.current.type == EventType.mouseDown || Event.current.type == EventType.mouseDrag) && rect.Contains(Event.current.mousePosition))
-#endif
+                #endif
                 {
                     var newPosition = Event.current.mousePosition;
                     Vector2 delta = (newPosition - centre);
@@ -669,7 +669,7 @@ namespace FMODUnity
             foreach (float rms in metering)
             {
                 GUI.DrawTexture(new Rect(hoffset, voffset, meterWidth, meterHeight), meterOff);
-
+                
                 float db = 20.0f * Mathf.Log10(rms * Mathf.Sqrt(2.0f));
                 db = Mathf.Clamp(db, -80.0f, 10.0f);
                 float visible = 0;
@@ -691,7 +691,7 @@ namespace FMODUnity
             }
 
             GUILayout.EndArea();
-
+            
             Rect paramRect = new Rect(0, previewCustomRect.yMax + 10, previewRect.width, previewRect.height - (previewCustomRect.yMax + 10));
             GUILayout.BeginArea(paramRect);
 
@@ -967,7 +967,7 @@ namespace FMODUnity
 
         public void OnEnable()
         {
-            SceneView.duringSceneGui += SceneUpdate;
+            SceneView.onSceneGUIDelegate += SceneUpdate;
             EditorApplication.hierarchyWindowItemOnGUI += HierachachyUpdate;
             instance = this;
         }
@@ -976,11 +976,11 @@ namespace FMODUnity
         void HierachachyUpdate(int instance, Rect rect)
         {
             Event e = Event.current;
-#if UNITY_2017_3_OR_NEWER
+            #if UNITY_2017_3_OR_NEWER
             if (e.type == EventType.DragPerform && rect.Contains(e.mousePosition))
-#else
+            #else
             if (e.type == EventType.dragPerform && rect.Contains(e.mousePosition))
-#endif
+            #endif
             {
                 if (DragAndDrop.objectReferences.Length > 0 &&
                     DragAndDrop.objectReferences[0] != null &&
@@ -1012,11 +1012,11 @@ namespace FMODUnity
         void SceneUpdate(SceneView sceneView)
         {
             Event e = Event.current;
-#if UNITY_2017_3_OR_NEWER
+            #if UNITY_2017_3_OR_NEWER
             if (e.type == EventType.DragPerform)
-#else
+            #else
             if (e.type == EventType.dragPerform)
-#endif
+            #endif
             {
                 if (DragAndDrop.objectReferences.Length > 0 &&
                     DragAndDrop.objectReferences[0] != null &&
@@ -1066,7 +1066,7 @@ namespace FMODUnity
                 {
                     DragAndDrop.visualMode = DragAndDropVisualMode.Move;
                     DragAndDrop.AcceptDrag();
-                    e.Use();
+                    e.Use(); 
                 }
             }
         }

@@ -14,7 +14,7 @@ public class TestRoom : MonoBehaviour
 {
     public Text text;
     public GameObject DebugRound;
-    GameObject[] roundList = new GameObject[768];
+    GameObject[] roundList = new GameObject[792];
     Dictionary<int, Coroutine> roundCoroutineDic = new Dictionary<int, Coroutine>();
     public static List<int> RoundCount = new List<int>();
 

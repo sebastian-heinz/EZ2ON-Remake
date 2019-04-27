@@ -26,7 +26,7 @@ namespace FMODUnity
         const string BankExtension = "bank";
 
         const int FilePollTimeSeconds = 5;
-        
+
         // How many seconds to wait since last file activity to start the import
         const int CountdownTimerReset = 15 / FilePollTimeSeconds;
 
@@ -51,7 +51,7 @@ namespace FMODUnity
             eventCache.MasterBanks.Clear();
             OnCacheChange();
         }
-        
+
         static public void UpdateCache()
         {
             // Deserialize the cache from the unity resources
@@ -75,7 +75,7 @@ namespace FMODUnity
             }
 
             string defaultBankFolder = null;
-            
+
             if (!Settings.Instance.HasPlatforms)
             {
                 defaultBankFolder = EditorUtils.GetBankDirectory();
@@ -274,7 +274,7 @@ namespace FMODUnity
                     }
 
                     loadedBanks.Add(stringBank);
-                
+
                     FileInfo stringBankFileInfo = new FileInfo(stringBankPath);
 
                     string masterBankFileName = Path.GetFileName(stringBankPath).Replace(StringBankExtension, BankExtension);
@@ -316,7 +316,7 @@ namespace FMODUnity
                 {
                     // Get the true file path, can't trust the character case we got from the string bank
                     string bankPath = ArrayUtility.Find(folderContents, x => (string.Equals(bankFileName, Path.GetFileName(x), StringComparison.CurrentCultureIgnoreCase)));
-                    
+
                     FileInfo bankFileInfo = new FileInfo(bankPath);
                     EditorBankRef bankRef = eventCache.EditorBanks.Find((x) => bankFileInfo.FullName == x.Path);
 
@@ -333,7 +333,7 @@ namespace FMODUnity
                     }
 
                     bankRef.Exists = true;
-                
+
                     // Timestamp check - if it doesn't match update events from that bank
                     if (bankRef.LastModified != bankFileInfo.LastWriteTime)
                     {
@@ -478,9 +478,9 @@ namespace FMODUnity
         static EventManager()
         {
             countdownTimer = CountdownTimerReset;
-            #if !UNITY_2017_1_OR_NEWER
+#if !UNITY_2017_1_OR_NEWER
             EditorUserBuildSettings.activeBuildTargetChanged += BuildTargetChanged;
-            #endif
+#endif
             EditorApplication.update += Update;
         }
 
@@ -549,12 +549,12 @@ namespace FMODUnity
                         targetInfo = new FileInfo(targetPath);
                         targetInfo.IsReadOnly = false;
                         targetInfo.LastWriteTime = sourceInfo.LastWriteTime;
-                        
+
                         madeChanges = true;
                     }
                 }
             }
-            catch(Exception exception)
+            catch (Exception exception)
             {
                 UnityEngine.Debug.LogError(String.Format("FMOD Studio: copy banks for platform {0} : copying banks from {1} to {2}", platform.ToString(), bankSourceFolder, bankTargetFolder));
                 UnityEngine.Debug.LogException(exception);
@@ -617,7 +617,7 @@ namespace FMODUnity
                 EditorUtils.ValidateSource(out isValid, out validateMessage);
                 if (!isValid)
                 {
-                    //Debug.LogError("FMOD Studio: " + validateMessage);
+                    // Debug.LogError("FMOD Studio: " + validateMessage);
                 }
                 firstUpdate = false;
                 lastCheckTime = Time.realtimeSinceStartup;
@@ -649,7 +649,7 @@ namespace FMODUnity
         }
 
         public static List<EditorBankRef> MasterBanks
-        { 
+        {
             get
             {
                 UpdateCache();
@@ -686,17 +686,17 @@ namespace FMODUnity
             return eventCache.EditorEvents.Find((x) => x.Guid == guid);
         }
 
-        #if UNITY_2017_1_OR_NEWER
+#if UNITY_2017_1_OR_NEWER
         public class ActiveBuildTargetListener : IActiveBuildTargetChanged
         {
-            public int callbackOrder{ get { return 0; } }
+            public int callbackOrder { get { return 0; } }
             public void OnActiveBuildTargetChanged(BuildTarget previousTarget, BuildTarget newTarget)
             {
                 BuildTargetChanged();
             }
         }
-        #endif
-        #if UNITY_2018_1_OR_NEWER
+#endif
+#if UNITY_2018_1_OR_NEWER
         public class PreprocessBuild : IPreprocessBuildWithReport
         {
             public int callbackOrder { get { return 0; } }
@@ -705,7 +705,7 @@ namespace FMODUnity
                 BuildTargetChanged();
             }
         }
-        #else
+#else
         public class PreprocessBuild : IPreprocessBuild
         {
             public int callbackOrder { get { return 0; } }
@@ -714,7 +714,7 @@ namespace FMODUnity
                 BuildTargetChanged();
             }
         }
-        #endif
+#endif
 
     }
 }
