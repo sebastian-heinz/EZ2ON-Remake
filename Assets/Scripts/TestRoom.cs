@@ -19,6 +19,7 @@ public class TestRoom : MonoBehaviour
 
     public GameObject NoteA;
     public GameObject NoteB;
+    public GameObject Flare;
 
     GameObject[] roundList = new GameObject[792];
     Dictionary<int, Coroutine> roundCoroutineDic = new Dictionary<int, Coroutine>();
@@ -29,16 +30,23 @@ public class TestRoom : MonoBehaviour
     bool grooveLight = false;
     Animation grooveLightAnim;
 
-    bool key1state = false;
+    bool key1update = false;
     Animation line1Anim;
-    bool key2state = false;
+    bool key2update = false;
     Animation line2Anim;
-    bool key3state = false;
+    bool key3update = false;
     Animation line3Anim;
-    bool key4state = false;
+    bool key4update = false;
     Animation line4Anim;
 
-    GameObject noteArea;
+    Transform header;
+
+    int[] currentIndex = new int[8];
+
+    List<NoteInLine>[] noteInLines = new List<NoteInLine>[4];
+    FlarePlay[] flareList = new FlarePlay[4];
+
+    float fallSpeed = 3.5f * 2f;
 
     // Start is called before the first frame update
     void Start()
@@ -49,10 +57,37 @@ public class TestRoom : MonoBehaviour
         line3Anim = Panel.transform.Find("Keys/4/Line3").GetComponent<Animation>();
         line4Anim = Panel.transform.Find("Keys/4/Line4").GetComponent<Animation>();
 
-        noteArea = Panel.transform.Find("NoteArea").gameObject;
+        header = Panel.transform.Find("NoteArea/Header");
+
+        for (int i = 0; i < 4; i++)
+        {
+            noteInLines[i] = new List<NoteInLine>();
+        }
+
+        for (int i = 0; i < 4; i++)
+        {
+            var flare = Instantiate(Flare);
+            flareList[i] = flare.GetComponent<FlarePlay>();
+            flare.transform.SetParent(Panel.transform, false);
+            switch (i)
+            {
+                case 0:
+                    flare.transform.localPosition = new Vector3(-106, -199, 0);
+                    break;
+                case 1:
+                    flare.transform.localPosition = new Vector3(-38, -199, 0);
+                    break;
+                case 2:
+                    flare.transform.localPosition = new Vector3(36, -199, 0);
+                    break;
+                case 3:
+                    flare.transform.localPosition = new Vector3(104, -199, 0);
+                    break;
+            }
+        }
 
         EZR.PlayManager.GameType = EZR.GameType.DJMAX;
-        EZR.PlayManager.SongName = "fareast";
+        EZR.PlayManager.SongName = "glorydaykr";
         EZR.PlayManager.GameMode = EZR.GameMode.Mode.FourButtons;
         EZR.PlayManager.GameDifficult = EZR.GameDifficult.Difficult.DJMAX_HD;
         EZR.PlayManager.Reset();
@@ -61,7 +96,7 @@ public class TestRoom : MonoBehaviour
         EZR.PlayManager.DebugEvent += debugEvent;
         EZR.PlayManager.LoopStop += loopStop;
         EZR.PlayManager.Groove += groove;
-        // EZR.Master.InputEvent += inputEvent;
+        EZR.Master.InputEvent += inputEvent;
         EZR.PlayManager.Start();
     }
 
@@ -90,10 +125,9 @@ public class TestRoom : MonoBehaviour
                 grooveLightAnim.Play();
         }
 
-        if (key1state != EZR.Master.Key1State)
+        if (key1update)
         {
-            key1state = EZR.Master.Key1State;
-            if (key1state)
+            if (EZR.Master.Key1State)
             {
                 line1Anim.Play("KeyDown");
             }
@@ -102,12 +136,12 @@ public class TestRoom : MonoBehaviour
                 line1Anim["KeyUp"].time = 0;
                 line1Anim.Play("KeyUp");
             }
+            key1update = false;
         }
 
-        if (key2state != EZR.Master.Key2State)
+        if (key2update)
         {
-            key2state = EZR.Master.Key2State;
-            if (key2state)
+            if (EZR.Master.Key2State)
             {
                 line2Anim.Play("KeyDown");
             }
@@ -116,12 +150,12 @@ public class TestRoom : MonoBehaviour
                 line2Anim["KeyUp"].time = 0;
                 line2Anim.Play("KeyUp");
             }
+            key2update = false;
         }
 
-        if (key3state != EZR.Master.Key3State)
+        if (key3update)
         {
-            key3state = EZR.Master.Key3State;
-            if (key3state)
+            if (EZR.Master.Key3State)
             {
                 line3Anim.Play("KeyDown");
             }
@@ -130,12 +164,12 @@ public class TestRoom : MonoBehaviour
                 line3Anim["KeyUp"].time = 0;
                 line3Anim.Play("KeyUp");
             }
+            key3update = false;
         }
 
-        if (key4state != EZR.Master.Key4State)
+        if (key4update)
         {
-            key4state = EZR.Master.Key4State;
-            if (key4state)
+            if (EZR.Master.Key4State)
             {
                 line4Anim.Play("KeyDown");
             }
@@ -143,6 +177,83 @@ public class TestRoom : MonoBehaviour
             {
                 line4Anim["KeyUp"].time = 0;
                 line4Anim.Play("KeyUp");
+            }
+            key4update = false;
+        }
+
+        for (int i = 0; i < 4; i++)
+        {
+            while (currentIndex[i] < EZR.PlayManager.TimeLines.Lines[i].Notes.Count &&
+            currentIndex[i] < EZR.PlayManager.TimeLines.LinesIndex[i] + 10)
+            {
+                GameObject note;
+                Vector3 pos;
+                switch (i)
+                {
+                    case 0:
+                        note = Instantiate(NoteA);
+                        pos = new Vector3(
+                            -105,
+                            EZR.PlayManager.TimeLines.Lines[i].Notes[currentIndex[i]].position * fallSpeed + 14
+                            , 0
+                        );
+                        break;
+                    case 1:
+                        note = Instantiate(NoteB);
+                        pos = new Vector3(
+                            -37,
+                            EZR.PlayManager.TimeLines.Lines[i].Notes[currentIndex[i]].position * fallSpeed + 14
+                            , 0
+                        );
+                        break;
+                    case 2:
+                        note = Instantiate(NoteB);
+                        pos = new Vector3(
+                            37,
+                            EZR.PlayManager.TimeLines.Lines[i].Notes[currentIndex[i]].position * fallSpeed + 14
+                            , 0
+                        );
+                        break;
+                    case 3:
+                        note = Instantiate(NoteA);
+                        pos = new Vector3(
+                            105,
+                            EZR.PlayManager.TimeLines.Lines[i].Notes[currentIndex[i]].position * fallSpeed + 14
+                            , 0
+                        );
+                        break;
+                    default:
+                        note = null;
+                        pos = Vector3.zero;
+                        break;
+                }
+
+                var noteInLine = note.GetComponent<NoteInLine>();
+                noteInLine.index = currentIndex[i];
+
+                noteInLines[i].Add(noteInLine);
+
+                note.transform.SetParent(header, false);
+
+                note.transform.localPosition = pos;
+
+                currentIndex[i]++;
+            }
+        }
+
+        header.localPosition = new Vector3(0,
+            (float)(-EZR.PlayManager.Position * fallSpeed + 14), 0
+        );
+
+        for (int i = 0; i < 4; i++)
+        {
+            for (int j = noteInLines[i].Count - 1; j >= 0; j--)
+            {
+                if (noteInLines[i][j].isDestroy || noteInLines[i][j].y < 0)
+                {
+                    Destroy(noteInLines[i][j].gameObject);
+                    noteInLines[i].RemoveAt(j);
+                }
             }
         }
     }
@@ -203,7 +314,7 @@ public class TestRoom : MonoBehaviour
         EZR.PlayManager.LoopStop -= loopStop;
         EZR.PlayManager.DebugEvent -= debugEvent;
         EZR.PlayManager.Groove -= groove;
-        // EZR.Master.InputEvent -= inputEvent;
+        EZR.Master.InputEvent -= inputEvent;
     }
 
     void groove()
@@ -211,22 +322,43 @@ public class TestRoom : MonoBehaviour
         grooveLight = true;
     }
 
-    // void inputEvent(int keyId, bool state)
-    // {
-    //     switch (keyId)
-    //     {
-    //         case 0:
-    //             key1state = state;
-    //             break;
-    //         case 1:
-    //             key2state = state;
-    //             break;
-    //         case 2:
-    //             key3state = state;
-    //             break;
-    //         case 3:
-    //             key4state = state;
-    //             break;
-    //     }
-    // }
+    void inputEvent(int keyId, bool state)
+    {
+        switch (keyId)
+        {
+            case 0:
+                key1update = true;
+                break;
+            case 1:
+                key2update = true;
+                break;
+            case 2:
+                key3update = true;
+                break;
+            case 3:
+                key4update = true;
+                break;
+        }
+        if (!state) return;
+
+        Pattern.Note note;
+        NoteInLine noteInLine;
+
+        if (noteInLines[keyId].Count == 0)
+        {
+            note = EZR.PlayManager.TimeLines.Lines[keyId].Notes[EZR.PlayManager.TimeLines.Lines[keyId].Notes.Count - 1];
+        }
+        else
+        {
+            noteInLine = noteInLines[keyId][0];
+            if (noteInLine.y < 500)
+            {
+                noteInLine.isDestroy = true;
+                flareList[keyId].isPlay = true;
+            }
+            note = EZR.PlayManager.TimeLines.Lines[keyId].Notes[noteInLine.index];
+        }
+
+        EZR.MemorySound.playSound(note.id, note.vol, note.pan, EZR.MemorySound.Main);
+    }
 }

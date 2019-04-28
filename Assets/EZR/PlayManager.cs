@@ -100,6 +100,7 @@ namespace EZR
                     GameMode != EZR.GameMode.Mode.EightButtons)
                     {
                         mapping = PatternUtils.Pattern.Mapping(GameType, i) - 1;
+                        if (mapping == 7) mapping = 8;
                     }
                     else
                     {

@@ -53,23 +53,26 @@ namespace EZR
 
                 while (TimeLines.LinesIndex[i] < line.Notes.Count && line.Notes[TimeLines.LinesIndex[i]].position <= Position)
                 {
-                    int id = line.Notes[TimeLines.LinesIndex[i]].id;
-                    float vol = line.Notes[TimeLines.LinesIndex[i]].vol;
-                    float pan = line.Notes[TimeLines.LinesIndex[i]].pan;
-                    if (TimeLines.SoundList[line.Notes[TimeLines.LinesIndex[i]].id].type == 1)
-                        MemorySound.playSound(id, vol, pan, MemorySound.BGM);
-                    else
-                        MemorySound.playSound(id, vol, pan, MemorySound.Main);
-
-                    // debug事件
-                    if (DebugEvent != null)
+                    if (i > 3)
                     {
-                        DebugEvent(string.Format(
-                            "Sound: {0}\n[vol: {1}] [pan:{2}]",
-                            TimeLines.SoundList[id].filename,
-                            (int)(vol * 100),
-                            (int)(pan * 100)
-                        ), id);
+                        int id = line.Notes[TimeLines.LinesIndex[i]].id;
+                        float vol = line.Notes[TimeLines.LinesIndex[i]].vol;
+                        float pan = line.Notes[TimeLines.LinesIndex[i]].pan;
+                        if (TimeLines.SoundList[line.Notes[TimeLines.LinesIndex[i]].id].type == 1)
+                            MemorySound.playSound(id, vol, pan, MemorySound.BGM);
+                        else
+                            MemorySound.playSound(id, vol, pan, MemorySound.Main);
+
+                        // debug事件
+                        if (DebugEvent != null)
+                        {
+                            DebugEvent(string.Format(
+                                "Sound: {0}\n[vol: {1}] [pan:{2}]",
+                                TimeLines.SoundList[id].filename,
+                                (int)(vol * 100),
+                                (int)(pan * 100)
+                            ), id);
+                        }
                     }
 
                     TimeLines.LinesIndex[i]++;

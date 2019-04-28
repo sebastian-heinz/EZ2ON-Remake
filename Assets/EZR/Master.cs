@@ -5,7 +5,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using System;
 using System.Runtime.InteropServices;
-using UnityEngine.Experimental.Input;
 
 namespace EZR
 {
@@ -29,11 +28,16 @@ namespace EZR
 
         [DllImport("winmm.dll")]
         internal static extern uint timeEndPeriod(uint period);
+
+        [DllImport("user32.dll")]
+        public static extern short GetKeyState(int vKey);
+
+        [DllImport("user32.dll")]
+        public static extern short GetAsyncKeyState(int vKey);
 #endif
 
         public static event Action MainLoop;
 
-        static Keyboard keyboard = Keyboard.current;
         public static event Action<int, bool> InputEvent;
         public static bool Key1State = false;
         public static bool Key2State = false;
@@ -50,34 +54,84 @@ namespace EZR
             {
                 while (TaskExitFlag == 0)
                 {
-                    // 发送按键状态
-                    if (Key1State != keyboard.dKey.isPressed)
+#if (UNITY_STANDALONE_WIN || UNITY_EDITOR_WIN)
+
+                    if (GetKeyState(68) < 0)
                     {
-                        Key1State = keyboard.dKey.isPressed;
-                        if (InputEvent != null)
-                            InputEvent(0, Key1State);
+                        if (!Key1State)
+                        {
+                            Key1State = true;
+                            if (InputEvent != null)
+                                InputEvent(0, Key1State);
+                        }
+                    }
+                    else
+                    {
+                        if (Key1State)
+                        {
+                            Key1State = false;
+                            if (InputEvent != null)
+                                InputEvent(0, Key1State);
+                        }
                     }
 
-                    if (Key2State != keyboard.fKey.isPressed)
+                    if (GetKeyState(70) < 0)
                     {
-                        Key2State = keyboard.fKey.isPressed;
-                        if (InputEvent != null)
-                            InputEvent(1, Key2State);
+                        if (!Key2State)
+                        {
+                            Key2State = true;
+                            if (InputEvent != null)
+                                InputEvent(1, Key2State);
+                        }
+                    }
+                    else
+                    {
+                        if (Key2State)
+                        {
+                            Key2State = false;
+                            if (InputEvent != null)
+                                InputEvent(1, Key2State);
+                        }
                     }
 
-                    if (Key3State != keyboard.jKey.isPressed)
+                    if (GetKeyState(74) < 0)
                     {
-                        Key3State = keyboard.jKey.isPressed;
-                        if (InputEvent != null)
-                            InputEvent(2, Key3State);
+                        if (!Key3State)
+                        {
+                            Key3State = true;
+                            if (InputEvent != null)
+                                InputEvent(2, Key3State);
+                        }
+                    }
+                    else
+                    {
+                        if (Key3State)
+                        {
+                            Key3State = false;
+                            if (InputEvent != null)
+                                InputEvent(2, Key3State);
+                        }
                     }
 
-                    if (Key4State != keyboard.kKey.isPressed)
+                    if (GetKeyState(75) < 0)
                     {
-                        Key4State = keyboard.kKey.isPressed;
-                        if (InputEvent != null)
-                            InputEvent(3, Key4State);
+                        if (!Key4State)
+                        {
+                            Key4State = true;
+                            if (InputEvent != null)
+                                InputEvent(3, Key4State);
+                        }
                     }
+                    else
+                    {
+                        if (Key4State)
+                        {
+                            Key4State = false;
+                            if (InputEvent != null)
+                                InputEvent(3, Key4State);
+                        }
+                    }
+#endif
 
                     if (MainLoop != null)
                         MainLoop();
@@ -99,6 +153,87 @@ namespace EZR
             {
                 DontDestroyOnLoad(this);
             }
+
+#if (!UNITY_STANDALONE_WIN && !UNITY_EDITOR_WIN)
+            void Update()
+            {
+                if (Input.GetKeyDown(KeyCode.D))
+                {
+                    if (!Key1State)
+                    {
+                        Key1State = true;
+                        if (InputEvent != null)
+                            InputEvent(0, Key1State);
+                    }
+                }
+                if (Input.GetKeyUp(KeyCode.D))
+                {
+                    if (Key1State)
+                    {
+                        Key1State = false;
+                        if (InputEvent != null)
+                            InputEvent(0, Key1State);
+                    }
+                }
+
+                if (Input.GetKeyDown(KeyCode.F))
+                {
+                    if (!Key2State)
+                    {
+                        Key2State = true;
+                        if (InputEvent != null)
+                            InputEvent(1, Key2State);
+                    }
+                }
+                if (Input.GetKeyUp(KeyCode.F))
+                {
+                    if (Key2State)
+                    {
+                        Key2State = false;
+                        if (InputEvent != null)
+                            InputEvent(1, Key2State);
+                    }
+                }
+
+                if (Input.GetKeyDown(KeyCode.J))
+                {
+                    if (!Key3State)
+                    {
+                        Key3State = true;
+                        if (InputEvent != null)
+                            InputEvent(2, Key3State);
+                    }
+                }
+                if (Input.GetKeyUp(KeyCode.J))
+                {
+                    if (Key3State)
+                    {
+                        Key3State = false;
+                        if (InputEvent != null)
+                            InputEvent(2, Key3State);
+                    }
+                }
+
+                if (Input.GetKeyDown(KeyCode.K))
+                {
+                    if (!Key4State)
+                    {
+                        Key4State = true;
+                        if (InputEvent != null)
+                            InputEvent(3, Key4State);
+                    }
+                }
+                if (Input.GetKeyUp(KeyCode.K))
+                {
+                    if (Key4State)
+                    {
+                        Key4State = false;
+                        if (InputEvent != null)
+                            InputEvent(3, Key4State);
+                    }
+                }
+            }
+#endif
             void OnDestroy()
             {
                 TaskExitFlag = 1;
