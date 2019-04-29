@@ -5,10 +5,12 @@ using UnityEngine;
 public class NoteInLine : MonoBehaviour
 {
     public int index;
-    public float y;
+    public float Position;
     public bool isDestroy = false;
-    void Update()
-    {
-        y = transform.position.y;
-    }
+    public bool isLongPressed = false;
+    public int NoteLength = 0;
+    public object LongNoteSound;
+    public bool isInvalidLongNote = false;
+
+    // TODO 保存Rect
 }

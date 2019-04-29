@@ -80,7 +80,7 @@ namespace EZR
                 SoundList[id] = sound;
         }
 
-        public static void playSound(int id, float vol, float pan, FMOD.ChannelGroup group)
+        public static object playSound(int id, float vol, float pan, FMOD.ChannelGroup group)
         {
             if (SoundList.ContainsKey(id))
             {
@@ -93,8 +93,11 @@ namespace EZR
                     channel.setVolume(vol);
                     channel.setPan(pan);
                     channel.setPaused(false);
+                    return channel;
                 }
+                else return null;
             }
+            else return null;
         }
 
 

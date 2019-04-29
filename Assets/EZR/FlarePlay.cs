@@ -4,7 +4,10 @@ using UnityEngine;
 
 public class FlarePlay : MonoBehaviour
 {
+    public string PlayAnimName = "";
+    public string StopAnimName = "";
     public bool isPlay = false;
+    public bool isStop = false;
     Animator anim;
 
     void Start()
@@ -16,7 +19,12 @@ public class FlarePlay : MonoBehaviour
         if (isPlay)
         {
             isPlay = false;
-            anim.Play("Note_04_flare", 0, 0);
+            anim.Play(PlayAnimName, 0, 0);
+        }
+        if (isStop)
+        {
+            isStop = false;
+            anim.Play(StopAnimName, 0, 0);
         }
     }
 }

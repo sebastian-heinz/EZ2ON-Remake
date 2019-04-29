@@ -49,7 +49,7 @@ namespace PatternUtils
                             id = (int)note["id"],
                             vol = getVol((int)note["vol"]),
                             pan = getPan((int)note["pan"]),
-                            length = (int)note["pan"],
+                            length = (int)note["length"],
                         });
                     }
                 }

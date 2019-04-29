@@ -29,9 +29,7 @@ namespace EZR
         [DllImport("winmm.dll")]
         internal static extern uint timeEndPeriod(uint period);
 
-        [DllImport("user32.dll")]
-        public static extern short GetKeyState(int vKey);
-
+        // 捕获底层键盘输入
         [DllImport("user32.dll")]
         public static extern short GetAsyncKeyState(int vKey);
 #endif
@@ -46,6 +44,9 @@ namespace EZR
 
         static Master()
         {
+            // 全屏+开启同步垂直
+            Screen.SetResolution(1920, 1080, FullScreenMode.ExclusiveFullScreen);
+
 #if (UNITY_STANDALONE_WIN || UNITY_EDITOR_WIN)
             timeBeginPeriod(1);
 #endif
@@ -56,7 +57,7 @@ namespace EZR
                 {
 #if (UNITY_STANDALONE_WIN || UNITY_EDITOR_WIN)
 
-                    if (GetKeyState(68) < 0)
+                    if (GetAsyncKeyState(68) < 0)
                     {
                         if (!Key1State)
                         {
@@ -75,7 +76,7 @@ namespace EZR
                         }
                     }
 
-                    if (GetKeyState(70) < 0)
+                    if (GetAsyncKeyState(70) < 0)
                     {
                         if (!Key2State)
                         {
@@ -94,7 +95,7 @@ namespace EZR
                         }
                     }
 
-                    if (GetKeyState(74) < 0)
+                    if (GetAsyncKeyState(74) < 0)
                     {
                         if (!Key3State)
                         {
@@ -113,7 +114,7 @@ namespace EZR
                         }
                     }
 
-                    if (GetKeyState(75) < 0)
+                    if (GetAsyncKeyState(75) < 0)
                     {
                         if (!Key4State)
                         {

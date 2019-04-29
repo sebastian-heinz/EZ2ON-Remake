@@ -84,6 +84,7 @@ namespace EZR
                 Stop();
                 if (LoopStop != null)
                     LoopStop();
+                return;
             }
 
             long now = Stopwatch.ElapsedTicks;
