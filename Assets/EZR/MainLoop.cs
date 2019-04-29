@@ -10,6 +10,7 @@ namespace EZR
     {
         public static Stopwatch Stopwatch = new Stopwatch();
         public static double DeltaTime = 0d;
+        public static double PositionDelta = 0d;
         static double lastTime = 0d;
 
         public static event Action Groove;
@@ -91,14 +92,15 @@ namespace EZR
             DeltaTime = (now - lastTime) / 10000000d;
             lastTime = now;
 
-            Position += DeltaTime * ((TimeLines.BPM / 4d / 60d) * PatternUtils.Pattern.MeasureLength);
+            PositionDelta = DeltaTime * ((TimeLines.BPM / 4d / 60d) * PatternUtils.Pattern.MeasureLength);
+            Position += PositionDelta;
 
             beat += DeltaTime * (TimeLines.BPM / 60d);
 
             // 节奏事件
-            if (beat > 1)
+            if (beat >= 1)
             {
-                beat -= 1d;
+                beat -= 1;
                 if (Groove != null)
                     Groove();
             }

@@ -45,7 +45,7 @@ namespace EZR
         static Master()
         {
             // 全屏+开启同步垂直
-            Screen.SetResolution(1920, 1080, FullScreenMode.ExclusiveFullScreen);
+            Screen.SetResolution(1920, 1080, FullScreenMode.FullScreenWindow);
 
 #if (UNITY_STANDALONE_WIN || UNITY_EDITOR_WIN)
             timeBeginPeriod(1);
