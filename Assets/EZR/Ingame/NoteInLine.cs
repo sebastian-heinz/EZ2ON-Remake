@@ -9,7 +9,7 @@ public class NoteInLine : MonoBehaviour
     public bool IsDestroy = false;
     public bool IsLongPressed = false;
     public int NoteLength = 0;
-    public double LongNoteRate = 0;
+    public double LongNoteCombo = 0;
     public string LongNoteJudgment;
     public object LongNoteSound;
     public float NoteScaleY;
