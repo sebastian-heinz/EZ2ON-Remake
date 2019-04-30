@@ -18,6 +18,7 @@ namespace EZR
 
         public static event Action<string, int> DebugEvent;
         public static event Action LoopStop;
+        public static bool IsPlayBGA;
 
         public static void Start()
         {
@@ -59,6 +60,10 @@ namespace EZR
                         int id = line.Notes[TimeLines.LinesIndex[i]].id;
                         float vol = line.Notes[TimeLines.LinesIndex[i]].vol;
                         float pan = line.Notes[TimeLines.LinesIndex[i]].pan;
+
+                        if (EZR.PlayManager.GameType == EZR.GameType.DJMAX && id == 0)
+                            IsPlayBGA = true;
+
                         if (TimeLines.SoundList[line.Notes[TimeLines.LinesIndex[i]].id].type == 1)
                             MemorySound.playSound(id, vol, pan, MemorySound.BGM);
                         else

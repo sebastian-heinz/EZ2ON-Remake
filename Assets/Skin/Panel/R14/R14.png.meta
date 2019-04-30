@@ -1,0 +1,596 @@
+fileFormatVersion: 2
+guid: 983423c3de22a4c43aeeb002711f3ed3
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -3167566449363972165
+    second: 04_GEM_PUSH_BLUEKEY
+  - first:
+      213: 7600387266654614309
+    second: 04_GEM_PUSH_WHITEKEY
+  - first:
+      213: 4802319490046972367
+    second: 04_GEM_PUSH_WHITEKEY_a
+  - first:
+      213: -203945286522210698
+    second: 05_GEM_PUSH_BLUEKEY
+  - first:
+      213: -4401420286423186543
+    second: 05_GEM_PUSH_WHITEKEY
+  - first:
+      213: -790496363791355949
+    second: 05_GEM_PUSH_WHITEKEY_a
+  - first:
+      213: 7009429155822220598
+    second: 06_GEM_PUSH_BLUEKEY
+  - first:
+      213: 3211396371485707535
+    second: 06_GEM_PUSH_WHITEKEY
+  - first:
+      213: -8930010035509338945
+    second: 06_GEM_PUSH_WHITEKEY_a
+  - first:
+      213: 2710054862255164385
+    second: 08_GEM_PUSH_BLUEKEY
+  - first:
+      213: 6204114609734301930
+    second: 08_GEM_PUSH_WHITEKEY
+  - first:
+      213: -8914487264372689860
+    second: 08_GEM_PUSH_YELLOWKEY
+  - first:
+      213: -7358483342143699872
+    second: 08_GEM_PUSH_YELLOWKEY_a
+  - first:
+      213: 3443743321510702439
+    second: GEM_COMBO
+  - first:
+      213: -3314836617151329520
+    second: GEM_COMBO_0
+  - first:
+      213: -250507483065162822
+    second: GEM_COMBO_1
+  - first:
+      213: -6263769825115891695
+    second: GEM_COMBO_2
+  - first:
+      213: -1183891517452058785
+    second: GEM_COMBO_3
+  - first:
+      213: -4612126172310800958
+    second: GEM_COMBO_4
+  - first:
+      213: 7677737382801675837
+    second: GEM_COMBO_5
+  - first:
+      213: -6534855831727935021
+    second: GEM_COMBO_6
+  - first:
+      213: -6383763124888313081
+    second: GEM_COMBO_7
+  - first:
+      213: 7823050407593553540
+    second: GEM_COMBO_8
+  - first:
+      213: -7178595678580746581
+    second: GEM_COMBO_9
+  - first:
+      213: 7856875921806612031
+    second: GEM_CURRENT_
+  - first:
+      213: 5220914470571547900
+    second: GEM_CURRENT_0
+  - first:
+      213: -5670172152762002030
+    second: GEM_CURRENT_1
+  - first:
+      213: -3032164497785704304
+    second: GEM_CURRENT_2
+  - first:
+      213: 9008743247434310194
+    second: GEM_CURRENT_2_0
+  - first:
+      213: -5394052984672359514
+    second: GEM_CURRENT_2_1
+  - first:
+      213: 2047180775791580173
+    second: GEM_CURRENT_2_2
+  - first:
+      213: -2583473082980034913
+    second: GEM_CURRENT_2_3
+  - first:
+      213: 1246597531378529400
+    second: GEM_CURRENT_2_4
+  - first:
+      213: -7143874883028389063
+    second: GEM_CURRENT_2_5
+  - first:
+      213: -2927515245735199817
+    second: GEM_CURRENT_2_6
+  - first:
+      213: 3701768749833013926
+    second: GEM_CURRENT_2_7
+  - first:
+      213: 5508590491564014566
+    second: GEM_CURRENT_2_8
+  - first:
+      213: 305014567190581625
+    second: GEM_CURRENT_2_9
+  - first:
+      213: 2586176889491228091
+    second: GEM_CURRENT_3
+  - first:
+      213: 7526045200256849328
+    second: GEM_CURRENT_4
+  - first:
+      213: -1639135077362193576
+    second: GEM_CURRENT_5
+  - first:
+      213: -2551158850239308471
+    second: GEM_CURRENT_6
+  - first:
+      213: 3369742701260772133
+    second: GEM_CURRENT_7
+  - first:
+      213: 5596412688292703494
+    second: GEM_CURRENT_8
+  - first:
+      213: -8630917520491141744
+    second: GEM_CURRENT_9
+  - first:
+      213: 2520745483326456051
+    second: GEM_Decision_COOL
+  - first:
+      213: -1105143363382101408
+    second: GEM_Decision_FAIL
+  - first:
+      213: -8672987457330952538
+    second: GEM_Decision_GOOD
+  - first:
+      213: -6244175656921522816
+    second: GEM_Decision_KOOL
+  - first:
+      213: 179885798120613999
+    second: GEM_Decision_MISS
+  - first:
+      213: 6054067506851846357
+    second: gem_gage
+  - first:
+      213: 8377634800129816398
+    second: GEM_Panel_4
+  - first:
+      213: 1812303573308161038
+    second: groove
+  - first:
+      213: -6374018708826616224
+    second: 4_keys
+  - first:
+      213: 2793649883532675581
+    second: 5_keys
+  - first:
+      213: -2687233417862269278
+    second: 6_keys
+  - first:
+      213: -216899172836462887
+    second: 8_keys
+  - first:
+      213: -4850688684442502817
+    second: 04_GEM_BLUEKEY
+  - first:
+      213: -1159930975147965072
+    second: 04_GEM_WHITEKEY
+  - first:
+      213: -6569764901602333334
+    second: 04_GEM_WHITEKEY_a
+  externalObjects: {}
+  serializedVersion: 10
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: -1
+    aniso: -1
+    mipBias: -100
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  platformSettings:
+  - serializedVersion: 2
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+  - serializedVersion: 2
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: 04_GEM_BLUEKEY
+      rect:
+        serializedVersion: 2
+        x: 517
+        y: 982
+        width: 68
+        height: 41
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 7, y: 0, z: 7, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6b2e82acd5fa3104581d273a3709e576
+      internalID: -4850688684442502817
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 04_GEM_PUSH_BLUEKEY
+      rect:
+        serializedVersion: 2
+        x: 517
+        y: 939
+        width: 68
+        height: 41
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 7, y: 0, z: 7, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 71059493ce7645245a0d926c80fdf7e4
+      internalID: -3167566449363972165
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 04_GEM_PUSH_WHITEKEY
+      rect:
+        serializedVersion: 2
+        x: 517
+        y: 896
+        width: 68
+        height: 41
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 7, y: 0, z: 7, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 27679d4088269b042a0e9a3bb56bc1cf
+      internalID: 7600387266654614309
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 04_GEM_PUSH_WHITEKEY_a
+      rect:
+        serializedVersion: 2
+        x: 513
+        y: 28
+        width: 77
+        height: 41
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 7, y: 0, z: 7, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0cba18dd6357a534fa259353b4a87b5c
+      internalID: 4802319490046972367
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 04_GEM_WHITEKEY
+      rect:
+        serializedVersion: 2
+        x: 517
+        y: 853
+        width: 68
+        height: 41
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 7, y: 0, z: 7, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3cf5e8dce41a2fb45bb843fbbdcde6bc
+      internalID: -1159930975147965072
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 04_GEM_WHITEKEY_a
+      rect:
+        serializedVersion: 2
+        x: 395
+        y: 982
+        width: 77
+        height: 41
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 7, y: 0, z: 7, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f79677397f25f334eb66da70696a2f4d
+      internalID: -6569764901602333334
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: GEM_COMBO
+      rect:
+        serializedVersion: 2
+        x: 259
+        y: 24
+        width: 252
+        height: 45
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 094cc5eda1d297e438a70e98bfb11e41
+      internalID: 3443743321510702439
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: GEM_Decision_COOL
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 133
+        width: 256
+        height: 60
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 701add08587f9f3468357416c59f1cd0
+      internalID: 2520745483326456051
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: GEM_Decision_FAIL
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 71
+        width: 256
+        height: 60
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d81580d00838996498bd3ce86548b3e7
+      internalID: -1105143363382101408
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: GEM_Decision_GOOD
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 9
+        width: 256
+        height: 60
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2a521df91b936994aa9090c917b9c485
+      internalID: -8672987457330952538
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: GEM_Decision_KOOL
+      rect:
+        serializedVersion: 2
+        x: 259
+        y: 133
+        width: 256
+        height: 60
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 231ef6ad8f5602444acd08df94db1443
+      internalID: -6244175656921522816
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: GEM_Decision_MISS
+      rect:
+        serializedVersion: 2
+        x: 259
+        y: 71
+        width: 256
+        height: 60
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5630a1622a4277a479053f0dd2404f23
+      internalID: 179885798120613999
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: gem_gage
+      rect:
+        serializedVersion: 2
+        x: 592
+        y: 449
+        width: 295
+        height: 574
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c134afa46e676304bb2588a1eb3e6fe1
+      internalID: 6054067506851846357
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: GEM_Panel_4
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 303
+        width: 319
+        height: 720
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2edc39fde0a3c2b49b789777a1fb2a77
+      internalID: 8377634800129816398
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: groove
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 195
+        width: 392
+        height: 106
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 09065570a1d47f94f8b75de3ebe4c482
+      internalID: 1812303573308161038
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    physicsShape: []
+    bones: []
+    spriteID: 51c2e22d8a9350e40952be021c0d66c8
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+  spritePackingTag: 
+  pSDRemoveMatte: 0
+  pSDShowRemoveMatteOption: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

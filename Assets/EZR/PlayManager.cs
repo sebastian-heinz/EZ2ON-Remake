@@ -16,7 +16,7 @@ namespace EZR
         public static GameDifficult.Difficult GameDifficult = EZR.GameDifficult.Difficult.EZ;
 
         public static TimeLines TimeLines;
-        public static bool isAutoPlay = false;
+        public static bool IsAutoPlay = false;
 
         public static void LoadPattern()
         {

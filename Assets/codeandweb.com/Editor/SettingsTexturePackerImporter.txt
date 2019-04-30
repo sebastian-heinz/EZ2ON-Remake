@@ -4,12 +4,12 @@ tpsheetFileNames:
 - Assets/codeandweb.com/Example/SpriteSheet/sprites.tpsheet
 - Assets/Skin/Common.tpsheet
 - Assets/Skin/Note.tpsheet
-- Assets/Skin/Panel/R14.tpsheet
+- Assets/Skin/Panel/R14/R14.tpsheet
 textureFileNames:
 - Assets/codeandweb.com/Example/SpriteSheet/sprites.png
 - Assets/Skin/Common.png
 - Assets/Skin/Note.png
-- Assets/Skin/Panel/R14.png
+- Assets/Skin/Panel/R14/R14.png
 normalmapFileNames:
 - Assets/codeandweb.com/Example/SpriteSheet/sprites_n.png
 - 

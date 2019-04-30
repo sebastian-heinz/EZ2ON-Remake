@@ -11,6 +11,9 @@ public class SoundPlayDebug : MonoBehaviour
     Dictionary<int, Coroutine> roundCoroutineDic = new Dictionary<int, Coroutine>();
     List<int> RoundCount = new List<int>();
     string debugMessage = "";
+    float frameTime = 0;
+    int frames = 0;
+    int fps = 0;
 
     void Start()
     {
@@ -37,6 +40,15 @@ public class SoundPlayDebug : MonoBehaviour
                 roundCoroutineDic.Add(RoundCount[i], StartCoroutine(roundFade(round)));
         }
         RoundCount.Clear();
+
+        frameTime += Time.unscaledDeltaTime;
+        frames++;
+        if (frameTime >= 1)
+        {
+            frameTime -= 1;
+            fps = frames;
+            frames = 0;
+        }
     }
 
     void genDebugRound()
@@ -59,7 +71,7 @@ public class SoundPlayDebug : MonoBehaviour
 
     void OnGUI()
     {
-        DebugText.text = debugMessage + "\ndelta time (ms): " + EZR.PlayManager.DeltaTime * 1000;
+        DebugText.text = "[FPS: " + fps + "]\n" + debugMessage + "\ndelta time (ms): " + EZR.PlayManager.DeltaTime * 1000;
     }
 
     IEnumerator roundFade(GameObject round)

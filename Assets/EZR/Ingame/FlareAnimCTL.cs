@@ -6,8 +6,8 @@ public class FlareAnimCTL : MonoBehaviour
 {
     public string PlayAnimName = "";
     public string StopAnimName = "";
-    public bool isPlay = false;
-    public bool isStop = false;
+    public bool IsPlay = false;
+    public bool IsStop = false;
     float initScale;
     float scale = 1;
     Animator anim;
@@ -19,26 +19,29 @@ public class FlareAnimCTL : MonoBehaviour
     }
     void Update()
     {
-        if (isPlay)
+        if (IsPlay)
         {
-            isPlay = false;
+            IsPlay = false;
             transform.localScale = new Vector2(initScale * scale, initScale * scale);
             anim.Play(PlayAnimName, 0, 0);
         }
-        if (isStop)
+        if (IsStop)
         {
-            isStop = false;
+            IsStop = false;
             anim.Play(StopAnimName, 0, 0);
         }
     }
     public void Play()
     {
-        isPlay = true;
+        IsPlay = true;
         scale = 1;
     }
-    public void Play(float scale)
+    public void Play(string judgment)
     {
-        isPlay = true;
-        this.scale = scale;
+        IsPlay = true;
+        if (judgment == "good")
+            scale = 0.6f;
+        else
+            scale = 1;
     }
 }

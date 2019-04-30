@@ -6,16 +6,17 @@ public class NoteInLine : MonoBehaviour
 {
     public int index;
     public float Position;
-    public bool isDestroy = false;
-    public bool isLongPressed = false;
+    public bool IsDestroy = false;
+    public bool IsLongPressed = false;
     public int NoteLength = 0;
     public double LongNoteRate = 0;
+    public string LongNoteJudgment;
     public object LongNoteSound;
     public float NoteScaleY;
     public float NoteHeight;
     void Update()
     {
-        if (isDestroy || Position + NoteLength - EZR.PlayManager.Position < -(EZR.JudgmentDelta.MISS + 1))
+        if (IsDestroy || Position + NoteLength - EZR.PlayManager.Position < -(EZR.JudgmentDelta.MISS + 1))
         {
             Destroy(gameObject);
         }

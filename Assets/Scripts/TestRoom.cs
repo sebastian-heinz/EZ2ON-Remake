@@ -48,10 +48,15 @@ public class TestRoom : MonoBehaviour
     bool isStarted = false;
     JudgmentAnimCTL judgmentAnim;
 
+    VideoPlayer videoPlayer;
+
+    float score = 0;
     int combo = 0;
     int maxCombo = 0;
 
     ComboCounter comboCounter;
+    Text scoreText;
+    Text maxComboText;
 
     // Start is called before the first frame update
     void Start()
@@ -106,11 +111,22 @@ public class TestRoom : MonoBehaviour
         judgment.transform.SetParent(Panel.transform.Find("Judgment"), false);
 
         comboCounter = Panel.transform.Find("Combo/ComboCounter").GetComponent<ComboCounter>();
+        scoreText = Panel.GetComponent<Panel>().ScoreText;
+        maxComboText = Panel.GetComponent<Panel>().MaxComboText;
 
         EZR.PlayManager.GameType = EZR.GameType.DJMAX;
         EZR.PlayManager.SongName = "fareast";
         EZR.PlayManager.GameMode = EZR.GameMode.Mode.FourButtons;
-        EZR.PlayManager.GameDifficult = EZR.GameDifficult.Difficult.DJMAX_MX;
+        EZR.PlayManager.GameDifficult = EZR.GameDifficult.Difficult.DJMAX_NM;
+
+        videoPlayer = GameObject.Find("BGASource").GetComponent<VideoPlayer>();
+        videoPlayer.url = Path.Combine(
+            EZR.Master.IsDebug ? EZR.Master.GameResourcesFolder : "..\\" + EZR.Master.GameResourcesFolder,
+            EZR.PlayManager.GameType.ToString(),
+            "Ingame",
+            EZR.PlayManager.SongName + ".mp4"
+        );
+
         EZR.PlayManager.Reset();
         EZR.PlayManager.LoadPattern();
         EZR.PlayManager.LoopStop += loopStop;
@@ -122,26 +138,24 @@ public class TestRoom : MonoBehaviour
         EZR.Master.InputEvent += inputEvent;
         EZR.Master.MainLoop += judgmentEvent;
         EZR.PlayManager.Start();
-        // EZR.PlayManager.Position = 3000;
+        // EZR.PlayManager.Position = 3100;
         // position = EZR.PlayManager.Position;
         isStarted = true;
-        var videoPlayer = GameObject.Find("BGASource").GetComponent<VideoPlayer>();
-        videoPlayer.url = Path.Combine(EZR.Master.GameResourcesFolder,
-            EZR.PlayManager.GameType.ToString(),
-            "Ingame",
-            EZR.PlayManager.SongName + ".mp4"
-        );
-        videoPlayer.Play();
+
+        // if (EZR.PlayManager.GameType == EZR.GameType.EZ2DJ)
+        //     videoPlayer.Play();
     }
 
     void Update()
     {
+        // 开始游戏
         readyFrame++;
         if (readyFrame == 10)
         {
             StartPlay();
         }
 
+        // 节奏灯
         if (grooveLight)
         {
             grooveLight = false;
@@ -150,6 +164,7 @@ public class TestRoom : MonoBehaviour
                 grooveLightAnim.Play();
         }
 
+        // 按键表现
         if (key1update)
         {
             if (EZR.Master.Key1State)
@@ -206,11 +221,19 @@ public class TestRoom : MonoBehaviour
             key4update = false;
         }
 
+        // 生成实时音符
         for (int i = 0; i < 4; i++)
         {
             while (currentIndex[i] < EZR.PlayManager.TimeLines.Lines[i].Notes.Count &&
             currentIndex[i] < EZR.PlayManager.TimeLines.LinesIndex[i] + 10)
             {
+                // 测试长音符
+                // if (EZR.PlayManager.TimeLines.Lines[i].Notes[currentIndex[i]].length <= 6)
+                // {
+                //     currentIndex[i]++;
+                //     continue;
+                // }
+
                 GameObject note;
                 Vector3 pos;
                 Pattern.Note patternNote = EZR.PlayManager.TimeLines.Lines[i].Notes[currentIndex[i]];
@@ -277,6 +300,12 @@ public class TestRoom : MonoBehaviour
             }
         }
 
+        if (EZR.PlayManager.IsPlayBGA)
+        {
+            EZR.PlayManager.IsPlayBGA = false;
+            videoPlayer.Play();
+        }
+
         // Unity Delta Time Position 用于消除音符抖动
         if (isStarted)
         {
@@ -285,7 +314,7 @@ public class TestRoom : MonoBehaviour
         }
 
         header.localPosition = new Vector3(0,
-            -(float)(position * fallSpeed),
+            -(float)((position - positionDelta) * fallSpeed),
             0
         );
 
@@ -294,12 +323,12 @@ public class TestRoom : MonoBehaviour
         {
             if (noteInLines[i].Count > 0)
             {
-                if (noteInLines[i][0].Position + noteInLines[i][0].NoteLength - EZR.PlayManager.Position < -EZR.JudgmentDelta.MISS)
+                if (noteInLines[i][0].Position + noteInLines[i][0].NoteLength - EZR.PlayManager.Position < -(EZR.JudgmentDelta.MISS + 1))
                 {
                     noteInLines[i].RemoveAt(0);
                     continue;
                 }
-                if (noteInLines[i][0].isLongPressed)
+                if (noteInLines[i][0].IsLongPressed)
                 {
                     var rect = noteInLines[i][0].GetComponent<RectTransform>();
                     noteInLines[i][0].transform.localPosition = new Vector3(
@@ -315,6 +344,11 @@ public class TestRoom : MonoBehaviour
                 }
             }
         }
+
+        // 分数
+        scoreText.text = Mathf.Round(score).ToString();
+        // 最大连击
+        maxComboText.text = maxCombo.ToString();
     }
 
     void loopStop()
@@ -331,63 +365,77 @@ public class TestRoom : MonoBehaviour
         {
             if (noteInLines[i].Count > 0)
             {
-                // FAIL
-                if (noteInLines[i][0].NoteLength > 0)
+                if (noteInLines[i][0].IsLongPressed)
                 {
-
-                    if (noteInLines[i][0].isLongPressed)
+                    // 长音连击
+                    noteInLines[i][0].LongNoteRate += EZR.PlayManager.PositionDelta;
+                    if (noteInLines[i][0].LongNoteRate >= 12)
                     {
-                        // 长音连击
-                        noteInLines[i][0].LongNoteRate += EZR.PlayManager.PositionDelta;
-                        if (noteInLines[i][0].LongNoteRate >= 12)
-                        {
-                            noteInLines[i][0].LongNoteRate -= 12;
-                            judgmentAnim.Play("kool");
-                            addCombo();
-                            flarePlayList[i].Play();
-                        }
-                        // 自动结尾
-                        if (noteInLines[i][0].Position + noteInLines[i][0].NoteLength <= EZR.PlayManager.Position)
-                        {
-                            judgmentAnim.Play("kool");
-                            addCombo();
-                            flarePlayList[i].Play();
-                            LongflarePlayList[i].isStop = true;
-                            noteInLines[i][0].isDestroy = true;
-                            noteInLines[i].RemoveAt(0);
-                            goto endif;
-                        }
+                        noteInLines[i][0].LongNoteRate -= 12;
+                        judgmentAnim.Play(noteInLines[i][0].LongNoteJudgment);
+                        addCombo();
+                        addScore(noteInLines[i][0].LongNoteJudgment);
+                        flarePlayList[i].Play(noteInLines[i][0].LongNoteJudgment);
                     }
-                    if (noteInLines[i][0].Position + noteInLines[i][0].NoteLength - EZR.PlayManager.Position < -EZR.JudgmentDelta.GOOD / 2f)
+                    // 自动结尾
+                    if (noteInLines[i][0].Position + noteInLines[i][0].NoteLength <= EZR.PlayManager.Position)
                     {
-                        judgmentAnim.Play("miss");
-                        comboBreak();
-                        LongflarePlayList[i].isStop = true;
+                        judgmentAnim.Play(noteInLines[i][0].LongNoteJudgment);
+                        addCombo();
+                        addScore(noteInLines[i][0].LongNoteJudgment);
+                        flarePlayList[i].Play(noteInLines[i][0].LongNoteJudgment);
+                        LongflarePlayList[i].IsStop = true;
+                        noteInLines[i][0].IsDestroy = true;
                         noteInLines[i].RemoveAt(0);
+                        goto endif;
+                    }
+                    // 按住不会miss
+                    // if (noteInLines[i][0].Position + noteInLines[i][0].NoteLength - EZR.PlayManager.Position < -EZR.JudgmentDelta.GOOD / 2f * EZR.JudgmentDelta.Scale)
+                    // {
+                    //     judgmentAnim.Play("miss");
+                    //     comboBreak();
+                    //     LongflarePlayList[i].IsStop = true;
+                    //     noteInLines[i].RemoveAt(0);
+                    // }
+                }
+
+                // FAIL
+                else if (noteInLines[i][0].NoteLength > 0)
+                {
+                    if (noteInLines[i][0].Position - EZR.PlayManager.Position < -EZR.JudgmentDelta.MISS * EZR.JudgmentDelta.Scale)
+                    {
+                        judgmentAnim.Play("fail");
+                        comboBreak();
+                        noteInLines[i].RemoveAt(0);
+                        goto endif;
                     }
                 }
-                else if (noteInLines[i][0].Position - EZR.PlayManager.Position < -EZR.JudgmentDelta.MISS / 2f * EZR.JudgmentDelta.Scale)
+                else
                 {
-                    judgmentAnim.Play("fail");
-                    comboBreak();
-                    noteInLines[i].RemoveAt(0);
+                    if (noteInLines[i][0].Position - EZR.PlayManager.Position < -EZR.JudgmentDelta.MISS / 2f * EZR.JudgmentDelta.Scale)
+                    {
+                        judgmentAnim.Play("fail");
+                        comboBreak();
+                        noteInLines[i].RemoveAt(0);
+                        goto endif;
+                    }
                 }
             }
 
         endif: if (noteInLines[i].Count > 0)
             {
                 // Auto play
-                if (EZR.PlayManager.isAutoPlay)
+                if (EZR.PlayManager.IsAutoPlay)
                 {
                     if (noteInLines[i][0].NoteLength > 6)
                     {
                         // 长音
-                        if (!noteInLines[i][0].isLongPressed && noteInLines[i][0].Position <= EZR.PlayManager.Position)
+                        if (!noteInLines[i][0].IsLongPressed && noteInLines[i][0].Position <= EZR.PlayManager.Position)
                         {
                             addCombo();
                             judgmentAnim.Play("kool");
                             var note = EZR.PlayManager.TimeLines.Lines[i].Notes[noteInLines[i][0].index];
-                            noteInLines[i][0].isLongPressed = true;
+                            noteInLines[i][0].IsLongPressed = true;
                             LongflarePlayList[i].Play();
                             flarePlayList[i].Play();
                             EZR.MemorySound.playSound(note.id, note.vol, note.pan, EZR.MemorySound.Main);
@@ -410,7 +458,7 @@ public class TestRoom : MonoBehaviour
                             addCombo();
                             judgmentAnim.Play("kool");
                             var note = EZR.PlayManager.TimeLines.Lines[i].Notes[noteInLines[i][0].index];
-                            noteInLines[i][0].isDestroy = true;
+                            noteInLines[i][0].IsDestroy = true;
                             flarePlayList[i].Play();
                             EZR.MemorySound.playSound(note.id, note.vol, note.pan, EZR.MemorySound.Main);
                             noteInLines[i].RemoveAt(0);
@@ -457,40 +505,44 @@ public class TestRoom : MonoBehaviour
 
                 double judgmentDelta = Math.Abs(noteInLine.Position - EZR.PlayManager.Position);
 
-                bool isHit = false;
                 if (note.length > 6)
                 {
-                    if (judgmentDelta <= EZR.JudgmentDelta.KOOL / 2f)
+                    if (judgmentDelta <= EZR.JudgmentDelta.KOOL * EZR.JudgmentDelta.Scale)
                     {
                         judgmentAnim.Play("kool");
                         flarePlayList[keyId].Play();
                         LongflarePlayList[keyId].Play();
-                        isHit = true;
+                        addCombo();
+                        addScore("kool");
+                        noteInLine.IsLongPressed = true;
+                        noteInLine.LongNoteJudgment = "kool";
                     }
-                    else if (judgmentDelta > EZR.JudgmentDelta.KOOL / 2f && judgmentDelta <= EZR.JudgmentDelta.COOL / 2f)
+                    else if (judgmentDelta > EZR.JudgmentDelta.KOOL * EZR.JudgmentDelta.Scale && judgmentDelta <= EZR.JudgmentDelta.COOL * EZR.JudgmentDelta.Scale)
                     {
                         judgmentAnim.Play("cool");
                         flarePlayList[keyId].Play();
                         LongflarePlayList[keyId].Play();
-                        isHit = true;
+                        addCombo();
+                        addScore("cool");
+                        noteInLine.IsLongPressed = true;
+                        noteInLine.LongNoteJudgment = "cool";
                     }
-                    else if (judgmentDelta > EZR.JudgmentDelta.COOL / 2f && judgmentDelta <= EZR.JudgmentDelta.GOOD / 2f)
+                    else if (judgmentDelta > EZR.JudgmentDelta.COOL * EZR.JudgmentDelta.Scale && judgmentDelta <= EZR.JudgmentDelta.GOOD * EZR.JudgmentDelta.Scale)
                     {
                         judgmentAnim.Play("good");
-                        flarePlayList[keyId].Play(0.6f);
-                        LongflarePlayList[keyId].Play(0.6f);
-                        isHit = true;
+
+                        flarePlayList[keyId].Play("good");
+                        LongflarePlayList[keyId].Play("good");
+                        addCombo();
+                        addScore("good");
+                        noteInLine.IsLongPressed = true;
+                        noteInLine.LongNoteJudgment = "good";
                     }
-                    else if (judgmentDelta > EZR.JudgmentDelta.GOOD / 2f && judgmentDelta <= EZR.JudgmentDelta.MISS / 2f)
+                    else if (judgmentDelta > EZR.JudgmentDelta.GOOD * EZR.JudgmentDelta.Scale && judgmentDelta <= EZR.JudgmentDelta.MISS * EZR.JudgmentDelta.Scale)
                     {
                         comboBreak();
                         judgmentAnim.Play("miss");
                         noteInLines[keyId].RemoveAt(0);
-                    }
-                    if (isHit)
-                    {
-                        addCombo();
-                        noteInLine.isLongPressed = true;
                     }
                 }
                 else
@@ -499,30 +551,33 @@ public class TestRoom : MonoBehaviour
                     {
                         judgmentAnim.Play("kool");
                         flarePlayList[keyId].Play();
-                        isHit = true;
+                        addCombo();
+                        addScore("kool");
+                        noteInLine.IsDestroy = true;
+                        noteInLines[keyId].RemoveAt(0);
                     }
                     else if (judgmentDelta > EZR.JudgmentDelta.KOOL / 2f * EZR.JudgmentDelta.Scale && judgmentDelta <= EZR.JudgmentDelta.COOL / 2f * EZR.JudgmentDelta.Scale)
                     {
                         judgmentAnim.Play("cool");
                         flarePlayList[keyId].Play();
-                        isHit = true;
+                        addCombo();
+                        addScore("cool");
+                        noteInLine.IsDestroy = true;
+                        noteInLines[keyId].RemoveAt(0);
                     }
                     else if (judgmentDelta > EZR.JudgmentDelta.COOL / 2f * EZR.JudgmentDelta.Scale && judgmentDelta <= EZR.JudgmentDelta.GOOD / 2f * EZR.JudgmentDelta.Scale)
                     {
                         judgmentAnim.Play("good");
-                        flarePlayList[keyId].Play(0.6f);
-                        isHit = true;
+                        flarePlayList[keyId].Play("good");
+                        addCombo();
+                        addScore("good");
+                        noteInLine.IsDestroy = true;
+                        noteInLines[keyId].RemoveAt(0);
                     }
                     else if (judgmentDelta > EZR.JudgmentDelta.GOOD / 2f * EZR.JudgmentDelta.Scale && judgmentDelta <= EZR.JudgmentDelta.MISS / 2f * EZR.JudgmentDelta.Scale)
                     {
                         comboBreak();
                         judgmentAnim.Play("miss");
-                        noteInLines[keyId].RemoveAt(0);
-                    }
-                    if (isHit)
-                    {
-                        addCombo();
-                        noteInLine.isDestroy = true;
                         noteInLines[keyId].RemoveAt(0);
                     }
                 }
@@ -541,48 +596,66 @@ public class TestRoom : MonoBehaviour
         }
         else if (noteInLines[keyId].Count > 0)
         {
-            if (noteInLines[keyId][0].isLongPressed)
+            if (noteInLines[keyId][0].IsLongPressed)
             {
-                noteInLines[keyId][0].isLongPressed = false;
-                LongflarePlayList[keyId].isStop = true;
+                noteInLines[keyId][0].IsLongPressed = false;
+                LongflarePlayList[keyId].IsStop = true;
 
-                bool isHit = false;
+                bool needStopSound = false;
                 double judgmentDelta = Math.Abs(noteInLines[keyId][0].Position + noteInLines[keyId][0].NoteLength - EZR.PlayManager.Position);
-                if (judgmentDelta <= EZR.JudgmentDelta.KOOL / 2f)
+                if (judgmentDelta <= EZR.JudgmentDelta.KOOL * EZR.JudgmentDelta.Scale)
                 {
                     judgmentAnim.Play("kool");
                     flarePlayList[keyId].Play();
-                    isHit = true;
+                    addCombo();
+                    addScore("kool");
+                    noteInLines[keyId][0].IsDestroy = true;
                 }
-                else if (judgmentDelta > EZR.JudgmentDelta.KOOL / 2f && judgmentDelta <= EZR.JudgmentDelta.COOL / 2f)
+                else if (judgmentDelta > EZR.JudgmentDelta.KOOL * EZR.JudgmentDelta.Scale && judgmentDelta <= EZR.JudgmentDelta.COOL * EZR.JudgmentDelta.Scale)
                 {
                     judgmentAnim.Play("cool");
                     flarePlayList[keyId].Play();
-                    isHit = true;
+                    addCombo();
+                    addScore("cool");
+                    noteInLines[keyId][0].IsDestroy = true;
                 }
-                else if (judgmentDelta > EZR.JudgmentDelta.COOL / 2f && judgmentDelta <= EZR.JudgmentDelta.GOOD / 2f)
+                else if (judgmentDelta > EZR.JudgmentDelta.COOL * EZR.JudgmentDelta.Scale && judgmentDelta <= EZR.JudgmentDelta.GOOD * EZR.JudgmentDelta.Scale)
                 {
                     judgmentAnim.Play("good");
                     addCombo();
-                    flarePlayList[keyId].Play(0.6f);
+                    addScore("good");
+                    flarePlayList[keyId].Play("good");
+                    needStopSound = true;
                 }
-                else if (judgmentDelta > EZR.JudgmentDelta.GOOD / 2f && judgmentDelta <= EZR.JudgmentDelta.MISS / 2f)
+                else if (judgmentDelta > EZR.JudgmentDelta.GOOD * EZR.JudgmentDelta.Scale)
                 {
                     comboBreak();
                     judgmentAnim.Play("miss");
+                    needStopSound = true;
                 }
 
-                if (isHit)
-                {
-                    addCombo();
-                    noteInLines[keyId][0].isDestroy = true;
-                }
-                else if (noteInLines[keyId][0].LongNoteSound != null)
+                if (needStopSound && noteInLines[keyId][0].LongNoteSound != null)
                 {
                     ((FMOD.Channel)noteInLines[keyId][0].LongNoteSound).stop();
                 }
                 noteInLines[keyId].RemoveAt(0);
             }
+        }
+    }
+
+    void addScore(string judgment)
+    {
+        switch (judgment)
+        {
+            case "kool":
+                score += 170 + 17 * Mathf.Log(combo, 2);
+                break;
+            case "cool":
+                score += 100 + 10 * Mathf.Log(combo, 2);
+                break;
+            case "good":
+                score += 40 + 4 * Mathf.Log(combo, 2);
+                break;
         }
     }
 

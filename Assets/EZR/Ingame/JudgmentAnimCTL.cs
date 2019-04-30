@@ -14,8 +14,8 @@ public class JudgmentAnimCTL : MonoBehaviour
     Animation animAny;
     Image image;
     string sprite = "kool";
-    public bool isPlayKOOL = false;
-    public bool isPlayAny = false;
+    public bool IsPlayKOOL = false;
+    public bool IsPlayAny = false;
     // Start is called before the first frame update
     void Start()
     {
@@ -27,7 +27,7 @@ public class JudgmentAnimCTL : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (isPlayKOOL || isPlayAny)
+        if (IsPlayKOOL || IsPlayAny)
         {
             switch (sprite)
             {
@@ -46,16 +46,16 @@ public class JudgmentAnimCTL : MonoBehaviour
             }
         }
 
-        if (isPlayKOOL)
+        if (IsPlayKOOL)
         {
-            isPlayKOOL = false;
+            IsPlayKOOL = false;
             animKool["KOOL"].normalizedTime = 0;
             animAny["Any"].normalizedTime = 1;
             animKool.Play("KOOL");
         }
-        else if (isPlayAny)
+        else if (IsPlayAny)
         {
-            isPlayAny = false;
+            IsPlayAny = false;
             animAny["Any"].normalizedTime = 0;
             animKool["KOOL"].normalizedTime = 1;
             animAny.Play("Any");
@@ -66,12 +66,12 @@ public class JudgmentAnimCTL : MonoBehaviour
     {
         if (Judgment == "kool")
         {
-            isPlayKOOL = true;
+            IsPlayKOOL = true;
             sprite = Judgment;
         }
         else
         {
-            isPlayAny = true;
+            IsPlayAny = true;
             sprite = Judgment;
         }
     }

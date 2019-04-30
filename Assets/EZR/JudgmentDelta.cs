@@ -10,6 +10,6 @@ namespace EZR
         public static int COOL = 24;
         public static int GOOD = 60;
         public static int MISS = 76;
-        public static float Scale = 0.6f;
+        public static float Scale = 0.5f;
     }
 }
