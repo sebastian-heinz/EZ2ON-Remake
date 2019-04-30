@@ -319,21 +319,10 @@ public class TestRoom : MonoBehaviour
         }
 
         // 播放头
-        switch (EZR.PlayManager.IsAutoPlay)
-        {
-            case true:
-                header.localPosition = new Vector3(0,
-                    -(float)(position * fallSpeed),
-                    0
-                );
-                break;
-            case false:
-                header.localPosition = new Vector3(0,
-                    -(float)((position - positionDelta) * fallSpeed),
-                    0
-                );
-                break;
-        }
+        header.localPosition = new Vector3(0,
+            -(float)(position * fallSpeed),
+            0
+        );
 
         // 长音符和移除音符
         for (int i = 0; i < 4; i++)
