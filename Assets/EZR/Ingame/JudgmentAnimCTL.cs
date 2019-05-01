@@ -20,7 +20,17 @@ public class JudgmentAnimCTL : MonoBehaviour
     void Start()
     {
         animKool = transform.Find("KOOL").GetComponent<Animation>();
+        if (animKool != null)
+        {
+            animKool["KOOL"].normalizedTime = 1;
+            animKool.Play("KOOL");
+        }
         animAny = transform.Find("Any").GetComponent<Animation>();
+        if (animAny != null)
+        {
+            animAny["Any"].normalizedTime = 1;
+            animAny.Play("Any");
+        }
         image = transform.Find("Any").GetComponent<Image>();
     }
 

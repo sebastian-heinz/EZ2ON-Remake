@@ -37,15 +37,33 @@ namespace EZR
         public static event Action MainLoop;
 
         public static event Action<int, bool> InputEvent;
-        public static bool Key1State = false;
-        public static bool Key2State = false;
-        public static bool Key3State = false;
-        public static bool Key4State = false;
+        public static bool[] KeysState = new bool[EZR.PlayManager.MaxLines];
+
+        public static char[][] DefaultKeyCodeMapping = new char[][]{
+            new char[]{'D','F','J','K'},
+            new char[]{'D','F',(char)32,'J','K'},
+            new char[]{'S','D','F','J','K','L'},
+            new char[]{'S','D','F',(char)32,'J','K','L'},
+            new char[]{'A','S','D','F','J','K','L',(char)186}
+        };
+
+        public static char[][] KeyCodeMapping;
 
         static Master()
         {
             // 全屏+开启同步垂直
             Screen.SetResolution(1920, 1080, FullScreenMode.FullScreenWindow);
+
+            // 初始化按键映射
+            KeyCodeMapping = new char[DefaultKeyCodeMapping.Length][];
+            for (int i = 0; i < DefaultKeyCodeMapping.Length; i++)
+            {
+                KeyCodeMapping[i] = new char[DefaultKeyCodeMapping[i].Length];
+                for (int j = 0; j < DefaultKeyCodeMapping[i].Length; j++)
+                {
+                    KeyCodeMapping[i][j] = DefaultKeyCodeMapping[i][j];
+                }
+            }
 
 #if (UNITY_STANDALONE_WIN || UNITY_EDITOR_WIN)
             timeBeginPeriod(1);
@@ -55,81 +73,17 @@ namespace EZR
             {
                 while (TaskExitFlag == 0)
                 {
+                    // 捕获按键
 #if (UNITY_STANDALONE_WIN || UNITY_EDITOR_WIN)
-
-                    if (GetAsyncKeyState(68) < 0)
+                    for (int i = 0; i < EZR.PlayManager.NumLines; i++)
                     {
-                        if (!Key1State)
+                        var keyCode = KeyCodeMapping[EZR.PlayManager.NumLines - 4][i];
+                        var isDown = GetAsyncKeyState(keyCode) < 0;
+                        if (isDown != KeysState[i])
                         {
-                            Key1State = true;
+                            KeysState[i] = isDown;
                             if (InputEvent != null)
-                                InputEvent(0, Key1State);
-                        }
-                    }
-                    else
-                    {
-                        if (Key1State)
-                        {
-                            Key1State = false;
-                            if (InputEvent != null)
-                                InputEvent(0, Key1State);
-                        }
-                    }
-
-                    if (GetAsyncKeyState(70) < 0)
-                    {
-                        if (!Key2State)
-                        {
-                            Key2State = true;
-                            if (InputEvent != null)
-                                InputEvent(1, Key2State);
-                        }
-                    }
-                    else
-                    {
-                        if (Key2State)
-                        {
-                            Key2State = false;
-                            if (InputEvent != null)
-                                InputEvent(1, Key2State);
-                        }
-                    }
-
-                    if (GetAsyncKeyState(74) < 0)
-                    {
-                        if (!Key3State)
-                        {
-                            Key3State = true;
-                            if (InputEvent != null)
-                                InputEvent(2, Key3State);
-                        }
-                    }
-                    else
-                    {
-                        if (Key3State)
-                        {
-                            Key3State = false;
-                            if (InputEvent != null)
-                                InputEvent(2, Key3State);
-                        }
-                    }
-
-                    if (GetAsyncKeyState(75) < 0)
-                    {
-                        if (!Key4State)
-                        {
-                            Key4State = true;
-                            if (InputEvent != null)
-                                InputEvent(3, Key4State);
-                        }
-                    }
-                    else
-                    {
-                        if (Key4State)
-                        {
-                            Key4State = false;
-                            if (InputEvent != null)
-                                InputEvent(3, Key4State);
+                                InputEvent(i, KeysState[i]);
                         }
                     }
 #endif
@@ -155,92 +109,37 @@ namespace EZR
                 DontDestroyOnLoad(this);
             }
 
+            // 不是win平台
+            // TODO 需要制作一个ASCII转Unity Key code映射表
 #if (!UNITY_STANDALONE_WIN && !UNITY_EDITOR_WIN)
             void Update()
             {
-                if (Input.GetKeyDown(KeyCode.D))
+                for (int i = 0; i < EZR.PlayManager.NumLines; i++)
                 {
-                    if (!Key1State)
+                    var keyCode = KeyCodeMapping[EZR.PlayManager.NumLines - 4][i];
+                    keyCode = keyCode.ToString().ToLower()[0];
+                    var isDown = Input.GetKey((KeyCode)keyCode);
+                    if (isDown != KeysState[i])
                     {
-                        Key1State = true;
+                        KeysState[i] = isDown;
                         if (InputEvent != null)
-                            InputEvent(0, Key1State);
-                    }
-                }
-                if (Input.GetKeyUp(KeyCode.D))
-                {
-                    if (Key1State)
-                    {
-                        Key1State = false;
-                        if (InputEvent != null)
-                            InputEvent(0, Key1State);
-                    }
-                }
-
-                if (Input.GetKeyDown(KeyCode.F))
-                {
-                    if (!Key2State)
-                    {
-                        Key2State = true;
-                        if (InputEvent != null)
-                            InputEvent(1, Key2State);
-                    }
-                }
-                if (Input.GetKeyUp(KeyCode.F))
-                {
-                    if (Key2State)
-                    {
-                        Key2State = false;
-                        if (InputEvent != null)
-                            InputEvent(1, Key2State);
-                    }
-                }
-
-                if (Input.GetKeyDown(KeyCode.J))
-                {
-                    if (!Key3State)
-                    {
-                        Key3State = true;
-                        if (InputEvent != null)
-                            InputEvent(2, Key3State);
-                    }
-                }
-                if (Input.GetKeyUp(KeyCode.J))
-                {
-                    if (Key3State)
-                    {
-                        Key3State = false;
-                        if (InputEvent != null)
-                            InputEvent(2, Key3State);
-                    }
-                }
-
-                if (Input.GetKeyDown(KeyCode.K))
-                {
-                    if (!Key4State)
-                    {
-                        Key4State = true;
-                        if (InputEvent != null)
-                            InputEvent(3, Key4State);
-                    }
-                }
-                if (Input.GetKeyUp(KeyCode.K))
-                {
-                    if (Key4State)
-                    {
-                        Key4State = false;
-                        if (InputEvent != null)
-                            InputEvent(3, Key4State);
+                            InputEvent(i, KeysState[i]);
                     }
                 }
             }
 #endif
+
             void OnDestroy()
             {
                 TaskExitFlag = 1;
 #if (UNITY_STANDALONE_WIN || UNITY_EDITOR_WIN)
                 timeEndPeriod(1);
 #endif
+            }
+
+            void OnLevelWasLoaded()
+            {
+                Resources.UnloadUnusedAssets();
             }
         }
     }

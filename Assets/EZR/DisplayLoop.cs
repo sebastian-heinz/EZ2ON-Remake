@@ -1,0 +1,311 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.Video;
+using PatternUtils;
+using System.IO;
+
+public class DisplayLoop : MonoBehaviour
+{
+    public string PanelResource = "";
+    public string NoteResource = "";
+
+    [HideInInspector]
+    public double Position = 0;
+    double positionDelta;
+
+    bool isStarted = false;
+    int readyFrame;
+
+    bool grooveLight = false;
+    Animation grooveLightAnim;
+
+    bool[] linesUpdate;
+    Animation[] linesAnim;
+
+    Transform header;
+
+    FlareAnimCTL[] flarePlayList;
+    FlareAnimCTL[] LongflarePlayList;
+    JudgmentAnimCTL judgmentAnim;
+
+    ComboCounter comboCounter;
+    int combo = 0;
+
+    Text scoreText;
+    Text maxComboText;
+
+    EZR.NoteType.Note[] Notes;
+
+    float noteScale;
+
+    [HideInInspector]
+    public int[] CurrentIndex;
+    [HideInInspector]
+    public List<NoteInLine>[] NoteInLines;
+
+    public VideoPlayer VideoPlayer;
+
+    void Start()
+    {
+        // 初始化面板
+        var panel = Instantiate(Resources.Load<GameObject>("Skin/Panel/" + PanelResource));
+        panel.transform.SetParent(GameObject.Find("Canvas").transform, false);
+
+        // 初始化音符
+        var noteType = Resources.Load<EZR.NoteType>("Skin/Note/" + NoteResource);
+        Notes = noteType.Notes;
+        noteScale = noteType.NoteScale[EZR.PlayManager.NumLines - 4];
+        var target = Instantiate(noteType.Target[EZR.PlayManager.NumLines - 4]);
+        target.transform.SetParent(panel.transform.Find("Target"), false);
+
+        // 找节奏灯
+        grooveLightAnim = panel.transform.Find("Groove").GetComponent<Animation>();
+
+        // 找按键动画
+        linesUpdate = new bool[EZR.PlayManager.NumLines];
+        linesAnim = new Animation[EZR.PlayManager.NumLines];
+        for (int i = 0; i < EZR.PlayManager.NumLines; i++)
+        {
+            linesAnim[i] = panel.transform.Find("Lines/" + EZR.PlayManager.NumLines + "/Line" + (i + 1)).GetComponent<Animation>();
+        }
+
+        // 选择正确的按键ui
+        for (int i = 4; i <= EZR.PlayManager.MaxLines; i++)
+        {
+            var lines = panel.transform.Find("Lines/" + i).gameObject;
+            if (i == EZR.PlayManager.NumLines)
+                lines.SetActive(true);
+            else
+                lines.SetActive(false);
+        }
+
+        // 找播放头
+        header = panel.transform.Find("NoteArea/Header");
+
+        // 初始化按键火花特效
+        flarePlayList = new FlareAnimCTL[EZR.PlayManager.NumLines];
+        LongflarePlayList = new FlareAnimCTL[EZR.PlayManager.NumLines];
+        for (int i = 0; i < EZR.PlayManager.NumLines; i++)
+        {
+            var flare = Instantiate(noteType.Flare);
+            var longFlare = Instantiate(panel.GetComponent<Panel>().LongFlare);
+            flarePlayList[i] = flare.GetComponent<FlareAnimCTL>();
+            LongflarePlayList[i] = longFlare.GetComponent<FlareAnimCTL>();
+            flare.transform.SetParent(panel.transform, false);
+            longFlare.transform.SetParent(panel.transform, false);
+            var panelTarget = panel.transform.Find("Target");
+            flare.transform.position = new Vector3(linesAnim[i].transform.position.x, panelTarget.position.y, 0);
+            longFlare.transform.position = new Vector3(linesAnim[i].transform.position.x, panelTarget.position.y, 0);
+        }
+
+        // 初始化判定字动画
+        var judgment = Instantiate(panel.GetComponent<Panel>().Judgment);
+        judgmentAnim = judgment.GetComponent<JudgmentAnimCTL>();
+        judgment.transform.SetParent(panel.transform.Find("Judgment"), false);
+
+        // 找连击计数器
+        comboCounter = panel.transform.Find("Combo/ComboCounter").GetComponent<ComboCounter>();
+        scoreText = panel.GetComponent<Panel>().ScoreText;
+        maxComboText = panel.GetComponent<Panel>().MaxComboText;
+
+        // 生成Lines
+        CurrentIndex = new int[EZR.PlayManager.NumLines];
+        NoteInLines = new List<NoteInLine>[EZR.PlayManager.NumLines];
+        for (int i = 0; i < EZR.PlayManager.NumLines; i++)
+        {
+            NoteInLines[i] = new List<NoteInLine>();
+        }
+
+        // 初始化BGA
+        VideoPlayer.url = Path.Combine(
+            EZR.Master.IsDebug ? EZR.Master.GameResourcesFolder : "..\\" + EZR.Master.GameResourcesFolder,
+            EZR.PlayManager.GameType.ToString(),
+            "Ingame",
+            EZR.PlayManager.SongName + ".mp4"
+        );
+    }
+
+    void StartPlay()
+    {
+        EZR.PlayManager.LoopStop += loopStop;
+        EZR.PlayManager.Groove += groove;
+        EZR.Master.InputEvent += inputEvent;
+        EZR.Master.MainLoop += judgmentLoop;
+        EZR.PlayManager.Start();
+
+        // 长音符测试
+        // EZR.PlayManager.Position = 3100;
+        // position = EZR.PlayManager.Position;
+
+        isStarted = true;
+
+        // if (EZR.PlayManager.GameType != EZR.GameType.DJMAX)
+        //     videoPlayer.Play();
+    }
+
+    void loopStop()
+    {
+        EZR.PlayManager.LoopStop -= loopStop;
+        EZR.PlayManager.Groove -= groove;
+        EZR.Master.InputEvent -= inputEvent;
+        EZR.Master.MainLoop -= judgmentLoop;
+    }
+
+    // 表现层循环
+    void Update()
+    {
+        // 等待帧数稳定后开始游戏
+        if (!isStarted)
+        {
+            readyFrame++;
+            if (readyFrame > 10)
+                StartPlay();
+        }
+
+        // 节奏灯
+        if (grooveLight)
+        {
+            grooveLight = false;
+            grooveLightAnim["GrooveLight"].time = 0;
+            if (!grooveLightAnim.isPlaying)
+                grooveLightAnim.Play();
+        }
+
+        // 按键表现
+        for (int i = 0; i < EZR.PlayManager.NumLines; i++)
+        {
+            if (linesUpdate[i])
+            {
+                if (EZR.Master.KeysState[i])
+                {
+                    linesAnim[i].Play("KeyDown");
+                }
+                else
+                {
+                    linesAnim[i]["KeyUp"].time = 0;
+                    linesAnim[i].Play("KeyUp");
+                }
+                linesUpdate[i] = false;
+            }
+        }
+
+        // 生成实时音符
+        for (int i = 0; i < EZR.PlayManager.NumLines; i++)
+        {
+            while (CurrentIndex[i] < EZR.PlayManager.TimeLines.Lines[i].Notes.Count &&
+            CurrentIndex[i] < EZR.PlayManager.TimeLines.LinesIndex[i] + 10)
+            {
+                // 测试长音符
+                // if (EZR.PlayManager.TimeLines.Lines[i].Notes[currentIndex[i]].length <= 6)
+                // {
+                //     currentIndex[i]++;
+                //     continue;
+                // }
+
+                GameObject note;
+                Pattern.Note patternNote = EZR.PlayManager.TimeLines.Lines[i].Notes[CurrentIndex[i]];
+
+                note = Instantiate(Notes[EZR.PlayManager.NumLines - 4].NotePrefab[i]);
+
+                var noteInLine = note.GetComponent<NoteInLine>();
+                noteInLine.index = CurrentIndex[i];
+                noteInLine.Position = patternNote.position;
+                noteInLine.Init(noteScale);
+                NoteInLines[i].Add(noteInLine);
+
+                note.transform.SetParent(header, false);
+
+                note.transform.localPosition = new Vector3(
+                    linesAnim[i].transform.localPosition.x,
+                    patternNote.position * EZR.PlayManager.GetSpeed()
+                    , 0
+                );
+
+                var rect = note.GetComponent<RectTransform>();
+
+                if (patternNote.length > 6)
+                {
+                    noteInLine.NoteLength = patternNote.length;
+                    rect.sizeDelta = new Vector2(rect.sizeDelta.x, noteInLine.NoteLength * EZR.PlayManager.GetSpeed() / noteInLine.NoteScale + noteInLine.NoteHeight);
+                }
+
+                CurrentIndex[i]++;
+            }
+        }
+
+        // 背景动画trigger
+        if (EZR.PlayManager.IsPlayBGA)
+        {
+            EZR.PlayManager.IsPlayBGA = false;
+            VideoPlayer.Play();
+        }
+
+        // Unity Delta Time Position 用于消除音符抖动
+        if (isStarted)
+        {
+            positionDelta = Time.unscaledDeltaTime * ((EZR.PlayManager.TimeLines.BPM / 4d / 60d) * PatternUtils.Pattern.MeasureLength);
+            Position += positionDelta;
+            // 消除误差，同步时间轴
+            if (System.Math.Abs(Position - EZR.PlayManager.Position) > 1)
+            {
+                Position = EZR.PlayManager.Position;
+            }
+        }
+
+        // 播放头
+        header.localPosition = new Vector3(0,
+            -(float)(Position * EZR.PlayManager.GetSpeed()),
+            0
+        );
+
+        // 长音符和移除音符
+        for (int i = 0; i < EZR.PlayManager.NumLines; i++)
+        {
+            if (NoteInLines[i].Count > 0)
+            {
+                if (NoteInLines[i][0].Position + NoteInLines[i][0].NoteLength - EZR.PlayManager.Position < -(EZR.JudgmentDelta.MISS + 1))
+                {
+                    NoteInLines[i].RemoveAt(0);
+                }
+            }
+        }
+
+        // 连击动画
+        if (combo != EZR.PlayManager.Combo)
+        {
+            if (EZR.PlayManager.Combo == 0)
+            {
+                comboCounter.Clear();
+            }
+            else
+            {
+                combo = EZR.PlayManager.Combo;
+                comboCounter.SetCombo(combo);
+            }
+        }
+
+        // 分数
+        scoreText.text = Mathf.Round(EZR.PlayManager.Score).ToString();
+        // 最大连击
+        maxComboText.text = EZR.PlayManager.MaxCombo.ToString();
+    }
+
+    void groove()
+    {
+        grooveLight = true;
+    }
+
+    void judgmentLoop()
+    {
+        EZR.Judgment.Loop(NoteInLines, judgmentAnim, flarePlayList, LongflarePlayList);
+    }
+
+    void inputEvent(int keyId, bool state)
+    {
+        linesUpdate[keyId] = true;
+
+        EZR.Judgment.InputEvent(state, keyId, NoteInLines, judgmentAnim, flarePlayList, LongflarePlayList);
+    }
+}

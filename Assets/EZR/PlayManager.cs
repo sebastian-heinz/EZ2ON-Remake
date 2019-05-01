@@ -8,15 +8,28 @@ namespace EZR
     public static partial class PlayManager
     {
         public static double Position = 0d;
+        public static float MeasureScale = 2;
+        public static float FallSpeed = 4;
 
         public static GameType GameType = EZR.GameType.EZ2ON;
         public static string SongName = "";
         public static int NumLines = 4;
+        public static int MaxLines
+        {
+            get
+            {
+                return 8;
+            }
+        }
         public static GameMode.Mode GameMode = EZR.GameMode.Mode.RubyMixON;
         public static GameDifficult.Difficult GameDifficult = EZR.GameDifficult.Difficult.EZ;
 
         public static TimeLines TimeLines;
         public static bool IsAutoPlay = false;
+
+        public static float Score = 0;
+        public static int Combo = 0;
+        public static int MaxCombo = 0;
 
         public static void LoadPattern()
         {
@@ -129,8 +142,43 @@ namespace EZR
             DeltaTime = 0d;
             lastTime = 0d;
             beat = 0d;
+            Score = 0;
+            Combo = 0;
+            MaxCombo = 0;
             if (TimeLines != null)
                 TimeLines.Reset();
+        }
+
+        public static float GetSpeed()
+        {
+            return MeasureScale * FallSpeed;
+        }
+
+        public static void addScore(string judgment)
+        {
+            switch (judgment)
+            {
+                case "kool":
+                    Score += 170 + 17 * Mathf.Log(Combo, 2);
+                    break;
+                case "cool":
+                    Score += 100 + 10 * Mathf.Log(Combo, 2);
+                    break;
+                case "good":
+                    Score += 40 + 4 * Mathf.Log(Combo, 2);
+                    break;
+            }
+        }
+        public static void addCombo()
+        {
+            Combo++;
+            if (Combo > MaxCombo)
+                MaxCombo = Combo;
+        }
+
+        public static void comboBreak()
+        {
+            Combo = 0;
         }
     }
 }
