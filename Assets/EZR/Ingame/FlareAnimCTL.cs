@@ -6,23 +6,27 @@ public class FlareAnimCTL : MonoBehaviour
 {
     public string PlayAnimName = "";
     public string StopAnimName = "";
+    public float[] InitScale = new float[EZR.PlayManager.MaxLines - 3];
+
+    [HideInInspector]
     public bool IsPlay = false;
+    [HideInInspector]
     public bool IsStop = false;
-    float initScale;
+
     float scale = 1;
     Animator anim;
 
     void Start()
     {
         anim = GetComponent<Animator>();
-        initScale = transform.localScale.x;
     }
     void Update()
     {
         if (IsPlay)
         {
             IsPlay = false;
-            transform.localScale = new Vector2(initScale * scale, initScale * scale);
+            var realScale = InitScale[EZR.PlayManager.NumLines - 4] * scale;
+            transform.localScale = new Vector2(realScale, realScale);
             anim.Play(PlayAnimName, 0, 0);
         }
         if (IsStop)

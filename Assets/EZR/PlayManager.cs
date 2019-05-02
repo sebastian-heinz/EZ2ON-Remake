@@ -9,7 +9,22 @@ namespace EZR
     {
         public static double Position = 0d;
         public static float MeasureScale = 2;
-        public static float FallSpeed = 4;
+        static float fallSpeed = 2;
+        public static float FallSpeed
+        {
+            get
+            {
+                return fallSpeed;
+            }
+            set
+            {
+                if (value >= 0.25f)
+                    fallSpeed = value;
+                else
+                    fallSpeed = 0.25f;
+            }
+        }
+        public static float RealFallSpeed = FallSpeed;
 
         public static GameType GameType = EZR.GameType.EZ2ON;
         public static string SongName = "";
@@ -142,18 +157,19 @@ namespace EZR
             DeltaTime = 0d;
             lastTime = 0d;
             beat = 0d;
-            Score = 0;
-            Combo = 0;
-            MaxCombo = 0;
+            // Score = 0;
+            // Combo = 0;
+            // MaxCombo = 0;
             if (TimeLines != null)
                 TimeLines.Reset();
         }
 
         public static float GetSpeed()
         {
-            return MeasureScale * FallSpeed;
+            return MeasureScale * RealFallSpeed;
         }
 
+        // 分数公式
         public static void addScore(string judgment)
         {
             switch (judgment)

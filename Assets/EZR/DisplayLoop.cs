@@ -25,6 +25,7 @@ public class DisplayLoop : MonoBehaviour
     Animation[] linesAnim;
 
     Transform header;
+    RectTransform noteArea;
 
     FlareAnimCTL[] flarePlayList;
     FlareAnimCTL[] LongflarePlayList;
@@ -83,6 +84,7 @@ public class DisplayLoop : MonoBehaviour
 
         // 找播放头
         header = panel.transform.Find("NoteArea/Header");
+        noteArea = header.parent.GetComponent<RectTransform>();
 
         // 初始化按键火花特效
         flarePlayList = new FlareAnimCTL[EZR.PlayManager.NumLines];
@@ -141,8 +143,8 @@ public class DisplayLoop : MonoBehaviour
 
         isStarted = true;
 
-        // if (EZR.PlayManager.GameType != EZR.GameType.DJMAX)
-        //     videoPlayer.Play();
+        if (EZR.PlayManager.GameType != EZR.GameType.DJMAX)
+            VideoPlayer.Play();
     }
 
     void loopStop()
@@ -191,50 +193,6 @@ public class DisplayLoop : MonoBehaviour
             }
         }
 
-        // 生成实时音符
-        for (int i = 0; i < EZR.PlayManager.NumLines; i++)
-        {
-            while (CurrentIndex[i] < EZR.PlayManager.TimeLines.Lines[i].Notes.Count &&
-            CurrentIndex[i] < EZR.PlayManager.TimeLines.LinesIndex[i] + 10)
-            {
-                // 测试长音符
-                // if (EZR.PlayManager.TimeLines.Lines[i].Notes[currentIndex[i]].length <= 6)
-                // {
-                //     currentIndex[i]++;
-                //     continue;
-                // }
-
-                GameObject note;
-                Pattern.Note patternNote = EZR.PlayManager.TimeLines.Lines[i].Notes[CurrentIndex[i]];
-
-                note = Instantiate(Notes[EZR.PlayManager.NumLines - 4].NotePrefab[i]);
-
-                var noteInLine = note.GetComponent<NoteInLine>();
-                noteInLine.index = CurrentIndex[i];
-                noteInLine.Position = patternNote.position;
-                noteInLine.Init(noteScale);
-                NoteInLines[i].Add(noteInLine);
-
-                note.transform.SetParent(header, false);
-
-                note.transform.localPosition = new Vector3(
-                    linesAnim[i].transform.localPosition.x,
-                    patternNote.position * EZR.PlayManager.GetSpeed()
-                    , 0
-                );
-
-                var rect = note.GetComponent<RectTransform>();
-
-                if (patternNote.length > 6)
-                {
-                    noteInLine.NoteLength = patternNote.length;
-                    rect.sizeDelta = new Vector2(rect.sizeDelta.x, noteInLine.NoteLength * EZR.PlayManager.GetSpeed() / noteInLine.NoteScale + noteInLine.NoteHeight);
-                }
-
-                CurrentIndex[i]++;
-            }
-        }
-
         // 背景动画trigger
         if (EZR.PlayManager.IsPlayBGA)
         {
@@ -254,11 +212,44 @@ public class DisplayLoop : MonoBehaviour
             }
         }
 
+        // 插值下落速度
+        EZR.PlayManager.RealFallSpeed = Mathf.Lerp(EZR.PlayManager.RealFallSpeed, EZR.PlayManager.FallSpeed,
+            Mathf.Min(Time.unscaledDeltaTime * 12, 1)
+        );
+
         // 播放头
         header.localPosition = new Vector3(0,
             -(float)(Position * EZR.PlayManager.GetSpeed()),
             0
         );
+
+        // 生成实时音符
+        for (int i = 0; i < EZR.PlayManager.NumLines; i++)
+        {
+            while (CurrentIndex[i] < EZR.PlayManager.TimeLines.Lines[i].Notes.Count &&
+            EZR.PlayManager.TimeLines.Lines[i].Notes[CurrentIndex[i]].position - Position <
+            noteArea.sizeDelta.y / EZR.PlayManager.GetSpeed())
+            {
+                // 测试长音符
+                // if (EZR.PlayManager.TimeLines.Lines[i].Notes[currentIndex[i]].length <= 6)
+                // {
+                //     currentIndex[i]++;
+                //     continue;
+                // }
+
+                GameObject note;
+                Pattern.Note patternNote = EZR.PlayManager.TimeLines.Lines[i].Notes[CurrentIndex[i]];
+
+                note = Instantiate(Notes[EZR.PlayManager.NumLines - 4].NotePrefab[i]);
+                note.transform.SetParent(header, false);
+
+                var noteInLine = note.GetComponent<NoteInLine>();
+                noteInLine.Init(CurrentIndex[i], patternNote.position, noteScale, patternNote.length, linesAnim[i].transform.localPosition.x);
+                NoteInLines[i].Add(noteInLine);
+
+                CurrentIndex[i]++;
+            }
+        }
 
         // 长音符和移除音符
         for (int i = 0; i < EZR.PlayManager.NumLines; i++)

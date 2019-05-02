@@ -55,7 +55,7 @@ namespace EZR
 
                 while (TimeLines.LinesIndex[i] < line.Notes.Count && line.Notes[TimeLines.LinesIndex[i]].position <= Position)
                 {
-                    if (i > 3)
+                    if (i > 7)
                     {
                         int id = line.Notes[TimeLines.LinesIndex[i]].id;
                         float vol = line.Notes[TimeLines.LinesIndex[i]].vol;

@@ -5,13 +5,10 @@ using UnityEngine.UI;
 
 public class NoteInLine : MonoBehaviour
 {
-    public GameObject Flare;
-    public GameObject LongFlare;
-
     [HideInInspector]
     public int index;
     [HideInInspector]
-    public float Position;
+    public int Position;
     [HideInInspector]
     public bool IsDestroy = false;
     [HideInInspector]
@@ -30,35 +27,60 @@ public class NoteInLine : MonoBehaviour
     public float NoteHeight;
 
     RectTransform rect;
+    float initX;
 
-    public void Init(float scale)
+    // 初始化音符
+    public void Init(int index, int position, float scale, int length, float x)
     {
+        this.index = index;
+        this.Position = position;
+
         NoteScale = scale;
         transform.localScale = new Vector3(NoteScale, NoteScale, 1);
         rect = GetComponent<RectTransform>();
         NoteHeight = rect.sizeDelta.y;
+
+        if (length > 6)
+            NoteLength = length;
+
+        initX = x;
+
+        updateNote();
     }
+
     void Update()
     {
+        updateNote();
+
         if (IsDestroy || Position + NoteLength - EZR.PlayManager.Position < -(EZR.JudgmentDelta.MISS + 1))
         {
             Destroy(gameObject);
             return;
         }
 
+        // 长音符按下
         if (IsLongPressed)
         {
-            // 需要改成视觉position
             transform.localPosition = new Vector3(
-                transform.localPosition.x,
-                (float)(EZR.PlayManager.Position * EZR.PlayManager.MeasureScale * EZR.PlayManager.FallSpeed),
+                initX,
+                (float)(EZR.PlayManager.Position * EZR.PlayManager.GetSpeed()),
                 0
             );
             rect.sizeDelta = new Vector2(
                 rect.sizeDelta.x,
-                (float)((Position + NoteLength - EZR.PlayManager.Position) *
-                EZR.PlayManager.MeasureScale * EZR.PlayManager.FallSpeed / NoteScale + NoteHeight)
+                (float)((Position + NoteLength - EZR.PlayManager.Position) * EZR.PlayManager.GetSpeed() / NoteScale + NoteHeight)
             );
         }
+    }
+
+    // 更新位置和长度
+    void updateNote()
+    {
+        transform.localPosition = new Vector3(
+            initX,
+            Position * EZR.PlayManager.GetSpeed(),
+            0
+        );
+        rect.sizeDelta = new Vector2(rect.sizeDelta.x, NoteLength * EZR.PlayManager.GetSpeed() / NoteScale + NoteHeight);
     }
 }

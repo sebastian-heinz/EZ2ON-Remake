@@ -17,10 +17,18 @@ public class TestRoom : MonoBehaviour
     {
         EZR.PlayManager.GameType = EZR.GameType.EZ2ON;
         EZR.PlayManager.SongName = "20000000000";
-        EZR.PlayManager.GameMode = EZR.GameMode.Mode.ClubMix8;
+        EZR.PlayManager.GameMode = EZR.GameMode.Mode.StreetMixON;
         EZR.PlayManager.GameDifficult = EZR.GameDifficult.Difficult.SHD;
 
         EZR.PlayManager.Reset();
         EZR.PlayManager.LoadPattern();
+    }
+
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.F3))
+            EZR.PlayManager.FallSpeed += 0.25f;
+        if (Input.GetKeyDown(KeyCode.F4))
+            EZR.PlayManager.FallSpeed -= 0.25f;
     }
 }

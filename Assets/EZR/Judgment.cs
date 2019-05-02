@@ -12,40 +12,41 @@ namespace EZR
             {
                 if (noteInLines[i].Count > 0)
                 {
-                    if (noteInLines[i][0].IsLongPressed)
+                    var noteInLine = noteInLines[i][0];
+                    if (noteInLine.IsLongPressed)
                     {
                         // 长音连击
-                        var longNoteCombo = (int)((System.Math.Min(PlayManager.Position, noteInLines[i][0].Position + noteInLines[i][0].NoteLength) - noteInLines[i][0].Position) / 16);
-                        if (longNoteCombo > noteInLines[i][0].LongNoteCombo)
+                        var longNoteCombo = (int)((System.Math.Min(PlayManager.Position, noteInLine.Position + noteInLine.NoteLength) - noteInLine.Position) / 16);
+                        if (longNoteCombo > noteInLine.LongNoteCombo)
                         {
-                            var delta = longNoteCombo - noteInLines[i][0].LongNoteCombo;
+                            var delta = longNoteCombo - noteInLine.LongNoteCombo;
                             for (int j = 0; j < delta; j++)
                             {
-                                judgmentAnim.Play(noteInLines[i][0].LongNoteJudgment);
+                                judgmentAnim.Play(noteInLine.LongNoteJudgment);
                                 PlayManager.addCombo();
-                                PlayManager.addScore(noteInLines[i][0].LongNoteJudgment);
-                                flarePlayList[i].Play(noteInLines[i][0].LongNoteJudgment);
+                                PlayManager.addScore(noteInLine.LongNoteJudgment);
+                                flarePlayList[i].Play(noteInLine.LongNoteJudgment);
                             }
-                            noteInLines[i][0].LongNoteCombo = longNoteCombo;
+                            noteInLine.LongNoteCombo = longNoteCombo;
                         }
                         // 自动结尾
-                        if (noteInLines[i][0].Position + noteInLines[i][0].NoteLength <= PlayManager.Position)
+                        if (noteInLine.Position + noteInLine.NoteLength <= PlayManager.Position)
                         {
-                            var delta = longNoteCombo - noteInLines[i][0].LongNoteCombo;
+                            var delta = longNoteCombo - noteInLine.LongNoteCombo;
                             for (int j = 0; j < delta; j++)
                             {
-                                judgmentAnim.Play(noteInLines[i][0].LongNoteJudgment);
+                                judgmentAnim.Play(noteInLine.LongNoteJudgment);
                                 PlayManager.addCombo();
-                                PlayManager.addScore(noteInLines[i][0].LongNoteJudgment);
-                                flarePlayList[i].Play(noteInLines[i][0].LongNoteJudgment);
+                                PlayManager.addScore(noteInLine.LongNoteJudgment);
+                                flarePlayList[i].Play(noteInLine.LongNoteJudgment);
                             }
                             LongflarePlayList[i].IsStop = true;
-                            noteInLines[i][0].IsDestroy = true;
+                            noteInLine.IsDestroy = true;
                             noteInLines[i].RemoveAt(0);
                             goto endif;
                         }
                         // 按住不会miss
-                        // if (noteInLines[i][0].Position + noteInLines[i][0].NoteLength - Position < -JudgmentDelta.GOOD / 2f * JudgmentDelta.Scale)
+                        // if (noteInLine.Position + noteInLine.NoteLength - Position < -JudgmentDelta.GOOD / 2f * JudgmentDelta.Scale)
                         // {
                         //     judgmentAnim.Play("miss");
                         //     comboBreak();
@@ -55,10 +56,10 @@ namespace EZR
                     }
 
                     // FAIL
-                    else if (noteInLines[i][0].NoteLength > 0)
+                    else if (noteInLine.NoteLength > 0)
                     {
                         // 长音将来可能会改不同判定
-                        if (noteInLines[i][0].Position - PlayManager.Position < -JudgmentDelta.MISS / 2f * JudgmentDelta.Scale)
+                        if (noteInLine.Position - PlayManager.Position < -JudgmentDelta.MISS / 2f * JudgmentDelta.Scale)
                         {
                             judgmentAnim.Play("fail");
                             PlayManager.comboBreak();
@@ -68,7 +69,7 @@ namespace EZR
                     }
                     else
                     {
-                        if (noteInLines[i][0].Position - PlayManager.Position < -JudgmentDelta.MISS / 2f * JudgmentDelta.Scale)
+                        if (noteInLine.Position - PlayManager.Position < -JudgmentDelta.MISS / 2f * JudgmentDelta.Scale)
                         {
                             judgmentAnim.Play("fail");
                             PlayManager.comboBreak();
@@ -81,28 +82,29 @@ namespace EZR
             endif: if (noteInLines[i].Count > 0)
                 {
                     // Auto play
+                    var noteInLine = noteInLines[i][0];
                     if (PlayManager.IsAutoPlay)
                     {
-                        if (noteInLines[i][0].NoteLength > 6)
+                        if (noteInLine.NoteLength > 6)
                         {
                             // 长音
-                            if (!noteInLines[i][0].IsLongPressed && noteInLines[i][0].Position <= PlayManager.Position)
+                            if (!noteInLine.IsLongPressed && noteInLine.Position <= PlayManager.Position)
                             {
                                 PlayManager.addCombo();
                                 PlayManager.addScore("kool");
                                 judgmentAnim.Play("kool");
-                                var note = PlayManager.TimeLines.Lines[i].Notes[noteInLines[i][0].index];
-                                noteInLines[i][0].IsLongPressed = true;
-                                noteInLines[i][0].LongNoteJudgment = "kool";
+                                var note = PlayManager.TimeLines.Lines[i].Notes[noteInLine.index];
+                                noteInLine.IsLongPressed = true;
+                                noteInLine.LongNoteJudgment = "kool";
                                 LongflarePlayList[i].Play();
                                 flarePlayList[i].Play();
                                 MemorySound.playSound(note.id, note.vol, note.pan, MemorySound.Main);
                             }
-                            // else if (noteInLines[i][0].isLongPressed &&
-                            // noteInLines[i][0].Position + noteInLines[i][0].NoteLength <= Position)
+                            // else if (noteInLine.isLongPressed &&
+                            // noteInLine.Position + noteInLine.NoteLength <= Position)
                             // {
-                            //     noteInLines[i][0].isLongPressed = false;
-                            //     noteInLines[i][0].isDestroy = true;
+                            //     noteInLine.isLongPressed = false;
+                            //     noteInLine.isDestroy = true;
                             //     LongflarePlayList[i].isStop = true;
                             //     flarePlayList[i].Play();
                             //     noteInLines[i].RemoveAt(0);
@@ -111,13 +113,13 @@ namespace EZR
                         else
                         {
                             // 短音
-                            if (noteInLines[i][0].Position <= PlayManager.Position)
+                            if (noteInLine.Position <= PlayManager.Position)
                             {
                                 PlayManager.addCombo();
                                 PlayManager.addScore("kool");
                                 judgmentAnim.Play("kool");
-                                var note = PlayManager.TimeLines.Lines[i].Notes[noteInLines[i][0].index];
-                                noteInLines[i][0].IsDestroy = true;
+                                var note = PlayManager.TimeLines.Lines[i].Notes[noteInLine.index];
+                                noteInLine.IsDestroy = true;
                                 flarePlayList[i].Play();
                                 MemorySound.playSound(note.id, note.vol, note.pan, MemorySound.Main);
                                 noteInLines[i].RemoveAt(0);
@@ -234,13 +236,14 @@ namespace EZR
             }
             else if (noteInLines[keyId].Count > 0)
             {
-                if (noteInLines[keyId][0].IsLongPressed)
+                var noteInLine = noteInLines[keyId][0];
+                if (noteInLine.IsLongPressed)
                 {
-                    noteInLines[keyId][0].IsLongPressed = false;
+                    noteInLine.IsLongPressed = false;
                     LongflarePlayList[keyId].IsStop = true;
 
                     bool needStopSound = false;
-                    double judgmentDelta = System.Math.Abs(noteInLines[keyId][0].Position + noteInLines[keyId][0].NoteLength - PlayManager.Position);
+                    double judgmentDelta = System.Math.Abs(noteInLine.Position + noteInLine.NoteLength - PlayManager.Position);
                     if (judgmentDelta > JudgmentDelta.COOL / 2f * JudgmentDelta.Scale && judgmentDelta <= JudgmentDelta.GOOD / 2f * JudgmentDelta.Scale)
                     {
                         judgmentAnim.Play("good");
@@ -256,9 +259,9 @@ namespace EZR
                         needStopSound = true;
                     }
 
-                    if (needStopSound && noteInLines[keyId][0].NoteSound != null)
+                    if (needStopSound && noteInLine.NoteSound != null)
                     {
-                        ((FMOD.Channel)noteInLines[keyId][0].NoteSound).stop();
+                        ((FMOD.Channel)noteInLine.NoteSound).stop();
                     }
                     noteInLines[keyId].RemoveAt(0);
                 }
