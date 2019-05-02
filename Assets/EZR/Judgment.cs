@@ -10,7 +10,7 @@ namespace EZR
         {
             for (int i = 0; i < PlayManager.NumLines; i++)
             {
-                if (noteInLines[i].Count > 0)
+                if (noteInLines[i].Count > 0 && noteInLines[i][0] != null)
                 {
                     var noteInLine = noteInLines[i][0];
                     if (noteInLine.IsLongPressed)
@@ -79,7 +79,7 @@ namespace EZR
                     }
                 }
 
-            endif: if (noteInLines[i].Count > 0)
+            endif: if (noteInLines[i].Count > 0 && noteInLines[i][0] != null)
                 {
                     // Auto play
                     var noteInLine = noteInLines[i][0];
@@ -138,7 +138,7 @@ namespace EZR
                 Pattern.Note note;
                 NoteInLine noteInLine;
 
-                if (noteInLines[keyId].Count > 0)
+                if (noteInLines[keyId].Count > 0 && noteInLines[keyId][0] != null)
                 {
                     noteInLine = noteInLines[keyId][0];
                     note = PlayManager.TimeLines.Lines[keyId].Notes[noteInLine.index];
@@ -234,7 +234,7 @@ namespace EZR
                     noteInLine.NoteSound = channel;
                 }
             }
-            else if (noteInLines[keyId].Count > 0)
+            else if (noteInLines[keyId].Count > 0 && noteInLines[keyId][0] != null)
             {
                 var noteInLine = noteInLines[keyId][0];
                 if (noteInLine.IsLongPressed)

@@ -52,7 +52,7 @@ namespace EZR
         static Master()
         {
             // 全屏
-            Screen.SetResolution(1920, 1080, FullScreenMode.FullScreenWindow);
+            Screen.SetResolution(Screen.resolutions[Screen.resolutions.Length - 1].width, Screen.resolutions[Screen.resolutions.Length - 1].height, FullScreenMode.ExclusiveFullScreen);
 
             // 初始化按键映射
             KeyCodeMapping = new char[DefaultKeyCodeMapping.Length][];

@@ -177,6 +177,7 @@ namespace EZR
         // 分数公式
         public static void addScore(string judgment)
         {
+            if (IsAutoPlay) return;
             switch (judgment)
             {
                 case "kool":
@@ -193,6 +194,7 @@ namespace EZR
         public static void addCombo()
         {
             Combo++;
+            if (IsAutoPlay) return;
             if (Combo > MaxCombo)
                 MaxCombo = Combo;
         }

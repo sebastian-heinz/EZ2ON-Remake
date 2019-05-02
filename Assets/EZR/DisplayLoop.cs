@@ -98,8 +98,8 @@ public class DisplayLoop : MonoBehaviour
             flare.transform.SetParent(panel.transform, false);
             longFlare.transform.SetParent(panel.transform, false);
             var panelTarget = panel.transform.Find("Target");
-            flare.transform.position = new Vector3(linesAnim[i].transform.position.x, panelTarget.position.y, 0);
-            longFlare.transform.position = new Vector3(linesAnim[i].transform.position.x, panelTarget.position.y, 0);
+            flare.transform.position = new Vector3(linesAnim[i].transform.position.x, panelTarget.GetChild(0).position.y, 0);
+            longFlare.transform.position = new Vector3(linesAnim[i].transform.position.x, panelTarget.GetChild(0).position.y, 0);
         }
 
         // 初始化判定字动画

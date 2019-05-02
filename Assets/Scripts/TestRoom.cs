@@ -6,10 +6,10 @@ public class TestRoom : MonoBehaviour
 {
     void Start()
     {
-        EZR.PlayManager.GameType = EZR.GameType.DJMAX;
-        EZR.PlayManager.SongName = "seeker";
-        EZR.PlayManager.GameMode = EZR.GameMode.Mode.FiveButtons;
-        EZR.PlayManager.GameDifficult = EZR.GameDifficult.Difficult.DJMAX_NM;
+        EZR.PlayManager.GameType = EZR.GameType.EZ2ON;
+        EZR.PlayManager.SongName = "20000000000";
+        EZR.PlayManager.GameMode = EZR.GameMode.Mode.RubyMixON;
+        EZR.PlayManager.GameDifficult = EZR.GameDifficult.Difficult.SHD;
 
         EZR.PlayManager.Reset();
         EZR.PlayManager.LoadPattern();
