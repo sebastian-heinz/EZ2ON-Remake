@@ -155,6 +155,32 @@ public class DisplayLoop : MonoBehaviour
         EZR.Master.MainLoop -= judgmentLoop;
     }
 
+    public void Reset()
+    {
+        EZR.PlayManager.LoopStop -= loopStop;
+        EZR.PlayManager.Groove -= groove;
+        EZR.Master.InputEvent -= inputEvent;
+        EZR.Master.MainLoop -= judgmentLoop;
+
+        for (int i = 0; i < NoteInLines.Length; i++)
+        {
+            for (int j = 0; j < NoteInLines[i].Count; j++)
+            {
+                Destroy(NoteInLines[i][j].gameObject);
+            }
+            NoteInLines[i].Clear();
+            CurrentIndex[i] = 0;
+        }
+
+        EZR.PlayManager.Position = Position = 0;
+
+        readyFrame = 0;
+        isStarted = false;
+
+        VideoPlayer.Stop();
+        VideoPlayer.targetTexture.Release();
+    }
+
     // 表现层循环
     void Update()
     {

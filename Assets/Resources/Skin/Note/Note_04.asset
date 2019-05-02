@@ -51,10 +51,10 @@ MonoBehaviour:
   Flare: {fileID: 6170197108312205137, guid: 4c07b5636fed9e24daa383ed56681e94, type: 3}
   NoteScale:
   - 1.5
-  - 1.25
-  - 1
-  - 0.875
-  - 0.75
+  - 1.325
+  - 1.15
+  - 0.975
+  - 0.8
   Target:
   - {fileID: 2226693485206840577, guid: 109cf677c1c237a4daaa3bfd58e21420, type: 3}
   - {fileID: 9013192092322569165, guid: 197ee1f58cabd2842813d32d51e75448, type: 3}

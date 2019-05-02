@@ -51,7 +51,7 @@ namespace EZR
 
         static Master()
         {
-            // 全屏+开启同步垂直
+            // 全屏
             Screen.SetResolution(1920, 1080, FullScreenMode.FullScreenWindow);
 
             // 初始化按键映射
@@ -71,28 +71,39 @@ namespace EZR
 
             Task.Run(() =>
             {
-                while (TaskExitFlag == 0)
+#if (UNITY_EDITOR)
+                try
                 {
-                    // 捕获按键
-#if (UNITY_STANDALONE_WIN || UNITY_EDITOR_WIN)
-                    for (int i = 0; i < EZR.PlayManager.NumLines; i++)
+#endif
+                    while (TaskExitFlag == 0)
                     {
-                        var keyCode = KeyCodeMapping[EZR.PlayManager.NumLines - 4][i];
-                        var isDown = GetAsyncKeyState(keyCode) < 0;
-                        if (isDown != KeysState[i])
+                        // 捕获按键
+#if (UNITY_STANDALONE_WIN || UNITY_EDITOR_WIN)
+                        for (int i = 0; i < EZR.PlayManager.NumLines; i++)
                         {
-                            KeysState[i] = isDown;
-                            if (InputEvent != null)
-                                InputEvent(i, KeysState[i]);
+                            var keyCode = KeyCodeMapping[EZR.PlayManager.NumLines - 4][i];
+                            var isDown = GetAsyncKeyState(keyCode) < 0;
+                            if (isDown != KeysState[i])
+                            {
+                                KeysState[i] = isDown;
+                                if (InputEvent != null)
+                                    InputEvent(i, KeysState[i]);
+                            }
                         }
-                    }
 #endif
 
-                    if (MainLoop != null)
-                        MainLoop();
+                        if (MainLoop != null)
+                            MainLoop();
 
-                    Thread.Sleep(TimePrecision);
+                        Thread.Sleep(TimePrecision);
+                    }
+#if (UNITY_EDITOR)
                 }
+                catch (Exception ex)
+                {
+                    Debug.LogError(ex.Message + "\n" + ex.StackTrace);
+                }
+#endif
             });
 
             GameObject ListenUnityEvents = new GameObject();

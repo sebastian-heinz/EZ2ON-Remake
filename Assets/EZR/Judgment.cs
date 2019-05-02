@@ -225,7 +225,7 @@ namespace EZR
                 else
                 {
                     noteInLine = null;
-                    note = PlayManager.TimeLines.Lines[keyId].Notes[PlayManager.TimeLines.Lines[keyId].Notes.Count - 1];
+                    note = PlayManager.TimeLines.Lines[keyId].Notes[Mathf.Min(PlayManager.TimeLines.LinesIndex[keyId], PlayManager.TimeLines.Lines[keyId].Notes.Count - 1)];
                 }
 
                 var channel = MemorySound.playSound(note.id, note.vol, note.pan, MemorySound.Main);

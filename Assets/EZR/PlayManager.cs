@@ -154,14 +154,19 @@ namespace EZR
         public static void Reset()
         {
             Position = 0d;
-            DeltaTime = 0d;
             lastTime = 0d;
+            Stopwatch.Restart();
+
             beat = 0d;
-            // Score = 0;
-            // Combo = 0;
-            // MaxCombo = 0;
+            Score = 0;
+            Combo = 0;
+            MaxCombo = 0;
+
             if (TimeLines != null)
                 TimeLines.Reset();
+
+            MemorySound.Main.stop();
+            MemorySound.BGM.stop();
         }
 
         public static float GetSpeed()

@@ -30,9 +30,9 @@ namespace EZR
 
         public static void Stop()
         {
-            Reset();
+            // Reset();
             Stopwatch.Stop();
-            TimeLines.Clear();
+            // TimeLines.Clear();
             EZR.Master.MainLoop -= MainLoop;
         }
 
@@ -64,19 +64,17 @@ namespace EZR
                         if (EZR.PlayManager.GameType == EZR.GameType.DJMAX && id == 0)
                             IsPlayBGA = true;
 
-                        if (TimeLines.SoundList[line.Notes[TimeLines.LinesIndex[i]].id].type == 1)
-                            MemorySound.playSound(id, vol, pan, MemorySound.BGM);
-                        else
-                            MemorySound.playSound(id, vol, pan, MemorySound.Main);
+                        MemorySound.playSound(id, vol, pan, MemorySound.BGM);
 
                         // debug事件
                         if (DebugEvent != null)
                         {
                             DebugEvent(string.Format(
-                                "Sound: {0}\n[vol: {1}] [pan:{2}]",
+                                "[{3}] Sound: {0}\n[vol: {1}] [pan:{2}]",
                                 TimeLines.SoundList[id].filename,
                                 (int)(vol * 100),
-                                (int)(pan * 100)
+                                (int)(pan * 100),
+                                (int)Position
                             ), id);
                         }
                     }
