@@ -36,6 +36,11 @@ public class SoundPlayDebug : MonoBehaviour
         DebugText.text = "[FPS: " + fps + "]\n" +
             debugMessage + "\ndelta time (ms): " +
             EZR.PlayManager.DeltaTime * 1000 +
+            "\nKool: " + EZR.PlayManager.Score.Kool +
+            "\nCool: " + EZR.PlayManager.Score.Cool +
+            "\nGood: " + EZR.PlayManager.Score.Good +
+            "\nMiss: " + EZR.PlayManager.Score.Miss +
+            "\nFail: " + EZR.PlayManager.Score.Fail +
             "\n[Speed: " + EZR.PlayManager.FallSpeed + "]";
     }
 

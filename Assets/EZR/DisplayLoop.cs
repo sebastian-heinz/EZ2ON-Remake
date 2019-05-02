@@ -282,7 +282,7 @@ public class DisplayLoop : MonoBehaviour
         {
             if (NoteInLines[i].Count > 0)
             {
-                if (NoteInLines[i][0].Position + NoteInLines[i][0].NoteLength - EZR.PlayManager.Position < -(EZR.JudgmentDelta.MISS + 1))
+                if (NoteInLines[i][0].Position + NoteInLines[i][0].NoteLength - EZR.PlayManager.Position < -(EZR.JudgmentDelta.Miss + 1))
                 {
                     NoteInLines[i].RemoveAt(0);
                 }
@@ -304,9 +304,9 @@ public class DisplayLoop : MonoBehaviour
         }
 
         // 分数
-        scoreText.text = Mathf.Round(EZR.PlayManager.Score).ToString();
+        scoreText.text = EZR.PlayManager.Score.GetScore().ToString();
         // 最大连击
-        maxComboText.text = EZR.PlayManager.MaxCombo.ToString();
+        maxComboText.text = EZR.PlayManager.Score.MaxCombo.ToString();
     }
 
     void groove()

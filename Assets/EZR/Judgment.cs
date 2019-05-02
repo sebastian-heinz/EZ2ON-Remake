@@ -22,9 +22,9 @@ namespace EZR
                             var delta = longNoteCombo - noteInLine.LongNoteCombo;
                             for (int j = 0; j < delta; j++)
                             {
+                                PlayManager.AddCombo();
+                                PlayManager.AddScore(noteInLine.LongNoteJudgment);
                                 judgmentAnim.Play(noteInLine.LongNoteJudgment);
-                                PlayManager.addCombo();
-                                PlayManager.addScore(noteInLine.LongNoteJudgment);
                                 flarePlayList[i].Play(noteInLine.LongNoteJudgment);
                             }
                             noteInLine.LongNoteCombo = longNoteCombo;
@@ -35,9 +35,9 @@ namespace EZR
                             var delta = longNoteCombo - noteInLine.LongNoteCombo;
                             for (int j = 0; j < delta; j++)
                             {
+                                PlayManager.AddCombo();
+                                PlayManager.AddScore(noteInLine.LongNoteJudgment);
                                 judgmentAnim.Play(noteInLine.LongNoteJudgment);
-                                PlayManager.addCombo();
-                                PlayManager.addScore(noteInLine.LongNoteJudgment);
                                 flarePlayList[i].Play(noteInLine.LongNoteJudgment);
                             }
                             LongflarePlayList[i].IsStop = true;
@@ -59,20 +59,22 @@ namespace EZR
                     else if (noteInLine.NoteLength > 0)
                     {
                         // 长音将来可能会改不同判定
-                        if (noteInLine.Position - PlayManager.Position < -JudgmentDelta.MISS / 2f * JudgmentDelta.Scale)
+                        if (noteInLine.Position - PlayManager.Position < -JudgmentDelta.GetJudgmentDelta(JudgmentType.Miss))
                         {
-                            judgmentAnim.Play("fail");
-                            PlayManager.comboBreak();
+                            PlayManager.ComboBreak();
+                            PlayManager.AddScore(JudgmentType.Fail);
+                            judgmentAnim.Play(JudgmentType.Fail);
                             noteInLines[i].RemoveAt(0);
                             goto endif;
                         }
                     }
                     else
                     {
-                        if (noteInLine.Position - PlayManager.Position < -JudgmentDelta.MISS / 2f * JudgmentDelta.Scale)
+                        if (noteInLine.Position - PlayManager.Position < -JudgmentDelta.GetJudgmentDelta(JudgmentType.Miss))
                         {
-                            judgmentAnim.Play("fail");
-                            PlayManager.comboBreak();
+                            PlayManager.ComboBreak();
+                            PlayManager.AddScore(JudgmentType.Fail);
+                            judgmentAnim.Play(JudgmentType.Fail);
                             noteInLines[i].RemoveAt(0);
                             goto endif;
                         }
@@ -90,12 +92,12 @@ namespace EZR
                             // 长音
                             if (!noteInLine.IsLongPressed && noteInLine.Position <= PlayManager.Position)
                             {
-                                PlayManager.addCombo();
-                                PlayManager.addScore("kool");
-                                judgmentAnim.Play("kool");
+                                PlayManager.AddCombo();
+                                PlayManager.AddScore(JudgmentType.Kool);
+                                judgmentAnim.Play(JudgmentType.Kool);
                                 var note = PlayManager.TimeLines.Lines[i].Notes[noteInLine.index];
                                 noteInLine.IsLongPressed = true;
-                                noteInLine.LongNoteJudgment = "kool";
+                                noteInLine.LongNoteJudgment = JudgmentType.Kool;
                                 LongflarePlayList[i].Play();
                                 flarePlayList[i].Play();
                                 MemorySound.playSound(note.id, note.vol, note.pan, MemorySound.Main);
@@ -115,9 +117,9 @@ namespace EZR
                             // 短音
                             if (noteInLine.Position <= PlayManager.Position)
                             {
-                                PlayManager.addCombo();
-                                PlayManager.addScore("kool");
-                                judgmentAnim.Play("kool");
+                                PlayManager.AddCombo();
+                                PlayManager.AddScore(JudgmentType.Kool);
+                                judgmentAnim.Play(JudgmentType.Kool);
                                 var note = PlayManager.TimeLines.Lines[i].Notes[noteInLine.index];
                                 noteInLine.IsDestroy = true;
                                 flarePlayList[i].Play();
@@ -147,77 +149,78 @@ namespace EZR
 
                     if (note.length > 6)
                     {
-                        if (judgmentDelta <= JudgmentDelta.KOOL / 2f * JudgmentDelta.Scale)
+                        if (JudgmentDelta.CompareJudgmentDelta(judgmentDelta, JudgmentType.Kool))
                         {
-                            judgmentAnim.Play("kool");
+                            PlayManager.AddCombo();
+                            PlayManager.AddScore(JudgmentType.Kool);
+                            judgmentAnim.Play(JudgmentType.Kool);
                             flarePlayList[keyId].Play();
                             LongflarePlayList[keyId].Play();
-                            PlayManager.addCombo();
-                            PlayManager.addScore("kool");
                             noteInLine.IsLongPressed = true;
-                            noteInLine.LongNoteJudgment = "kool";
+                            noteInLine.LongNoteJudgment = JudgmentType.Kool;
                         }
-                        else if (judgmentDelta > JudgmentDelta.KOOL / 2f * JudgmentDelta.Scale && judgmentDelta <= JudgmentDelta.COOL / 2f * JudgmentDelta.Scale)
+                        else if (JudgmentDelta.CompareJudgmentDelta(judgmentDelta, JudgmentType.Cool))
                         {
-                            judgmentAnim.Play("cool");
+                            PlayManager.AddCombo();
+                            PlayManager.AddScore(JudgmentType.Cool);
+                            judgmentAnim.Play(JudgmentType.Cool);
                             flarePlayList[keyId].Play();
                             LongflarePlayList[keyId].Play();
-                            PlayManager.addCombo();
-                            PlayManager.addScore("cool");
                             noteInLine.IsLongPressed = true;
-                            noteInLine.LongNoteJudgment = "cool";
+                            noteInLine.LongNoteJudgment = JudgmentType.Cool;
                         }
-                        else if (judgmentDelta > JudgmentDelta.COOL / 2f * JudgmentDelta.Scale && judgmentDelta <= JudgmentDelta.GOOD / 2f * JudgmentDelta.Scale)
+                        else if (JudgmentDelta.CompareJudgmentDelta(judgmentDelta, JudgmentType.Good))
                         {
-                            judgmentAnim.Play("good");
-
-                            flarePlayList[keyId].Play("good");
-                            LongflarePlayList[keyId].Play("good");
-                            PlayManager.addCombo();
-                            PlayManager.addScore("good");
+                            PlayManager.AddCombo();
+                            PlayManager.AddScore(JudgmentType.Good);
+                            judgmentAnim.Play(JudgmentType.Good);
+                            flarePlayList[keyId].Play(JudgmentType.Good);
+                            LongflarePlayList[keyId].Play(JudgmentType.Good);
                             noteInLine.IsLongPressed = true;
-                            noteInLine.LongNoteJudgment = "good";
+                            noteInLine.LongNoteJudgment = JudgmentType.Good;
                         }
-                        else if (judgmentDelta > JudgmentDelta.GOOD / 2f * JudgmentDelta.Scale && judgmentDelta <= JudgmentDelta.MISS / 2f * JudgmentDelta.Scale)
+                        else if (JudgmentDelta.CompareJudgmentDelta(judgmentDelta, JudgmentType.Miss))
                         {
-                            PlayManager.comboBreak();
-                            judgmentAnim.Play("miss");
+                            PlayManager.ComboBreak();
+                            PlayManager.AddScore(JudgmentType.Miss);
+                            judgmentAnim.Play(JudgmentType.Miss);
                             noteInLines[keyId].RemoveAt(0);
                         }
                     }
                     else
                     {
-                        if (judgmentDelta <= JudgmentDelta.KOOL / 2f * JudgmentDelta.Scale)
+                        if (JudgmentDelta.CompareJudgmentDelta(judgmentDelta, JudgmentType.Kool))
                         {
-                            judgmentAnim.Play("kool");
+                            PlayManager.AddCombo();
+                            PlayManager.AddScore(JudgmentType.Kool);
+                            judgmentAnim.Play(JudgmentType.Kool);
                             flarePlayList[keyId].Play();
-                            PlayManager.addCombo();
-                            PlayManager.addScore("kool");
                             noteInLine.IsDestroy = true;
                             noteInLines[keyId].RemoveAt(0);
                         }
-                        else if (judgmentDelta > JudgmentDelta.KOOL / 2f * JudgmentDelta.Scale && judgmentDelta <= JudgmentDelta.COOL / 2f * JudgmentDelta.Scale)
+                        else if (JudgmentDelta.CompareJudgmentDelta(judgmentDelta, JudgmentType.Cool))
                         {
-                            judgmentAnim.Play("cool");
+                            PlayManager.AddCombo();
+                            PlayManager.AddScore(JudgmentType.Cool);
+                            judgmentAnim.Play(JudgmentType.Cool);
                             flarePlayList[keyId].Play();
-                            PlayManager.addCombo();
-                            PlayManager.addScore("cool");
                             noteInLine.IsDestroy = true;
                             noteInLines[keyId].RemoveAt(0);
                         }
-                        else if (judgmentDelta > JudgmentDelta.COOL / 2f * JudgmentDelta.Scale && judgmentDelta <= JudgmentDelta.GOOD / 2f * JudgmentDelta.Scale)
+                        else if (JudgmentDelta.CompareJudgmentDelta(judgmentDelta, JudgmentType.Good))
                         {
-                            judgmentAnim.Play("good");
-                            flarePlayList[keyId].Play("good");
-                            PlayManager.addCombo();
-                            PlayManager.addScore("good");
+                            PlayManager.AddCombo();
+                            PlayManager.AddScore(JudgmentType.Good);
+                            judgmentAnim.Play(JudgmentType.Good);
+                            flarePlayList[keyId].Play(JudgmentType.Good);
                             noteInLine.IsDestroy = true;
                             noteInLines[keyId].RemoveAt(0);
                         }
-                        else if (judgmentDelta > JudgmentDelta.GOOD / 2f * JudgmentDelta.Scale && judgmentDelta <= JudgmentDelta.MISS / 2f * JudgmentDelta.Scale)
+                        else if (JudgmentDelta.CompareJudgmentDelta(judgmentDelta, JudgmentType.Miss))
                         {
-                            PlayManager.comboBreak();
-                            judgmentAnim.Play("miss");
+                            PlayManager.ComboBreak();
+                            PlayManager.AddScore(JudgmentType.Miss);
+                            judgmentAnim.Play(JudgmentType.Miss);
                             noteInLines[keyId].RemoveAt(0);
                         }
                     }
@@ -244,18 +247,19 @@ namespace EZR
 
                     bool needStopSound = false;
                     double judgmentDelta = System.Math.Abs(noteInLine.Position + noteInLine.NoteLength - PlayManager.Position);
-                    if (judgmentDelta > JudgmentDelta.COOL / 2f * JudgmentDelta.Scale && judgmentDelta <= JudgmentDelta.GOOD / 2f * JudgmentDelta.Scale)
+                    if (JudgmentDelta.CompareJudgmentDelta(judgmentDelta, JudgmentType.Good))
                     {
-                        judgmentAnim.Play("good");
-                        PlayManager.addCombo();
-                        PlayManager.addScore("good");
-                        flarePlayList[keyId].Play("good");
+                        PlayManager.AddCombo();
+                        PlayManager.AddScore(JudgmentType.Good);
+                        judgmentAnim.Play(JudgmentType.Good);
+                        flarePlayList[keyId].Play(JudgmentType.Good);
                         needStopSound = true;
                     }
-                    else if (judgmentDelta > JudgmentDelta.GOOD / 2f * JudgmentDelta.Scale)
+                    else if (judgmentDelta > JudgmentDelta.GetJudgmentDelta(JudgmentType.Good))
                     {
-                        PlayManager.comboBreak();
-                        judgmentAnim.Play("miss");
+                        PlayManager.ComboBreak();
+                        PlayManager.AddScore(JudgmentType.Miss);
+                        judgmentAnim.Play(JudgmentType.Miss);
                         needStopSound = true;
                     }
 

@@ -42,9 +42,9 @@ namespace EZR
         public static TimeLines TimeLines;
         public static bool IsAutoPlay = false;
 
-        public static float Score = 0;
         public static int Combo = 0;
-        public static int MaxCombo = 0;
+
+        public static Score Score = new Score();
 
         public static void LoadPattern()
         {
@@ -158,9 +158,8 @@ namespace EZR
             Stopwatch.Restart();
 
             beat = 0d;
-            Score = 0;
+            Score.Reset();
             Combo = 0;
-            MaxCombo = 0;
 
             if (TimeLines != null)
                 TimeLines.Reset();
@@ -175,31 +174,40 @@ namespace EZR
         }
 
         // 分数公式
-        public static void addScore(string judgment)
+        public static void AddScore(JudgmentType judgment)
         {
-            if (IsAutoPlay) return;
+            // if (IsAutoPlay) return;
             switch (judgment)
             {
-                case "kool":
-                    Score += 170 + 17 * Mathf.Log(Combo, 2);
+                case JudgmentType.Kool:
+                    Score.Kool++;
+                    Score.RawScore += 170 + 17 * Mathf.Log(Combo, 2);
                     break;
-                case "cool":
-                    Score += 100 + 10 * Mathf.Log(Combo, 2);
+                case JudgmentType.Cool:
+                    Score.Cool++;
+                    Score.RawScore += 100 + 10 * Mathf.Log(Combo, 2);
                     break;
-                case "good":
-                    Score += 40 + 4 * Mathf.Log(Combo, 2);
+                case JudgmentType.Good:
+                    Score.Good++;
+                    Score.RawScore += 40 + 4 * Mathf.Log(Combo, 2);
+                    break;
+                case JudgmentType.Miss:
+                    Score.Miss++;
+                    break;
+                case JudgmentType.Fail:
+                    Score.Fail++;
                     break;
             }
         }
-        public static void addCombo()
+        public static void AddCombo()
         {
             Combo++;
-            if (IsAutoPlay) return;
-            if (Combo > MaxCombo)
-                MaxCombo = Combo;
+            // if (IsAutoPlay) return;
+            if (Combo > Score.MaxCombo)
+                Score.MaxCombo = Combo;
         }
 
-        public static void comboBreak()
+        public static void ComboBreak()
         {
             Combo = 0;
         }

@@ -18,7 +18,7 @@ public class NoteInLine : MonoBehaviour
     [HideInInspector]
     public int LongNoteCombo = 0;
     [HideInInspector]
-    public string LongNoteJudgment;
+    public EZR.JudgmentType LongNoteJudgment;
     [HideInInspector]
     public object NoteSound;
     [HideInInspector]
@@ -52,7 +52,7 @@ public class NoteInLine : MonoBehaviour
     {
         updateNote();
 
-        if (IsDestroy || Position + NoteLength - EZR.PlayManager.Position < -(EZR.JudgmentDelta.MISS + 1))
+        if (IsDestroy || Position + NoteLength - EZR.PlayManager.Position < -(EZR.JudgmentDelta.Miss + 1))
         {
             Destroy(gameObject);
             return;

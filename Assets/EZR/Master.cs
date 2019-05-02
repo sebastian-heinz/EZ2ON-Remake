@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using System.Threading;
 using System.Threading.Tasks;
 using System;
@@ -118,6 +119,10 @@ namespace EZR
             void Awake()
             {
                 DontDestroyOnLoad(this);
+                SceneManager.sceneUnloaded += (scene) =>
+                {
+                    Resources.UnloadUnusedAssets();
+                };
             }
 
             // 不是win平台
@@ -146,11 +151,6 @@ namespace EZR
 #if (UNITY_STANDALONE_WIN || UNITY_EDITOR_WIN)
                 timeEndPeriod(1);
 #endif
-            }
-
-            void OnLevelWasLoaded()
-            {
-                Resources.UnloadUnusedAssets();
             }
         }
     }

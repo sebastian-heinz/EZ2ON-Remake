@@ -40,10 +40,10 @@ public class FlareAnimCTL : MonoBehaviour
         IsPlay = true;
         scale = 1;
     }
-    public void Play(string judgment)
+    public void Play(EZR.JudgmentType judgment)
     {
         IsPlay = true;
-        if (judgment == "good")
+        if (judgment == EZR.JudgmentType.Good)
             scale = 0.6f;
         else
             scale = 1;

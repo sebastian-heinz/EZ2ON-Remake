@@ -5,16 +5,18 @@ using UnityEngine.UI;
 
 public class JudgmentAnimCTL : MonoBehaviour
 {
-    public Sprite KOOL;
-    public Sprite COOL;
-    public Sprite GOOD;
-    public Sprite MISS;
-    public Sprite FAIL;
+    public Sprite Cool;
+    public Sprite Good;
+    public Sprite Miss;
+    public Sprite Fail;
     Animation animKool;
     Animation animAny;
     Image image;
-    string sprite = "kool";
+    EZR.JudgmentType sprite = EZR.JudgmentType.Kool;
+
+    [HideInInspector]
     public bool IsPlayKOOL = false;
+    [HideInInspector]
     public bool IsPlayAny = false;
     // Start is called before the first frame update
     void Start()
@@ -41,17 +43,17 @@ public class JudgmentAnimCTL : MonoBehaviour
         {
             switch (sprite)
             {
-                case "cool":
-                    image.sprite = COOL;
+                case EZR.JudgmentType.Cool:
+                    image.sprite = Cool;
                     break;
-                case "good":
-                    image.sprite = GOOD;
+                case EZR.JudgmentType.Good:
+                    image.sprite = Good;
                     break;
-                case "miss":
-                    image.sprite = MISS;
+                case EZR.JudgmentType.Miss:
+                    image.sprite = Miss;
                     break;
-                case "fail":
-                    image.sprite = FAIL;
+                case EZR.JudgmentType.Fail:
+                    image.sprite = Fail;
                     break;
             }
         }
@@ -72,9 +74,9 @@ public class JudgmentAnimCTL : MonoBehaviour
         }
     }
 
-    public void Play(string Judgment)
+    public void Play(EZR.JudgmentType Judgment)
     {
-        if (Judgment == "kool")
+        if (Judgment == EZR.JudgmentType.Kool)
         {
             IsPlayKOOL = true;
             sprite = Judgment;
