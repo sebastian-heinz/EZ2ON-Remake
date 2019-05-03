@@ -25,7 +25,7 @@ namespace EZR
             Reset();
             Stopwatch.Start();
             lastTime = Stopwatch.ElapsedTicks;
-            EZR.Master.MainLoop += MainLoop;
+            Master.MainLoop += MainLoop;
         }
 
         public static void Stop()
@@ -33,7 +33,7 @@ namespace EZR
             // Reset();
             Stopwatch.Stop();
             // TimeLines.Clear();
-            EZR.Master.MainLoop -= MainLoop;
+            Master.MainLoop -= MainLoop;
         }
 
         public static void MainLoop()
@@ -61,7 +61,7 @@ namespace EZR
                         float vol = line.Notes[TimeLines.LinesIndex[i]].vol;
                         float pan = line.Notes[TimeLines.LinesIndex[i]].pan;
 
-                        if (EZR.PlayManager.GameType == EZR.GameType.DJMAX && id == 0)
+                        if (PlayManager.GameType == GameType.DJMAX && id == 0)
                             IsPlayBGA = true;
 
                         MemorySound.playSound(id, vol, pan, MemorySound.BGM);

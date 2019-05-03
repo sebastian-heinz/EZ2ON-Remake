@@ -6,10 +6,10 @@ public class TestRoom : MonoBehaviour
 {
     void Start()
     {
-        EZR.PlayManager.GameType = EZR.GameType.EZ2DJ;
-        EZR.PlayManager.SongName = "7dolls";
-        EZR.PlayManager.GameMode = EZR.GameMode.Mode.StreetMixDJ;
-        EZR.PlayManager.GameDifficult = EZR.GameDifficult.Difficult.HD;
+        EZR.PlayManager.GameType = EZR.GameType.DJMAX;
+        EZR.PlayManager.SongName = "fallenangel";
+        EZR.PlayManager.GameMode = EZR.GameMode.Mode.FourButtons;
+        EZR.PlayManager.GameDifficult = EZR.GameDifficult.Difficult.DJMAX_HD;
 
         EZR.PlayManager.Reset();
         EZR.PlayManager.LoadPattern();

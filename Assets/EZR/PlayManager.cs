@@ -40,7 +40,9 @@ namespace EZR
         public static GameDifficult.Difficult GameDifficult = EZR.GameDifficult.Difficult.EZ;
 
         public static TimeLines TimeLines;
+
         public static bool IsAutoPlay = false;
+        public static float BGADelay = 0;
 
         public static int Combo = 0;
 
@@ -76,6 +78,7 @@ namespace EZR
             if (!File.Exists(jsonPath)) return;
 
             var pattern = PatternUtils.Pattern.Parse(File.ReadAllText(jsonPath));
+            if (pattern == null) return;
             // 读取所有音频
             for (int i = 0; i < pattern.SoundList.Count; i++)
             {
@@ -149,6 +152,27 @@ namespace EZR
             TimeLines.SortLines();
 
             NumLines = EZR.GameMode.GetNumLines(GameMode);
+
+            // 读BGA ini文件 修正bga延迟
+            if (GameType == GameType.EZ2ON)
+            {
+                var iniPath = Path.Combine(EZR.Master.GameResourcesFolder, GameType.ToString(), "Ingame", SongName + ".ini");
+                if (File.Exists(iniPath))
+                {
+                    try
+                    {
+                        BGADelay = System.Convert.ToInt32(File.ReadAllText(iniPath)) / 1000f;
+                    }
+                    catch
+                    {
+                        BGADelay = 0;
+                    }
+                }
+                else
+                    BGADelay = 0;
+            }
+            else
+                BGADelay = 0;
         }
 
         public static void Reset()

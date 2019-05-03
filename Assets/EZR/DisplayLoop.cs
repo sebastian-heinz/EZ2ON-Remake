@@ -14,6 +14,8 @@ public class DisplayLoop : MonoBehaviour
     [HideInInspector]
     public double Position = 0;
     double positionDelta;
+    float time = 0;
+    bool bgaPlayed = false;
 
     bool isStarted = false;
     int readyFrame;
@@ -120,13 +122,15 @@ public class DisplayLoop : MonoBehaviour
             NoteInLines[i] = new List<NoteInLine>();
         }
 
-        // 初始化BGA
-        VideoPlayer.url = Path.Combine(
+        var bgaUrl = Path.Combine(
             EZR.Master.IsDebug ? EZR.Master.GameResourcesFolder : "..\\" + EZR.Master.GameResourcesFolder,
             EZR.PlayManager.GameType.ToString(),
             "Ingame",
             EZR.PlayManager.SongName + ".mp4"
         );
+        if (File.Exists(bgaUrl))
+            // 初始化BGA
+            VideoPlayer.url = bgaUrl;
     }
 
     void StartPlay()
@@ -143,8 +147,11 @@ public class DisplayLoop : MonoBehaviour
 
         isStarted = true;
 
-        if (EZR.PlayManager.GameType != EZR.GameType.DJMAX)
+        if (EZR.PlayManager.GameType != EZR.GameType.DJMAX &&
+        EZR.PlayManager.BGADelay == 0)
+        {
             VideoPlayer.Play();
+        }
     }
 
     void loopStop()
@@ -171,11 +178,13 @@ public class DisplayLoop : MonoBehaviour
             NoteInLines[i].Clear();
             CurrentIndex[i] = 0;
         }
-
         EZR.PlayManager.Position = Position = 0;
 
         readyFrame = 0;
         isStarted = false;
+
+        time = 0;
+        bgaPlayed = false;
 
         VideoPlayer.Stop();
         VideoPlayer.targetTexture.Release();
@@ -236,6 +245,15 @@ public class DisplayLoop : MonoBehaviour
             {
                 Position = EZR.PlayManager.Position;
             }
+
+            // 记录时间
+            time += Time.unscaledDeltaTime;
+            if (!bgaPlayed &&
+            EZR.PlayManager.BGADelay > 0 && EZR.PlayManager.BGADelay <= time)
+            {
+                VideoPlayer.Play();
+                bgaPlayed = true;
+            }
         }
 
         // 插值下落速度
@@ -268,6 +286,8 @@ public class DisplayLoop : MonoBehaviour
 
                 note = Instantiate(Notes[EZR.PlayManager.NumLines - 4].NotePrefab[i]);
                 note.transform.SetParent(header, false);
+                // 新产生的音符永远在最下层
+                note.transform.SetSiblingIndex(0);
 
                 var noteInLine = note.GetComponent<NoteInLine>();
                 noteInLine.Init(CurrentIndex[i], patternNote.position, noteScale, patternNote.length, linesAnim[i].transform.localPosition.x);
@@ -307,6 +327,12 @@ public class DisplayLoop : MonoBehaviour
         scoreText.text = EZR.PlayManager.Score.GetScore().ToString();
         // 最大连击
         maxComboText.text = EZR.PlayManager.Score.MaxCombo.ToString();
+
+        // 修复BGA重复播放问题
+        if (!VideoPlayer.isPaused && VideoPlayer.frameCount > 0 && (ulong)VideoPlayer.frame == VideoPlayer.frameCount)
+        {
+            VideoPlayer.Pause();
+        }
     }
 
     void groove()
