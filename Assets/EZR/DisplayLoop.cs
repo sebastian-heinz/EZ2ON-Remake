@@ -46,7 +46,7 @@ public class DisplayLoop : MonoBehaviour
     [HideInInspector]
     public int[] CurrentIndex;
     [HideInInspector]
-    public List<NoteInLine>[] NoteInLines;
+    public Queue<NoteInLine>[] NoteInLines;
 
     public VideoPlayer VideoPlayer;
 
@@ -116,10 +116,10 @@ public class DisplayLoop : MonoBehaviour
 
         // 生成Lines
         CurrentIndex = new int[EZR.PlayManager.NumLines];
-        NoteInLines = new List<NoteInLine>[EZR.PlayManager.NumLines];
+        NoteInLines = new Queue<NoteInLine>[EZR.PlayManager.NumLines];
         for (int i = 0; i < EZR.PlayManager.NumLines; i++)
         {
-            NoteInLines[i] = new List<NoteInLine>();
+            NoteInLines[i] = new Queue<NoteInLine>();
         }
 
         var bgaUrl = Path.Combine(
@@ -173,7 +173,7 @@ public class DisplayLoop : MonoBehaviour
         {
             for (int j = 0; j < NoteInLines[i].Count; j++)
             {
-                Destroy(NoteInLines[i][j].gameObject);
+                Destroy(NoteInLines[i].Dequeue().gameObject);
             }
             NoteInLines[i].Clear();
             CurrentIndex[i] = 0;
@@ -291,7 +291,7 @@ public class DisplayLoop : MonoBehaviour
 
                 var noteInLine = note.GetComponent<NoteInLine>();
                 noteInLine.Init(CurrentIndex[i], patternNote.position, noteScale, patternNote.length, linesAnim[i].transform.localPosition.x);
-                NoteInLines[i].Add(noteInLine);
+                NoteInLines[i].Enqueue(noteInLine);
 
                 CurrentIndex[i]++;
             }
@@ -302,9 +302,9 @@ public class DisplayLoop : MonoBehaviour
         {
             if (NoteInLines[i].Count > 0)
             {
-                if (NoteInLines[i][0].Position + NoteInLines[i][0].NoteLength - EZR.PlayManager.Position < -(EZR.JudgmentDelta.Miss + 1))
+                if (NoteInLines[i].Peek().Position + NoteInLines[i].Peek().NoteLength - EZR.PlayManager.Position < -(EZR.JudgmentDelta.Miss + 1))
                 {
-                    NoteInLines[i].RemoveAt(0);
+                    NoteInLines[i].Dequeue();
                 }
             }
         }

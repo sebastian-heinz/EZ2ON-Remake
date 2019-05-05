@@ -15,4 +15,4 @@ MonoBehaviour:
   Version: 0.1 demo
   devGameResourcesFolder: D:\EZRData
   TimePrecision: 1
-  LaunchScene: TestRoom
+  LaunchScene: SongsSelect

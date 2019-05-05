@@ -1,0 +1,989 @@
+fileFormatVersion: 2
+guid: e72ba75b847e34948ae9910efe3276ea
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 118122005513370663
+    second: background
+  - first:
+      213: -4395742193416442696
+    second: battle_musiclist_one
+  - first:
+      213: -3229731879917461511
+    second: dif_frame_one
+  - first:
+      213: 4608047805732941732
+    second: diff_sel_01_button_down
+  - first:
+      213: 8999155574935275378
+    second: diff_sel_01_button_normal
+  - first:
+      213: 1921646344944415873
+    second: diff_sel_01_button_over
+  - first:
+      213: -4105606485070935928
+    second: diff_sel_02_button_disable
+  - first:
+      213: 3320794802599633548
+    second: diff_sel_02_button_down
+  - first:
+      213: 3443486716134457549
+    second: diff_sel_02_button_normal
+  - first:
+      213: 7073304620209020652
+    second: diff_sel_02_button_over
+  - first:
+      213: -7379523977694039297
+    second: diff_sel_03_button_disable
+  - first:
+      213: -2988690605420458316
+    second: diff_sel_03_button_down
+  - first:
+      213: 1081942888861986325
+    second: diff_sel_03_button_normal
+  - first:
+      213: 1341825756824325082
+    second: diff_sel_03_button_over
+  - first:
+      213: 182219536641908356
+    second: diff_sel_04_button_disable
+  - first:
+      213: -7018562892565388144
+    second: diff_sel_04_button_down
+  - first:
+      213: -7807249083988765096
+    second: diff_sel_04_button_normal
+  - first:
+      213: 8758685467971834170
+    second: diff_sel_04_button_over
+  - first:
+      213: 5195906009954899678
+    second: diff_sel_05_button_disable
+  - first:
+      213: 5898194280356031021
+    second: diff_sel_05_button_down
+  - first:
+      213: 5298565136935766092
+    second: diff_sel_05_button_normal
+  - first:
+      213: -3483112630817759053
+    second: diff_sel_05_button_over
+  - first:
+      213: -7114293958616971898
+    second: disc_effect
+  - first:
+      213: -4580287481890533885
+    second: disc_guard
+  - first:
+      213: 7990295274448016744
+    second: down_bar_black
+  - first:
+      213: -2785478610423626764
+    second: down_bar_white
+  - first:
+      213: -6516835877724535745
+    second: down_bar_white2
+  - first:
+      213: 19632180592341781
+    second: line_one
+  - first:
+      213: -4080902960704663235
+    second: nametek
+  - first:
+      213: 5263106128595433201
+    second: pattern
+  - first:
+      213: -1319595396181962780
+    second: btn_icon4_disable
+  - first:
+      213: -1335480722817074925
+    second: btn_icon4_down
+  - first:
+      213: -8546251632553689597
+    second: btn_icon4_normal
+  - first:
+      213: -3552764242261101432
+    second: btn_icon4_over
+  - first:
+      213: 4040403587615150749
+    second: btn_icon7_disable
+  - first:
+      213: 2817622008009047697
+    second: btn_icon7_down
+  - first:
+      213: -4229222605001185970
+    second: btn_icon7_normal
+  - first:
+      213: 8809968707506427368
+    second: btn_icon7_over
+  - first:
+      213: 6977410033001100288
+    second: single_setting_frame
+  - first:
+      213: 2807200509365570492
+    second: btn_icon9_disable
+  - first:
+      213: 193528514255019556
+    second: btn_icon9_down
+  - first:
+      213: 3497836298045433855
+    second: btn_icon9_normal
+  - first:
+      213: 3286518179083816559
+    second: btn_icon9_over
+  - first:
+      213: 5318249458028597966
+    second: battle_start_button_normal
+  - first:
+      213: -4981619990615485719
+    second: battle_start_button_over
+  - first:
+      213: -862641470358639812
+    second: mybestscore
+  - first:
+      213: -7594239724252968142
+    second: disc_place
+  - first:
+      213: 6260656436832671645
+    second: effect_fade_button_off
+  - first:
+      213: -2652500199064664612
+    second: effect_random_button_off
+  - first:
+      213: -9091093619393857384
+    second: speed_button
+  - first:
+      213: -7887189976717829874
+    second: bpm_line
+  externalObjects: {}
+  serializedVersion: 10
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: -1
+    aniso: -1
+    mipBias: -100
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  platformSettings:
+  - serializedVersion: 2
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+  - serializedVersion: 2
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: background
+      rect:
+        serializedVersion: 2
+        x: 198
+        y: 33
+        width: 320
+        height: 180
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 
+      internalID: 0
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: battle_musiclist_one
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 520
+        width: 469
+        height: 503
+      alignment: 9
+      pivot: {x: 0.63432837, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 
+      internalID: 0
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: battle_start_button_normal
+      rect:
+        serializedVersion: 2
+        x: 602
+        y: 311
+        width: 343
+        height: 102
+      alignment: 9
+      pivot: {x: 0.50291544, y: 0.5245098}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 
+      internalID: 0
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: battle_start_button_over
+      rect:
+        serializedVersion: 2
+        x: 903
+        y: 448
+        width: 343
+        height: 102
+      alignment: 9
+      pivot: {x: 0.50291544, y: 0.5245098}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 
+      internalID: 0
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bpm_line
+      rect:
+        serializedVersion: 2
+        x: 644
+        y: 983
+        width: 4
+        height: 40
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 
+      internalID: 0
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: btn_icon4_disable
+      rect:
+        serializedVersion: 2
+        x: 1943
+        y: 956
+        width: 69
+        height: 67
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 
+      internalID: 0
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: btn_icon4_down
+      rect:
+        serializedVersion: 2
+        x: 1943
+        y: 887
+        width: 69
+        height: 67
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 
+      internalID: 0
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: btn_icon4_normal
+      rect:
+        serializedVersion: 2
+        x: 1943
+        y: 818
+        width: 69
+        height: 67
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 
+      internalID: 0
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: btn_icon4_over
+      rect:
+        serializedVersion: 2
+        x: 1943
+        y: 749
+        width: 69
+        height: 67
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 
+      internalID: 0
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: btn_icon7_disable
+      rect:
+        serializedVersion: 2
+        x: 1943
+        y: 680
+        width: 69
+        height: 67
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 
+      internalID: 0
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: btn_icon7_down
+      rect:
+        serializedVersion: 2
+        x: 1943
+        y: 611
+        width: 69
+        height: 67
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 
+      internalID: 0
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: btn_icon7_normal
+      rect:
+        serializedVersion: 2
+        x: 472
+        y: 783
+        width: 69
+        height: 67
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 
+      internalID: 0
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: btn_icon7_over
+      rect:
+        serializedVersion: 2
+        x: 472
+        y: 714
+        width: 69
+        height: 67
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 
+      internalID: 0
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: btn_icon9_disable
+      rect:
+        serializedVersion: 2
+        x: 543
+        y: 783
+        width: 69
+        height: 67
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 
+      internalID: 0
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: btn_icon9_down
+      rect:
+        serializedVersion: 2
+        x: 543
+        y: 714
+        width: 69
+        height: 67
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 
+      internalID: 0
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: btn_icon9_normal
+      rect:
+        serializedVersion: 2
+        x: 758
+        y: 542
+        width: 69
+        height: 67
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 
+      internalID: 0
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: btn_icon9_over
+      rect:
+        serializedVersion: 2
+        x: 829
+        y: 542
+        width: 69
+        height: 67
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 
+      internalID: 0
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dif_frame_one
+      rect:
+        serializedVersion: 2
+        x: 520
+        y: 39
+        width: 139
+        height: 237
+      alignment: 9
+      pivot: {x: 0.5, y: 0.4978903}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 
+      internalID: 0
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: diff_sel_01_button_down
+      rect:
+        serializedVersion: 2
+        x: 360
+        y: 219
+        width: 78
+        height: 57
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 
+      internalID: 0
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: diff_sel_01_button_normal
+      rect:
+        serializedVersion: 2
+        x: 360
+        y: 219
+        width: 78
+        height: 57
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 
+      internalID: 0
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: diff_sel_01_button_over
+      rect:
+        serializedVersion: 2
+        x: 440
+        y: 219
+        width: 78
+        height: 57
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 
+      internalID: 0
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: disc_effect
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 18
+        width: 195
+        height: 195
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 
+      internalID: 0
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: disc_guard
+      rect:
+        serializedVersion: 2
+        x: 360
+        y: 278
+        width: 240
+        height: 240
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 
+      internalID: 0
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: disc_place
+      rect:
+        serializedVersion: 2
+        x: 472
+        y: 852
+        width: 170
+        height: 171
+      alignment: 9
+      pivot: {x: 0.5029412, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 
+      internalID: 0
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: down_bar_black
+      rect:
+        serializedVersion: 2
+        x: 661
+        y: 878
+        width: 1280
+        height: 145
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 
+      internalID: 0
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: down_bar_white
+      rect:
+        serializedVersion: 2
+        x: 661
+        y: 668
+        width: 1280
+        height: 96
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5729167}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 
+      internalID: 0
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: down_bar_white2
+      rect:
+        serializedVersion: 2
+        x: 661
+        y: 766
+        width: 1280
+        height: 110
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 
+      internalID: 0
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: effect_fade_button_off
+      rect:
+        serializedVersion: 2
+        x: 900
+        y: 552
+        width: 59
+        height: 57
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 
+      internalID: 0
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: effect_random_button_off
+      rect:
+        serializedVersion: 2
+        x: 961
+        y: 552
+        width: 59
+        height: 57
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 
+      internalID: 0
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: line_one
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 215
+        width: 357
+        height: 303
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 
+      internalID: 0
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: mybestscore
+      rect:
+        serializedVersion: 2
+        x: 472
+        y: 625
+        width: 234
+        height: 41
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 
+      internalID: 0
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: nametek
+      rect:
+        serializedVersion: 2
+        x: 472
+        y: 520
+        width: 284
+        height: 89
+      alignment: 9
+      pivot: {x: 0.66021127, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 
+      internalID: 0
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pattern
+      rect:
+        serializedVersion: 2
+        x: 198
+        y: 7
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 
+      internalID: 0
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: single_setting_frame
+      rect:
+        serializedVersion: 2
+        x: 602
+        y: 415
+        width: 299
+        height: 103
+      alignment: 9
+      pivot: {x: 0.43979934, y: -0.2669903}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 
+      internalID: 0
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: speed_button
+      rect:
+        serializedVersion: 2
+        x: 1022
+        y: 552
+        width: 59
+        height: 57
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 
+      internalID: 0
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    physicsShape: []
+    bones: []
+    spriteID: de685ef06e9a898448e59ee435003f54
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+  spritePackingTag: 
+  pSDRemoveMatte: 0
+  pSDShowRemoveMatteOption: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

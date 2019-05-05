@@ -24,36 +24,8 @@ namespace EZR
         public void SortLines()
         {
             foreach (var line in Lines)
-            {
-                Pattern.Note temp;
-                for (int i = 0; i < line.Notes.Count - 1; i++)
-                {
-                    for (int j = 0; j < line.Notes.Count - 1 - i; j++)
-                    {
-                        if (line.Notes[j].position > line.Notes[j + 1].position)
-                        {
-                            temp = line.Notes[j];
-                            line.Notes[j] = line.Notes[j + 1];
-                            line.Notes[j + 1] = temp;
-                        }
-                    }
-                }
-            }
-            {
-                Pattern.BPM temp;
-                for (int i = 0; i < BPMList.Count - 1; i++)
-                {
-                    for (int j = 0; j < BPMList.Count - 1 - i; j++)
-                    {
-                        if (BPMList[j].position > BPMList[j + 1].position)
-                        {
-                            temp = BPMList[j];
-                            BPMList[j] = BPMList[j + 1];
-                            BPMList[j + 1] = temp;
-                        }
-                    }
-                }
-            }
+                line.Notes.Sort((a, b) => a.position.CompareTo(b.position));
+            BPMList.Sort((a, b) => a.position.CompareTo(b.position));
         }
 
         public void Reset()
