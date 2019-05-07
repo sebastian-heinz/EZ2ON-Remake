@@ -74,6 +74,9 @@ TextureImporter:
   - first:
       213: 179885798120613999
     second: GEM_Decision_MISS
+  - first:
+      213: -1835304658440169179
+    second: Transparent
   externalObjects: {}
   serializedVersion: 10
   mipmaps:
@@ -159,18 +162,18 @@ TextureImporter:
       name: fade25
       rect:
         serializedVersion: 2
-        x: 251
-        y: 255
+        x: 1
+        y: 108
         width: 1
-        height: 256
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+        height: 147
+      alignment: 9
+      pivot: {x: 0.5, y: 0.1292517}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: b6578e1f7a333844aa77835c6033a3d7
+      spriteID: 5cf473faf6070f34b899d70902c2d1e0
       internalID: -815504574228383573
       vertices: []
       indices: 
@@ -180,18 +183,18 @@ TextureImporter:
       name: fade50
       rect:
         serializedVersion: 2
-        x: 254
-        y: 255
+        x: 1
+        y: 7
         width: 1
-        height: 256
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+        height: 99
+      alignment: 9
+      pivot: {x: 0.5, y: -0.2929293}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 75385632555061746b03810465ddb3e2
+      spriteID: ecc2c41886e4e5d4da176cd16caa599d
       internalID: 561968362080930466
       vertices: []
       indices: 
@@ -201,8 +204,8 @@ TextureImporter:
       name: GEM_BACK_LINE_blue
       rect:
         serializedVersion: 2
-        x: 233
-        y: 382
+        x: 236
+        y: 126
         width: 16
         height: 129
       alignment: 0
@@ -212,7 +215,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: e030e2f0d755bec478b97e94c6d4ed96
+      spriteID: 94c4ca9ef5c254f43b9571e95445a52b
       internalID: 3367934793266305111
       vertices: []
       indices: 
@@ -222,8 +225,8 @@ TextureImporter:
       name: GEM_BACK_LINE_KEYBOARD
       rect:
         serializedVersion: 2
-        x: 197
-        y: 382
+        x: 200
+        y: 126
         width: 16
         height: 129
       alignment: 0
@@ -233,7 +236,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: b061e58f9e2e2f3408f7e46c8b68092c
+      spriteID: 9c10e3c475d4d3247ac741f76c28175e
       internalID: -4873020726419503267
       vertices: []
       indices: 
@@ -243,8 +246,8 @@ TextureImporter:
       name: GEM_BACK_LINE_PEDAL
       rect:
         serializedVersion: 2
-        x: 215
-        y: 382
+        x: 218
+        y: 126
         width: 16
         height: 129
       alignment: 0
@@ -254,7 +257,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: e4cb72cd709c0f44eac6c846b745ee78
+      spriteID: 0dd2a3ecebbfc9344a6fc5c966af2370
       internalID: 3340275705800500115
       vertices: []
       indices: 
@@ -264,8 +267,8 @@ TextureImporter:
       name: GEM_Decision_COOL
       rect:
         serializedVersion: 2
-        x: 1
-        y: 479
+        x: 4
+        y: 223
         width: 128
         height: 32
       alignment: 0
@@ -275,7 +278,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 32a5497ef74ac354facef4b608f189c7
+      spriteID: ee6de16647b493346a76f377d46d3b57
       internalID: 2520745483326456051
       vertices: []
       indices: 
@@ -285,8 +288,8 @@ TextureImporter:
       name: GEM_Decision_FAIL
       rect:
         serializedVersion: 2
-        x: 1
-        y: 445
+        x: 4
+        y: 189
         width: 128
         height: 32
       alignment: 0
@@ -296,7 +299,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 59c0691d3cd513841af0d75d08685b72
+      spriteID: c41fdfb5d7be17b46a6f783cfa0f802f
       internalID: -1105143363382101408
       vertices: []
       indices: 
@@ -306,8 +309,8 @@ TextureImporter:
       name: GEM_Decision_GOOD
       rect:
         serializedVersion: 2
-        x: 1
-        y: 411
+        x: 4
+        y: 155
         width: 128
         height: 32
       alignment: 0
@@ -317,7 +320,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 313dcb6917cb29c49ac9220512c6d719
+      spriteID: 4c75d9427c21aad4da82c4af53801d0c
       internalID: -8672987457330952538
       vertices: []
       indices: 
@@ -327,8 +330,8 @@ TextureImporter:
       name: GEM_Decision_KOOL
       rect:
         serializedVersion: 2
-        x: 1
-        y: 377
+        x: 4
+        y: 121
         width: 128
         height: 32
       alignment: 0
@@ -338,7 +341,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 6be242870ae8bba4e9b6fb36c39f8c51
+      spriteID: a74c6215d0673a445aa0d8798254a643
       internalID: -6244175656921522816
       vertices: []
       indices: 
@@ -348,8 +351,8 @@ TextureImporter:
       name: GEM_Decision_MISS
       rect:
         serializedVersion: 2
-        x: 1
-        y: 343
+        x: 4
+        y: 21
         width: 128
         height: 32
       alignment: 0
@@ -359,7 +362,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 3980cd0812344d240b3eecc02ed3debd
+      spriteID: a2912a5ec4202084cbbe5addae62c03c
       internalID: 179885798120613999
       vertices: []
       indices: 
@@ -369,8 +372,8 @@ TextureImporter:
       name: GEM_Long_EFFECT0
       rect:
         serializedVersion: 2
-        x: 131
-        y: 447
+        x: 134
+        y: 191
         width: 64
         height: 64
       alignment: 0
@@ -380,7 +383,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: cc382f841c7247b4b8d3bc57fb62d57d
+      spriteID: 996732fb35c074d47bd3159fd68a07f4
       internalID: -7124187130391034698
       vertices: []
       indices: 
@@ -390,8 +393,8 @@ TextureImporter:
       name: GEM_Long_EFFECT1
       rect:
         serializedVersion: 2
-        x: 131
-        y: 381
+        x: 134
+        y: 125
         width: 64
         height: 64
       alignment: 0
@@ -401,7 +404,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 54887ff9d5202b64f878ec4e02a3e799
+      spriteID: 78434010a6a42e24aada14d91239dd27
       internalID: -4344669273394445643
       vertices: []
       indices: 
@@ -411,8 +414,8 @@ TextureImporter:
       name: GEM_Long_EFFECT2
       rect:
         serializedVersion: 2
-        x: 131
-        y: 315
+        x: 4
+        y: 55
         width: 64
         height: 64
       alignment: 0
@@ -422,7 +425,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 488d5a0141d401d42b85a4e107b24ce6
+      spriteID: 0f3b19be28878634ebe22b5f39f9cc60
       internalID: -7693199007165931389
       vertices: []
       indices: 
@@ -432,8 +435,8 @@ TextureImporter:
       name: GEM_Long_EFFECT3
       rect:
         serializedVersion: 2
-        x: 1
-        y: 277
+        x: 70
+        y: 55
         width: 64
         height: 64
       alignment: 0
@@ -443,8 +446,29 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 3a8c32e7601a67e4b86fc0747e26abaf
+      spriteID: 52d59b7c8e1318242b84db03172453e3
       internalID: -409373299209614460
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Transparent
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 4
+        width: 1
+        height: 1
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8508fc1c81dc2264abc1113c8b7e786f
+      internalID: -1835304658440169179
       vertices: []
       indices: 
       edges: []
