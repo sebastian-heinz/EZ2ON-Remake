@@ -12,10 +12,7 @@ namespace EZR
         static float fallSpeed = 2;
         public static float FallSpeed
         {
-            get
-            {
-                return fallSpeed;
-            }
+            get => fallSpeed;
             set
             {
                 if (value >= 0.25f)
@@ -29,15 +26,9 @@ namespace EZR
         public static GameType GameType = EZR.GameType.EZ2ON;
         public static string SongName = "";
         public static int NumLines = 4;
-        public static int MaxLines
-        {
-            get
-            {
-                return 8;
-            }
-        }
+        public static int MaxLines { get => 8; }
         public static GameMode.Mode GameMode = EZR.GameMode.Mode.RubyMixON;
-        public static GameDifficult.Difficult GameDifficult = EZR.GameDifficult.Difficult.EZ;
+        public static GameDifficulty.Difficulty GameDifficult = EZR.GameDifficulty.Difficulty.EZ;
 
         public static TimeLines TimeLines;
 
@@ -58,7 +49,7 @@ namespace EZR
                    GameType.ToString(),
                    "Songs",
                    SongName,
-                   EZR.GameMode.GetString(GameMode) + SongName + EZR.GameDifficult.GetString(GameDifficult) +
+                   EZR.GameMode.GetString(GameMode) + SongName + EZR.GameDifficulty.GetString(GameDifficult) +
                    ".json"
                );
             }
@@ -69,7 +60,7 @@ namespace EZR
                      GameType.ToString(),
                      "Songs",
                      SongName,
-                    SongName + EZR.GameMode.GetString(GameMode) + EZR.GameDifficult.GetString(GameDifficult) +
+                    SongName + EZR.GameMode.GetString(GameMode) + EZR.GameDifficulty.GetString(GameDifficult) +
                      ".json"
                  );
             }

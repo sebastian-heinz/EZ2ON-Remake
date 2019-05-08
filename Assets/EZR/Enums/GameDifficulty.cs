@@ -1,8 +1,8 @@
 namespace EZR
 {
-    public class GameDifficult
+    public class GameDifficulty
     {
-        public enum Difficult
+        public enum Difficulty
         {
             EZ,
             NM,
@@ -13,28 +13,27 @@ namespace EZR
             DJMAX_MX
         }
 
-        public static string GetString(Difficult difficult)
+        public static string GetString(Difficulty difficult)
         {
             switch (difficult)
             {
-                case Difficult.EZ:
+                case Difficulty.EZ:
                     return "-ez";
-                case Difficult.NM:
+                case Difficulty.NM:
                     return "";
-                case Difficult.HD:
+                case Difficulty.HD:
                     return "-hd";
-                case Difficult.SHD:
+                case Difficulty.SHD:
                     return "-shd";
-                case Difficult.DJMAX_NM:
+                case Difficulty.DJMAX_NM:
                     return "_nm";
-                case Difficult.DJMAX_HD:
+                case Difficulty.DJMAX_HD:
                     return "_hd";
-                case Difficult.DJMAX_MX:
+                case Difficulty.DJMAX_MX:
                     return "_mx";
                 default:
                     return null;
             }
         }
     }
-
 }

@@ -6,11 +6,6 @@ public class TestRoom : MonoBehaviour
 {
     void Start()
     {
-        EZR.PlayManager.GameType = EZR.GameType.DJMAX;
-        EZR.PlayManager.SongName = "fallenangel";
-        EZR.PlayManager.GameMode = EZR.GameMode.Mode.FiveButtons;
-        EZR.PlayManager.GameDifficult = EZR.GameDifficult.Difficult.DJMAX_HD;
-
         EZR.PlayManager.Reset();
         EZR.PlayManager.LoadPattern();
 

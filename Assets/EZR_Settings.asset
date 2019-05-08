@@ -15,4 +15,5 @@ MonoBehaviour:
   Version: 0.1 demo
   devGameResourcesFolder: D:\EZRData
   TimePrecision: 1
-  LaunchScene: SongsSelect
+  LaunchScene: SelectSongs
+  SongsList: {fileID: 4900000, guid: 14202ada473095244911120d18f6c2bb, type: 3}

@@ -9,12 +9,11 @@ namespace PatternUtils
     {
         public static Pattern Parse(string data)
         {
-            JObject jobj = new JObject();
             Pattern pattern = new Pattern();
 
             try
             {
-                jobj = JObject.Parse(data);
+                var jobj = JObject.Parse(data);
 
                 // 读取声音列表
                 foreach (var sound in jobj["soundList"].Children())

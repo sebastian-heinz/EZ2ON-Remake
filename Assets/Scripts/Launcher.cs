@@ -11,6 +11,7 @@ public class Launcher : MonoBehaviour
         EZR.Master.Version = Settings.Version;
         EZR.Master.GameResourcesFolder = EZR.Master.IsDebug ? Settings.devGameResourcesFolder : "EZRData";
         EZR.Master.TimePrecision = Settings.TimePrecision;
+        EZR.SongsList.Parse(Settings.SongsList.text);
         Debug.Log(string.Format("Version: {0}", EZR.Master.Version));
         Debug.Log(string.Format("devGameResourcesFolder: {0}", EZR.Master.GameResourcesFolder));
         Debug.Log(string.Format("TimePrecision: {0} ms", EZR.Master.TimePrecision));

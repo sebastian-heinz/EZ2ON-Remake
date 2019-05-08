@@ -7,13 +7,7 @@ namespace EZR
 {
     public class TimeLines
     {
-        public int MaxLines
-        {
-            get
-            {
-                return 9;
-            }
-        }
+        public int MaxLines { get => 9; }
         public float BPM = 120f;
         public int BPMIndex = 0;
         public List<Pattern.BPM> BPMList = new List<Pattern.BPM>();

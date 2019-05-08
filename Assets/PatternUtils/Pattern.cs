@@ -7,13 +7,7 @@ namespace PatternUtils
 {
     public partial class Pattern
     {
-        public static int MeasureLength
-        {
-            get
-            {
-                return 192;
-            }
-        }
+        public static int MeasureLength { get => 192; }
         public class Sound
         {
             public string id = "";
