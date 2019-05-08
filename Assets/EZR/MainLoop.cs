@@ -64,7 +64,7 @@ namespace EZR
                         if (PlayManager.GameType == GameType.DJMAX && id == 0)
                             IsPlayBGA = true;
 
-                        MemorySound.playSound(id, vol, pan, MemorySound.BGM);
+                        MemorySound.PlaySound(id, vol, pan, MemorySound.BGM);
 
                         // debug事件
                         if (DebugEvent != null)

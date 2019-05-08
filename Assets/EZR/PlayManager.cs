@@ -66,7 +66,11 @@ namespace EZR
             }
             Debug.Log(jsonPath);
 
-            if (!File.Exists(jsonPath)) return;
+            if (!File.Exists(jsonPath))
+            {
+                // TODO 曲谱不存在需要处理
+                return;
+            }
 
             var pattern = PatternUtils.Pattern.Parse(File.ReadAllText(jsonPath));
             if (pattern == null) return;

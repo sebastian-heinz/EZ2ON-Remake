@@ -18,6 +18,8 @@ public class DisplayLoop : MonoBehaviour
     bool bgaPlayed = false;
 
     bool isStarted = false;
+    public bool IsStarted { get => isStarted; }
+
     int readyFrame;
 
     bool grooveLight = false;
@@ -164,10 +166,7 @@ public class DisplayLoop : MonoBehaviour
 
     public void Reset()
     {
-        EZR.PlayManager.LoopStop -= loopStop;
-        EZR.PlayManager.Groove -= groove;
-        EZR.Master.InputEvent -= inputEvent;
-        EZR.Master.MainLoop -= judgmentLoop;
+        loopStop();
 
         for (int i = 0; i < NoteInLines.Length; i++)
         {
@@ -188,6 +187,12 @@ public class DisplayLoop : MonoBehaviour
 
         VideoPlayer.Stop();
         VideoPlayer.targetTexture.Release();
+    }
+
+    public void Stop()
+    {
+        loopStop();
+        EZR.PlayManager.Stop();
     }
 
     // 表现层循环

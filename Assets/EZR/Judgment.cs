@@ -102,7 +102,7 @@ namespace EZR
                                 noteInLine.LongNoteJudgment = JudgmentType.Kool;
                                 LongflarePlayList[i].Play();
                                 flarePlayList[i].Play();
-                                MemorySound.playSound(note.id, note.vol, note.pan, MemorySound.Main);
+                                MemorySound.PlaySound(note.id, note.vol, note.pan, MemorySound.Main);
                             }
                             // else if (noteInLine.isLongPressed &&
                             // noteInLine.Position + noteInLine.NoteLength <= Position)
@@ -125,7 +125,7 @@ namespace EZR
                                 var note = PlayManager.TimeLines.Lines[i].Notes[noteInLine.index];
                                 noteInLine.IsDestroy = true;
                                 flarePlayList[i].Play();
-                                MemorySound.playSound(note.id, note.vol, note.pan, MemorySound.Main);
+                                MemorySound.PlaySound(note.id, note.vol, note.pan, MemorySound.Main);
                                 noteInLines[i].Dequeue();
                             }
                         }
@@ -233,7 +233,7 @@ namespace EZR
                     note = PlayManager.TimeLines.Lines[keyId].Notes[Mathf.Min(PlayManager.TimeLines.LinesIndex[keyId], PlayManager.TimeLines.Lines[keyId].Notes.Count - 1)];
                 }
 
-                var channel = MemorySound.playSound(note.id, note.vol, note.pan, MemorySound.Main);
+                var channel = MemorySound.PlaySound(note.id, note.vol, note.pan, MemorySound.Main);
                 if (noteInLine != null && note.length > 6)
                 {
                     noteInLine.NoteSound = channel;
