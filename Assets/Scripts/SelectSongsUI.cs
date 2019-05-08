@@ -9,21 +9,24 @@ public class SelectSongsUI : MonoBehaviour
     public GameObject SongUI;
 
     Transform songslistContent;
+    Transform gameTypeContent;
     List<EZR.SongsList.SongInfo> currentList = new List<EZR.SongsList.SongInfo>();
 
     EZR.GameType currentType = EZR.PlayManager.GameType;
     EZR.GameMode.Mode currentMode = EZR.PlayManager.GameMode;
     EZR.GameDifficulty.Difficulty currentDifficulty = EZR.PlayManager.GameDifficult;
-    string currentName = "";
+    string currentSongName = EZR.PlayManager.SongName;
 
     bool[] currentDifficultyState = new bool[] { false, false, false, false };
 
     void Start()
     {
         songslistContent = transform.Find("PanelSongsList/List/Viewport/Content");
+        gameTypeContent = transform.Find("PanelSongsList/ListGameType/Viewport/Content");
 
         updateDifficultyState();
         focusOnBtnDifficulty();
+        UpdateGameType();
     }
 
     // 过滤歌曲
@@ -125,17 +128,25 @@ public class SelectSongsUI : MonoBehaviour
     // 刷新歌曲列表
     void updateList()
     {
-        for (int i = 1; i < songslistContent.childCount; i++)
+        for (int i = songslistContent.childCount - 1; i >= 1; i--)
         {
-            Destroy(songslistContent.GetChild(i).gameObject);
+            var song = songslistContent.GetChild(i);
+            song.SetParent(null);
+            Destroy(song.gameObject);
         }
 
+        bool isHitName = false;
+        Transform firstSong = null;
+        Transform curSong = null;
         for (int i = 0; i < currentList.Count; i++)
         {
             var info = currentList[i];
 
             var songUI = Instantiate(SongUI);
             songUI.transform.SetParent(songslistContent, false);
+
+            if (i == 0)
+                firstSong = songUI.transform;
 
             songUI.GetComponent<EZR.SongUI>().SongName = info.name;
 
@@ -145,8 +156,27 @@ public class SelectSongsUI : MonoBehaviour
             var difficulty = songUI.transform.Find("Difficulty").GetComponent<Text>();
             difficulty.text = info.difficulty[currentMode][currentDifficulty].ToString();
 
-            if (i == 0)
+            var btn = songUI.transform.Find("Over").GetComponent<Button>();
+            btn.onClick.AddListener(BtnSetCurrentSong);
+
+            if (info.name == currentSongName)
+            {
                 setCurrentName(songUI.transform);
+                isHitName = true;
+                curSong = songUI.transform;
+            }
+        }
+
+        // 滚动定位
+        var scroll = songslistContent.parent.parent.GetComponent<ScrollRect>();
+        if (isHitName)
+        {
+            scroll.verticalNormalizedPosition = 1 - curSong.GetSiblingIndex() / (float)songslistContent.childCount;
+        }
+        else
+        {
+            setCurrentName(firstSong);
+            scroll.verticalNormalizedPosition = 1;
         }
 
         var panelDifficulty = transform.Find("PanelDifficulty");
@@ -188,14 +218,12 @@ public class SelectSongsUI : MonoBehaviour
         var btn = EventSystem.current.currentSelectedGameObject.GetComponent<EZR.ButtonExtension>();
         if (btn.IsSelected)
         {
-            sortListByName(true);
-            updateList();
+            focusOnBtnDifficulty("name", true);
             btn.SetSelected(false);
         }
         else
         {
-            sortListByName(false);
-            updateList();
+            focusOnBtnDifficulty("name", false);
             btn.SetSelected(true);
         }
     }
@@ -205,24 +233,23 @@ public class SelectSongsUI : MonoBehaviour
         var btn = EventSystem.current.currentSelectedGameObject.GetComponent<EZR.ButtonExtension>();
         if (btn.IsSelected)
         {
-            sortListByDifficulty(true);
-            updateList();
+            focusOnBtnDifficulty("difficulty", true);
             btn.SetSelected(false);
         }
         else
         {
-            sortListByDifficulty(false);
-            updateList();
+            focusOnBtnDifficulty("difficulty", false);
             btn.SetSelected(true);
         }
     }
 
-    public void BtnGameType(string value)
+    public void BtnSetGameType()
     {
-        var valArr = value.Split(',');
+        var btn = EventSystem.current.currentSelectedGameObject;
+        var diffUI = btn.GetComponent<EZR.GameTypeUI>();
 
-        currentType = EZR.Utils.ParseEnum<EZR.GameType>(valArr[0]);
-        currentMode = EZR.Utils.ParseEnum<EZR.GameMode.Mode>(valArr[1]);
+        currentType = diffUI.GameType;
+        currentMode = diffUI.GameMode;
         currentDifficulty = EZR.GameDifficulty.Difficulty.EZ;
 
         if (currentType == EZR.GameType.EZ2ON && (
@@ -260,27 +287,59 @@ public class SelectSongsUI : MonoBehaviour
 
         updateDifficultyState();
         focusOnBtnDifficulty();
+        UpdateGameType();
 
-        foreach (var btn in EZR.ButtonExtension.GroupMaster["SongsList"])
+        foreach (var btn2 in EZR.ButtonExtension.GroupMaster["SongsList"])
         {
-            btn.SetSelected(false);
+            btn2.SetSelected(false);
         }
+    }
 
+    void UpdateGameType()
+    {
+        foreach (Transform btn in gameTypeContent)
         {
-            var btn = EventSystem.current.currentSelectedGameObject.GetComponent<EZR.ButtonExtension>();
-            btn.SetSelected(true);
+            var diffUI = btn.GetComponent<EZR.GameTypeUI>();
+            if (diffUI.GameType == currentType && diffUI.GameMode == currentMode)
+            {
+                btn.GetComponent<EZR.ButtonExtension>().SetSelected(true);
+                break;
+            }
         }
     }
 
     void focusOnBtnDifficulty()
     {
+        int currentDifficultyNormal;
+        if (currentType == EZR.GameType.DJMAX)
+            currentDifficultyNormal = (int)currentDifficulty - 3;
+        else
+            currentDifficultyNormal = (int)currentDifficulty;
         var panelDifficulty = transform.Find("PanelDifficulty");
-        for (int i = 0; i < currentDifficultyState.Length; i++)
+        for (int i = currentDifficultyNormal; i < currentDifficultyState.Length; i++)
         {
             if (currentDifficultyState[i])
             {
                 var btn = panelDifficulty.GetChild(i).GetComponent<EZR.ButtonExtension>();
-                updateBtnDifficulty(btn);
+                updateBtnDifficulty(btn, "name", true);
+                break;
+            }
+        }
+    }
+    void focusOnBtnDifficulty(string mode, bool isAsc)
+    {
+        int currentDifficultyNormal;
+        if (currentType == EZR.GameType.DJMAX)
+            currentDifficultyNormal = (int)currentDifficulty - 3;
+        else
+            currentDifficultyNormal = (int)currentDifficulty;
+        var panelDifficulty = transform.Find("PanelDifficulty");
+        for (int i = currentDifficultyNormal; i < currentDifficultyState.Length; i++)
+        {
+            if (currentDifficultyState[i])
+            {
+                var btn = panelDifficulty.GetChild(i).GetComponent<EZR.ButtonExtension>();
+                updateBtnDifficulty(btn, mode, isAsc);
                 break;
             }
         }
@@ -317,7 +376,7 @@ public class SelectSongsUI : MonoBehaviour
                 break;
         }
         updateDifficultyState();
-        updateBtnDifficulty(btn);
+        updateBtnDifficulty(btn, "name", true);
     }
 
     public Color EzColor = Color.white;
@@ -326,10 +385,18 @@ public class SelectSongsUI : MonoBehaviour
     public Color ShdColor = Color.white;
     public Color UnselectedColor = Color.white;
     public Color DisabledColor = Color.white;
-    void updateBtnDifficulty(EZR.ButtonExtension btn)
+    void updateBtnDifficulty(EZR.ButtonExtension btn, string mode, bool isAsc)
     {
         filterSongs();
-        sortListByName(true);
+        switch (mode)
+        {
+            case "name":
+                sortListByName(isAsc);
+                break;
+            case "difficulty":
+                sortListByDifficulty(isAsc);
+                break;
+        }
         updateList();
 
         var text = btn.transform.Find("Text").GetComponent<Text>();
@@ -359,7 +426,7 @@ public class SelectSongsUI : MonoBehaviour
     void setCurrentName(Transform songUI)
     {
         var btn = songUI.GetComponent<EZR.SongUI>();
-        currentName = btn.SongName;
+        currentSongName = btn.SongName;
         var btn2 = songUI.Find("Over").GetComponent<EZR.ButtonExtension>();
         btn2.SetSelected(true);
     }
@@ -367,6 +434,7 @@ public class SelectSongsUI : MonoBehaviour
     public void StartPlay()
     {
         EZR.PlayManager.GameType = currentType;
+        EZR.PlayManager.SongName = currentSongName;
         EZR.PlayManager.GameMode = currentMode;
         EZR.PlayManager.GameDifficult = currentDifficulty;
     }
