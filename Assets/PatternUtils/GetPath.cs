@@ -9,25 +9,11 @@ namespace PatternUtils
             string path;
             if (type != EZR.GameType.DJMAX)
             {
-                path = Path.Combine(
-                   EZR.Master.GameResourcesFolder,
-                   type.ToString(),
-                   "Songs",
-                   songName,
-                   EZR.GameMode.GetString(mode) + songName + EZR.GameDifficulty.GetString(difficulty) +
-                   ".json"
-               );
+                path = Path.Combine(EZR.GameMode.GetString(mode) + songName + EZR.GameDifficulty.GetString(difficulty) + ".json");
             }
             else
             {
-                path = Path.Combine(
-                     EZR.Master.GameResourcesFolder,
-                     type.ToString(),
-                     "Songs",
-                     songName,
-                    songName + EZR.GameMode.GetString(mode) + EZR.GameDifficulty.GetString(difficulty) +
-                     ".json"
-                 );
+                path = Path.Combine(songName + EZR.GameMode.GetString(mode) + EZR.GameDifficulty.GetString(difficulty) + ".json");
             }
             return path;
         }

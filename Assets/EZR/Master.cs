@@ -152,6 +152,7 @@ namespace EZR
 #if (UNITY_STANDALONE_WIN || UNITY_EDITOR_WIN)
                 timeEndPeriod(1);
 #endif
+                MemorySound.StopSound();
             }
         }
     }

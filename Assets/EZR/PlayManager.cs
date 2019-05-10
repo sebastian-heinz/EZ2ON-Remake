@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
+using System.Text;
 
 namespace EZR
 {
@@ -39,44 +40,42 @@ namespace EZR
         public static void LoadPattern()
         {
             string jsonPath = PatternUtils.Pattern.GetPath(SongName, GameType, GameMode, GameDifficult);
+            string zipPath = Path.Combine(EZR.Master.GameResourcesFolder, GameType.ToString(), "Songs", SongName + ".zip");
+            var buffer = ZipLoader.LoadFile(zipPath, jsonPath);
             Debug.Log(jsonPath);
-
-            if (!File.Exists(jsonPath))
+            if (buffer == null)
             {
                 throw new System.Exception("JSON file does not exist.");
             }
 
-            var pattern = PatternUtils.Pattern.Parse(File.ReadAllText(jsonPath));
+            var pattern = PatternUtils.Pattern.Parse(Encoding.UTF8.GetString(buffer));
             if (pattern == null) return;
             // 读取所有音频
+            EZR.ZipLoader.OpenZip(zipPath);
             for (int i = 0; i < pattern.SoundList.Count; i++)
             {
-                string extName = "wav";
+                string ext = "wav";
                 for (int j = 0; j < 3; j++)
                 {
                     switch (j)
                     {
                         case 1:
-                            extName = "mp3";
+                            ext = "mp3";
                             break;
                         case 2:
-                            extName = "ogg";
+                            ext = "ogg";
                             break;
                     }
-                    string soundPath = Path.Combine(
-                        EZR.Master.GameResourcesFolder,
-                        GameType.ToString(),
-                        "Songs",
-                        SongName,
-                        Path.ChangeExtension(pattern.SoundList[i].filename, extName)
-                    );
-                    if (File.Exists(soundPath))
+                    var fileName = Path.ChangeExtension(pattern.SoundList[i].filename, ext);
+                    if (ZipLoader.Exists(fileName))
                     {
-                        MemorySound.LoadSound(i, File.ReadAllBytes(soundPath));
+                        buffer = EZR.ZipLoader.LoadFile(fileName);
+                        MemorySound.LoadSound(i, buffer);
                         break;
-                    };
+                    }
                 }
             }
+            EZR.ZipLoader.CloseZip();
 
             // 清空lines
             TimeLines = new TimeLines();

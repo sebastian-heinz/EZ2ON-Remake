@@ -7,26 +7,19 @@ namespace EZR
 {
     public static class ImageLoader
     {
-        public static Texture2D Load(string path)
+        public static Texture2D Load(byte[] data, string fileName)
         {
             var tex = new Texture2D(2, 2);
-            if (File.Exists(path))
+            if (Regex.IsMatch(Path.GetExtension(fileName), @"\.bmp$", RegexOptions.IgnoreCase))
             {
-                if (Regex.IsMatch(Path.GetExtension(path), @"\.bmp$", RegexOptions.IgnoreCase))
-                {
-                    // bmp
-                    var bmpLoader = new BMPLoader();
-                    tex = bmpLoader.LoadBMP(File.ReadAllBytes(path)).ToTexture2D();
-                }
-                else
-                {
-                    // png, jpg
-                    tex.LoadImage(File.ReadAllBytes(path));
-                }
+                // bmp
+                var bmpLoader = new BMPLoader();
+                tex = bmpLoader.LoadBMP(data).ToTexture2D();
             }
             else
             {
-                tex.LoadImage(new byte[0]);
+                // png, jpg
+                tex.LoadImage(data);
             }
             return tex;
         }

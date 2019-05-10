@@ -514,7 +514,12 @@ public class SelectSongsUI : MonoBehaviour
                 fileName = "song_pic_f_" + currentSongName + "_" + ((int)currentDifficulty - 3).ToString().PadLeft(2, '0') + ".png";
                 break;
         }
-        disc.Find("Image").GetComponent<RawImage>().texture = EZR.ImageLoader.Load(Path.Combine(EZR.Master.GameResourcesFolder, currentType.ToString(), "Disc", fileName));
+
+        var buffer = EZR.ZipLoader.LoadFile(Path.Combine(EZR.Master.GameResourcesFolder, currentType.ToString(), "Songs", currentSongName + ".zip"), fileName);
+        if (buffer != null)
+        {
+            disc.Find("Image").GetComponent<RawImage>().texture = EZR.ImageLoader.Load(buffer, fileName);
+        }
 
         transform.Find("SongName").GetComponent<Text>().text = btn.DisplayName.ToUpper();
         transform.Find("Bpm/Text").GetComponent<Text>().text = btn.BPM.ToString().PadLeft(3, '0');
@@ -524,7 +529,7 @@ public class SelectSongsUI : MonoBehaviour
         if (!isSameSong)
         {
             if (delayPlay != null) StopCoroutine(delayPlay);
-            EZR.MemorySound.StopStream();
+            EZR.MemorySound.StopSound();
             delayPlay = StartCoroutine(DelayPlayStream());
         }
     }
@@ -533,29 +538,23 @@ public class SelectSongsUI : MonoBehaviour
     {
         yield return new WaitForSecondsRealtime(0.5f);
 
-        string fullPath = "";
-        if (currentType == EZR.GameType.DJMAX)
-            fullPath = Path.Combine(EZR.Master.GameResourcesFolder, currentType.ToString(), "Preview", currentSongName);
-        else
-            fullPath = Path.Combine(EZR.Master.GameResourcesFolder, currentType.ToString(), "Preview", "preview_" + currentSongName);
-
-        for (int i = 0; i < 3; i++)
+        string fileName = "";
+        switch (currentType)
         {
-            var extName = ".wav";
-            switch (i)
-            {
-                case 1:
-                    extName = ".mp3";
-                    break;
-                case 2:
-                    extName = ".ogg";
-                    break;
-            }
-            if (File.Exists(fullPath + extName))
-            {
-                EZR.MemorySound.PlayStream(fullPath + extName);
+            case EZR.GameType.EZ2ON:
+                fileName = "preview_" + currentSongName + ".ogg";
                 break;
-            }
+            case EZR.GameType.EZ2DJ:
+                fileName = "preview_" + currentSongName + ".wav";
+                break;
+            case EZR.GameType.DJMAX:
+                fileName = currentSongName + ".wav";
+                break;
+        }
+        var buffer = EZR.ZipLoader.LoadFile(Path.Combine(EZR.Master.GameResourcesFolder, currentType.ToString(), "Songs", currentSongName + ".zip"), fileName);
+        if (buffer != null)
+        {
+            EZR.MemorySound.PlaySound(buffer);
         }
     }
 
@@ -563,7 +562,7 @@ public class SelectSongsUI : MonoBehaviour
     {
         // 检查json文件是否存在
         var jsonPath = PatternUtils.Pattern.GetPath(currentSongName, currentType, currentMode, currentDifficulty);
-        if (!File.Exists(jsonPath))
+        if (!EZR.ZipLoader.Exists(Path.Combine(EZR.Master.GameResourcesFolder, currentType.ToString(), "Songs", currentSongName + ".zip"), jsonPath))
         {
             var messageBox = Instantiate(EZR.Master.MessageBox);
             messageBox.transform.SetParent(transform.parent, false);
@@ -591,7 +590,11 @@ public class SelectSongsUI : MonoBehaviour
                 fileName = "eyecatch_" + currentSongName + ".png";
                 break;
         }
-        eyecatch.GetComponent<RawImage>().texture = EZR.ImageLoader.Load(Path.Combine(EZR.Master.GameResourcesFolder, currentType.ToString(), "Eyecatch", fileName));
+        var buffer = EZR.ZipLoader.LoadFile(Path.Combine(EZR.Master.GameResourcesFolder, currentType.ToString(), "Songs", currentSongName + ".zip"), fileName);
+        if (buffer != null)
+        {
+            eyecatch.GetComponent<RawImage>().texture = EZR.ImageLoader.Load(buffer, fileName);
+        }
 
         var anim = eyecatch.GetComponent<Animation>();
         anim.Play("Eyecatch");
@@ -603,7 +606,7 @@ public class SelectSongsUI : MonoBehaviour
         EZR.PlayManager.GameDifficult = currentDifficulty;
         EZR.PlayManager.FallSpeed = speed;
 
-        EZR.MemorySound.StopStream();
+        EZR.MemorySound.StopSound();
         if (delayPlay != null) StopCoroutine(delayPlay);
         EZR.MemorySound.PlaySound("e_start");
     }

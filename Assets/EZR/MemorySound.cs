@@ -66,8 +66,8 @@ namespace EZR
         public static FMOD.ChannelGroup BGM;
         public static FMOD.ChannelGroup Game;
 
-        static object streamSound;
-        public static object StreamChannel;
+        static object shareSound;
+        static object shareChannel;
 
         static MemorySound()
         {
@@ -135,23 +135,36 @@ namespace EZR
             }
         }
 
-        public static void PlayStream(string path)
+        public static void PlaySound(byte[] data)
         {
-            StopStream();
-            var result = FMODUnity.RuntimeManager.LowlevelSystem.createSound(path, FMOD.MODE._2D | FMOD.MODE.CREATESTREAM | FMOD.MODE.LOOP_NORMAL, out FMOD.Sound sound);
+            StopSound();
+            var exinfo = new FMOD.CREATESOUNDEXINFO();
+            exinfo.cbsize = Marshal.SizeOf(exinfo);
+            exinfo.length = (uint)data.Length;
+            var result = FMODUnity.RuntimeManager.LowlevelSystem.createSound(data, FMOD.MODE._2D | FMOD.MODE.OPENMEMORY | FMOD.MODE.LOOP_NORMAL, ref exinfo, out FMOD.Sound sound);
             if (result == FMOD.RESULT.OK)
             {
-                streamSound = sound;
+                shareSound = sound;
                 var result2 = FMODUnity.RuntimeManager.LowlevelSystem.playSound(sound, Game, false, out FMOD.Channel channel);
                 if (result2 == FMOD.RESULT.OK)
-                    StreamChannel = channel;
+                    shareChannel = channel;
             }
         }
 
-        public static void StopStream()
+        public static void StopSound()
         {
-            if (StreamChannel != null) ((FMOD.Channel)StreamChannel).stop();
-            if (streamSound != null) ((FMOD.Sound)streamSound).release();
+            if (shareChannel != null)
+            {
+                var channel = (FMOD.Channel)shareChannel;
+                channel.stop();
+                shareChannel = null;
+            }
+            if (shareSound != null)
+            {
+                var sound = (FMOD.Sound)shareSound;
+                sound.release();
+                shareSound = null;
+            }
         }
 
         public static void UnloadAllSound()
