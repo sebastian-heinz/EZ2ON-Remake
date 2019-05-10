@@ -13,15 +13,12 @@ namespace EZR
         public static float FallSpeed
         {
             get => fallSpeed;
-            set
-            {
-                if (value >= 0.25f)
-                    fallSpeed = value;
-                else
-                    fallSpeed = 0.25f;
-            }
+            set { fallSpeed = Mathf.Max(value, 0.25f); }
         }
         public static float RealFallSpeed = FallSpeed;
+
+        static float[] fallSpeedStep = new float[] { 0, 0.25f, 0.5f, 0.75f };
+        public static float[] FallSpeedStep { get => fallSpeedStep; }
 
         public static GameType GameType = EZR.GameType.EZ2ON;
         public static string SongName = "";
@@ -41,35 +38,12 @@ namespace EZR
 
         public static void LoadPattern()
         {
-            string jsonPath;
-            if (GameType != EZR.GameType.DJMAX)
-            {
-                jsonPath = Path.Combine(
-                   EZR.Master.GameResourcesFolder,
-                   GameType.ToString(),
-                   "Songs",
-                   SongName,
-                   EZR.GameMode.GetString(GameMode) + SongName + EZR.GameDifficulty.GetString(GameDifficult) +
-                   ".json"
-               );
-            }
-            else
-            {
-                jsonPath = Path.Combine(
-                     EZR.Master.GameResourcesFolder,
-                     GameType.ToString(),
-                     "Songs",
-                     SongName,
-                    SongName + EZR.GameMode.GetString(GameMode) + EZR.GameDifficulty.GetString(GameDifficult) +
-                     ".json"
-                 );
-            }
+            string jsonPath = PatternUtils.Pattern.GetPath(SongName, GameType, GameMode, GameDifficult);
             Debug.Log(jsonPath);
 
             if (!File.Exists(jsonPath))
             {
-                // TODO 曲谱不存在需要处理
-                return;
+                throw new System.Exception("JSON file does not exist.");
             }
 
             var pattern = PatternUtils.Pattern.Parse(File.ReadAllText(jsonPath));

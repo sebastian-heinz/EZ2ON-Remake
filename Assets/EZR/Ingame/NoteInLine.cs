@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class NoteInLine : MonoBehaviour
 {
     [HideInInspector]
-    public int index;
+    public int Index;
     [HideInInspector]
     public int Position;
     [HideInInspector]
@@ -28,12 +28,13 @@ public class NoteInLine : MonoBehaviour
 
     RectTransform rect;
     float initX;
+    DisplayLoop displayLoop;
 
     // 初始化音符
-    public void Init(int index, int position, float scale, int length, float x)
+    public void Init(int index, int position, float scale, int length, float x, DisplayLoop loop)
     {
-        this.index = index;
-        this.Position = position;
+        this.Index = index;
+        Position = position;
 
         NoteScale = scale;
         transform.localScale = new Vector3(NoteScale, NoteScale, 1);
@@ -44,6 +45,7 @@ public class NoteInLine : MonoBehaviour
             NoteLength = length;
 
         initX = x;
+        displayLoop = loop;
 
         updateNote();
     }
@@ -63,12 +65,12 @@ public class NoteInLine : MonoBehaviour
         {
             transform.localPosition = new Vector3(
                 initX,
-                (float)(EZR.PlayManager.Position * EZR.PlayManager.GetSpeed()),
+                (float)(displayLoop.Position * EZR.PlayManager.GetSpeed()),
                 0
             );
             rect.sizeDelta = new Vector2(
                 rect.sizeDelta.x,
-                (float)((Position + NoteLength - EZR.PlayManager.Position) * EZR.PlayManager.GetSpeed() / NoteScale + NoteHeight)
+                (float)((Position + NoteLength - displayLoop.Position) * EZR.PlayManager.GetSpeed() / NoteScale + NoteHeight)
             );
         }
     }

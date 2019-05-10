@@ -11,5 +11,6 @@ namespace EZR
         public string devGameResourcesFolder = "";
         public int TimePrecision = 10;
         public string LaunchScene = "";
+        public GameObject MessageBox;
     }
 }

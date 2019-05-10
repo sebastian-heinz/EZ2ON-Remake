@@ -1,82 +1,43 @@
 fileFormatVersion: 2
-guid: 00fdd79f1e912414a8aa7633aa25eb92
+guid: d797e8647ffbd3b40a7cec5405cddb08
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 3367934793266305111
-    second: GEM_BACK_LINE_blue
+      213: 3113927999263858741
+    second: clear_failed_one
   - first:
-      213: -4873020726419503267
-    second: GEM_BACK_LINE_KEYBOARD
+      213: 6714994698801979613
+    second: clear_success_one
   - first:
-      213: 3340275705800500115
-    second: GEM_BACK_LINE_PEDAL
+      213: 3007374243095291107
+    second: mbonus_allcom_one
   - first:
-      213: -7124187130391034698
-    second: GEM_Long_EFFECT0
+      213: 8066826702867931877
+    second: mbonus_allcool_one
   - first:
-      213: -4344669273394445643
-    second: GEM_Long_EFFECT1
+      213: -3713505846312993749
+    second: mbonus_allkool_one
   - first:
-      213: -7693199007165931389
-    second: GEM_Long_EFFECT2
+      213: 9222416192729013529
+    second: single_grade_a
   - first:
-      213: -409373299209614460
-    second: GEM_Long_EFFECT3
+      213: -6114060606272370217
+    second: single_grade_aplus
   - first:
-      213: 7577328287588368852
-    second: Mask
+      213: -8319754453522287539
+    second: single_grade_b
   - first:
-      213: -710117256364220538
-    second: Mask_1
+      213: -4697110264817414747
+    second: single_grade_c
   - first:
-      213: -7265138039870055927
-    second: Mask_2
+      213: -7055602613732499591
+    second: single_grade_d
   - first:
-      213: 9077638449488412042
-    second: Mask_3
+      213: 6777294267039247971
+    second: single_grade_f
   - first:
-      213: 2479159577820652394
-    second: Mask_4
-  - first:
-      213: 1740621877658385396
-    second: Mask_5
-  - first:
-      213: 2792614110373848061
-    second: Mask_6
-  - first:
-      213: -7682283746300153158
-    second: Mask_7
-  - first:
-      213: -868763729755248054
-    second: Mask_8
-  - first:
-      213: -7576431519800290640
-    second: Mask_9
-  - first:
-      213: -815504574228383573
-    second: fade25
-  - first:
-      213: 561968362080930466
-    second: fade50
-  - first:
-      213: 2520745483326456051
-    second: GEM_Decision_COOL
-  - first:
-      213: -1105143363382101408
-    second: GEM_Decision_FAIL
-  - first:
-      213: -8672987457330952538
-    second: GEM_Decision_GOOD
-  - first:
-      213: -6244175656921522816
-    second: GEM_Decision_KOOL
-  - first:
-      213: 179885798120613999
-    second: GEM_Decision_MISS
-  - first:
-      213: -1835304658440169179
-    second: Transparent
+      213: 3531933778209155359
+    second: single_panel_one
   externalObjects: {}
   serializedVersion: 10
   mipmaps:
@@ -159,307 +120,118 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: fade25
+      name: clear_failed_one
       rect:
         serializedVersion: 2
         x: 1
-        y: 108
-        width: 1
-        height: 147
+        y: 1136
+        width: 993
+        height: 189
       alignment: 9
-      pivot: {x: 0.5, y: 0.1292517}
+      pivot: {x: 0.5060423, y: 0.32539684}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 5cf473faf6070f34b899d70902c2d1e0
-      internalID: -815504574228383573
+      spriteID: 575c1c68759ca3b41826e75056ac09f4
+      internalID: 3113927999263858741
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: fade50
+      name: clear_success_one
       rect:
         serializedVersion: 2
-        x: 1
-        y: 7
-        width: 1
-        height: 99
+        x: 1283
+        y: 1812
+        width: 739
+        height: 235
       alignment: 9
-      pivot: {x: 0.5, y: -0.2929293}
+      pivot: {x: 0.67997295, y: 0.4574468}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: ecc2c41886e4e5d4da176cd16caa599d
-      internalID: 561968362080930466
+      spriteID: 990aa4828b42a8142a2789e9220e887a
+      internalID: 6714994698801979613
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: GEM_BACK_LINE_blue
+      name: mbonus_allcom_one
       rect:
         serializedVersion: 2
-        x: 236
-        y: 126
-        width: 16
-        height: 129
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+        x: 302
+        y: 99
+        width: 294
+        height: 142
+      alignment: 9
+      pivot: {x: 0.50510204, y: 0.46126762}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 94c4ca9ef5c254f43b9571e95445a52b
-      internalID: 3367934793266305111
+      spriteID: da1862ae5e1ae3149819bc00d95b9877
+      internalID: 3007374243095291107
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: GEM_BACK_LINE_KEYBOARD
-      rect:
-        serializedVersion: 2
-        x: 200
-        y: 126
-        width: 16
-        height: 129
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 9c10e3c475d4d3247ac741f76c28175e
-      internalID: -4873020726419503267
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: GEM_BACK_LINE_PEDAL
-      rect:
-        serializedVersion: 2
-        x: 218
-        y: 126
-        width: 16
-        height: 129
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 0dd2a3ecebbfc9344a6fc5c966af2370
-      internalID: 3340275705800500115
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: GEM_Decision_COOL
-      rect:
-        serializedVersion: 2
-        x: 4
-        y: 223
-        width: 128
-        height: 32
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: ee6de16647b493346a76f377d46d3b57
-      internalID: 2520745483326456051
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: GEM_Decision_FAIL
-      rect:
-        serializedVersion: 2
-        x: 4
-        y: 189
-        width: 128
-        height: 32
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: c41fdfb5d7be17b46a6f783cfa0f802f
-      internalID: -1105143363382101408
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: GEM_Decision_GOOD
-      rect:
-        serializedVersion: 2
-        x: 4
-        y: 155
-        width: 128
-        height: 32
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 4c75d9427c21aad4da82c4af53801d0c
-      internalID: -8672987457330952538
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: GEM_Decision_KOOL
-      rect:
-        serializedVersion: 2
-        x: 4
-        y: 121
-        width: 128
-        height: 32
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: a74c6215d0673a445aa0d8798254a643
-      internalID: -6244175656921522816
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: GEM_Decision_MISS
-      rect:
-        serializedVersion: 2
-        x: 4
-        y: 21
-        width: 128
-        height: 32
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: a2912a5ec4202084cbbe5addae62c03c
-      internalID: 179885798120613999
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: GEM_Long_EFFECT0
-      rect:
-        serializedVersion: 2
-        x: 134
-        y: 191
-        width: 64
-        height: 64
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 996732fb35c074d47bd3159fd68a07f4
-      internalID: -7124187130391034698
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: GEM_Long_EFFECT1
-      rect:
-        serializedVersion: 2
-        x: 134
-        y: 125
-        width: 64
-        height: 64
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 78434010a6a42e24aada14d91239dd27
-      internalID: -4344669273394445643
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: GEM_Long_EFFECT2
-      rect:
-        serializedVersion: 2
-        x: 4
-        y: 55
-        width: 64
-        height: 64
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 0f3b19be28878634ebe22b5f39f9cc60
-      internalID: -7693199007165931389
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: GEM_Long_EFFECT3
-      rect:
-        serializedVersion: 2
-        x: 70
-        y: 55
-        width: 64
-        height: 64
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 52d59b7c8e1318242b84db03172453e3
-      internalID: -409373299209614460
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Transparent
+      name: mbonus_allcool_one
       rect:
         serializedVersion: 2
         x: 1
-        y: 4
-        width: 1
-        height: 1
+        y: 98
+        width: 299
+        height: 143
+      alignment: 9
+      pivot: {x: 0.49665552, y: 0.45104894}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fafce361591427b4bac9f9a538d617d3
+      internalID: 8066826702867931877
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: mbonus_allkool_one
+      rect:
+        serializedVersion: 2
+        x: 598
+        y: 100
+        width: 291
+        height: 141
+      alignment: 9
+      pivot: {x: 0.5103093, y: 0.4574468}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5dfc875503b6a8148a84634dcfdaaf83
+      internalID: -3713505846312993749
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: single_grade_a
+      rect:
+        serializedVersion: 2
+        x: 1283
+        y: 1289
+        width: 507
+        height: 521
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -467,8 +239,134 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 8508fc1c81dc2264abc1113c8b7e786f
-      internalID: -1835304658440169179
+      spriteID: 2aec0b492f30580499bc8ed3ae1f6fb5
+      internalID: 9222416192729013529
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: single_grade_aplus
+      rect:
+        serializedVersion: 2
+        x: 996
+        y: 766
+        width: 507
+        height: 521
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 206cd8ec3e8618549af29c97944f4f15
+      internalID: -6114060606272370217
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: single_grade_b
+      rect:
+        serializedVersion: 2
+        x: 1505
+        y: 766
+        width: 507
+        height: 521
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b05777cbceaa65c42be3d5d05c364ac9
+      internalID: -8319754453522287539
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: single_grade_c
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 243
+        width: 507
+        height: 521
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d141450836b0f7043909fb0b53a61906
+      internalID: -4697110264817414747
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: single_grade_d
+      rect:
+        serializedVersion: 2
+        x: 510
+        y: 243
+        width: 507
+        height: 521
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: acd0e72eac8da06498f4ea706ba815a7
+      internalID: -7055602613732499591
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: single_grade_f
+      rect:
+        serializedVersion: 2
+        x: 1019
+        y: 243
+        width: 507
+        height: 521
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f33e55baaacfd7f4083b3d3ea35f921c
+      internalID: 6777294267039247971
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: single_panel_one
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 1327
+        width: 1280
+        height: 720
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f262cc91b05c41349a8cf738eea32b3c
+      internalID: 3531933778209155359
       vertices: []
       indices: 
       edges: []
@@ -476,7 +374,7 @@ TextureImporter:
     outline: []
     physicsShape: []
     bones: []
-    spriteID: 7faaf290f91c08042b07e259e9cb080f
+    spriteID: f92e6a27691e7e949b9bf7084b8cf68f
     internalID: 0
     vertices: []
     indices: 

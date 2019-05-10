@@ -18,7 +18,6 @@ public class DisplayLoop : MonoBehaviour
     bool bgaPlayed = false;
 
     bool isStarted = false;
-    public bool IsStarted { get => isStarted; }
 
     int readyFrame;
 
@@ -45,10 +44,8 @@ public class DisplayLoop : MonoBehaviour
 
     float noteScale;
 
-    [HideInInspector]
-    public int[] CurrentIndex;
-    [HideInInspector]
-    public Queue<NoteInLine>[] NoteInLines;
+    int[] currentIndex;
+    Queue<NoteInLine>[] noteInLines;
 
     public VideoPlayer VideoPlayer;
 
@@ -117,11 +114,11 @@ public class DisplayLoop : MonoBehaviour
         maxComboText = panel.GetComponent<Panel>().MaxComboText;
 
         // 生成Lines
-        CurrentIndex = new int[EZR.PlayManager.NumLines];
-        NoteInLines = new Queue<NoteInLine>[EZR.PlayManager.NumLines];
+        currentIndex = new int[EZR.PlayManager.NumLines];
+        noteInLines = new Queue<NoteInLine>[EZR.PlayManager.NumLines];
         for (int i = 0; i < EZR.PlayManager.NumLines; i++)
         {
-            NoteInLines[i] = new Queue<NoteInLine>();
+            noteInLines[i] = new Queue<NoteInLine>();
         }
 
         var bgaUrl = Path.Combine(
@@ -168,14 +165,14 @@ public class DisplayLoop : MonoBehaviour
     {
         loopStop();
 
-        for (int i = 0; i < NoteInLines.Length; i++)
+        for (int i = 0; i < noteInLines.Length; i++)
         {
-            for (int j = 0; j < NoteInLines[i].Count; j++)
+            for (int j = 0; j < noteInLines[i].Count; j++)
             {
-                Destroy(NoteInLines[i].Dequeue().gameObject);
+                Destroy(noteInLines[i].Dequeue().gameObject);
             }
-            NoteInLines[i].Clear();
-            CurrentIndex[i] = 0;
+            noteInLines[i].Clear();
+            currentIndex[i] = 0;
         }
         EZR.PlayManager.Position = Position = 0;
 
@@ -275,8 +272,8 @@ public class DisplayLoop : MonoBehaviour
         // 生成实时音符
         for (int i = 0; i < EZR.PlayManager.NumLines; i++)
         {
-            while (CurrentIndex[i] < EZR.PlayManager.TimeLines.Lines[i].Notes.Count &&
-            EZR.PlayManager.TimeLines.Lines[i].Notes[CurrentIndex[i]].position - Position <
+            while (currentIndex[i] < EZR.PlayManager.TimeLines.Lines[i].Notes.Count &&
+            EZR.PlayManager.TimeLines.Lines[i].Notes[currentIndex[i]].position - Position <
             noteArea.sizeDelta.y / EZR.PlayManager.GetSpeed())
             {
                 // 测试长音符
@@ -287,7 +284,7 @@ public class DisplayLoop : MonoBehaviour
                 // }
 
                 GameObject note;
-                Pattern.Note patternNote = EZR.PlayManager.TimeLines.Lines[i].Notes[CurrentIndex[i]];
+                Pattern.Note patternNote = EZR.PlayManager.TimeLines.Lines[i].Notes[currentIndex[i]];
 
                 note = Instantiate(Notes[EZR.PlayManager.NumLines - 4].NotePrefab[i]);
                 note.transform.SetParent(header, false);
@@ -295,21 +292,21 @@ public class DisplayLoop : MonoBehaviour
                 note.transform.SetSiblingIndex(0);
 
                 var noteInLine = note.GetComponent<NoteInLine>();
-                noteInLine.Init(CurrentIndex[i], patternNote.position, noteScale, patternNote.length, linesAnim[i].transform.localPosition.x);
-                NoteInLines[i].Enqueue(noteInLine);
+                noteInLine.Init(currentIndex[i], patternNote.position, noteScale, patternNote.length, linesAnim[i].transform.localPosition.x, this);
+                noteInLines[i].Enqueue(noteInLine);
 
-                CurrentIndex[i]++;
+                currentIndex[i]++;
             }
         }
 
         // 长音符和移除音符
         for (int i = 0; i < EZR.PlayManager.NumLines; i++)
         {
-            if (NoteInLines[i].Count > 0)
+            if (noteInLines[i].Count > 0)
             {
-                if (NoteInLines[i].Peek().Position + NoteInLines[i].Peek().NoteLength - EZR.PlayManager.Position < -(EZR.JudgmentDelta.Miss + 1))
+                if (noteInLines[i].Peek().Position + noteInLines[i].Peek().NoteLength - EZR.PlayManager.Position < -(EZR.JudgmentDelta.Miss + 1))
                 {
-                    NoteInLines[i].Dequeue();
+                    noteInLines[i].Dequeue();
                 }
             }
         }
@@ -347,13 +344,13 @@ public class DisplayLoop : MonoBehaviour
 
     void judgmentLoop()
     {
-        EZR.Judgment.Loop(NoteInLines, judgmentAnim, flarePlayList, LongflarePlayList);
+        EZR.Judgment.Loop(noteInLines, judgmentAnim, flarePlayList, LongflarePlayList);
     }
 
     void inputEvent(int keyId, bool state)
     {
         linesUpdate[keyId] = true;
 
-        EZR.Judgment.InputEvent(state, keyId, NoteInLines, judgmentAnim, flarePlayList, LongflarePlayList);
+        EZR.Judgment.InputEvent(state, keyId, noteInLines, judgmentAnim, flarePlayList, LongflarePlayList);
     }
 }

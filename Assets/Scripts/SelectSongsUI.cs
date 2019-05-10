@@ -5,11 +5,11 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 using System.IO;
-using B83.Image.BMP;
 
 public class SelectSongsUI : MonoBehaviour
 {
     public GameObject SongUI;
+    public GameObject Eyecatch;
 
     Transform songslistContent;
     Transform gameTypeContent;
@@ -19,6 +19,7 @@ public class SelectSongsUI : MonoBehaviour
     EZR.GameMode.Mode currentMode = EZR.PlayManager.GameMode;
     EZR.GameDifficulty.Difficulty currentDifficulty = EZR.PlayManager.GameDifficult;
     string currentSongName = EZR.PlayManager.SongName;
+    float speed = EZR.PlayManager.FallSpeed;
 
     bool[] currentDifficultyState = new bool[] { false, false, false, false };
 
@@ -32,7 +33,8 @@ public class SelectSongsUI : MonoBehaviour
 
         updateDifficultyState();
         focusOnBtnDifficulty();
-        UpdateGameType();
+        updateGameType();
+        updateBtnSpeed();
     }
 
     // 过滤歌曲
@@ -171,7 +173,7 @@ public class SelectSongsUI : MonoBehaviour
 
             if (info.name == currentSongName)
             {
-                setCurrentName(songUI.transform);
+                setCurrentName(songUI.transform, "level");
                 isHitName = true;
                 curSong = songUI.transform;
             }
@@ -185,7 +187,10 @@ public class SelectSongsUI : MonoBehaviour
         }
         else
         {
-            setCurrentName(firstSong);
+            if (currentSongName == "")
+                setCurrentName(firstSong, "");
+            else
+                setCurrentName(firstSong, "change");
             scroll.verticalNormalizedPosition = 1;
         }
 
@@ -260,6 +265,7 @@ public class SelectSongsUI : MonoBehaviour
     public void BtnSetGameType()
     {
         var btn = EventSystem.current.currentSelectedGameObject;
+        if (btn.GetComponent<EZR.ButtonExtension>().IsSelected) return;
         var diffUI = btn.GetComponent<EZR.GameTypeUI>();
 
         currentType = diffUI.GameType;
@@ -301,7 +307,7 @@ public class SelectSongsUI : MonoBehaviour
 
         updateDifficultyState();
         focusOnBtnDifficulty();
-        UpdateGameType();
+        updateGameType();
 
         foreach (var btn2 in EZR.ButtonExtension.GroupMaster["SongsList"])
         {
@@ -311,7 +317,7 @@ public class SelectSongsUI : MonoBehaviour
         EZR.MemorySound.PlaySound("e_page");
     }
 
-    void UpdateGameType()
+    void updateGameType()
     {
         foreach (Transform btn in gameTypeContent)
         {
@@ -364,6 +370,7 @@ public class SelectSongsUI : MonoBehaviour
     public void BtnSetDifficulty()
     {
         var btn = EventSystem.current.currentSelectedGameObject.GetComponent<EZR.ButtonExtension>();
+        if (btn.IsSelected) return;
         switch (btn.gameObject.name)
         {
             case "BtnEZ":
@@ -393,6 +400,11 @@ public class SelectSongsUI : MonoBehaviour
         }
         updateDifficultyState();
         updateBtnDifficulty(btn, "name", true);
+
+        foreach (var btn2 in EZR.ButtonExtension.GroupMaster["SongsList"])
+        {
+            btn2.SetSelected(false);
+        }
 
         EZR.MemorySound.PlaySound("e_level");
     }
@@ -443,11 +455,13 @@ public class SelectSongsUI : MonoBehaviour
 
     public void BtnSetCurrentSong()
     {
-        setCurrentName(EventSystem.current.currentSelectedGameObject.transform.parent);
+        var btn = EventSystem.current.currentSelectedGameObject.GetComponent<EZR.ButtonExtension>();
+        if (btn.IsSelected) return;
+        setCurrentName(btn.transform.parent, "change");
         EZR.MemorySound.PlaySound("e_music");
     }
 
-    void setCurrentName(Transform songUI)
+    void setCurrentName(Transform songUI, string state)
     {
         var btn = songUI.GetComponent<EZR.SongUI>();
 
@@ -460,6 +474,31 @@ public class SelectSongsUI : MonoBehaviour
         currentSongName = btn.SongName;
         var btn2 = songUI.Find("Over").GetComponent<EZR.ButtonExtension>();
         btn2.SetSelected(true);
+
+        var disc = transform.Find("Disc/PicDisc");
+
+        switch (state)
+        {
+            case "change":
+                {
+                    var oldDisc = Instantiate(disc);
+                    oldDisc.SetParent(disc.parent, false);
+                    var oldDiscAnim = oldDisc.GetComponent<Animation>();
+                    oldDiscAnim.Play("DiscOut");
+                    StartCoroutine(discOut(oldDiscAnim));
+                    var anim = disc.GetComponent<Animation>();
+                    anim["DiscIn"].time = 0;
+                    anim.Play("DiscIn");
+                }
+                break;
+            case "level":
+                {
+                    var anim = disc.GetComponent<Animation>();
+                    anim["DiscLevel"].time = 0;
+                    anim.Play("DiscLevel");
+                }
+                break;
+        }
 
         // 读取碟片图
         string fileName = "";
@@ -475,33 +514,19 @@ public class SelectSongsUI : MonoBehaviour
                 fileName = "song_pic_f_" + currentSongName + "_" + ((int)currentDifficulty - 3).ToString().PadLeft(2, '0') + ".png";
                 break;
         }
-        string fullPath = Path.Combine(EZR.Master.GameResourcesFolder, currentType.ToString(), "Disc", fileName);
-        var picDisc = transform.Find("Disc/PicDisc").GetComponent<RawImage>();
-        if (File.Exists(fullPath))
-        {
-            Texture2D tex = new Texture2D(2, 2);
-            if (currentType == EZR.GameType.EZ2DJ)
-            {
-                // bmp
-                var bmpLoader = new BMPLoader();
-                picDisc.texture = bmpLoader.LoadBMP(File.ReadAllBytes(fullPath)).ToTexture2D();
-            }
-            else
-            {
-                // png
-                tex.LoadImage(File.ReadAllBytes(fullPath));
-                picDisc.texture = tex;
-            }
-        }
+        disc.Find("Image").GetComponent<RawImage>().texture = EZR.ImageLoader.Load(Path.Combine(EZR.Master.GameResourcesFolder, currentType.ToString(), "Disc", fileName));
 
         transform.Find("SongName").GetComponent<Text>().text = btn.DisplayName.ToUpper();
         transform.Find("Bpm/Text").GetComponent<Text>().text = btn.BPM.ToString().PadLeft(3, '0');
         transform.Find("Level/Text").GetComponent<Text>().text = btn.DifficultyLevel.ToString();
 
         // 播放预览音乐
-        if (isSameSong) return;
-        if (delayPlay != null) StopCoroutine(delayPlay);
-        delayPlay = StartCoroutine(DelayPlayStream());
+        if (!isSameSong)
+        {
+            if (delayPlay != null) StopCoroutine(delayPlay);
+            EZR.MemorySound.StopStream();
+            delayPlay = StartCoroutine(DelayPlayStream());
+        }
     }
 
     IEnumerator DelayPlayStream()
@@ -536,13 +561,125 @@ public class SelectSongsUI : MonoBehaviour
 
     public void BtnStart()
     {
+        // 检查json文件是否存在
+        var jsonPath = PatternUtils.Pattern.GetPath(currentSongName, currentType, currentMode, currentDifficulty);
+        if (!File.Exists(jsonPath))
+        {
+            var messageBox = Instantiate(EZR.Master.MessageBox);
+            messageBox.transform.SetParent(transform.parent, false);
+            messageBox.GetComponent<EZR.MessageBox>().Text = "缺少曲谱文件！";
+            return;
+        }
+
+        var btn = EventSystem.current.currentSelectedGameObject.GetComponent<Button>();
+        btn.interactable = false;
+
+        var eyecatch = Instantiate(Eyecatch);
+        eyecatch.transform.SetParent(transform.parent, false);
+
+        // 读取Eyecatch
+        string fileName = "";
+        switch (currentType)
+        {
+            case EZR.GameType.EZ2ON:
+                fileName = "eye_" + currentSongName + ".png";
+                break;
+            case EZR.GameType.EZ2DJ:
+                fileName = currentSongName + ".png";
+                break;
+            case EZR.GameType.DJMAX:
+                fileName = "eyecatch_" + currentSongName + ".png";
+                break;
+        }
+        eyecatch.GetComponent<RawImage>().texture = EZR.ImageLoader.Load(Path.Combine(EZR.Master.GameResourcesFolder, currentType.ToString(), "Eyecatch", fileName));
+
+        var anim = eyecatch.GetComponent<Animation>();
+        anim.Play("Eyecatch");
+        StartCoroutine(startPlay(anim));
+
         EZR.PlayManager.GameType = currentType;
         EZR.PlayManager.SongName = currentSongName;
         EZR.PlayManager.GameMode = currentMode;
         EZR.PlayManager.GameDifficult = currentDifficulty;
-        SceneManager.LoadScene("SinglePlay");
-        if (EZR.MemorySound.StreamChannel != null)
-            ((FMOD.Channel)EZR.MemorySound.StreamChannel).stop();
+        EZR.PlayManager.FallSpeed = speed;
+
+        EZR.MemorySound.StopStream();
+        if (delayPlay != null) StopCoroutine(delayPlay);
         EZR.MemorySound.PlaySound("e_start");
+    }
+
+    IEnumerator startPlay(Animation anim)
+    {
+        while (anim.isPlaying)
+        {
+            yield return null;
+        }
+        SceneManager.LoadScene("SinglePlay");
+    }
+
+    IEnumerator discOut(Animation anim)
+    {
+        while (anim.isPlaying)
+        {
+            yield return null;
+        }
+        Destroy(anim.gameObject);
+    }
+
+    public void BtnChangeSpeed(BaseEventData baseEventData)
+    {
+        var pointerEventData = (PointerEventData)baseEventData;
+        if (pointerEventData.button == PointerEventData.InputButton.Left)
+        {
+            speedAdd(0.25f);
+        }
+        else if (pointerEventData.button == PointerEventData.InputButton.Right)
+        {
+            speedAdd(-0.25f);
+        }
+    }
+
+    void updateBtnSpeed()
+    {
+        transform.Find("PanelEffect/Speed/Text").GetComponent<Text>().text = speed.ToString("0.00");
+    }
+
+    void Update()
+    {
+        if (Input.GetKey(KeyCode.LeftControl) || Input.GetKey(KeyCode.RightControl))
+        {
+            if (Input.GetKeyDown(KeyCode.UpArrow))
+            {
+                speed += 0.01f;
+                updateBtnSpeed();
+                EZR.MemorySound.PlaySound("e_count_1");
+            }
+            if (Input.GetKeyDown(KeyCode.DownArrow))
+            {
+                speed = Mathf.Max(speed - 0.01f, 0.25f);
+                updateBtnSpeed();
+                EZR.MemorySound.PlaySound("e_count_1");
+            }
+        }
+        else
+        {
+            if (Input.GetKeyDown(KeyCode.UpArrow))
+            {
+                speedAdd(0.25f);
+            }
+            if (Input.GetKeyDown(KeyCode.DownArrow))
+            {
+                speedAdd(-0.25f);
+            }
+        }
+    }
+
+    void speedAdd(float val)
+    {
+        var decimalPart = speed % 1;
+        var closest = EZR.Utils.FindClosestNumber(decimalPart, EZR.PlayManager.FallSpeedStep);
+        speed = Mathf.Max(((int)speed + closest) + val, 0.25f);
+        updateBtnSpeed();
+        EZR.MemorySound.PlaySound("e_count_1");
     }
 }

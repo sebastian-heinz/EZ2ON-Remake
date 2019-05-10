@@ -24,19 +24,19 @@ public class SinglePlay : MonoBehaviour
 
         if (isFinished)
         {
-            EZR.MemorySound.BGM.isPlaying(out bool isPlaying);
-            if (!isPlaying)
-            {
-                isFinished = false;
-                finished();
-                return;
-            }
+            isFinished = false;
+            finished();
+            return;
         }
 
         if (Input.GetKeyDown(KeyCode.F4))
-            EZR.PlayManager.FallSpeed += 0.25f;
+        {
+            speedAdd(0.25f);
+        }
         if (Input.GetKeyDown(KeyCode.F3))
-            EZR.PlayManager.FallSpeed -= 0.25f;
+        {
+            speedAdd(-0.25f);
+        }
 
         if (Input.GetKeyDown(KeyCode.Escape))
         {
@@ -47,6 +47,39 @@ public class SinglePlay : MonoBehaviour
         {
             EZR.PlayManager.IsAutoPlay = !EZR.PlayManager.IsAutoPlay;
         }
+
+        if (Input.GetKey(KeyCode.LeftControl) || Input.GetKey(KeyCode.RightControl))
+        {
+            if (Input.GetKeyDown(KeyCode.UpArrow))
+            {
+                EZR.PlayManager.FallSpeed += 0.01f;
+                EZR.MemorySound.PlaySound("e_count_1");
+            }
+            if (Input.GetKeyDown(KeyCode.DownArrow))
+            {
+                EZR.PlayManager.FallSpeed -= 0.01f;
+                EZR.MemorySound.PlaySound("e_count_1");
+            }
+        }
+        else
+        {
+            if (Input.GetKeyDown(KeyCode.UpArrow))
+            {
+                speedAdd(0.25f);
+            }
+            if (Input.GetKeyDown(KeyCode.DownArrow))
+            {
+                speedAdd(-0.25f);
+            }
+        }
+    }
+
+    void speedAdd(float val)
+    {
+        var decimalPart = EZR.PlayManager.FallSpeed % 1;
+        var closest = EZR.Utils.FindClosestNumber(decimalPart, EZR.PlayManager.FallSpeedStep);
+        EZR.PlayManager.FallSpeed = ((int)EZR.PlayManager.FallSpeed + closest) + val;
+        EZR.MemorySound.PlaySound("e_count_1");
     }
 
     void loopStop()

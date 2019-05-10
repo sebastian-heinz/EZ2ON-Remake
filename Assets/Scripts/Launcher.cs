@@ -13,6 +13,7 @@ public class Launcher : MonoBehaviour
         EZR.Master.Version = Settings.Version;
         EZR.Master.GameResourcesFolder = EZR.Master.IsDebug ? Settings.devGameResourcesFolder : "EZRData";
         EZR.Master.TimePrecision = Settings.TimePrecision;
+        EZR.Master.MessageBox = Settings.MessageBox;
         var songListData = File.ReadAllText(Path.Combine(EZR.Master.GameResourcesFolder, "SongsList.json"), Encoding.UTF8);
         EZR.SongsList.Parse(songListData);
         Debug.Log(string.Format("Version: {0}", EZR.Master.Version));

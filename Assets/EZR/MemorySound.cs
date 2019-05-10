@@ -65,6 +65,8 @@ namespace EZR
         public static FMOD.ChannelGroup Main;
         public static FMOD.ChannelGroup BGM;
         public static FMOD.ChannelGroup Game;
+
+        static object streamSound;
         public static object StreamChannel;
 
         static MemorySound()
@@ -135,14 +137,21 @@ namespace EZR
 
         public static void PlayStream(string path)
         {
-            if (StreamChannel != null) ((FMOD.Channel)StreamChannel).stop();
+            StopStream();
             var result = FMODUnity.RuntimeManager.LowlevelSystem.createSound(path, FMOD.MODE._2D | FMOD.MODE.CREATESTREAM | FMOD.MODE.LOOP_NORMAL, out FMOD.Sound sound);
             if (result == FMOD.RESULT.OK)
             {
+                streamSound = sound;
                 var result2 = FMODUnity.RuntimeManager.LowlevelSystem.playSound(sound, Game, false, out FMOD.Channel channel);
                 if (result2 == FMOD.RESULT.OK)
                     StreamChannel = channel;
             }
+        }
+
+        public static void StopStream()
+        {
+            if (StreamChannel != null) ((FMOD.Channel)StreamChannel).stop();
+            if (streamSound != null) ((FMOD.Sound)streamSound).release();
         }
 
         public static void UnloadAllSound()

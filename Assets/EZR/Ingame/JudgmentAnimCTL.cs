@@ -9,8 +9,8 @@ public class JudgmentAnimCTL : MonoBehaviour
     public Sprite Good;
     public Sprite Miss;
     public Sprite Fail;
-    Animation animKool;
-    Animation animAny;
+
+    Animation anim;
     Image image;
     EZR.JudgmentType sprite = EZR.JudgmentType.Kool;
 
@@ -18,22 +18,14 @@ public class JudgmentAnimCTL : MonoBehaviour
     public bool IsPlayKOOL = false;
     [HideInInspector]
     public bool IsPlayAny = false;
-    // Start is called before the first frame update
+
     void Start()
     {
-        animKool = transform.Find("KOOL").GetComponent<Animation>();
-        if (animKool != null)
-        {
-            animKool["KOOL"].normalizedTime = 1;
-            animKool.Play("KOOL");
-        }
-        animAny = transform.Find("Any").GetComponent<Animation>();
-        if (animAny != null)
-        {
-            animAny["Any"].normalizedTime = 1;
-            animAny.Play("Any");
-        }
-        image = transform.Find("Any").GetComponent<Image>();
+        anim = GetComponent<Animation>();
+        anim["KOOL"].normalizedTime = 1;
+        anim.Play("KOOL");
+
+        image = GetComponent<Image>();
     }
 
     // Update is called once per frame
@@ -43,17 +35,20 @@ public class JudgmentAnimCTL : MonoBehaviour
         {
             switch (sprite)
             {
+                case EZR.JudgmentType.Kool:
+                    image.overrideSprite = null;
+                    break;
                 case EZR.JudgmentType.Cool:
-                    image.sprite = Cool;
+                    image.overrideSprite = Cool;
                     break;
                 case EZR.JudgmentType.Good:
-                    image.sprite = Good;
+                    image.overrideSprite = Good;
                     break;
                 case EZR.JudgmentType.Miss:
-                    image.sprite = Miss;
+                    image.overrideSprite = Miss;
                     break;
                 case EZR.JudgmentType.Fail:
-                    image.sprite = Fail;
+                    image.overrideSprite = Fail;
                     break;
             }
         }
@@ -61,16 +56,14 @@ public class JudgmentAnimCTL : MonoBehaviour
         if (IsPlayKOOL)
         {
             IsPlayKOOL = false;
-            animKool["KOOL"].normalizedTime = 0;
-            animAny["Any"].normalizedTime = 1;
-            animKool.Play("KOOL");
+            anim["KOOL"].normalizedTime = 0;
+            anim.Play("KOOL");
         }
         else if (IsPlayAny)
         {
             IsPlayAny = false;
-            animAny["Any"].normalizedTime = 0;
-            animKool["KOOL"].normalizedTime = 1;
-            animAny.Play("Any");
+            anim["Any"].normalizedTime = 0;
+            anim.Play("Any");
         }
     }
 

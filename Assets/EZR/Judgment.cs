@@ -97,7 +97,7 @@ namespace EZR
                                 PlayManager.AddCombo();
                                 PlayManager.AddScore(JudgmentType.Kool);
                                 judgmentAnim.Play(JudgmentType.Kool);
-                                var note = PlayManager.TimeLines.Lines[i].Notes[noteInLine.index];
+                                var note = PlayManager.TimeLines.Lines[i].Notes[noteInLine.Index];
                                 noteInLine.IsLongPressed = true;
                                 noteInLine.LongNoteJudgment = JudgmentType.Kool;
                                 LongflarePlayList[i].Play();
@@ -122,7 +122,7 @@ namespace EZR
                                 PlayManager.AddCombo();
                                 PlayManager.AddScore(JudgmentType.Kool);
                                 judgmentAnim.Play(JudgmentType.Kool);
-                                var note = PlayManager.TimeLines.Lines[i].Notes[noteInLine.index];
+                                var note = PlayManager.TimeLines.Lines[i].Notes[noteInLine.Index];
                                 noteInLine.IsDestroy = true;
                                 flarePlayList[i].Play();
                                 MemorySound.PlaySound(note.id, note.vol, note.pan, MemorySound.Main);
@@ -145,7 +145,7 @@ namespace EZR
                 if (noteInLines[keyId].Count > 0 && noteInLines[keyId].Peek() != null)
                 {
                     noteInLine = noteInLines[keyId].Peek();
-                    note = PlayManager.TimeLines.Lines[keyId].Notes[noteInLine.index];
+                    note = PlayManager.TimeLines.Lines[keyId].Notes[noteInLine.Index];
 
                     double judgmentDelta = System.Math.Abs(noteInLine.Position - PlayManager.Position);
 

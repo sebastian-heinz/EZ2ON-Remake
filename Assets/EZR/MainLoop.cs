@@ -38,8 +38,6 @@ namespace EZR
 
         public static void MainLoop()
         {
-            bool isEnd = true;
-
             // bpm
             while (TimeLines.BPMIndex < TimeLines.BPMList.Count && TimeLines.BPMList[TimeLines.BPMIndex].position <= Position)
             {
@@ -47,48 +45,54 @@ namespace EZR
                 TimeLines.BPMIndex++;
             }
 
+            bool isEnd = true;
             // 播放音符
             for (int i = 0; i < TimeLines.MaxLines; i++)
             {
                 var line = TimeLines.Lines[i];
-                if (TimeLines.LinesIndex[i] < line.Notes.Count) isEnd = false;
 
                 while (TimeLines.LinesIndex[i] < line.Notes.Count && line.Notes[TimeLines.LinesIndex[i]].position <= Position)
                 {
+                    // 跳过可玩轨道
                     if (i > 7)
                     {
-                        int id = line.Notes[TimeLines.LinesIndex[i]].id;
-                        float vol = line.Notes[TimeLines.LinesIndex[i]].vol;
-                        float pan = line.Notes[TimeLines.LinesIndex[i]].pan;
+                        var note = line.Notes[TimeLines.LinesIndex[i]];
 
-                        if (PlayManager.GameType == GameType.DJMAX && id == 0)
+                        if (PlayManager.GameType == GameType.DJMAX && note.id == 0)
                             IsPlayBGA = true;
 
-                        MemorySound.PlaySound(id, vol, pan, MemorySound.BGM);
+                        MemorySound.PlaySound(note.id, note.vol, note.pan, MemorySound.BGM);
 
                         // debug事件
                         if (DebugEvent != null)
                         {
                             DebugEvent(string.Format(
                                 "[{3}] Sound: {0}\n[vol: {1}] [pan:{2}]",
-                                TimeLines.SoundList[id].filename,
-                                (int)(vol * 100),
-                                (int)(pan * 100),
+                                TimeLines.SoundList[note.id].filename,
+                                (int)(note.vol * 100),
+                                (int)(note.pan * 100),
                                 (int)Position
-                            ), id);
+                            ), note.id);
                         }
                     }
 
                     TimeLines.LinesIndex[i]++;
                 }
+
+                if (TimeLines.LinesIndex[i] < line.Notes.Count) isEnd = false;
             }
 
+            // 检测结束
             if (isEnd)
             {
-                Stop();
-                if (LoopStop != null)
-                    LoopStop();
-                return;
+                EZR.MemorySound.BGM.isPlaying(out bool isPlaying);
+                if (!isPlaying)
+                {
+                    Stop();
+                    if (LoopStop != null)
+                        LoopStop();
+                    return;
+                }
             }
 
             long now = Stopwatch.ElapsedTicks;

@@ -19,6 +19,7 @@ namespace EZR
         public static bool IsDebug = false;
 #endif
         public static int TimePrecision = 10;
+        public static GameObject MessageBox;
 
         static byte TaskExitFlag = 0;
 

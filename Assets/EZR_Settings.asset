@@ -16,4 +16,5 @@ MonoBehaviour:
   devGameResourcesFolder: D:\EZRData
   TimePrecision: 1
   LaunchScene: SelectSongs
-  SongsList: {fileID: 4900000, guid: 14202ada473095244911120d18f6c2bb, type: 3}
+  MessageBox: {fileID: 529640093577671964, guid: 8d455199744e63a4bb90187a34b065a7,
+    type: 3}
