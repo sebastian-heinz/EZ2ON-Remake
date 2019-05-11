@@ -35,5 +35,28 @@ namespace EZR
                     return null;
             }
         }
+
+        public static string GetFullName(Difficulty difficult)
+        {
+            switch (difficult)
+            {
+                case Difficulty.EZ:
+                    return "Easy mix";
+                case Difficulty.NM:
+                    return "Normal mix";
+                case Difficulty.HD:
+                    return "Hard mix";
+                case Difficulty.SHD:
+                    return "Superhard mix";
+                case Difficulty.DJMAX_NM:
+                    return "Normal mode";
+                case Difficulty.DJMAX_HD:
+                    return "Hard mode";
+                case Difficulty.DJMAX_MX:
+                    return "Maximum mode";
+                default:
+                    return null;
+            }
+        }
     }
 }

@@ -121,12 +121,27 @@ public class DisplayLoop : MonoBehaviour
             noteInLines[i] = new Queue<NoteInLine>();
         }
 
-        var bgaUrl = Path.Combine(
-            EZR.Master.IsDebug ? EZR.Master.GameResourcesFolder : "..\\" + EZR.Master.GameResourcesFolder,
-            EZR.PlayManager.GameType.ToString(),
-            "Ingame",
-            EZR.PlayManager.SongName + ".mp4"
-        );
+        string bgaUrl;
+        if (EZR.Master.IsDebug)
+        {
+            bgaUrl = Path.Combine(
+                EZR.Master.GameResourcesFolder,
+                EZR.PlayManager.GameType.ToString(),
+                "Ingame",
+                EZR.PlayManager.SongName + ".mp4"
+            );
+        }
+        else
+        {
+            bgaUrl = Path.Combine(
+                Application.dataPath,
+                "..",
+                EZR.Master.GameResourcesFolder,
+                EZR.PlayManager.GameType.ToString(),
+                "Ingame",
+                EZR.PlayManager.SongName + ".mp4"
+             );
+        }
         if (File.Exists(bgaUrl))
             // 初始化BGA
             VideoPlayer.url = bgaUrl;

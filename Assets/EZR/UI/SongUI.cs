@@ -7,12 +7,6 @@ namespace EZR
     public class SongUI : MonoBehaviour
     {
         [HideInInspector]
-        public string SongName = "";
-        [HideInInspector]
-        public string DisplayName = "";
-        [HideInInspector]
-        public int BPM = 0;
-        [HideInInspector]
-        public int DifficultyLevel = 0;
+        public int Index = 0;
     }
 }

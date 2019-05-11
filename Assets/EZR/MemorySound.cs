@@ -68,6 +68,8 @@ namespace EZR
 
         static object shareSound;
         static object shareChannel;
+        static object streamSound;
+        static object streamChannel;
 
         static MemorySound()
         {
@@ -135,19 +137,32 @@ namespace EZR
             }
         }
 
-        public static void PlaySound(byte[] data)
+        public static void PlaySound(byte[] data, bool isLoop)
         {
             StopSound();
             var exinfo = new FMOD.CREATESOUNDEXINFO();
             exinfo.cbsize = Marshal.SizeOf(exinfo);
             exinfo.length = (uint)data.Length;
-            var result = FMODUnity.RuntimeManager.LowlevelSystem.createSound(data, FMOD.MODE._2D | FMOD.MODE.OPENMEMORY | FMOD.MODE.LOOP_NORMAL, ref exinfo, out FMOD.Sound sound);
+            var result = FMODUnity.RuntimeManager.LowlevelSystem.createSound(data, FMOD.MODE._2D | FMOD.MODE.OPENMEMORY | (isLoop ? FMOD.MODE.LOOP_NORMAL : 0), ref exinfo, out FMOD.Sound sound);
             if (result == FMOD.RESULT.OK)
             {
                 shareSound = sound;
                 var result2 = FMODUnity.RuntimeManager.LowlevelSystem.playSound(sound, Game, false, out FMOD.Channel channel);
                 if (result2 == FMOD.RESULT.OK)
                     shareChannel = channel;
+            }
+        }
+
+        public static void PlayStream(string path, bool isLoop)
+        {
+            StopStream();
+            var result = FMODUnity.RuntimeManager.LowlevelSystem.createSound(path, FMOD.MODE._2D | FMOD.MODE.CREATESTREAM | (isLoop ? FMOD.MODE.LOOP_NORMAL : 0), out FMOD.Sound sound);
+            if (result == FMOD.RESULT.OK)
+            {
+                streamSound = sound;
+                var result2 = FMODUnity.RuntimeManager.LowlevelSystem.playSound(sound, Game, false, out FMOD.Channel channel);
+                if (result2 == FMOD.RESULT.OK)
+                    streamChannel = channel;
             }
         }
 
@@ -164,6 +179,22 @@ namespace EZR
                 var sound = (FMOD.Sound)shareSound;
                 sound.release();
                 shareSound = null;
+            }
+        }
+
+        public static void StopStream()
+        {
+            if (streamChannel != null)
+            {
+                var channel = (FMOD.Channel)streamChannel;
+                channel.stop();
+                streamChannel = null;
+            }
+            if (streamSound != null)
+            {
+                var sound = (FMOD.Sound)streamSound;
+                sound.release();
+                streamSound = null;
             }
         }
 

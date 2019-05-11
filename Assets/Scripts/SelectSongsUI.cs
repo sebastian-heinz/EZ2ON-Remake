@@ -18,7 +18,9 @@ public class SelectSongsUI : MonoBehaviour
     EZR.GameType currentType = EZR.PlayManager.GameType;
     EZR.GameMode.Mode currentMode = EZR.PlayManager.GameMode;
     EZR.GameDifficulty.Difficulty currentDifficulty = EZR.PlayManager.GameDifficult;
+    int currentSongIndex = EZR.SongsList.currentIndex;
     string currentSongName = EZR.PlayManager.SongName;
+
     float speed = EZR.PlayManager.FallSpeed;
 
     bool[] currentDifficultyState = new bool[] { false, false, false, false };
@@ -156,17 +158,13 @@ public class SelectSongsUI : MonoBehaviour
             if (i == 0)
                 firstSong = songUI.transform;
 
-            var ezrSongUI = songUI.GetComponent<EZR.SongUI>();
-            ezrSongUI.SongName = info.name;
-            ezrSongUI.DisplayName = info.displayName;
-            ezrSongUI.BPM = info.bpm;
-            ezrSongUI.DifficultyLevel = info.difficulty[currentMode][currentDifficulty];
+            songUI.GetComponent<EZR.SongUI>().Index = EZR.SongsList.List.IndexOf(info);
 
             var songName = songUI.transform.Find("SongName").GetComponent<Text>();
-            songName.text = ezrSongUI.DisplayName;
+            songName.text = info.displayName;
 
             var difficulty = songUI.transform.Find("Difficulty").GetComponent<Text>();
-            difficulty.text = ezrSongUI.DifficultyLevel.ToString();
+            difficulty.text = info.difficulty[currentMode][currentDifficulty].ToString();
 
             var btn = songUI.transform.Find("Over").GetComponent<Button>();
             btn.onClick.AddListener(BtnSetCurrentSong);
@@ -463,15 +461,16 @@ public class SelectSongsUI : MonoBehaviour
 
     void setCurrentName(Transform songUI, string state)
     {
-        var btn = songUI.GetComponent<EZR.SongUI>();
+        currentSongIndex = songUI.GetComponent<EZR.SongUI>().Index;
+        var info = EZR.SongsList.List[currentSongIndex];
 
         var isSameSong = false;
         if (isStreamFirstTime)
             isStreamFirstTime = false;
-        else if (currentSongName == btn.SongName)
+        else if (currentSongName == info.name)
             isSameSong = true;
 
-        currentSongName = btn.SongName;
+        currentSongName = info.name;
         var btn2 = songUI.Find("Over").GetComponent<EZR.ButtonExtension>();
         btn2.SetSelected(true);
 
@@ -521,9 +520,9 @@ public class SelectSongsUI : MonoBehaviour
             disc.Find("Image").GetComponent<RawImage>().texture = EZR.ImageLoader.Load(buffer, fileName);
         }
 
-        transform.Find("SongName").GetComponent<Text>().text = btn.DisplayName.ToUpper();
-        transform.Find("Bpm/Text").GetComponent<Text>().text = btn.BPM.ToString().PadLeft(3, '0');
-        transform.Find("Level/Text").GetComponent<Text>().text = btn.DifficultyLevel.ToString();
+        transform.Find("SongName").GetComponent<Text>().text = info.displayName.ToUpper();
+        transform.Find("Bpm/Text").GetComponent<Text>().text = info.bpm.ToString().PadLeft(3, '0');
+        transform.Find("Level/Text").GetComponent<Text>().text = info.difficulty[currentMode][currentDifficulty].ToString();
 
         // 播放预览音乐
         if (!isSameSong)
@@ -532,6 +531,8 @@ public class SelectSongsUI : MonoBehaviour
             EZR.MemorySound.StopSound();
             delayPlay = StartCoroutine(DelayPlayStream());
         }
+
+        transform.Find("MyBestScore/Text").GetComponent<Text>().text = EZR.UserSaveData.GetScore(currentSongName, currentType, currentMode, currentDifficulty).ToString();
     }
 
     IEnumerator DelayPlayStream()
@@ -554,7 +555,7 @@ public class SelectSongsUI : MonoBehaviour
         var buffer = EZR.ZipLoader.LoadFile(Path.Combine(EZR.Master.GameResourcesFolder, currentType.ToString(), "Songs", currentSongName + ".zip"), fileName);
         if (buffer != null)
         {
-            EZR.MemorySound.PlaySound(buffer);
+            EZR.MemorySound.PlaySound(buffer, true);
         }
     }
 
@@ -601,6 +602,7 @@ public class SelectSongsUI : MonoBehaviour
         StartCoroutine(startPlay(anim));
 
         EZR.PlayManager.GameType = currentType;
+        EZR.SongsList.currentIndex = currentSongIndex;
         EZR.PlayManager.SongName = currentSongName;
         EZR.PlayManager.GameMode = currentMode;
         EZR.PlayManager.GameDifficult = currentDifficulty;

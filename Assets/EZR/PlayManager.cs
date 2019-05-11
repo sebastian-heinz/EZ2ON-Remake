@@ -109,13 +109,26 @@ namespace EZR
 
                     for (int j = 0; j < pattern.TrackList[i].Notes.Count; j++)
                     {
-                        if (pattern.TrackList[i].Notes[j].type == 1)
+                        var note = pattern.TrackList[i].Notes[j];
+                        if (note.type == 1)
                         {
-                            TimeLines.Lines[mapping].Notes.Add(pattern.TrackList[i].Notes[j]);
+                            TimeLines.Lines[mapping].Notes.Add(note);
+                            if (mapping <= 7)
+                            {
+                                if (note.length > 6)
+                                {
+                                    TimeLines.TotalNote += 1 + note.length / Judgment.LongNoteComboStep;
+                                }
+                                else
+                                    TimeLines.TotalNote++;
+                            }
                         }
                     }
                 }
             }
+            // 总音符数
+            Score.TotalNote = TimeLines.TotalNote;
+            Debug.Log("Total note: " + Score.TotalNote);
             // 排序
             TimeLines.SortLines();
 
@@ -165,36 +178,16 @@ namespace EZR
             return MeasureScale * RealFallSpeed;
         }
 
-        // 分数公式
         public static void AddScore(JudgmentType judgment)
         {
-            // if (IsAutoPlay) return;
-            switch (judgment)
-            {
-                case JudgmentType.Kool:
-                    Score.Kool++;
-                    Score.RawScore += 170 + 17 * Mathf.Log(Combo, 2);
-                    break;
-                case JudgmentType.Cool:
-                    Score.Cool++;
-                    Score.RawScore += 100 + 10 * Mathf.Log(Combo, 2);
-                    break;
-                case JudgmentType.Good:
-                    Score.Good++;
-                    Score.RawScore += 40 + 4 * Mathf.Log(Combo, 2);
-                    break;
-                case JudgmentType.Miss:
-                    Score.Miss++;
-                    break;
-                case JudgmentType.Fail:
-                    Score.Fail++;
-                    break;
-            }
+            if (IsAutoPlay) return;
+            Score.AddScore(judgment, Combo);
         }
+
         public static void AddCombo()
         {
             Combo++;
-            // if (IsAutoPlay) return;
+            if (IsAutoPlay) return;
             if (Combo > Score.MaxCombo)
                 Score.MaxCombo = Combo;
         }

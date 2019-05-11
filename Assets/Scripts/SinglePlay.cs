@@ -86,6 +86,7 @@ public class SinglePlay : MonoBehaviour
     {
         EZR.PlayManager.LoopStop -= loopStop;
         isFinished = true;
+        EZR.PlayManager.Score.IsClear = true;
     }
 
     void finished()
@@ -97,6 +98,6 @@ public class SinglePlay : MonoBehaviour
         EZR.MemorySound.BGM.stop();
         EZR.MemorySound.UnloadAllSound();
 
-        SceneManager.LoadScene("SelectSongs");
+        SceneManager.LoadScene("SingleResult");
     }
 }

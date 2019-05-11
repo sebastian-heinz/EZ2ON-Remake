@@ -9,6 +9,7 @@ namespace EZR
     public static class SongsList
     {
         public static List<SongInfo> List;
+        public static int currentIndex = 0;
 
         public class SongInfo
         {

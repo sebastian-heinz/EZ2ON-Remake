@@ -11,6 +11,7 @@ namespace EZR
         public float BPM = 120f;
         public int BPMIndex = 0;
         public List<Pattern.BPM> BPMList = new List<Pattern.BPM>();
+        public int TotalNote = 0;
         public int[] LinesIndex;
         public Pattern.Track[] Lines;
         public List<Pattern.Sound> SoundList = new List<Pattern.Sound>();
@@ -33,6 +34,7 @@ namespace EZR
         {
             Reset();
             BPMList = new List<Pattern.BPM>();
+            TotalNote = 0;
             Lines = new Pattern.Track[MaxLines];
             for (int i = 0; i < Lines.Length; i++)
             {

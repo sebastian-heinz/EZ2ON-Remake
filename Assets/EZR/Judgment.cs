@@ -6,7 +6,7 @@ namespace EZR
 {
     public static class Judgment
     {
-        static int longNoteComboStep = 12;
+        public static int LongNoteComboStep { get => 12; }
 
         public static void Loop(Queue<NoteInLine>[] noteInLines, JudgmentAnimCTL judgmentAnim, FlareAnimCTL[] flarePlayList, FlareAnimCTL[] LongflarePlayList)
         {
@@ -18,7 +18,7 @@ namespace EZR
                     if (noteInLine.IsLongPressed)
                     {
                         // 长音连击
-                        var longNoteCombo = (int)((System.Math.Min(PlayManager.Position, noteInLine.Position + noteInLine.NoteLength) - noteInLine.Position) / longNoteComboStep);
+                        var longNoteCombo = (int)((System.Math.Min(PlayManager.Position, noteInLine.Position + noteInLine.NoteLength) - noteInLine.Position) / LongNoteComboStep);
                         if (longNoteCombo > noteInLine.LongNoteCombo)
                         {
                             var delta = longNoteCombo - noteInLine.LongNoteCombo;
@@ -34,14 +34,6 @@ namespace EZR
                         // 自动结尾
                         if (noteInLine.Position + noteInLine.NoteLength <= PlayManager.Position)
                         {
-                            var delta = longNoteCombo - noteInLine.LongNoteCombo;
-                            for (int j = 0; j < delta; j++)
-                            {
-                                PlayManager.AddCombo();
-                                PlayManager.AddScore(noteInLine.LongNoteJudgment);
-                                judgmentAnim.Play(noteInLine.LongNoteJudgment);
-                                flarePlayList[i].Play(noteInLine.LongNoteJudgment);
-                            }
                             LongflarePlayList[i].IsStop = true;
                             noteInLine.IsDestroy = true;
                             noteInLines[i].Dequeue();
@@ -251,10 +243,18 @@ namespace EZR
                     double judgmentDelta = System.Math.Abs(noteInLine.Position + noteInLine.NoteLength - PlayManager.Position);
                     if (JudgmentDelta.CompareJudgmentDelta(judgmentDelta, JudgmentType.Good))
                     {
-                        PlayManager.AddCombo();
-                        PlayManager.AddScore(JudgmentType.Good);
-                        judgmentAnim.Play(JudgmentType.Good);
-                        flarePlayList[keyId].Play(JudgmentType.Good);
+                        var longNoteCombo = noteInLine.NoteLength / LongNoteComboStep;
+                        if (longNoteCombo > noteInLine.LongNoteCombo)
+                        {
+                            var delta = longNoteCombo - noteInLine.LongNoteCombo;
+                            for (int j = 0; j < delta; j++)
+                            {
+                                PlayManager.AddCombo();
+                                PlayManager.AddScore(JudgmentType.Good);
+                                judgmentAnim.Play(JudgmentType.Good);
+                                flarePlayList[keyId].Play(JudgmentType.Good);
+                            }
+                        }
                         needStopSound = true;
                     }
                     else if (judgmentDelta > JudgmentDelta.GetJudgmentDelta(JudgmentType.Good))

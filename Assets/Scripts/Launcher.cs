@@ -19,6 +19,8 @@ public class Launcher : MonoBehaviour
         Debug.Log(string.Format("Version: {0}", EZR.Master.Version));
         Debug.Log(string.Format("devGameResourcesFolder: {0}", EZR.Master.GameResourcesFolder));
         Debug.Log(string.Format("TimePrecision: {0} ms", EZR.Master.TimePrecision));
+        Debug.Log("Load user data...");
+        EZR.UserSaveData.LoadSave();
         SceneManager.LoadScene(Settings.LaunchScene);
         Debug.Log("Launch!");
     }
