@@ -223,8 +223,7 @@ public class DisplayLoop : MonoBehaviour
         {
             grooveLight = false;
             grooveLightAnim["GrooveLight"].time = 0;
-            if (!grooveLightAnim.isPlaying)
-                grooveLightAnim.Play();
+            grooveLightAnim.Play("GrooveLight");
         }
 
         // 按键表现

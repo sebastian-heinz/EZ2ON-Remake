@@ -30,7 +30,32 @@ public class SingleResultUI : MonoBehaviour
     {
         var info = EZR.SongsList.List[EZR.SongsList.currentIndex];
         transform.Find("SongName").GetComponent<Text>().text = info.displayName.ToUpper();
-        transform.Find("Difficulty").GetComponent<Text>().text = EZR.GameDifficulty.GetFullName(EZR.PlayManager.GameDifficult).ToUpper();
+        var diffText = transform.Find("Difficulty").GetComponent<Text>();
+        diffText.text = EZR.GameDifficulty.GetFullName(EZR.PlayManager.GameDifficult).ToUpper();
+        switch (EZR.PlayManager.GameDifficult)
+        {
+            case EZR.GameDifficulty.Difficulty.EZ:
+                diffText.color = EzColor;
+                break;
+            case EZR.GameDifficulty.Difficulty.NM:
+                diffText.color = NmColor;
+                break;
+            case EZR.GameDifficulty.Difficulty.HD:
+                diffText.color = HdColor;
+                break;
+            case EZR.GameDifficulty.Difficulty.SHD:
+                diffText.color = ShdColor;
+                break;
+            case EZR.GameDifficulty.Difficulty.DJMAX_NM:
+                diffText.color = NmColor;
+                break;
+            case EZR.GameDifficulty.Difficulty.DJMAX_HD:
+                diffText.color = HdColor;
+                break;
+            case EZR.GameDifficulty.Difficulty.DJMAX_MX:
+                diffText.color = ShdColor;
+                break;
+        }
         var keyMode = transform.Find("KeyMode").GetComponent<Text>();
         var numLines = EZR.GameMode.GetNumLines(EZR.PlayManager.GameMode);
         keyMode.text = numLines.ToString();
@@ -71,13 +96,16 @@ public class SingleResultUI : MonoBehaviour
         // TODO
         // transform.Find("ResultGroup/Exp").GetComponent<Text>().text =
         var bestScore = EZR.UserSaveData.GetScore(EZR.PlayManager.SongName, EZR.PlayManager.GameType, EZR.PlayManager.GameMode, EZR.PlayManager.GameDifficult);
-        var isBestScore = EZR.UserSaveData.SetScore(score, EZR.PlayManager.SongName, EZR.PlayManager.GameType, EZR.PlayManager.GameMode, EZR.PlayManager.GameDifficult);
+        var isNewRecord = EZR.UserSaveData.SetScore(score, EZR.PlayManager.SongName, EZR.PlayManager.GameType, EZR.PlayManager.GameMode, EZR.PlayManager.GameDifficult);
         EZR.UserSaveData.SaveData();
         var bestScoreText = transform.Find("MyBestScore").GetComponent<Text>();
-        if (isBestScore)
+        if (isNewRecord)
             bestScoreText.text = score.ToString();
         else
+        {
             bestScoreText.text = bestScore.ToString();
+            transform.Find("NewRecord").gameObject.SetActive(false);
+        }
         var gradeImage = transform.Find("Grade").GetComponent<Image>();
         var grade = EZR.PlayManager.Score.GetGrade();
         switch (grade)

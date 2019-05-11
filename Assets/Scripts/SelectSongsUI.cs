@@ -649,21 +649,30 @@ public class SelectSongsUI : MonoBehaviour
         transform.Find("PanelEffect/Speed/Text").GetComponent<Text>().text = speed.ToString("0.00");
     }
 
+    Coroutine speedPressedCoroutine;
     void Update()
     {
         if (Input.GetKey(KeyCode.LeftControl) || Input.GetKey(KeyCode.RightControl))
         {
             if (Input.GetKeyDown(KeyCode.UpArrow))
             {
-                speed += 0.01f;
-                updateBtnSpeed();
-                EZR.MemorySound.PlaySound("e_count_1");
+                speedAddSmall(0.01f);
+                if (speedPressedCoroutine != null) StopCoroutine(speedPressedCoroutine);
+                speedPressedCoroutine = StartCoroutine(speedPressed(0.01f));
+            }
+            else if (Input.GetKeyUp(KeyCode.UpArrow))
+            {
+                if (speedPressedCoroutine != null) StopCoroutine(speedPressedCoroutine);
             }
             if (Input.GetKeyDown(KeyCode.DownArrow))
             {
-                speed = Mathf.Max(speed - 0.01f, 0.25f);
-                updateBtnSpeed();
-                EZR.MemorySound.PlaySound("e_count_1");
+                speedAddSmall(-0.01f);
+                if (speedPressedCoroutine != null) StopCoroutine(speedPressedCoroutine);
+                speedPressedCoroutine = StartCoroutine(speedPressed(-0.01f));
+            }
+            else if (Input.GetKeyUp(KeyCode.DownArrow))
+            {
+                if (speedPressedCoroutine != null) StopCoroutine(speedPressedCoroutine);
             }
         }
         else
@@ -679,11 +688,35 @@ public class SelectSongsUI : MonoBehaviour
         }
     }
 
+    IEnumerator speedPressed(float val)
+    {
+        yield return new WaitForSecondsRealtime(0.2f);
+        for (; ; )
+        {
+            yield return new WaitForSecondsRealtime(0.075f);
+            speedAddSmall(val);
+        }
+    }
+
+    void speedAddSmall(float val)
+    {
+        speed = Mathf.Max(speed + val, 0.25f);
+        updateBtnSpeed();
+        EZR.MemorySound.PlaySound("e_count_1");
+    }
+
     void speedAdd(float val)
     {
         var decimalPart = speed % 1;
-        var closest = EZR.Utils.FindClosestNumber(decimalPart, EZR.PlayManager.FallSpeedStep);
-        speed = Mathf.Max(((int)speed + closest) + val, 0.25f);
+        float closest;
+        if (val > 0)
+            closest = EZR.Utils.FindClosestNumber(decimalPart, EZR.PlayManager.FallSpeedStep, true);
+        else
+            closest = EZR.Utils.FindClosestNumber(decimalPart, EZR.PlayManager.FallSpeedStep, false);
+        if (Mathf.Abs(((int)speed + closest) - speed) > 0.009f)
+            speed = ((int)speed + closest);
+        else
+            speed = Mathf.Max(((int)speed + closest) + val, 0.25f);
         updateBtnSpeed();
         EZR.MemorySound.PlaySound("e_count_1");
     }

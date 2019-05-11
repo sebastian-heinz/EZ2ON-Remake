@@ -19,6 +19,7 @@ public class SinglePlay : MonoBehaviour
         displayLoop.enabled = true;
     }
 
+    Coroutine speedPressedCoroutine;
     void Update()
     {
 
@@ -52,13 +53,23 @@ public class SinglePlay : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.UpArrow))
             {
-                EZR.PlayManager.FallSpeed += 0.01f;
-                EZR.MemorySound.PlaySound("e_count_1");
+                speedAddSmall(0.01f);
+                if (speedPressedCoroutine != null) StopCoroutine(speedPressedCoroutine);
+                speedPressedCoroutine = StartCoroutine(speedPressed(0.01f));
+            }
+            else if (Input.GetKeyUp(KeyCode.UpArrow))
+            {
+                if (speedPressedCoroutine != null) StopCoroutine(speedPressedCoroutine);
             }
             if (Input.GetKeyDown(KeyCode.DownArrow))
             {
-                EZR.PlayManager.FallSpeed -= 0.01f;
-                EZR.MemorySound.PlaySound("e_count_1");
+                speedAddSmall(-0.01f);
+                if (speedPressedCoroutine != null) StopCoroutine(speedPressedCoroutine);
+                speedPressedCoroutine = StartCoroutine(speedPressed(-0.01f));
+            }
+            else if (Input.GetKeyUp(KeyCode.DownArrow))
+            {
+                if (speedPressedCoroutine != null) StopCoroutine(speedPressedCoroutine);
             }
         }
         else
@@ -74,11 +85,34 @@ public class SinglePlay : MonoBehaviour
         }
     }
 
+    IEnumerator speedPressed(float val)
+    {
+        yield return new WaitForSecondsRealtime(0.2f);
+        for (; ; )
+        {
+            yield return new WaitForSecondsRealtime(0.075f);
+            speedAddSmall(val);
+        }
+    }
+
+    void speedAddSmall(float val)
+    {
+        EZR.PlayManager.FallSpeed += val;
+        EZR.MemorySound.PlaySound("e_count_1");
+    }
+
     void speedAdd(float val)
     {
         var decimalPart = EZR.PlayManager.FallSpeed % 1;
-        var closest = EZR.Utils.FindClosestNumber(decimalPart, EZR.PlayManager.FallSpeedStep);
-        EZR.PlayManager.FallSpeed = ((int)EZR.PlayManager.FallSpeed + closest) + val;
+        float closest;
+        if (val > 0)
+            closest = EZR.Utils.FindClosestNumber(decimalPart, EZR.PlayManager.FallSpeedStep, true);
+        else
+            closest = EZR.Utils.FindClosestNumber(decimalPart, EZR.PlayManager.FallSpeedStep, false);
+        if (Mathf.Abs(((int)EZR.PlayManager.FallSpeed + closest) - EZR.PlayManager.FallSpeed) > 0.009f)
+            EZR.PlayManager.FallSpeed = ((int)EZR.PlayManager.FallSpeed + closest);
+        else
+            EZR.PlayManager.FallSpeed = ((int)EZR.PlayManager.FallSpeed + closest) + val;
         EZR.MemorySound.PlaySound("e_count_1");
     }
 

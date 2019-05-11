@@ -18,7 +18,7 @@ namespace EZR
         }
         public static float RealFallSpeed = FallSpeed;
 
-        static float[] fallSpeedStep = new float[] { 0, 0.25f, 0.5f, 0.75f };
+        static float[] fallSpeedStep = new float[] { 0, 0.25f, 0.5f, 0.75f, 1 };
         public static float[] FallSpeedStep { get => fallSpeedStep; }
 
         public static GameType GameType = EZR.GameType.EZ2ON;

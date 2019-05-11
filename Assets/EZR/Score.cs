@@ -37,12 +37,12 @@ namespace EZR
 
         public enum Grade
         {
-            F,
-            D,
-            C,
-            B,
+            APlus,
             A,
-            APlus
+            B,
+            C,
+            D,
+            F
         }
 
         // 分数公式
@@ -91,7 +91,7 @@ namespace EZR
         {
             if (Kool == TotalNote) return Bonus.AllKool;
             if (Kool + Cool == TotalNote) return Bonus.AllCool;
-            if (MaxCombo == TotalNote) return Bonus.AllKool;
+            if (MaxCombo == TotalNote) return Bonus.AllCombo;
             return Bonus.NoBonus;
         }
 

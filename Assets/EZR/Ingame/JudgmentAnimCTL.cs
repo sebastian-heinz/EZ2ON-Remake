@@ -56,11 +56,13 @@ public class JudgmentAnimCTL : MonoBehaviour
         if (IsPlayKOOL)
         {
             IsPlayKOOL = false;
+            IsPlayAny = false;
             anim["KOOL"].normalizedTime = 0;
             anim.Play("KOOL");
         }
         else if (IsPlayAny)
         {
+            IsPlayKOOL = false;
             IsPlayAny = false;
             anim["Any"].normalizedTime = 0;
             anim.Play("Any");

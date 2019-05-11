@@ -111,6 +111,7 @@ namespace EZR
         }
         public static bool SetScore(int score, string name, GameType type, GameMode.Mode mode, GameDifficulty.Difficulty diff)
         {
+            if (score == 0) return false;
             JObject jobj;
             if (!UserData.ContainsKey("myBestScore"))
                 UserData["myBestScore"] = new JObject();

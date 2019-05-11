@@ -241,19 +241,38 @@ namespace EZR
 
                     bool needStopSound = false;
                     double judgmentDelta = System.Math.Abs(noteInLine.Position + noteInLine.NoteLength - PlayManager.Position);
+                    var longNoteCombo = noteInLine.NoteLength / LongNoteComboStep;
+                    if (JudgmentDelta.CompareJudgmentDelta(judgmentDelta, JudgmentType.Kool))
+                    {
+                        var delta = longNoteCombo - noteInLine.LongNoteCombo;
+                        for (int j = 0; j < delta; j++)
+                        {
+                            PlayManager.AddCombo();
+                            PlayManager.AddScore(JudgmentType.Kool);
+                            judgmentAnim.Play(JudgmentType.Kool);
+                            flarePlayList[keyId].Play(JudgmentType.Kool);
+                        }
+                    }
+                    else if (JudgmentDelta.CompareJudgmentDelta(judgmentDelta, JudgmentType.Cool))
+                    {
+                        var delta = longNoteCombo - noteInLine.LongNoteCombo;
+                        for (int j = 0; j < delta; j++)
+                        {
+                            PlayManager.AddCombo();
+                            PlayManager.AddScore(JudgmentType.Cool);
+                            judgmentAnim.Play(JudgmentType.Cool);
+                            flarePlayList[keyId].Play(JudgmentType.Cool);
+                        }
+                    }
                     if (JudgmentDelta.CompareJudgmentDelta(judgmentDelta, JudgmentType.Good))
                     {
-                        var longNoteCombo = noteInLine.NoteLength / LongNoteComboStep;
-                        if (longNoteCombo > noteInLine.LongNoteCombo)
+                        var delta = longNoteCombo - noteInLine.LongNoteCombo;
+                        for (int j = 0; j < delta; j++)
                         {
-                            var delta = longNoteCombo - noteInLine.LongNoteCombo;
-                            for (int j = 0; j < delta; j++)
-                            {
-                                PlayManager.AddCombo();
-                                PlayManager.AddScore(JudgmentType.Good);
-                                judgmentAnim.Play(JudgmentType.Good);
-                                flarePlayList[keyId].Play(JudgmentType.Good);
-                            }
+                            PlayManager.AddCombo();
+                            PlayManager.AddScore(JudgmentType.Good);
+                            judgmentAnim.Play(JudgmentType.Good);
+                            flarePlayList[keyId].Play(JudgmentType.Good);
                         }
                         needStopSound = true;
                     }
