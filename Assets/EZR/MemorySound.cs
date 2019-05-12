@@ -73,6 +73,8 @@ namespace EZR
 
         static MemorySound()
         {
+            // 防止爆音？
+            MasterVolume = 0.7f;
             FMODUnity.RuntimeManager.LowlevelSystem.createChannelGroup("Main", out Main);
             FMODUnity.RuntimeManager.LowlevelSystem.createChannelGroup("BGM", out BGM);
             FMODUnity.RuntimeManager.LowlevelSystem.createChannelGroup("Game", out Game);

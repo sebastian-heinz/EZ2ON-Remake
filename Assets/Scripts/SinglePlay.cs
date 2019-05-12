@@ -74,6 +74,7 @@ public class SinglePlay : MonoBehaviour
         }
         else
         {
+            if (speedPressedCoroutine != null) StopCoroutine(speedPressedCoroutine);
             if (Input.GetKeyDown(KeyCode.UpArrow))
             {
                 speedAdd(0.25f);

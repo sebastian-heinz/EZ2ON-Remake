@@ -187,6 +187,7 @@ namespace FMODUnity
         {
 #if UNITY_EDITOR
 #if UNITY_2017_2_OR_NEWER
+            AssemblyReloadEvents.beforeAssemblyReload += HandleBeforeAssemblyReload;
             EditorApplication.playModeStateChanged += HandlePlayModeStateChange;
 #elif UNITY_2017_1_OR_NEWER
             EditorApplication.playmodeStateChanged += HandleOnPlayModeChanged;
@@ -301,38 +302,63 @@ namespace FMODUnity
         List<FMOD.Studio.EventInstance> eventPositionWarnings = new List<FMOD.Studio.EventInstance>();
 #endif
 
+        public static bool AddListener(int index)
+        {
+            if (HasListener[index])
+            {
+                // Listener already registered
+                Debug.LogError(string.Format(("[FMOD] Listener with index {0} already registered."), index));
+                return false;
+            }
+            HasListener[index] = true;
+            numListeners = RecalculateTotalListeners();
+            StudioSystem.setNumListeners(numListeners);
+            return true;
+        }
+
+        public static bool RemoveListener(int index)
+        {
+            if (index != -1 && HasListener[index])
+            {
+                HasListener[index] = false;
+                numListeners = RecalculateTotalListeners();
+
+                if (StudioSystem.isValid())
+                {
+                    StudioSystem.setNumListeners(Math.Max(numListeners, 1));
+                    return true;
+                }
+            }
+            if (numListeners <= 0)
+            {
+                Debug.LogWarning("[FMOD] No Listeners currently assigned.");
+            }
+            return false;
+        }
+
+        private static int RecalculateTotalListeners()
+        {
+            int highestListenerNum = 0;
+            for (int i = HasListener.Length; i > 0; i--)
+            {
+                if (HasListener[i - 1])
+                {
+                    highestListenerNum = i;
+                    break;
+                }
+            }
+            return highestListenerNum;
+        }
+
         bool listenerWarningIssued = false;
         void Update()
         {
             if (studioSystem.isValid())
             {
-                bool foundListener = false;
-                bool hasAllListeners = false;
-                int numListeners = 0;
-                for (int i = FMOD.CONSTANTS.MAX_LISTENERS - 1; i >= 0; i--)
-                {
-                    if (!foundListener && HasListener[i])
-                    {
-                        numListeners = i + 1;
-                        foundListener = true;
-                        hasAllListeners = true;
-                    }
-
-                    if (!HasListener[i] && foundListener)
-                    {
-                        hasAllListeners = false;
-                    }
-                }
-
-                if (foundListener)
-                {
-                    studioSystem.setNumListeners(numListeners);
-                }
-
-                if (!hasAllListeners && !listenerWarningIssued)
+                if (numListeners <= 0 && !listenerWarningIssued)
                 {
                     listenerWarningIssued = true;
-                    UnityEngine.Debug.LogWarning("[FMOD] Please add an 'FMOD Studio Listener' component to your a camera in the scene for correct 3D positioning of sounds");
+                    UnityEngine.Debug.LogWarning("[FMOD] Please add an 'FMOD Studio Listener' component to your a camera in the scene for correct 3D positioning of sounds.");
                 }
 
                 for (int i = 0; i < attachedInstances.Count; i++)
@@ -381,7 +407,29 @@ namespace FMODUnity
                     }
                     eventPositionWarnings.RemoveAt(i);
                 }
+
+                isOverlayEnabled = Settings.Instance.IsOverlayEnabled(fmodPlatform);
 #endif
+
+                if (isOverlayEnabled)
+                {
+                    if (!overlayDrawer)
+                    {
+                        overlayDrawer = Instance.gameObject.AddComponent<FMODRuntimeManagerOnGUIHelper>();
+                        overlayDrawer.TargetRuntimeManager = this;
+                    }
+                    else
+                    {
+                        overlayDrawer.gameObject.SetActive(true);
+                    }
+                }
+                else
+                {
+                    if (overlayDrawer != null && overlayDrawer.gameObject.activeSelf)
+                    {
+                        overlayDrawer.gameObject.SetActive(false);
+                    }
+                }
 
                 studioSystem.update();
             }
@@ -421,14 +469,24 @@ namespace FMODUnity
             }
         }
 
+        protected bool isOverlayEnabled = false;
+        FMODRuntimeManagerOnGUIHelper overlayDrawer = null;
         Rect windowRect = new Rect(10, 10, 300, 100);
-        void OnGUI()
+
+        public void ExecuteOnGUI()
         {
-            if (studioSystem.isValid() && Settings.Instance.IsOverlayEnabled(fmodPlatform))
+            if (studioSystem.isValid() && isOverlayEnabled)
             {
                 windowRect = GUI.Window(0, windowRect, DrawDebugOverlay, "FMOD Studio Debug");
             }
         }
+
+#if !UNITY_EDITOR
+        private void Start()
+        {
+            isOverlayEnabled = Settings.Instance.IsOverlayEnabled(fmodPlatform);
+        }
+#endif
 
         string lastDebugText;
         float lastDebugUpdate = 0;
@@ -521,6 +579,11 @@ namespace FMODUnity
         }
 
 #if UNITY_2017_2_OR_NEWER
+        static void HandleBeforeAssemblyReload()
+        {
+            Destroy();
+        }
+
         void HandlePlayModeStateChange(PlayModeStateChange state)
         {
             if (state == PlayModeStateChange.ExitingEditMode || state == PlayModeStateChange.EnteredEditMode)
@@ -919,6 +982,7 @@ namespace FMODUnity
         }
 
         public static bool[] HasListener = new bool[FMOD.CONSTANTS.MAX_LISTENERS];
+        private static int numListeners = 0;
 
         public static void SetListenerLocation(GameObject gameObject, Rigidbody rigidBody = null)
         {

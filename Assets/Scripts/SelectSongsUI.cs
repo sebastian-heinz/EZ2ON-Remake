@@ -561,6 +561,10 @@ public class SelectSongsUI : MonoBehaviour
 
     public void BtnStart()
     {
+        var btn = transform.Find("BtnStart").GetComponent<Button>();
+        if (!btn.interactable) return;
+        else btn.interactable = false;
+
         // 检查json文件是否存在
         var jsonPath = PatternUtils.Pattern.GetPath(currentSongName, currentType, currentMode, currentDifficulty);
         if (!EZR.ZipLoader.Exists(Path.Combine(EZR.Master.GameResourcesFolder, currentType.ToString(), "Songs", currentSongName + ".zip"), jsonPath))
@@ -570,9 +574,6 @@ public class SelectSongsUI : MonoBehaviour
             messageBox.GetComponent<EZR.MessageBox>().Text = "缺少曲谱文件！";
             return;
         }
-
-        var btn = EventSystem.current.currentSelectedGameObject.GetComponent<Button>();
-        btn.interactable = false;
 
         var eyecatch = Instantiate(Eyecatch);
         eyecatch.transform.SetParent(transform.parent, false);
@@ -677,6 +678,7 @@ public class SelectSongsUI : MonoBehaviour
         }
         else
         {
+            if (speedPressedCoroutine != null) StopCoroutine(speedPressedCoroutine);
             if (Input.GetKeyDown(KeyCode.UpArrow))
             {
                 speedAdd(0.25f);
@@ -685,6 +687,10 @@ public class SelectSongsUI : MonoBehaviour
             {
                 speedAdd(-0.25f);
             }
+        }
+        if (Input.GetKeyDown(KeyCode.F9))
+        {
+            BtnStart();
         }
     }
 
