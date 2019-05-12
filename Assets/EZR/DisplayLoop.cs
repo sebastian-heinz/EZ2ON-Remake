@@ -363,8 +363,8 @@ public class DisplayLoop : MonoBehaviour
 
     void inputEvent(int keyId, bool state)
     {
+        if (EZR.PlayManager.IsAutoPlay) return;
         linesUpdate[keyId] = true;
-
         EZR.Judgment.InputEvent(state, keyId, noteInLines, judgmentAnim, flarePlayList, LongflarePlayList);
     }
 }

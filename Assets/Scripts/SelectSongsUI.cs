@@ -720,7 +720,7 @@ public class SelectSongsUI : MonoBehaviour
         else
             closest = EZR.Utils.FindClosestNumber(decimalPart, EZR.PlayManager.FallSpeedStep, false);
         if (Mathf.Abs(((int)speed + closest) - speed) > 0.009f)
-            speed = ((int)speed + closest);
+            speed = Mathf.Max((int)speed + closest, 0.25f);
         else
             speed = Mathf.Max(((int)speed + closest) + val, 0.25f);
         updateBtnSpeed();

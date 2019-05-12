@@ -186,8 +186,8 @@ namespace EZR
 
         public static void AddCombo()
         {
-            Combo++;
             if (IsAutoPlay) return;
+            Combo++;
             if (Combo > Score.MaxCombo)
                 Score.MaxCombo = Combo;
         }
