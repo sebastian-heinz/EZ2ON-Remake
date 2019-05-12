@@ -150,5 +150,51 @@ public class SingleResultUI : MonoBehaviour
         {
             transform.Find("Disc").GetComponent<RawImage>().texture = EZR.ImageLoader.Load(buffer, fileName);
         }
+
+        StartCoroutine(playSoundDelay(grade, bonus, isNewRecord));
+    }
+
+    IEnumerator playSoundDelay(EZR.Score.Grade grade, EZR.Score.Bonus bonus, bool isNewRecord)
+    {
+        yield return new WaitForSecondsRealtime(0.5f);
+        EZR.MemorySound.PlaySound("e_result");
+        if (EZR.PlayManager.Score.IsClear)
+            EZR.MemorySound.PlaySound("e_clear");
+        switch (bonus)
+        {
+            case EZR.Score.Bonus.AllKool:
+                EZR.MemorySound.PlaySound("e_kool");
+                break;
+            case EZR.Score.Bonus.AllCool:
+                EZR.MemorySound.PlaySound("e_cool");
+                break;
+            case EZR.Score.Bonus.AllCombo:
+                EZR.MemorySound.PlaySound("e_combo");
+                break;
+        }
+        if (isNewRecord)
+            EZR.MemorySound.PlaySound("e_record");
+        yield return new WaitForSecondsRealtime(0.75f);
+        switch (grade)
+        {
+            case EZR.Score.Grade.APlus:
+                EZR.MemorySound.PlaySound("e_grade_a+");
+                break;
+            case EZR.Score.Grade.A:
+                EZR.MemorySound.PlaySound("e_grade_a");
+                break;
+            case EZR.Score.Grade.B:
+                EZR.MemorySound.PlaySound("e_grade_b");
+                break;
+            case EZR.Score.Grade.C:
+                EZR.MemorySound.PlaySound("e_grade_c");
+                break;
+            case EZR.Score.Grade.D:
+                EZR.MemorySound.PlaySound("e_grade_d");
+                break;
+            case EZR.Score.Grade.F:
+                EZR.MemorySound.PlaySound("e_grade_f");
+                break;
+        }
     }
 }
