@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using System.Threading.Tasks;
 using ICSharpCode.SharpZipLib.Core;
 using ICSharpCode.SharpZipLib.Zip;
 
@@ -7,7 +8,7 @@ namespace EZR
     public static class ZipLoader
     {
         public static ZipFile CurrentZip;
-        public static byte[] LoadFile(string zipPath, string entryName)
+        public static async Task<byte[]> LoadFile(string zipPath, string entryName)
         {
             if (!File.Exists(zipPath)) return null;
             using (var archive = new ZipFile(zipPath))
@@ -17,9 +18,11 @@ namespace EZR
                 {
                     var entry = archive[index];
                     if (!entry.IsFile) return null;
-                    using (var reader = new BinaryReader(archive.GetInputStream(entry)))
+                    using (var stream = archive.GetInputStream(entry))
                     {
-                        return reader.ReadBytes((int)entry.Size);
+                        var buffer = new byte[entry.Size];
+                        await stream.ReadAsync(buffer, 0, (int)entry.Size);
+                        return buffer;
                     }
                 }
                 else return null;

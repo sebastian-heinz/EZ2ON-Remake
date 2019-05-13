@@ -18,7 +18,8 @@ namespace EZR
             public GameType gameType = GameType.EZ2ON;
             public bool isNew = false;
             public int bpm = 0;
-            public Dictionary<GameMode.Mode, Dictionary<GameDifficulty.Difficulty, int>> difficulty;
+            public Dictionary<GameMode.Mode, Dictionary<GameDifficult.Difficult, int>> difficult;
+            public string sha1 = "";
         }
 
         public static void Parse(string data)
@@ -39,16 +40,17 @@ namespace EZR
                         gameType = Utils.ParseEnum<GameType>((string)info["gameType"]),
                         isNew = (bool)info["isNew"],
                         bpm = (int)info["bpm"],
-                        difficulty = new Dictionary<GameMode.Mode, Dictionary<GameDifficulty.Difficulty, int>>()
+                        difficult = new Dictionary<GameMode.Mode, Dictionary<GameDifficult.Difficult, int>>(),
+                        sha1 = (string)info["sha1"]
                     };
 
-                    foreach (JProperty difficultyInfo in info["difficulty"].Children())
+                    foreach (JProperty difficultInfo in info["difficult"].Children())
                     {
-                        var mode = Utils.ParseEnum<GameMode.Mode>(difficultyInfo.Name);
-                        songInfo.difficulty[mode] = new Dictionary<GameDifficulty.Difficulty, int>();
-                        foreach (JProperty difficulty in difficultyInfo.Value.Children())
+                        var mode = Utils.ParseEnum<GameMode.Mode>(difficultInfo.Name);
+                        songInfo.difficult[mode] = new Dictionary<GameDifficult.Difficult, int>();
+                        foreach (JProperty difficult in difficultInfo.Value.Children())
                         {
-                            songInfo.difficulty[mode][Utils.ParseEnum<GameDifficulty.Difficulty>(difficulty.Name)] = (int)difficulty.Value;
+                            songInfo.difficult[mode][Utils.ParseEnum<GameDifficult.Difficult>(difficult.Name)] = (int)difficult.Value;
                         }
                     }
 

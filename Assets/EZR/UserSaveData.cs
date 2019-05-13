@@ -95,7 +95,7 @@ namespace EZR
             }
         }
 
-        public static int GetScore(string name, GameType type, GameMode.Mode mode, GameDifficulty.Difficulty diff)
+        public static int GetScore(string name, GameType type, GameMode.Mode mode, GameDifficult.Difficult diff)
         {
             JObject jobj;
             if (!UserData.ContainsKey("myBestScore")) return 0;
@@ -109,7 +109,7 @@ namespace EZR
             if (!jobj.ContainsKey(diff.ToString())) return 0;
             return (int)jobj[diff.ToString()];
         }
-        public static bool SetScore(int score, string name, GameType type, GameMode.Mode mode, GameDifficulty.Difficulty diff)
+        public static bool SetScore(int score, string name, GameType type, GameMode.Mode mode, GameDifficult.Difficult diff)
         {
             if (score == 0) return false;
             JObject jobj;

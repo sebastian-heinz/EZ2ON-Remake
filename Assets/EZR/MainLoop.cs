@@ -9,12 +9,13 @@ namespace EZR
     public static partial class PlayManager
     {
         public static Stopwatch Stopwatch = new Stopwatch();
-        public static double DeltaTime = 0d;
-        public static double PositionDelta = 0d;
-        static double lastTime = 0d;
+        public static double DeltaTime = 0;
+        public static double PositionDelta = 0;
+        public static double TickPerSecond = 0;
+        static double lastTime = 0;
 
         public static event Action Groove;
-        static double beat = 0d;
+        static double beat = 0;
 
         public static event Action<string, int> DebugEvent;
         public static event Action LoopStop;
@@ -99,7 +100,8 @@ namespace EZR
             DeltaTime = (now - lastTime) / 10000000d;
             lastTime = now;
 
-            PositionDelta = DeltaTime * ((TimeLines.BPM / 4d / 60d) * PatternUtils.Pattern.MeasureLength);
+            TickPerSecond = TimeLines.BPM / 4d / 60d * PatternUtils.Pattern.MeasureLength;
+            PositionDelta = DeltaTime * TickPerSecond;
             Position += PositionDelta;
 
             beat += DeltaTime * (TimeLines.BPM / 60d);

@@ -26,7 +26,7 @@ namespace EZR
         public static int NumLines = 4;
         public static int MaxLines { get => 8; }
         public static GameMode.Mode GameMode = EZR.GameMode.Mode.RubyMixON;
-        public static GameDifficulty.Difficulty GameDifficult = EZR.GameDifficulty.Difficulty.EZ;
+        public static GameDifficult.Difficult GameDifficult = EZR.GameDifficult.Difficult.EZ;
 
         public static TimeLines TimeLines;
 
@@ -37,11 +37,11 @@ namespace EZR
 
         public static Score Score = new Score();
 
-        public static void LoadPattern()
+        public static async void LoadPattern()
         {
-            string jsonPath = PatternUtils.Pattern.GetPath(SongName, GameType, GameMode, GameDifficult);
+            string jsonPath = PatternUtils.Pattern.GetFileName(SongName, GameType, GameMode, GameDifficult);
             string zipPath = Path.Combine(EZR.Master.GameResourcesFolder, GameType.ToString(), "Songs", SongName + ".zip");
-            var buffer = ZipLoader.LoadFile(zipPath, jsonPath);
+            var buffer = await ZipLoader.LoadFile(zipPath, jsonPath);
             Debug.Log(jsonPath);
             if (buffer == null)
             {

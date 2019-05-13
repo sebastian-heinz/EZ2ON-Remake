@@ -71,6 +71,9 @@ namespace EZR
         static object streamSound;
         static object streamChannel;
 
+        // public static float PrePlaySoundDelay { get => 0.002f; }
+        // public static double PlaySoundDelta = 0;
+
         static MemorySound()
         {
             // 防止爆音？

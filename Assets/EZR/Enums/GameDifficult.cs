@@ -1,8 +1,8 @@
 namespace EZR
 {
-    public class GameDifficulty
+    public class GameDifficult
     {
-        public enum Difficulty
+        public enum Difficult
         {
             EZ,
             NM,
@@ -13,46 +13,46 @@ namespace EZR
             DJMAX_MX
         }
 
-        public static string GetString(Difficulty difficult)
+        public static string GetString(Difficult difficult)
         {
             switch (difficult)
             {
-                case Difficulty.EZ:
+                case Difficult.EZ:
                     return "-ez";
-                case Difficulty.NM:
+                case Difficult.NM:
                     return "";
-                case Difficulty.HD:
+                case Difficult.HD:
                     return "-hd";
-                case Difficulty.SHD:
+                case Difficult.SHD:
                     return "-shd";
-                case Difficulty.DJMAX_NM:
+                case Difficult.DJMAX_NM:
                     return "_nm";
-                case Difficulty.DJMAX_HD:
+                case Difficult.DJMAX_HD:
                     return "_hd";
-                case Difficulty.DJMAX_MX:
+                case Difficult.DJMAX_MX:
                     return "_mx";
                 default:
                     return null;
             }
         }
 
-        public static string GetFullName(Difficulty difficult)
+        public static string GetFullName(Difficult difficult)
         {
             switch (difficult)
             {
-                case Difficulty.EZ:
+                case Difficult.EZ:
                     return "Easy mix";
-                case Difficulty.NM:
+                case Difficult.NM:
                     return "Normal mix";
-                case Difficulty.HD:
+                case Difficult.HD:
                     return "Hard mix";
-                case Difficulty.SHD:
+                case Difficult.SHD:
                     return "Superhard mix";
-                case Difficulty.DJMAX_NM:
+                case Difficult.DJMAX_NM:
                     return "Normal mode";
-                case Difficulty.DJMAX_HD:
+                case Difficult.DJMAX_HD:
                     return "Hard mode";
-                case Difficulty.DJMAX_MX:
+                case Difficult.DJMAX_MX:
                     return "Maximum mode";
                 default:
                     return null;

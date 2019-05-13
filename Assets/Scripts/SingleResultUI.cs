@@ -26,33 +26,33 @@ public class SingleResultUI : MonoBehaviour
     public Color ShdColor = Color.white;
     public Color[] LinesColor = new Color[EZR.PlayManager.MaxLines - 3];
 
-    void Start()
+    async void Start()
     {
         var info = EZR.SongsList.List[EZR.SongsList.currentIndex];
         transform.Find("SongName").GetComponent<Text>().text = info.displayName.ToUpper();
-        var diffText = transform.Find("Difficulty").GetComponent<Text>();
-        diffText.text = EZR.GameDifficulty.GetFullName(EZR.PlayManager.GameDifficult).ToUpper();
+        var diffText = transform.Find("Difficult").GetComponent<Text>();
+        diffText.text = EZR.GameDifficult.GetFullName(EZR.PlayManager.GameDifficult).ToUpper();
         switch (EZR.PlayManager.GameDifficult)
         {
-            case EZR.GameDifficulty.Difficulty.EZ:
+            case EZR.GameDifficult.Difficult.EZ:
                 diffText.color = EzColor;
                 break;
-            case EZR.GameDifficulty.Difficulty.NM:
+            case EZR.GameDifficult.Difficult.NM:
                 diffText.color = NmColor;
                 break;
-            case EZR.GameDifficulty.Difficulty.HD:
+            case EZR.GameDifficult.Difficult.HD:
                 diffText.color = HdColor;
                 break;
-            case EZR.GameDifficulty.Difficulty.SHD:
+            case EZR.GameDifficult.Difficult.SHD:
                 diffText.color = ShdColor;
                 break;
-            case EZR.GameDifficulty.Difficulty.DJMAX_NM:
+            case EZR.GameDifficult.Difficult.DJMAX_NM:
                 diffText.color = NmColor;
                 break;
-            case EZR.GameDifficulty.Difficulty.DJMAX_HD:
+            case EZR.GameDifficult.Difficult.DJMAX_HD:
                 diffText.color = HdColor;
                 break;
-            case EZR.GameDifficulty.Difficulty.DJMAX_MX:
+            case EZR.GameDifficult.Difficult.DJMAX_MX:
                 diffText.color = ShdColor;
                 break;
         }
@@ -135,17 +135,17 @@ public class SingleResultUI : MonoBehaviour
         switch (EZR.PlayManager.GameType)
         {
             case EZR.GameType.EZ2ON:
-                fileName = "big_" + EZR.PlayManager.SongName + EZR.GameDifficulty.GetString(EZR.PlayManager.GameDifficult) + ".png";
+                fileName = "big_" + EZR.PlayManager.SongName + EZR.GameDifficult.GetString(EZR.PlayManager.GameDifficult) + ".png";
                 break;
             case EZR.GameType.EZ2DJ:
-                fileName = EZR.PlayManager.SongName + EZR.GameDifficulty.GetString(EZR.PlayManager.GameDifficult) + ".bmp";
+                fileName = EZR.PlayManager.SongName + EZR.GameDifficult.GetString(EZR.PlayManager.GameDifficult) + ".bmp";
                 break;
             case EZR.GameType.DJMAX:
                 fileName = "song_pic_f_" + EZR.PlayManager.SongName + "_" + ((int)EZR.PlayManager.GameDifficult - 3).ToString().PadLeft(2, '0') + ".png";
                 break;
         }
 
-        var buffer = EZR.ZipLoader.LoadFile(Path.Combine(EZR.Master.GameResourcesFolder, EZR.PlayManager.GameType.ToString(), "Songs", EZR.PlayManager.SongName + ".zip"), fileName);
+        var buffer = await EZR.ZipLoader.LoadFile(Path.Combine(EZR.Master.GameResourcesFolder, EZR.PlayManager.GameType.ToString(), "Songs", EZR.PlayManager.SongName + ".zip"), fileName);
         if (buffer != null)
         {
             transform.Find("Disc").GetComponent<RawImage>().texture = EZR.ImageLoader.Load(buffer, fileName);

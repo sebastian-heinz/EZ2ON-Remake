@@ -254,7 +254,7 @@ public class DisplayLoop : MonoBehaviour
         // Unity Delta Time Position 用于消除音符抖动
         if (isStarted)
         {
-            positionDelta = Time.unscaledDeltaTime * ((EZR.PlayManager.TimeLines.BPM / 4d / 60d) * PatternUtils.Pattern.MeasureLength);
+            positionDelta = Time.unscaledDeltaTime * EZR.PlayManager.TickPerSecond;
             Position += positionDelta;
             // 消除误差，同步时间轴
             if (System.Math.Abs(Position - EZR.PlayManager.Position) > 1)
@@ -270,6 +270,8 @@ public class DisplayLoop : MonoBehaviour
                 VideoPlayer.Play();
                 bgaPlayed = true;
             }
+            // 算声音播放延迟
+            // EZR.MemorySound.PlaySoundDelta = EZR.MemorySound.PrePlaySoundDelay * EZR.PlayManager.TickPerSecond;
         }
 
         // 插值下落速度
@@ -278,10 +280,22 @@ public class DisplayLoop : MonoBehaviour
         );
 
         // 播放头
-        header.localPosition = new Vector3(0,
-            -(float)(Position * EZR.PlayManager.GetSpeed()),
-            0
-        );
+        switch (EZR.PlayManager.IsAutoPlay)
+        {
+            case true:
+                header.localPosition = new Vector3(0,
+                    -(float)(Position * EZR.PlayManager.GetSpeed()),
+                    0
+                );
+                break;
+            case false:
+                header.localPosition = new Vector3(0,
+                    -(float)((Position - positionDelta) * EZR.PlayManager.GetSpeed()),
+                    0
+                );
+                break;
+        }
+
 
         // 生成实时音符
         for (int i = 0; i < EZR.PlayManager.NumLines; i++)
