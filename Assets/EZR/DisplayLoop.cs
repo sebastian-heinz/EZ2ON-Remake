@@ -27,6 +27,9 @@ namespace EZR
         bool grooveLight = false;
         Animation grooveLightAnim;
 
+        RectTransform HP;
+        Coroutine hpBeatCoroutine;
+
         bool[] linesUpdate;
         Animation[] linesAnim;
 
@@ -67,6 +70,8 @@ namespace EZR
 
             // 找节奏灯
             grooveLightAnim = panel.transform.Find("Groove").GetComponent<Animation>();
+            // 找HP
+            HP = panel.transform.Find("HP").GetComponent<RectTransform>();
 
             // 找按键动画
             linesUpdate = new bool[PlayManager.NumLines];
@@ -227,6 +232,10 @@ namespace EZR
                 grooveLight = false;
                 grooveLightAnim["GrooveLight"].time = 0;
                 grooveLightAnim.Play("GrooveLight");
+
+                // HP跳动
+                if (hpBeatCoroutine != null) StopCoroutine(hpBeatCoroutine);
+                hpBeatCoroutine = StartCoroutine(hpBeat());
             }
 
             // 按键表现
@@ -373,6 +382,20 @@ namespace EZR
             if (PlayManager.IsAutoPlay) return;
             linesUpdate[keyId] = true;
             Judgment.InputEvent(state, keyId, noteInLines, judgmentAnim, flarePlayList, LongflarePlayList);
+        }
+
+        IEnumerator hpBeat()
+        {
+            for (float i = 0; i < 1; i += Time.unscaledDeltaTime * 2)
+            {
+                if (i >= 1) i -= 1;
+                yield return null;
+                HP.localScale = Vector3.Lerp(
+                    new Vector3(1, PlayManager.HP / PlayManager.MaxHp + 0.1f, 1),
+                    new Vector3(1, PlayManager.HP / PlayManager.MaxHp, 1),
+                    Mathf.Sqrt(1 - Mathf.Pow(1 - i, 2))
+                );
+            }
         }
     }
 }

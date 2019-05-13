@@ -26,8 +26,15 @@ public class SinglePlay : MonoBehaviour
         if (isFinished)
         {
             isFinished = false;
-            finished();
+            finished(true);
             return;
+        }
+
+        // 关门
+        if (EZR.PlayManager.HP == 0)
+        {
+            finished(true);
+            EZR.MemorySound.PlaySound("e_die");
         }
 
         if (Input.GetKeyDown(KeyCode.F4))
@@ -41,7 +48,7 @@ public class SinglePlay : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            finished();
+            finished(false);
         }
 
         if (Input.GetKeyDown(KeyCode.F2))
@@ -124,7 +131,7 @@ public class SinglePlay : MonoBehaviour
         EZR.PlayManager.Score.IsClear = true;
     }
 
-    void finished()
+    void finished(bool isResult)
     {
         EZR.PlayManager.LoopStop -= loopStop;
         displayLoop.Stop();
@@ -133,6 +140,9 @@ public class SinglePlay : MonoBehaviour
         EZR.MemorySound.BGM.stop();
         EZR.MemorySound.UnloadAllSound();
 
-        SceneManager.LoadScene("SingleResult");
+        if (isResult)
+            SceneManager.LoadScene("SingleResult");
+        else
+            SceneManager.LoadScene("SelectSongs");
     }
 }

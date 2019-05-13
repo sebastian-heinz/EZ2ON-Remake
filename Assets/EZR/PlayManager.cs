@@ -38,6 +38,14 @@ namespace EZR
 
         public static Score Score = new Score();
 
+        public static float MaxHp = 50;
+        static float hp = MaxHp;
+        public static float HP
+        {
+            get => hp;
+            set { hp = Mathf.Clamp(value, 0, MaxHp); }
+        }
+
         public static bool IsSimVsync = true;
         public static float PreSimVsyncDelay { get => 0.01666667f; }
         public static double SimVsyncDelta = 0;
@@ -169,6 +177,7 @@ namespace EZR
 
             beat = 0d;
             Score.Reset();
+            HP = MaxHp;
             Combo = 0;
 
             if (TimeLines != null)
