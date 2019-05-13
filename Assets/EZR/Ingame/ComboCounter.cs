@@ -30,6 +30,8 @@ namespace EZR
             if (isClear)
             {
                 isClear = false;
+                anim["ComboCounter"].normalizedTime = 1;
+                comboHeadAnim["Combo"].normalizedTime = 1;
                 comboHead.color = Color.black;
                 comboText.color = Color.black;
                 return;

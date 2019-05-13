@@ -1,6 +1,9 @@
 version: 2
 importPivots: 1
 tpsheetFileNames:
+- Assets/UI/Skin/Common.tpsheet
 textureFileNames:
+- Assets/UI/Skin/Common.png
 normalmapFileNames:
+- 
 enableDebugOutput: 0

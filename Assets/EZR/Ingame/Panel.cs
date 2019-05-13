@@ -9,6 +9,7 @@ namespace EZR
     {
         public GameObject Judgment;
         public GameObject LongFlare;
+        public GameObject MeasureLine;
         public Text ScoreText;
         public Text MaxComboText;
 

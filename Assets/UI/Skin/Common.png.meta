@@ -89,6 +89,27 @@ TextureImporter:
   - first:
       213: -3451530209276334049
     second: ryu_ok_button_over
+  - first:
+      213: -4844487787878562499
+    second: GEM_Measure_0
+  - first:
+      213: 5434063617899043775
+    second: GEM_Measure_1
+  - first:
+      213: 9152147688686456894
+    second: GEM_Measure_2
+  - first:
+      213: 1544471683308033926
+    second: GEM_Measure_3
+  - first:
+      213: 2888656551415137219
+    second: GEM_Measure_4
+  - first:
+      213: -1980122267694290553
+    second: GEM_Measure_5
+  - first:
+      213: 3443743321510702439
+    second: GEM_COMBO
   externalObjects: {}
   serializedVersion: 10
   mipmaps:
@@ -185,8 +206,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 
-      internalID: 0
+      spriteID: 56a6de35a3cc9f447abea57733278367
+      internalID: -815504574228383573
       vertices: []
       indices: 
       edges: []
@@ -206,8 +227,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 
-      internalID: 0
+      spriteID: 7fc07608ff626c8438b4092c24d72628
+      internalID: 561968362080930466
       vertices: []
       indices: 
       edges: []
@@ -227,8 +248,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 
-      internalID: 0
+      spriteID: 8db0e3fca78aa74488f9c8d9c84087f7
+      internalID: 3367934793266305111
       vertices: []
       indices: 
       edges: []
@@ -248,8 +269,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 
-      internalID: 0
+      spriteID: 64e5338565831e643b3e0efc05a3d6cd
+      internalID: -4873020726419503267
       vertices: []
       indices: 
       edges: []
@@ -269,14 +290,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 
-      internalID: 0
+      spriteID: 9996633d627387444932fbb4b9a77199
+      internalID: 3340275705800500115
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: GEM_Decision_COOL
+      name: GEM_COMBO
       rect:
         serializedVersion: 2
         x: 19
@@ -290,18 +311,18 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 
-      internalID: 0
+      spriteID: 53ada26894862984b959285e8aa1dca3
+      internalID: 3443743321510702439
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: GEM_Decision_FAIL
+      name: GEM_Decision_COOL
       rect:
         serializedVersion: 2
         x: 149
-        y: 15
+        y: 10
         width: 128
         height: 32
       alignment: 0
@@ -311,8 +332,29 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 
-      internalID: 0
+      spriteID: fb70d8987d9b1f743bcaae5542469c07
+      internalID: 2520745483326456051
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: GEM_Decision_FAIL
+      rect:
+        serializedVersion: 2
+        x: 279
+        y: 10
+        width: 128
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b4b79085c99f9e3448bea7f43002ae09
+      internalID: -1105143363382101408
       vertices: []
       indices: 
       edges: []
@@ -321,7 +363,49 @@ TextureImporter:
       name: GEM_Decision_GOOD
       rect:
         serializedVersion: 2
-        x: 166
+        x: 299
+        y: 76
+        width: 128
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 609af237a27e08f4dbd1ea91a9098f67
+      internalID: -8672987457330952538
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: GEM_Decision_KOOL
+      rect:
+        serializedVersion: 2
+        x: 363
+        y: 142
+        width: 128
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c73a4f760d6378d46b95df87fd9b30ac
+      internalID: -6244175656921522816
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: GEM_Decision_MISS
+      rect:
+        serializedVersion: 2
+        x: 448
         y: 203
         width: 128
         height: 32
@@ -332,50 +416,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 
-      internalID: 0
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: GEM_Decision_KOOL
-      rect:
-        serializedVersion: 2
-        x: 223
-        y: 269
-        width: 128
-        height: 32
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 
-      internalID: 0
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: GEM_Decision_MISS
-      rect:
-        serializedVersion: 2
-        x: 178
-        y: 81
-        width: 128
-        height: 32
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 
-      internalID: 0
+      spriteID: 96cceccfffd51dd449f64e8b7b5e4f30
+      internalID: 179885798120613999
       vertices: []
       indices: 
       edges: []
@@ -384,8 +426,8 @@ TextureImporter:
       name: GEM_Long_EFFECT0
       rect:
         serializedVersion: 2
-        x: 25
-        y: 237
+        x: 167
+        y: 44
         width: 64
         height: 64
       alignment: 0
@@ -395,8 +437,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 
-      internalID: 0
+      spriteID: 5ded0c9cb8bf2344184af31ca71a3e6a
+      internalID: -7124187130391034698
       vertices: []
       indices: 
       edges: []
@@ -405,8 +447,8 @@ TextureImporter:
       name: GEM_Long_EFFECT1
       rect:
         serializedVersion: 2
-        x: 91
-        y: 237
+        x: 233
+        y: 44
         width: 64
         height: 64
       alignment: 0
@@ -416,8 +458,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 
-      internalID: 0
+      spriteID: 87c48178854ecc240863a7e0865e4b41
+      internalID: -4344669273394445643
       vertices: []
       indices: 
       edges: []
@@ -426,28 +468,7 @@ TextureImporter:
       name: GEM_Long_EFFECT2
       rect:
         serializedVersion: 2
-        x: 157
-        y: 237
-        width: 64
-        height: 64
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 
-      internalID: 0
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: GEM_Long_EFFECT3
-      rect:
-        serializedVersion: 2
-        x: 37
+        x: 297
         y: 110
         width: 64
         height: 64
@@ -458,8 +479,155 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 
-      internalID: 0
+      spriteID: 3e5ab74ecc9829046935e9235474363c
+      internalID: -7693199007165931389
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: GEM_Long_EFFECT3
+      rect:
+        serializedVersion: 2
+        x: 415
+        y: 237
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8c9b57895bf034e4bb2e8b7981509033
+      internalID: -409373299209614460
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: GEM_Measure_0
+      rect:
+        serializedVersion: 2
+        x: 25
+        y: 237
+        width: 128
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cac704bf49087474ebc2e1a710df6e81
+      internalID: -4844487787878562499
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: GEM_Measure_1
+      rect:
+        serializedVersion: 2
+        x: 155
+        y: 237
+        width: 128
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 023599c333d3b5c44ac85eb0903ada59
+      internalID: 5434063617899043775
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: GEM_Measure_2
+      rect:
+        serializedVersion: 2
+        x: 37
+        y: 110
+        width: 128
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d9a926048a9151344b8b511d23a84a9a
+      internalID: 9152147688686456894
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: GEM_Measure_3
+      rect:
+        serializedVersion: 2
+        x: 285
+        y: 237
+        width: 128
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 294a2360f46da4742827bc458b5d5964
+      internalID: 1544471683308033926
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: GEM_Measure_4
+      rect:
+        serializedVersion: 2
+        x: 37
+        y: 44
+        width: 128
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5213fb2c200d9a446bc21421bc5f948b
+      internalID: 2888656551415137219
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: GEM_Measure_5
+      rect:
+        serializedVersion: 2
+        x: 167
+        y: 110
+        width: 128
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b8167e77915934a48881e335ec7d3a22
+      internalID: -1980122267694290553
       vertices: []
       indices: 
       edges: []
@@ -479,8 +647,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 
-      internalID: 0
+      spriteID: b04f256211391cd4a9ba46eee80f94b6
+      internalID: -5949049285641286412
       vertices: []
       indices: 
       edges: []
@@ -500,8 +668,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 
-      internalID: 0
+      spriteID: 3bcb15199f037014ca659fef8760129b
+      internalID: -326081354974487979
       vertices: []
       indices: 
       edges: []
@@ -510,8 +678,8 @@ TextureImporter:
       name: ryu_ok_button_normal
       rect:
         serializedVersion: 2
-        x: 37
-        y: 49
+        x: 166
+        y: 176
         width: 139
         height: 59
       alignment: 0
@@ -521,8 +689,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 
-      internalID: 0
+      spriteID: 414ad9675febdad41939067b0bed3998
+      internalID: -4318562318527985610
       vertices: []
       indices: 
       edges: []
@@ -531,8 +699,8 @@ TextureImporter:
       name: ryu_ok_button_over
       rect:
         serializedVersion: 2
-        x: 103
-        y: 115
+        x: 307
+        y: 176
         width: 139
         height: 59
       alignment: 0
@@ -542,8 +710,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 
-      internalID: 0
+      spriteID: 6be5b52342406b049a18e3a2234288aa
+      internalID: -3451530209276334049
       vertices: []
       indices: 
       edges: []
@@ -563,8 +731,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 
-      internalID: 0
+      spriteID: 98d1c2715e4c5af44ae217d1e50d82a8
+      internalID: -1835304658440169179
       vertices: []
       indices: 
       edges: []

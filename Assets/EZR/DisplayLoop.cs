@@ -48,6 +48,9 @@ namespace EZR
 
         NoteType.Note[] Notes;
 
+        GameObject measureLine;
+        int measureCount = 0;
+
         float noteScale;
 
         int[] currentIndex;
@@ -67,6 +70,9 @@ namespace EZR
             noteScale = noteType.NoteScale[PlayManager.NumLines - 4];
             var target = Instantiate(noteType.Target[PlayManager.NumLines - 4]);
             target.transform.SetParent(panel.transform.Find("Target"), false);
+
+            // 节奏线
+            measureLine = panel.GetComponent<Panel>().MeasureLine;
 
             // 找节奏灯
             grooveLightAnim = panel.transform.Find("Groove").GetComponent<Animation>();
@@ -199,6 +205,8 @@ namespace EZR
             }
             PlayManager.Position = Position = 0;
 
+            measureCount = 0;
+
             readyFrame = 0;
             isStarted = false;
 
@@ -236,6 +244,12 @@ namespace EZR
                 // HP跳动
                 if (hpBeatCoroutine != null) StopCoroutine(hpBeatCoroutine);
                 hpBeatCoroutine = StartCoroutine(hpBeat());
+
+                // 节奏线跳动
+                foreach (var measure in MeasureLine.MeasureLines)
+                {
+                    measure.PlayAnim();
+                }
             }
 
             // 按键表现
@@ -302,9 +316,9 @@ namespace EZR
             // 生成实时音符
             for (int i = 0; i < PlayManager.NumLines; i++)
             {
+                var screenHeight = noteArea.sizeDelta.y / PlayManager.GetSpeed();
                 while (currentIndex[i] < PlayManager.TimeLines.Lines[i].Notes.Count &&
-                PlayManager.TimeLines.Lines[i].Notes[currentIndex[i]].position - Position <
-                noteArea.sizeDelta.y / PlayManager.GetSpeed())
+                PlayManager.TimeLines.Lines[i].Notes[currentIndex[i]].position - Position < screenHeight)
                 {
                     // 测试长音符
                     // if (PlayManager.TimeLines.Lines[i].Notes[currentIndex[i]].length <= 6)
@@ -312,14 +326,12 @@ namespace EZR
                     //     currentIndex[i]++;
                     //     continue;
                     // }
-
-                    GameObject note;
-                    Pattern.Note patternNote = PlayManager.TimeLines.Lines[i].Notes[currentIndex[i]];
-
-                    note = Instantiate(Notes[PlayManager.NumLines - 4].NotePrefab[i]);
+                    var note = Instantiate(Notes[PlayManager.NumLines - 4].NotePrefab[i]);
                     note.transform.SetParent(header, false);
                     // 新产生的音符永远在最下层
                     note.transform.SetSiblingIndex(0);
+
+                    Pattern.Note patternNote = PlayManager.TimeLines.Lines[i].Notes[currentIndex[i]];
 
                     var noteInLine = note.GetComponent<NoteInLine>();
                     noteInLine.Init(currentIndex[i], patternNote.position, noteScale, patternNote.length, linesAnim[i].transform.localPosition.x, this);
@@ -327,9 +339,22 @@ namespace EZR
 
                     currentIndex[i]++;
                 }
+                int currentMeasureCount = (int)((Position + screenHeight) / PatternUtils.Pattern.MeasureLength);
+                if (currentMeasureCount > measureCount)
+                {
+                    var measureDelta = currentMeasureCount - measureCount;
+                    for (int j = 0; j < measureDelta; j++)
+                    {
+                        var measureInst = Instantiate(measureLine);
+                        measureInst.transform.SetParent(header, false);
+                        measureInst.transform.SetSiblingIndex(0);
+                        measureInst.GetComponent<MeasureLine>().Index = measureCount + j + 1;
+                    }
+                    measureCount = currentMeasureCount;
+                }
             }
 
-            // 长音符和移除音符
+            // 移除长音符音符
             for (int i = 0; i < PlayManager.NumLines; i++)
             {
                 if (noteInLines[i].Count > 0)

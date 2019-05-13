@@ -31,6 +31,14 @@ public class SelectSongsUI : MonoBehaviour
 
     void Start()
     {
+        if (EZR.SongsList.List.Count == 0)
+        {
+            var messageBox = Instantiate(EZR.Master.MessageBox);
+            messageBox.transform.SetParent(transform.parent, false);
+            messageBox.GetComponent<EZR.MessageBox>().Text = "加载歌曲列表失败！";
+            return;
+        }
+
         songslistContent = transform.Find("PanelSongsList/List/Viewport/Content");
         gameTypeContent = transform.Find("PanelSongsList/ListGameType/Viewport/Content");
 

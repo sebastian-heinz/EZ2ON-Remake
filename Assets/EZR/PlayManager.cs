@@ -47,7 +47,7 @@ namespace EZR
         }
 
         public static bool IsSimVsync = true;
-        public static float PreSimVsyncDelay { get => 0.01666667f; }
+        public static float PreSimVsyncDelay { get => 0.008f; }
         public static double SimVsyncDelta = 0;
 
         public static void LoadPattern()

@@ -127,7 +127,7 @@ public class SingleResultUI : MonoBehaviour
                 break;
         }
         var clear = transform.Find("Clear").GetComponent<Image>();
-        if (EZR.PlayManager.Score.IsClear)
+        if (EZR.PlayManager.Score.IsClear && grade != EZR.Score.Grade.F)
             clear.overrideSprite = ClearSuccess;
         else
             clear.overrideSprite = ClearFailed;
@@ -158,7 +158,7 @@ public class SingleResultUI : MonoBehaviour
     {
         yield return new WaitForSecondsRealtime(0.5f);
         EZR.MemorySound.PlaySound("e_result");
-        if (EZR.PlayManager.Score.IsClear)
+        if (EZR.PlayManager.Score.IsClear && grade != EZR.Score.Grade.F)
             EZR.MemorySound.PlaySound("e_clear");
         switch (bonus)
         {
