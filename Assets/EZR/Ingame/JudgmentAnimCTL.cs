@@ -3,67 +3,70 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class JudgmentAnimCTL : MonoBehaviour
+namespace EZR
 {
-    public Sprite Cool;
-    public Sprite Good;
-    public Sprite Miss;
-    public Sprite Fail;
-
-    Animation anim;
-    Image image;
-    EZR.JudgmentType sprite = EZR.JudgmentType.Kool;
-
-    bool isPlay = false;
-
-    void Start()
+    public class JudgmentAnimCTL : MonoBehaviour
     {
-        anim = GetComponent<Animation>();
-        anim["KOOL"].normalizedTime = 1;
-        anim.Play("KOOL");
+        public Sprite Cool;
+        public Sprite Good;
+        public Sprite Miss;
+        public Sprite Fail;
 
-        image = GetComponent<Image>();
-    }
+        Animation anim;
+        Image image;
+        JudgmentType sprite = JudgmentType.Kool;
 
-    // Update is called once per frame
-    void Update()
-    {
-        if (isPlay)
+        bool isPlay = false;
+
+        void Start()
         {
-            isPlay = false;
+            anim = GetComponent<Animation>();
+            anim["KOOL"].normalizedTime = 1;
+            anim.Play("KOOL");
 
-            if (sprite == EZR.JudgmentType.Kool)
+            image = GetComponent<Image>();
+        }
+
+        // Update is called once per frame
+        void Update()
+        {
+            if (isPlay)
             {
-                image.overrideSprite = null;
-                anim["KOOL"].normalizedTime = 0;
-                anim.Play("KOOL");
-            }
-            else
-            {
-                switch (sprite)
+                isPlay = false;
+
+                if (sprite == JudgmentType.Kool)
                 {
-                    case EZR.JudgmentType.Cool:
-                        image.overrideSprite = Cool;
-                        break;
-                    case EZR.JudgmentType.Good:
-                        image.overrideSprite = Good;
-                        break;
-                    case EZR.JudgmentType.Miss:
-                        image.overrideSprite = Miss;
-                        break;
-                    case EZR.JudgmentType.Fail:
-                        image.overrideSprite = Fail;
-                        break;
+                    image.overrideSprite = null;
+                    anim["KOOL"].normalizedTime = 0;
+                    anim.Play("KOOL");
                 }
-                anim["Any"].normalizedTime = 0;
-                anim.Play("Any");
+                else
+                {
+                    switch (sprite)
+                    {
+                        case JudgmentType.Cool:
+                            image.overrideSprite = Cool;
+                            break;
+                        case JudgmentType.Good:
+                            image.overrideSprite = Good;
+                            break;
+                        case JudgmentType.Miss:
+                            image.overrideSprite = Miss;
+                            break;
+                        case JudgmentType.Fail:
+                            image.overrideSprite = Fail;
+                            break;
+                    }
+                    anim["Any"].normalizedTime = 0;
+                    anim.Play("Any");
+                }
             }
         }
-    }
 
-    public void Play(EZR.JudgmentType Judgment)
-    {
-        isPlay = true;
-        sprite = Judgment;
+        public void Play(JudgmentType Judgment)
+        {
+            isPlay = true;
+            sprite = Judgment;
+        }
     }
 }

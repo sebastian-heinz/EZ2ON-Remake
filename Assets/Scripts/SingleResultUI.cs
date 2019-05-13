@@ -26,7 +26,7 @@ public class SingleResultUI : MonoBehaviour
     public Color ShdColor = Color.white;
     public Color[] LinesColor = new Color[EZR.PlayManager.MaxLines - 3];
 
-    async void Start()
+    void Start()
     {
         var info = EZR.SongsList.List[EZR.SongsList.currentIndex];
         transform.Find("SongName").GetComponent<Text>().text = info.displayName.ToUpper();
@@ -145,7 +145,7 @@ public class SingleResultUI : MonoBehaviour
                 break;
         }
 
-        var buffer = await EZR.ZipLoader.LoadFile(Path.Combine(EZR.Master.GameResourcesFolder, EZR.PlayManager.GameType.ToString(), "Songs", EZR.PlayManager.SongName + ".zip"), fileName);
+        var buffer = EZR.ZipLoader.LoadFileSync(Path.Combine(EZR.Master.GameResourcesFolder, EZR.PlayManager.GameType.ToString(), "Songs", EZR.PlayManager.SongName + ".zip"), fileName);
         if (buffer != null)
         {
             transform.Find("Disc").GetComponent<RawImage>().texture = EZR.ImageLoader.Load(buffer, fileName);

@@ -28,6 +28,26 @@ namespace EZR
                 else return null;
             }
         }
+        public static byte[] LoadFileSync(string zipPath, string entryName)
+        {
+            if (!File.Exists(zipPath)) return null;
+            using (var archive = new ZipFile(zipPath))
+            {
+                var index = archive.FindEntry(entryName, true);
+                if (index != -1)
+                {
+                    var entry = archive[index];
+                    if (!entry.IsFile) return null;
+                    using (var stream = archive.GetInputStream(entry))
+                    {
+                        var buffer = new byte[entry.Size];
+                        stream.Read(buffer, 0, (int)entry.Size);
+                        return buffer;
+                    }
+                }
+                else return null;
+            }
+        }
         public static byte[] LoadFile(string entryName)
         {
             if (CurrentZip == null) return null;

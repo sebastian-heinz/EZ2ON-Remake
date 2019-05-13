@@ -71,9 +71,6 @@ namespace EZR
         static object streamSound;
         static object streamChannel;
 
-        // public static float PrePlaySoundDelay { get => 0.002f; }
-        // public static double PlaySoundDelta = 0;
-
         static MemorySound()
         {
             // 防止爆音？
@@ -82,7 +79,7 @@ namespace EZR
             FMODUnity.RuntimeManager.LowlevelSystem.createChannelGroup("BGM", out BGM);
             FMODUnity.RuntimeManager.LowlevelSystem.createChannelGroup("Game", out Game);
 
-            var soundUIPath = Path.Combine(EZR.Master.GameResourcesFolder, "SoundUI");
+            var soundUIPath = Path.Combine(Master.GameResourcesFolder, "SoundUI");
             if (Directory.Exists(soundUIPath))
             {
                 var files = Directory.GetFiles(soundUIPath);

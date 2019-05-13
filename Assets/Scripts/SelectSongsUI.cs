@@ -538,7 +538,7 @@ public class SelectSongsUI : MonoBehaviour
 
     IEnumerator DelayPlayStream()
     {
-        yield return new WaitForSecondsRealtime(0.5f);
+        yield return new WaitForSecondsRealtime(0.4f);
 
         string fileName = "";
         switch (currentType)

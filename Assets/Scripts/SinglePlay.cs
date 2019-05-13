@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 public class SinglePlay : MonoBehaviour
 {
     bool isFinished = false;
-    DisplayLoop displayLoop;
+    EZR.DisplayLoop displayLoop;
 
     void Start()
     {
@@ -15,7 +15,7 @@ public class SinglePlay : MonoBehaviour
 
         EZR.PlayManager.LoopStop += loopStop;
 
-        displayLoop = GetComponent<DisplayLoop>();
+        displayLoop = GetComponent<EZR.DisplayLoop>();
         displayLoop.enabled = true;
     }
 

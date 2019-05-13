@@ -86,7 +86,7 @@ namespace EZR
             // 检测结束
             if (isEnd)
             {
-                EZR.MemorySound.BGM.isPlaying(out bool isPlaying);
+                MemorySound.BGM.isPlaying(out bool isPlaying);
                 if (!isPlaying)
                 {
                     Stop();
