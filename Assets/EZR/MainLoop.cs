@@ -59,7 +59,10 @@ namespace EZR
                     {
                         var note = line.Notes[TimeLines.LinesIndex[i]];
 
-                        if (PlayManager.GameType == GameType.DJMAX && note.id == 0)
+                        if (PlayManager.GameType == GameType.DJMAX &&
+                        PlayManager.GameMode != EZR.GameMode.Mode.FiveKeys &&
+                        PlayManager.GameMode != EZR.GameMode.Mode.SevenKeys &&
+                        note.id == 0)
                             IsPlayBGA = true;
 
                         MemorySound.PlaySound(note.id, note.vol, note.pan, MemorySound.BGM);

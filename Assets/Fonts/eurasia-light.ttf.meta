@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: c825785cb997b744c9bb0bfc6004e86b
+guid: 7ddd34c7a0b55c149a197a934784cd56
 TrueTypeFontImporter:
   externalObjects: {}
   serializedVersion: 4
@@ -8,10 +8,11 @@ TrueTypeFontImporter:
   characterSpacing: 0
   characterPadding: 1
   includeFontData: 1
-  fontName: Roboto Black
+  fontName: Eurasia
   fontNames:
-  - Roboto Black
-  fallbackFontReferences: []
+  - Eurasia
+  fallbackFontReferences:
+  - {fileID: 12800000, guid: 14e5e912366ee164d8f096b698d67f29, type: 3}
   customCharacters: 
   fontRenderingMode: 0
   ascentCalculationMode: 1

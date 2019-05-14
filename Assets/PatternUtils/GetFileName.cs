@@ -7,13 +7,20 @@ namespace PatternUtils
         public static string GetFileName(string songName, EZR.GameType type, EZR.GameMode.Mode mode, EZR.GameDifficult.Difficult difficult)
         {
             string fileName;
-            if (type != EZR.GameType.DJMAX)
+            if (type == EZR.GameType.DJMAX)
             {
-                fileName = Path.Combine(EZR.GameMode.GetString(mode) + songName + EZR.GameDifficult.GetString(difficult) + ".json");
+                if (mode == EZR.GameMode.Mode.FiveKeys || mode == EZR.GameMode.Mode.SevenKeys)
+                {
+                    fileName = Path.Combine(songName + "_ORG" + EZR.GameDifficult.GetString(difficult) + EZR.GameMode.GetString(mode) + ".json");
+                }
+                else
+                {
+                    fileName = Path.Combine(songName + EZR.GameMode.GetString(mode) + EZR.GameDifficult.GetString(difficult) + ".json");
+                }
             }
             else
             {
-                fileName = Path.Combine(songName + EZR.GameMode.GetString(mode) + EZR.GameDifficult.GetString(difficult) + ".json");
+                fileName = Path.Combine(EZR.GameMode.GetString(mode) + songName + EZR.GameDifficult.GetString(difficult) + ".json");
             }
             return fileName;
         }

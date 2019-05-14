@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: e5e347f60441de74ab511e8e923f25f3
+guid: 14e5e912366ee164d8f096b698d67f29
 TrueTypeFontImporter:
   externalObjects: {}
   serializedVersion: 4
@@ -8,9 +8,9 @@ TrueTypeFontImporter:
   characterSpacing: 0
   characterPadding: 1
   includeFontData: 1
-  fontName: Roboto Light
+  fontName: Eurasia
   fontNames:
-  - Roboto Light
+  - Eurasia
   fallbackFontReferences: []
   customCharacters: 
   fontRenderingMode: 0

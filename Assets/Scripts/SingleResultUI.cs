@@ -141,14 +141,31 @@ public class SingleResultUI : MonoBehaviour
                 fileName = EZR.PlayManager.SongName + EZR.GameDifficult.GetString(EZR.PlayManager.GameDifficult) + ".bmp";
                 break;
             case EZR.GameType.DJMAX:
-                fileName = "song_pic_f_" + EZR.PlayManager.SongName + "_" + ((int)EZR.PlayManager.GameDifficult - 3).ToString().PadLeft(2, '0') + ".png";
+                if (EZR.PlayManager.GameMode == EZR.GameMode.Mode.FiveKeys || EZR.PlayManager.GameMode == EZR.GameMode.Mode.SevenKeys)
+                    fileName = EZR.PlayManager.SongName + "_ORG" + EZR.GameDifficult.GetString(EZR.PlayManager.GameDifficult) + ".png";
+                else
+                    fileName = "song_pic_f_" + EZR.PlayManager.SongName + "_" + ((int)EZR.PlayManager.GameDifficult - 3).ToString().PadLeft(2, '0') + ".png";
                 break;
         }
 
         var buffer = EZR.ZipLoader.LoadFileSync(Path.Combine(EZR.Master.GameResourcesFolder, EZR.PlayManager.GameType.ToString(), "Songs", EZR.PlayManager.SongName + ".zip"), fileName);
         if (buffer != null)
         {
-            transform.Find("Disc").GetComponent<RawImage>().texture = EZR.ImageLoader.Load(buffer, fileName);
+            var dmo = transform.Find("Disc/Dmo");
+            var image = transform.Find("Disc/Image");
+            if (EZR.PlayManager.GameType == EZR.GameType.DJMAX
+            && EZR.PlayManager.GameMode == EZR.GameMode.Mode.FiveKeys || EZR.PlayManager.GameMode == EZR.GameMode.Mode.SevenKeys)
+            {
+                image.gameObject.SetActive(false);
+                dmo.gameObject.SetActive(true);
+                dmo.GetComponent<RawImage>().texture = EZR.ImageLoader.Load(buffer, fileName);
+            }
+            else
+            {
+                image.gameObject.SetActive(true);
+                dmo.gameObject.SetActive(false);
+                image.GetComponent<RawImage>().texture = EZR.ImageLoader.Load(buffer, fileName);
+            }
         }
 
         StartCoroutine(playSoundDelay(grade, bonus, isNewRecord));

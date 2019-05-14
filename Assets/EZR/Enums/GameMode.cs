@@ -14,7 +14,9 @@ namespace EZR
             FourButtons,
             FiveButtons,
             SixButtons,
-            EightButtons
+            EightButtons,
+            FiveKeys,
+            SevenKeys
         }
         public static int GetNumLines(Mode mode)
         {
@@ -40,6 +42,10 @@ namespace EZR
                     return 6;
                 case Mode.EightButtons:
                     return 8;
+                case Mode.FiveKeys:
+                    return 5;
+                case Mode.SevenKeys:
+                    return 7;
                 default:
                     return 0;
             }
@@ -70,6 +76,10 @@ namespace EZR
                     return "_6b";
                 case Mode.EightButtons:
                     return "_8b";
+                case Mode.FiveKeys:
+                    return "_5key";
+                case Mode.SevenKeys:
+                    return "_7key";
                 default:
                     return null;
             }

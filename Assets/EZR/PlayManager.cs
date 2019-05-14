@@ -67,19 +67,21 @@ namespace EZR
             ZipLoader.OpenZip(zipPath);
             for (int i = 0; i < pattern.SoundList.Count; i++)
             {
-                string ext = "wav";
-                for (int j = 0; j < 3; j++)
+                var fileName = pattern.SoundList[i].filename;
+                for (int j = 0; j < 4; j++)
                 {
                     switch (j)
                     {
                         case 1:
-                            ext = "mp3";
+                            fileName = Path.ChangeExtension(pattern.SoundList[i].filename, "ogg");
                             break;
                         case 2:
-                            ext = "ogg";
+                            fileName = Path.ChangeExtension(pattern.SoundList[i].filename, "mp3");
+                            break;
+                        case 3:
+                            fileName = Path.ChangeExtension(pattern.SoundList[i].filename, "wav");
                             break;
                     }
-                    var fileName = Path.ChangeExtension(pattern.SoundList[i].filename, ext);
                     if (ZipLoader.Exists(fileName))
                     {
                         buffer = ZipLoader.LoadFile(fileName);
@@ -108,17 +110,7 @@ namespace EZR
             {
                 if (pattern.TrackList[i].Notes.Count > 0)
                 {
-                    int mapping;
-                    if (GameType == GameType.DJMAX &&
-                    GameMode != EZR.GameMode.Mode.EightButtons)
-                    {
-                        mapping = PatternUtils.Pattern.Mapping(GameType, i) - 1;
-                        if (mapping == 7) mapping = 8;
-                    }
-                    else
-                    {
-                        mapping = PatternUtils.Pattern.Mapping(GameType, i);
-                    }
+                    int mapping = PatternUtils.Pattern.Mapping(i, GameType, GameMode);
 
                     for (int j = 0; j < pattern.TrackList[i].Notes.Count; j++)
                     {
@@ -148,22 +140,17 @@ namespace EZR
             NumLines = EZR.GameMode.GetNumLines(GameMode);
 
             // 读BGA ini文件 修正bga延迟
-            if (GameType == GameType.EZ2ON)
+            var iniPath = Path.Combine(Master.GameResourcesFolder, GameType.ToString(), "Ingame", SongName + ".ini");
+            if (File.Exists(iniPath))
             {
-                var iniPath = Path.Combine(Master.GameResourcesFolder, GameType.ToString(), "Ingame", SongName + ".ini");
-                if (File.Exists(iniPath))
+                try
                 {
-                    try
-                    {
-                        BGADelay = System.Convert.ToInt32(File.ReadAllText(iniPath)) / 1000f;
-                    }
-                    catch
-                    {
-                        BGADelay = 0;
-                    }
+                    BGADelay = System.Convert.ToInt32(File.ReadAllText(iniPath)) / 1000f;
                 }
-                else
+                catch
+                {
                     BGADelay = 0;
+                }
             }
             else
                 BGADelay = 0;

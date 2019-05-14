@@ -175,7 +175,9 @@ namespace EZR
 
             isStarted = true;
 
-            if (PlayManager.GameType != GameType.DJMAX &&
+            if (!(PlayManager.GameType == GameType.DJMAX &&
+            PlayManager.GameMode != EZR.GameMode.Mode.FiveKeys &&
+            PlayManager.GameMode != EZR.GameMode.Mode.SevenKeys) &&
             PlayManager.BGADelay == 0)
             {
                 VideoPlayer.Play();
@@ -290,7 +292,9 @@ namespace EZR
 
                 // 记录时间
                 time += Time.unscaledDeltaTime;
-                if (!bgaPlayed &&
+                if (!bgaPlayed && !(PlayManager.GameType == GameType.DJMAX &&
+                PlayManager.GameMode != EZR.GameMode.Mode.FiveKeys &&
+                PlayManager.GameMode != EZR.GameMode.Mode.SevenKeys) &&
                 PlayManager.BGADelay > 0 && PlayManager.BGADelay <= time)
                 {
                     VideoPlayer.Play();

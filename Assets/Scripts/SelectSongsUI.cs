@@ -69,6 +69,7 @@ public class SelectSongsUI : MonoBehaviour
         bool nm = false;
         bool hd = false;
         bool shd = false;
+        bool sc = false;
         foreach (var info in EZR.SongsList.List)
         {
             if (info.difficult.ContainsKey(currentMode))
@@ -79,6 +80,9 @@ public class SelectSongsUI : MonoBehaviour
                     {
                         switch (difficult.Key)
                         {
+                            case EZR.GameDifficult.Difficult.DJMAX_EZ:
+                                ez = true;
+                                break;
                             case EZR.GameDifficult.Difficult.DJMAX_NM:
                                 nm = true;
                                 break;
@@ -87,6 +91,9 @@ public class SelectSongsUI : MonoBehaviour
                                 break;
                             case EZR.GameDifficult.Difficult.DJMAX_MX:
                                 shd = true;
+                                break;
+                            case EZR.GameDifficult.Difficult.DJMAX_SC:
+                                sc = true;
                                 break;
                         }
                     }
@@ -112,17 +119,17 @@ public class SelectSongsUI : MonoBehaviour
             }
         }
 
-        currentDifficultState = new bool[] { ez, nm, hd, shd };
+        currentDifficultState = new bool[] { ez, nm, hd, shd, sc };
 
         if (currentType == EZR.GameType.DJMAX)
         {
-            if (!currentDifficultState[(int)currentDifficult - 3])
+            if (!currentDifficultState[(int)currentDifficult - 4])
             {
                 for (int i = 0; i < currentDifficultState.Length; i++)
                 {
                     if (currentDifficultState[i])
                     {
-                        currentDifficult = (EZR.GameDifficult.Difficult)(i + 3);
+                        currentDifficult = (EZR.GameDifficult.Difficult)(i + 4);
                         break;
                     }
                 }
@@ -289,27 +296,29 @@ public class SelectSongsUI : MonoBehaviour
             currentDifficult = EZR.GameDifficult.Difficult.EZ;
         }
         else if (currentType == EZR.GameType.EZ2ON &&
-       currentMode == EZR.GameMode.Mode.ClubMix8 &&
-       currentDifficult != EZR.GameDifficult.Difficult.SHD)
+        currentMode == EZR.GameMode.Mode.ClubMix8 &&
+        currentDifficult != EZR.GameDifficult.Difficult.SHD)
         {
             currentDifficult = EZR.GameDifficult.Difficult.SHD;
         }
         else if (currentType == EZR.GameType.EZ2DJ && (
-           currentDifficult != EZR.GameDifficult.Difficult.EZ &&
-           currentDifficult != EZR.GameDifficult.Difficult.NM &&
-           currentDifficult != EZR.GameDifficult.Difficult.HD &&
-           currentDifficult != EZR.GameDifficult.Difficult.SHD
+            currentDifficult != EZR.GameDifficult.Difficult.EZ &&
+            currentDifficult != EZR.GameDifficult.Difficult.NM &&
+            currentDifficult != EZR.GameDifficult.Difficult.HD &&
+            currentDifficult != EZR.GameDifficult.Difficult.SHD
         ))
         {
             currentDifficult = EZR.GameDifficult.Difficult.EZ;
         }
         else if (currentType == EZR.GameType.DJMAX && (
-           currentDifficult != EZR.GameDifficult.Difficult.DJMAX_NM &&
-           currentDifficult != EZR.GameDifficult.Difficult.DJMAX_HD &&
-           currentDifficult != EZR.GameDifficult.Difficult.DJMAX_MX
+            currentDifficult != EZR.GameDifficult.Difficult.DJMAX_EZ &&
+            currentDifficult != EZR.GameDifficult.Difficult.DJMAX_NM &&
+            currentDifficult != EZR.GameDifficult.Difficult.DJMAX_HD &&
+            currentDifficult != EZR.GameDifficult.Difficult.DJMAX_MX &&
+            currentDifficult != EZR.GameDifficult.Difficult.DJMAX_SC
         ))
         {
-            currentDifficult = EZR.GameDifficult.Difficult.DJMAX_NM;
+            currentDifficult = EZR.GameDifficult.Difficult.DJMAX_EZ;
         }
 
         updateDifficultState();
@@ -326,12 +335,14 @@ public class SelectSongsUI : MonoBehaviour
 
     void updateGameType()
     {
+        var scroll = gameTypeContent.parent.parent.GetComponent<ScrollRect>();
         foreach (Transform btn in gameTypeContent)
         {
             var diffUI = btn.GetComponent<EZR.GameTypeUI>();
             if (diffUI.GameType == currentType && diffUI.GameMode == currentMode)
             {
                 btn.GetComponent<EZR.ButtonExtension>().SetSelected(true);
+                scroll.verticalNormalizedPosition = 1 - btn.GetSiblingIndex() / (float)gameTypeContent.childCount;
                 break;
             }
         }
@@ -339,9 +350,15 @@ public class SelectSongsUI : MonoBehaviour
 
     void focusOnBtnDifficult()
     {
+        var btnSC = transform.Find("PanelDifficult/BtnSC").gameObject;
+        if (currentType == EZR.GameType.DJMAX)
+            btnSC.SetActive(true);
+        else
+            btnSC.SetActive(false);
+
         int currentDifficultNormal;
         if (currentType == EZR.GameType.DJMAX)
-            currentDifficultNormal = (int)currentDifficult - 3;
+            currentDifficultNormal = (int)currentDifficult - 4;
         else
             currentDifficultNormal = (int)currentDifficult;
         var panelDifficult = transform.Find("PanelDifficult");
@@ -357,9 +374,15 @@ public class SelectSongsUI : MonoBehaviour
     }
     void focusOnBtnDifficult(string mode, bool isAsc)
     {
+        var btnSC = transform.Find("PanelDifficult/BtnSC").gameObject;
+        if (currentType == EZR.GameType.DJMAX)
+            btnSC.SetActive(true);
+        else
+            btnSC.SetActive(false);
+
         int currentDifficultNormal;
         if (currentType == EZR.GameType.DJMAX)
-            currentDifficultNormal = (int)currentDifficult - 3;
+            currentDifficultNormal = (int)currentDifficult - 4;
         else
             currentDifficultNormal = (int)currentDifficult;
         var panelDifficult = transform.Find("PanelDifficult");
@@ -382,7 +405,7 @@ public class SelectSongsUI : MonoBehaviour
         {
             case "BtnEZ":
                 if (currentType == EZR.GameType.DJMAX)
-                    return;
+                    currentDifficult = EZR.GameDifficult.Difficult.DJMAX_EZ;
                 else
                     currentDifficult = EZR.GameDifficult.Difficult.EZ;
                 break;
@@ -403,6 +426,9 @@ public class SelectSongsUI : MonoBehaviour
                     currentDifficult = EZR.GameDifficult.Difficult.DJMAX_MX;
                 else
                     currentDifficult = EZR.GameDifficult.Difficult.SHD;
+                break;
+            case "BtnSC":
+                currentDifficult = EZR.GameDifficult.Difficult.DJMAX_SC;
                 break;
         }
         updateDifficultState();
@@ -453,6 +479,10 @@ public class SelectSongsUI : MonoBehaviour
                 levelText.color = HdColor;
                 break;
             case "BtnSHD":
+                text.color = ShdColor;
+                levelText.color = ShdColor;
+                break;
+            case "BtnSC":
                 text.color = ShdColor;
                 levelText.color = ShdColor;
                 break;
@@ -519,14 +549,31 @@ public class SelectSongsUI : MonoBehaviour
                 fileName = currentSongName + EZR.GameDifficult.GetString(currentDifficult) + ".bmp";
                 break;
             case EZR.GameType.DJMAX:
-                fileName = "song_pic_f_" + currentSongName + "_" + ((int)currentDifficult - 3).ToString().PadLeft(2, '0') + ".png";
+                if (currentMode == EZR.GameMode.Mode.FiveKeys || currentMode == EZR.GameMode.Mode.SevenKeys)
+                    fileName = currentSongName + "_ORG" + EZR.GameDifficult.GetString(currentDifficult) + ".png";
+                else
+                    fileName = "song_pic_f_" + currentSongName + "_" + ((int)currentDifficult - 4).ToString().PadLeft(2, '0') + ".png";
                 break;
         }
 
         var buffer = await EZR.ZipLoader.LoadFile(Path.Combine(EZR.Master.GameResourcesFolder, currentType.ToString(), "Songs", currentSongName + ".zip"), fileName);
         if (buffer != null)
         {
-            disc.Find("Image").GetComponent<RawImage>().texture = EZR.ImageLoader.Load(buffer, fileName);
+            var image = disc.Find("Image");
+            var dmo = disc.Find("Dmo");
+            if (currentType == EZR.GameType.DJMAX
+            && currentMode == EZR.GameMode.Mode.FiveKeys || currentMode == EZR.GameMode.Mode.SevenKeys)
+            {
+                image.gameObject.SetActive(false);
+                dmo.gameObject.SetActive(true);
+                dmo.GetComponent<RawImage>().texture = EZR.ImageLoader.Load(buffer, fileName);
+            }
+            else
+            {
+                image.gameObject.SetActive(true);
+                dmo.gameObject.SetActive(false);
+                image.GetComponent<RawImage>().texture = EZR.ImageLoader.Load(buffer, fileName);
+            }
         }
 
         transform.Find("SongName").GetComponent<Text>().text = info.displayName.ToUpper();
@@ -538,13 +585,14 @@ public class SelectSongsUI : MonoBehaviour
         {
             if (delayPlay != null) StopCoroutine(delayPlay);
             EZR.MemorySound.StopSound();
-            delayPlay = StartCoroutine(DelayPlayStream());
+            EZR.MemorySound.StopStream();
+            delayPlay = StartCoroutine(DelayPlayPreview(currentSongName));
         }
 
         transform.Find("MyBestScore/Text").GetComponent<Text>().text = EZR.UserSaveData.GetScore(currentSongName, currentType, currentMode, currentDifficult).ToString();
     }
 
-    IEnumerator DelayPlayStream()
+    IEnumerator DelayPlayPreview(string songName)
     {
         yield return new WaitForSecondsRealtime(0.4f);
 
@@ -561,16 +609,23 @@ public class SelectSongsUI : MonoBehaviour
                 fileName = currentSongName + ".wav";
                 break;
         }
-        playPreview(fileName);
+        playPreview(fileName, songName);
     }
 
-    async void playPreview(string fileName)
+    async void playPreview(string fileName, string songName)
     {
         var buffer = await EZR.ZipLoader.LoadFile(Path.Combine(EZR.Master.GameResourcesFolder, currentType.ToString(), "Songs", currentSongName + ".zip"), fileName);
         if (buffer != null)
         {
-            EZR.MemorySound.PlaySound(buffer, true);
+            if (songName == currentSongName)
+                EZR.MemorySound.PlaySound(buffer, true);
         }
+        else
+        {
+            if (currentMode == EZR.GameMode.Mode.FiveKeys || currentMode == EZR.GameMode.Mode.SevenKeys)
+                EZR.MemorySound.PlayStream(Path.Combine(EZR.Master.GameResourcesFolder, "BGM", "FreeMode.ogg"), true);
+        }
+
     }
 
     public async void BtnStart()
@@ -657,8 +712,13 @@ public class SelectSongsUI : MonoBehaviour
         EZR.PlayManager.FallSpeed = speed;
 
         EZR.MemorySound.StopSound();
+        EZR.MemorySound.StopStream();
         if (delayPlay != null) StopCoroutine(delayPlay);
-        EZR.MemorySound.PlaySound("e_start");
+
+        if (currentType == EZR.GameType.DJMAX)
+            EZR.MemorySound.PlaySound("Decide");
+        else
+            EZR.MemorySound.PlaySound("e_start");
     }
 
     IEnumerator startPlay(Animation anim)

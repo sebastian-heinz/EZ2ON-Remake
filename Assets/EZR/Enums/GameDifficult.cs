@@ -8,9 +8,11 @@ namespace EZR
             NM,
             HD,
             SHD,
+            DJMAX_EZ,
             DJMAX_NM,
             DJMAX_HD,
-            DJMAX_MX
+            DJMAX_MX,
+            DJMAX_SC
         }
 
         public static string GetString(Difficult difficult)
@@ -25,12 +27,16 @@ namespace EZR
                     return "-hd";
                 case Difficult.SHD:
                     return "-shd";
+                case Difficult.DJMAX_EZ:
+                    return "_ez";
                 case Difficult.DJMAX_NM:
                     return "_nm";
                 case Difficult.DJMAX_HD:
                     return "_hd";
                 case Difficult.DJMAX_MX:
                     return "_mx";
+                case Difficult.DJMAX_SC:
+                    return "_sc";
                 default:
                     return null;
             }
@@ -47,13 +53,17 @@ namespace EZR
                 case Difficult.HD:
                     return "Hard mix";
                 case Difficult.SHD:
-                    return "Superhard mix";
+                    return "SuperHard mix";
+                case Difficult.DJMAX_EZ:
+                    return "Easy mode";
                 case Difficult.DJMAX_NM:
                     return "Normal mode";
                 case Difficult.DJMAX_HD:
                     return "Hard mode";
                 case Difficult.DJMAX_MX:
                     return "Maximum mode";
+                case Difficult.DJMAX_SC:
+                    return "SuperCrazy mode";
                 default:
                     return null;
             }
