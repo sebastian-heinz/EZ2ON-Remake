@@ -8,8 +8,16 @@ namespace EZR
 {
     public static class SongsList
     {
+        public enum SortMode
+        {
+            ByName,
+            ByDifficult
+        }
+
         public static List<SongInfo> List;
-        public static int currentIndex = 0;
+        public static int CurrentIndex = 0;
+        public static SortMode CurrentSortMode = SortMode.ByName;
+        public static bool IsAscending = true;
 
         public class SongInfo
         {

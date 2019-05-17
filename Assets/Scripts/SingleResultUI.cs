@@ -36,7 +36,7 @@ public class SingleResultUI : MonoBehaviour
 
     void Start()
     {
-        var info = EZR.SongsList.List[EZR.SongsList.currentIndex];
+        var info = EZR.SongsList.List[EZR.SongsList.CurrentIndex];
         transform.Find("SongName").GetComponent<Text>().text = info.displayName.ToUpper();
         var diffText = transform.Find("Difficult").GetComponent<Text>();
         diffText.text = EZR.GameDifficult.GetFullName(EZR.PlayManager.GameDifficult).ToUpper();
