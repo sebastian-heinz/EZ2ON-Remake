@@ -7,7 +7,8 @@ namespace PatternUtils
 {
     public partial class Pattern
     {
-        public static int MeasureLength { get => 192; }
+        public static int TickPerMeasure { get => 192; }
+        public int EndTick = 0;
         public class Sound
         {
             public string id = "";
@@ -19,7 +20,6 @@ namespace PatternUtils
         public class BPM
         {
             public int position = 0;
-            public int type = 0;
             public float bpm = 0;
         }
 
@@ -28,7 +28,6 @@ namespace PatternUtils
         public class Note
         {
             public int position = 0;
-            public int type = 0;
             public int id = 0;
             public float vol = 0;
             public float pan = 0;

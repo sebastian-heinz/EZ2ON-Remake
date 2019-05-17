@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Serialization;
 using Newtonsoft.Json.Linq;
 using System.IO;
 
@@ -17,12 +18,19 @@ public class SingleResultUI : MonoBehaviour
     public Sprite BonusAK;
     public Sprite ClearFailed;
     public Sprite ClearSuccess;
+    [FormerlySerializedAs("ColorAC")]
     public Color ColorAC = Color.white;
+    [FormerlySerializedAs("ColorACC")]
     public Color ColorACC = Color.white;
-    public Color ColorAK = Color.white;
+    [FormerlySerializedAs("ColorACK")]
+    public Color ColorACK = Color.white;
+    [FormerlySerializedAs("EzColor")]
     public Color EzColor = Color.white;
+    [FormerlySerializedAs("NmColor")]
     public Color NmColor = Color.white;
+    [FormerlySerializedAs("HdColor")]
     public Color HdColor = Color.white;
+    [FormerlySerializedAs("ShdColor")]
     public Color ShdColor = Color.white;
     public Color[] LinesColor = new Color[EZR.PlayManager.MaxLines - 3];
 
@@ -74,7 +82,7 @@ public class SingleResultUI : MonoBehaviour
         switch (bonus)
         {
             case EZR.Score.Bonus.AllKool:
-                bonusText.color = ColorAK;
+                bonusText.color = ColorACK;
                 bonusImage.overrideSprite = BonusAK;
                 break;
             case EZR.Score.Bonus.AllCool:
@@ -141,10 +149,14 @@ public class SingleResultUI : MonoBehaviour
                 fileName = EZR.PlayManager.SongName + EZR.GameDifficult.GetString(EZR.PlayManager.GameDifficult) + ".bmp";
                 break;
             case EZR.GameType.DJMAX:
-                if (EZR.PlayManager.GameMode == EZR.GameMode.Mode.FiveKeys || EZR.PlayManager.GameMode == EZR.GameMode.Mode.SevenKeys)
+                if (EZR.PlayManager.GameMode == EZR.GameMode.Mode.FourKey ||
+                    EZR.PlayManager.GameMode == EZR.GameMode.Mode.FiveKey ||
+                    EZR.PlayManager.GameMode == EZR.GameMode.Mode.SixKey ||
+                    EZR.PlayManager.GameMode == EZR.GameMode.Mode.SevenKey ||
+                    EZR.PlayManager.GameMode == EZR.GameMode.Mode.EightKey)
                     fileName = EZR.PlayManager.SongName + "_ORG" + EZR.GameDifficult.GetString(EZR.PlayManager.GameDifficult) + ".png";
                 else
-                    fileName = "song_pic_f_" + EZR.PlayManager.SongName + "_" + ((int)EZR.PlayManager.GameDifficult - 3).ToString().PadLeft(2, '0') + ".png";
+                    fileName = "song_pic_f_" + EZR.PlayManager.SongName + "_" + ((int)EZR.PlayManager.GameDifficult - 4).ToString().PadLeft(2, '0') + ".png";
                 break;
         }
 
@@ -154,7 +166,11 @@ public class SingleResultUI : MonoBehaviour
             var dmo = transform.Find("Disc/Dmo");
             var image = transform.Find("Disc/Image");
             if (EZR.PlayManager.GameType == EZR.GameType.DJMAX
-            && EZR.PlayManager.GameMode == EZR.GameMode.Mode.FiveKeys || EZR.PlayManager.GameMode == EZR.GameMode.Mode.SevenKeys)
+            && (EZR.PlayManager.GameMode == EZR.GameMode.Mode.FourKey ||
+            EZR.PlayManager.GameMode == EZR.GameMode.Mode.FiveKey ||
+            EZR.PlayManager.GameMode == EZR.GameMode.Mode.SixKey ||
+            EZR.PlayManager.GameMode == EZR.GameMode.Mode.SevenKey ||
+            EZR.PlayManager.GameMode == EZR.GameMode.Mode.EightKey))
             {
                 image.gameObject.SetActive(false);
                 dmo.gameObject.SetActive(true);

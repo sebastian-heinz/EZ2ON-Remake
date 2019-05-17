@@ -9,7 +9,11 @@ namespace PatternUtils
             string fileName;
             if (type == EZR.GameType.DJMAX)
             {
-                if (mode == EZR.GameMode.Mode.FiveKeys || mode == EZR.GameMode.Mode.SevenKeys)
+                if (mode == EZR.GameMode.Mode.FourKey ||
+                    mode == EZR.GameMode.Mode.FiveKey ||
+                    mode == EZR.GameMode.Mode.SixKey ||
+                    mode == EZR.GameMode.Mode.SevenKey ||
+                    mode == EZR.GameMode.Mode.EightKey)
                 {
                     fileName = Path.Combine(songName + "_ORG" + EZR.GameDifficult.GetString(difficult) + EZR.GameMode.GetString(mode) + ".json");
                 }

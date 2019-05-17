@@ -46,7 +46,6 @@ namespace EZR
                 TimeLines.BPMIndex++;
             }
 
-            bool isEnd = true;
             // 播放音符
             for (int i = 0; i < TimeLines.MaxLines; i++)
             {
@@ -60,8 +59,7 @@ namespace EZR
                         var note = line.Notes[TimeLines.LinesIndex[i]];
 
                         if (PlayManager.GameType == GameType.DJMAX &&
-                        PlayManager.GameMode != EZR.GameMode.Mode.FiveKeys &&
-                        PlayManager.GameMode != EZR.GameMode.Mode.SevenKeys &&
+                        PlayManager.GameMode < EZR.GameMode.Mode.FourKey &&
                         note.id == 0)
                             IsPlayBGA = true;
 
@@ -82,30 +80,24 @@ namespace EZR
 
                     TimeLines.LinesIndex[i]++;
                 }
-
-                if (TimeLines.LinesIndex[i] < line.Notes.Count) isEnd = false;
-            }
-
-            // 检测结束
-            if (isEnd)
-            {
-                MemorySound.BGM.isPlaying(out bool isPlaying);
-                if (!isPlaying)
-                {
-                    Stop();
-                    if (LoopStop != null)
-                        LoopStop();
-                    return;
-                }
             }
 
             long now = Stopwatch.ElapsedTicks;
             DeltaTime = (now - lastTime) / 10000000d;
             lastTime = now;
 
-            TickPerSecond = TimeLines.BPM / 4d / 60d * PatternUtils.Pattern.MeasureLength;
+            TickPerSecond = TimeLines.BPM / 4d / 60d * PatternUtils.Pattern.TickPerMeasure;
             PositionDelta = DeltaTime * TickPerSecond;
             Position += PositionDelta;
+
+            // 检测结束
+            if (Position >= TimeLines.EndTick)
+            {
+                Stop();
+                if (LoopStop != null)
+                    LoopStop();
+                return;
+            }
 
             beat += DeltaTime * (TimeLines.BPM / 60d);
 

@@ -20,7 +20,7 @@ namespace EZR
 
         void Update()
         {
-            if ((Index * PatternUtils.Pattern.MeasureLength) - PlayManager.Position < -(JudgmentDelta.Miss + 1))
+            if ((Index * PatternUtils.Pattern.TickPerMeasure) - PlayManager.Position < -(JudgmentDelta.Miss + 1))
             {
                 Destroy(gameObject);
                 return;
@@ -30,7 +30,7 @@ namespace EZR
             {
                 transform.localPosition = new Vector3(
                     0,
-                    (Index * PatternUtils.Pattern.MeasureLength) * PlayManager.GetSpeed(),
+                    (Index * PatternUtils.Pattern.TickPerMeasure) * PlayManager.GetSpeed(),
                     0
                 );
             }
@@ -38,7 +38,7 @@ namespace EZR
             {
                 transform.localPosition = new Vector3(
                     0,
-                    (float)(((Index * PatternUtils.Pattern.MeasureLength) + PlayManager.SimVsyncDelta) * PlayManager.GetSpeed()),
+                    (float)(((Index * PatternUtils.Pattern.TickPerMeasure) + PlayManager.SimVsyncDelta) * PlayManager.GetSpeed()),
                     0
                 );
             }

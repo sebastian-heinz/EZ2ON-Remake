@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
+using UnityEngine.Serialization;
 using System.IO;
 using System.Threading.Tasks;
 
@@ -442,11 +443,17 @@ public class SelectSongsUI : MonoBehaviour
         EZR.MemorySound.PlaySound("e_level");
     }
 
+    [FormerlySerializedAs("EzColor")]
     public Color EzColor = Color.white;
+    [FormerlySerializedAs("NmColor")]
     public Color NmColor = Color.white;
+    [FormerlySerializedAs("HdColor")]
     public Color HdColor = Color.white;
+    [FormerlySerializedAs("ShdColor")]
     public Color ShdColor = Color.white;
+    [FormerlySerializedAs("UnselectedColor")]
     public Color UnselectedColor = Color.white;
+    [FormerlySerializedAs("DisabledColor")]
     public Color DisabledColor = Color.white;
     void updateBtnDifficult(EZR.ButtonExtension btn, string mode, bool isAsc)
     {
@@ -549,7 +556,11 @@ public class SelectSongsUI : MonoBehaviour
                 fileName = currentSongName + EZR.GameDifficult.GetString(currentDifficult) + ".bmp";
                 break;
             case EZR.GameType.DJMAX:
-                if (currentMode == EZR.GameMode.Mode.FiveKeys || currentMode == EZR.GameMode.Mode.SevenKeys)
+                if (currentMode == EZR.GameMode.Mode.FourKey ||
+                    currentMode == EZR.GameMode.Mode.FiveKey ||
+                    currentMode == EZR.GameMode.Mode.SixKey ||
+                    currentMode == EZR.GameMode.Mode.SevenKey ||
+                    currentMode == EZR.GameMode.Mode.EightKey)
                     fileName = currentSongName + "_ORG" + EZR.GameDifficult.GetString(currentDifficult) + ".png";
                 else
                     fileName = "song_pic_f_" + currentSongName + "_" + ((int)currentDifficult - 4).ToString().PadLeft(2, '0') + ".png";
@@ -562,7 +573,11 @@ public class SelectSongsUI : MonoBehaviour
             var image = disc.Find("Image");
             var dmo = disc.Find("Dmo");
             if (currentType == EZR.GameType.DJMAX
-            && currentMode == EZR.GameMode.Mode.FiveKeys || currentMode == EZR.GameMode.Mode.SevenKeys)
+            && (currentMode == EZR.GameMode.Mode.FourKey ||
+            currentMode == EZR.GameMode.Mode.FiveKey ||
+            currentMode == EZR.GameMode.Mode.SixKey ||
+            currentMode == EZR.GameMode.Mode.SevenKey ||
+            currentMode == EZR.GameMode.Mode.EightKey))
             {
                 image.gameObject.SetActive(false);
                 dmo.gameObject.SetActive(true);
@@ -622,7 +637,7 @@ public class SelectSongsUI : MonoBehaviour
         }
         else
         {
-            if (currentMode == EZR.GameMode.Mode.FiveKeys || currentMode == EZR.GameMode.Mode.SevenKeys)
+            if (currentMode == EZR.GameMode.Mode.FiveKey || currentMode == EZR.GameMode.Mode.SevenKey)
                 EZR.MemorySound.PlayStream(Path.Combine(EZR.Master.GameResourcesFolder, "BGM", "FreeMode.ogg"), true);
         }
 

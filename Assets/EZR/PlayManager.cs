@@ -47,7 +47,7 @@ namespace EZR
         }
 
         public static bool IsSimVsync = true;
-        public static float PreSimVsyncDelay { get => 0.008f; }
+        public static float PreSimVsyncDelay { get => 0.01666667f; }
         public static double SimVsyncDelta = 0;
 
         public static void LoadPattern()
@@ -68,18 +68,18 @@ namespace EZR
             for (int i = 0; i < pattern.SoundList.Count; i++)
             {
                 var fileName = pattern.SoundList[i].filename;
-                for (int j = 0; j < 4; j++)
+                for (int j = 0; j < 3; j++)
                 {
                     switch (j)
                     {
+                        case 0:
+                            fileName = Path.ChangeExtension(pattern.SoundList[i].filename, "wav");
+                            break;
                         case 1:
                             fileName = Path.ChangeExtension(pattern.SoundList[i].filename, "ogg");
                             break;
                         case 2:
                             fileName = Path.ChangeExtension(pattern.SoundList[i].filename, "mp3");
-                            break;
-                        case 3:
-                            fileName = Path.ChangeExtension(pattern.SoundList[i].filename, "wav");
                             break;
                     }
                     if (ZipLoader.Exists(fileName))
@@ -96,15 +96,11 @@ namespace EZR
             TimeLines = new TimeLines();
             TimeLines.Clear();
 
+            // 结束tick
+            TimeLines.EndTick = pattern.EndTick;
             TimeLines.SoundList = pattern.SoundList;
             // bpm
-            foreach (var bpm in pattern.BPMList)
-            {
-                if (bpm.type == 3)
-                {
-                    TimeLines.BPMList.Add(bpm);
-                }
-            }
+            TimeLines.BPMList = pattern.BPMList;
             // 映射Lines
             for (int i = 0; i < pattern.TrackList.Count; i++)
             {
@@ -115,18 +111,16 @@ namespace EZR
                     for (int j = 0; j < pattern.TrackList[i].Notes.Count; j++)
                     {
                         var note = pattern.TrackList[i].Notes[j];
-                        if (note.type == 1)
+
+                        TimeLines.Lines[mapping].Notes.Add(note);
+                        if (mapping <= 7)
                         {
-                            TimeLines.Lines[mapping].Notes.Add(note);
-                            if (mapping <= 7)
+                            if (note.length > 6)
                             {
-                                if (note.length > 6)
-                                {
-                                    TimeLines.TotalNote += 1 + note.length / Judgment.LongNoteComboStep;
-                                }
-                                else
-                                    TimeLines.TotalNote++;
+                                TimeLines.TotalNote += 1 + note.length / Judgment.LongNoteComboStep;
                             }
+                            else
+                                TimeLines.TotalNote++;
                         }
                     }
                 }

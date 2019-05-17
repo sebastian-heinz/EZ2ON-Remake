@@ -11,12 +11,15 @@ namespace EZR
             StreetSeven,
             ClubMix,
             ClubMix8,
-            FourButtons,
-            FiveButtons,
-            SixButtons,
-            EightButtons,
-            FiveKeys,
-            SevenKeys
+            FourButton,
+            FiveButton,
+            SixButton,
+            EightButton,
+            FourKey,
+            FiveKey,
+            SixKey,
+            SevenKey,
+            EightKey
         }
         public static int GetNumLines(Mode mode)
         {
@@ -34,18 +37,24 @@ namespace EZR
                     return 6;
                 case Mode.ClubMix8:
                     return 8;
-                case Mode.FourButtons:
+                case Mode.FourButton:
                     return 4;
-                case Mode.FiveButtons:
+                case Mode.FiveButton:
                     return 5;
-                case Mode.SixButtons:
+                case Mode.SixButton:
                     return 6;
-                case Mode.EightButtons:
+                case Mode.EightButton:
                     return 8;
-                case Mode.FiveKeys:
+                case Mode.FourKey:
+                    return 4;
+                case Mode.FiveKey:
                     return 5;
-                case Mode.SevenKeys:
+                case Mode.SixKey:
+                    return 6;
+                case Mode.SevenKey:
                     return 7;
+                case Mode.EightKey:
+                    return 8;
                 default:
                     return 0;
             }
@@ -68,18 +77,24 @@ namespace EZR
                     return "8-";
                 case Mode.ClubMix8:
                     return "8-";
-                case Mode.FourButtons:
+                case Mode.FourButton:
                     return "_4b";
-                case Mode.FiveButtons:
+                case Mode.FiveButton:
                     return "_5b";
-                case Mode.SixButtons:
+                case Mode.SixButton:
                     return "_6b";
-                case Mode.EightButtons:
+                case Mode.EightButton:
                     return "_8b";
-                case Mode.FiveKeys:
+                case Mode.FourKey:
+                    return "_4key";
+                case Mode.FiveKey:
                     return "_5key";
-                case Mode.SevenKeys:
+                case Mode.SixKey:
+                    return "_6key";
+                case Mode.SevenKey:
                     return "_7key";
+                case Mode.EightKey:
+                    return "_8key";
                 default:
                     return null;
             }

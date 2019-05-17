@@ -176,8 +176,7 @@ namespace EZR
             isStarted = true;
 
             if (!(PlayManager.GameType == GameType.DJMAX &&
-            PlayManager.GameMode != EZR.GameMode.Mode.FiveKeys &&
-            PlayManager.GameMode != EZR.GameMode.Mode.SevenKeys) &&
+            PlayManager.GameMode < EZR.GameMode.Mode.FourKey) &&
             PlayManager.BGADelay == 0)
             {
                 VideoPlayer.Play();
@@ -293,8 +292,7 @@ namespace EZR
                 // 记录时间
                 time += Time.unscaledDeltaTime;
                 if (!bgaPlayed && !(PlayManager.GameType == GameType.DJMAX &&
-                PlayManager.GameMode != EZR.GameMode.Mode.FiveKeys &&
-                PlayManager.GameMode != EZR.GameMode.Mode.SevenKeys) &&
+                PlayManager.GameMode < EZR.GameMode.Mode.FourKey) &&
                 PlayManager.BGADelay > 0 && PlayManager.BGADelay <= time)
                 {
                     VideoPlayer.Play();
@@ -343,7 +341,7 @@ namespace EZR
 
                     currentIndex[i]++;
                 }
-                int currentMeasureCount = (int)((Position + screenHeight) / PatternUtils.Pattern.MeasureLength);
+                int currentMeasureCount = (int)((Position + screenHeight) / PatternUtils.Pattern.TickPerMeasure);
                 if (currentMeasureCount > measureCount)
                 {
                     var measureDelta = currentMeasureCount - measureCount;
