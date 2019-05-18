@@ -419,6 +419,8 @@ public class SelectSongsUI : MonoBehaviour
     public Color HdColor = Color.white;
     [FormerlySerializedAs("ShdColor")]
     public Color ShdColor = Color.white;
+    [FormerlySerializedAs("ScColor")]
+    public Color ScColor = Color.white;
     [FormerlySerializedAs("UnselectedColor")]
     public Color UnselectedColor = Color.white;
     [FormerlySerializedAs("DisabledColor")]
@@ -457,8 +459,8 @@ public class SelectSongsUI : MonoBehaviour
                 levelText.color = ShdColor;
                 break;
             case "BtnSC":
-                text.color = ShdColor;
-                levelText.color = ShdColor;
+                text.color = ScColor;
+                levelText.color = ScColor;
                 break;
         }
         btn.SetSelected(true);
@@ -660,25 +662,25 @@ public class SelectSongsUI : MonoBehaviour
         // 检查sha1
         if (File.Exists(zipPath))
         {
-            var zipBuffer = new byte[0];
-            await Task.Run(async () =>
-            {
-                using (var stream = File.OpenRead(zipPath))
-                {
-                    zipBuffer = new byte[stream.Length];
-                    await stream.ReadAsync(zipBuffer, 0, (int)stream.Length);
-                }
-            });
-            var sha1 = await EZR.Hash.Sha1(zipBuffer);
+            // var zipBuffer = new byte[0];
+            // await Task.Run(async () =>
+            // {
+            //     using (var stream = File.OpenRead(zipPath))
+            //     {
+            //         zipBuffer = new byte[stream.Length];
+            //         await stream.ReadAsync(zipBuffer, 0, (int)stream.Length);
+            //     }
+            // });
+            // var sha1 = await EZR.Hash.Sha1(zipBuffer);
 
-            if (sha1.ToLower() != EZR.SongsList.List[currentSongIndex].sha1.ToLower())
-            {
-                var messageBox = Instantiate(EZR.Master.MessageBox);
-                messageBox.transform.SetParent(transform.parent, false);
-                messageBox.GetComponent<EZR.MessageBox>().Text = "歌曲包完整性校验失败，歌曲包可能被修改或损坏！";
-                btn.interactable = true;
-                return;
-            }
+            // if (sha1.ToLower() != EZR.SongsList.List[currentSongIndex].sha1.ToLower())
+            // {
+            //     var messageBox = Instantiate(EZR.Master.MessageBox);
+            //     messageBox.transform.SetParent(transform.parent, false);
+            //     messageBox.GetComponent<EZR.MessageBox>().Text = "歌曲包完整性校验失败，歌曲包可能被修改或损坏！";
+            //     btn.interactable = true;
+            //     return;
+            // }
         }
         else
         {

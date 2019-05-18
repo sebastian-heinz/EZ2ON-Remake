@@ -32,6 +32,8 @@ public class SingleResultUI : MonoBehaviour
     public Color HdColor = Color.white;
     [FormerlySerializedAs("ShdColor")]
     public Color ShdColor = Color.white;
+    [FormerlySerializedAs("ScColor")]
+    public Color ScColor = Color.white;
     public Color[] LinesColor = new Color[EZR.PlayManager.MaxLines - 3];
 
     void Start()
@@ -54,6 +56,9 @@ public class SingleResultUI : MonoBehaviour
             case EZR.GameDifficult.Difficult.SHD:
                 diffText.color = ShdColor;
                 break;
+            case EZR.GameDifficult.Difficult.DJMAX_EZ:
+                diffText.color = EzColor;
+                break;
             case EZR.GameDifficult.Difficult.DJMAX_NM:
                 diffText.color = NmColor;
                 break;
@@ -62,6 +67,9 @@ public class SingleResultUI : MonoBehaviour
                 break;
             case EZR.GameDifficult.Difficult.DJMAX_MX:
                 diffText.color = ShdColor;
+                break;
+            case EZR.GameDifficult.Difficult.DJMAX_SC:
+                diffText.color = ScColor;
                 break;
         }
         var keyMode = transform.Find("KeyMode").GetComponent<Text>();

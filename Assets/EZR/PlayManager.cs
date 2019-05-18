@@ -68,17 +68,17 @@ namespace EZR
             for (int i = 0; i < pattern.SoundList.Count; i++)
             {
                 var fileName = pattern.SoundList[i].filename;
-                for (int j = 0; j < 3; j++)
+                for (int j = 0; j < 4; j++)
                 {
                     switch (j)
                     {
-                        case 0:
+                        case 1:
                             fileName = Path.ChangeExtension(pattern.SoundList[i].filename, "wav");
                             break;
-                        case 1:
+                        case 2:
                             fileName = Path.ChangeExtension(pattern.SoundList[i].filename, "ogg");
                             break;
-                        case 2:
+                        case 3:
                             fileName = Path.ChangeExtension(pattern.SoundList[i].filename, "mp3");
                             break;
                     }
