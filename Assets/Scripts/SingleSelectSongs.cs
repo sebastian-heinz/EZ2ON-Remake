@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class SelectSongs : MonoBehaviour
+public class SingleSelectSongs : MonoBehaviour
 {
     public GameObject SelectSongsUI;
 

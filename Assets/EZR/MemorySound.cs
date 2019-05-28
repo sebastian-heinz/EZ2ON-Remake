@@ -66,10 +66,10 @@ namespace EZR
         public static FMOD.ChannelGroup BGM;
         public static FMOD.ChannelGroup Game;
 
-        static object shareSound;
-        static object shareChannel;
-        static object streamSound;
-        static object streamChannel;
+        static FMOD.Sound? shareSound;
+        static FMOD.Channel? shareChannel;
+        static FMOD.Sound? streamSound;
+        static FMOD.Channel? streamChannel;
 
         static MemorySound()
         {
@@ -114,7 +114,7 @@ namespace EZR
                 SoundUI[name] = sound;
         }
 
-        public static object PlaySound(int id, float vol, float pan, FMOD.ChannelGroup group)
+        public static FMOD.Channel? PlaySound(int id, float vol, float pan, FMOD.ChannelGroup group)
         {
             if (SoundList.ContainsKey(id))
             {

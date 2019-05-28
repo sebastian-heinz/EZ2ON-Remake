@@ -108,14 +108,14 @@ namespace EZR
 #endif
             });
 
-            GameObject ListenUnityEvents = new GameObject();
-            ListenUnityEvents.name = "ListenUnityEvents";
-            ListenUnityEvents.AddComponent<listenEvents>();
+            var listenUnityEvents = new GameObject();
+            listenUnityEvents.name = "ListenUnityEvents";
+            listenUnityEvents.AddComponent<listenUnityEvents>();
 
             Debug.Log("EZR.Master done!");
         }
 
-        class listenEvents : MonoBehaviour
+        class listenUnityEvents : MonoBehaviour
         {
             void Awake()
             {

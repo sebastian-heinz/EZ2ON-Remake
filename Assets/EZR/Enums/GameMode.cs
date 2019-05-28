@@ -4,6 +4,7 @@ namespace EZR
     {
         public enum Mode
         {
+            None,
             RubyMixON,
             RubyMixDJ,
             StreetMixON,

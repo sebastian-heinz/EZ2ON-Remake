@@ -7,7 +7,6 @@ namespace EZR
 {
     public class Panel : MonoBehaviour
     {
-        public GameObject Judgment;
         public GameObject LongFlare;
         public GameObject MeasureLine;
         public Text ScoreText;

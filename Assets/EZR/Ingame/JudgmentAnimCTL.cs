@@ -24,7 +24,7 @@ namespace EZR
             anim["KOOL"].normalizedTime = 1;
             anim.Play("KOOL");
 
-            image = GetComponent<Image>();
+            image = transform.Find("Parent/Image").GetComponent<Image>();
         }
 
         // Update is called once per frame

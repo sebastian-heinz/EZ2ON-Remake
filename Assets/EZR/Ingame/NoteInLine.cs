@@ -22,7 +22,7 @@ namespace EZR
         [HideInInspector]
         public JudgmentType LongNoteJudgment;
         [HideInInspector]
-        public object NoteSound;
+        public FMOD.Channel? NoteSound;
         [HideInInspector]
         public float NoteScale;
         [HideInInspector]

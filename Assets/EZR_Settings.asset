@@ -15,6 +15,6 @@ MonoBehaviour:
   Version: alpha1
   devGameResourcesFolder: D:\EZRData
   TimePrecision: 1
-  LaunchScene: SelectSongs
+  LaunchScene: SingleSelectSongs
   MessageBox: {fileID: 529640093577671964, guid: 8d455199744e63a4bb90187a34b065a7,
     type: 3}
