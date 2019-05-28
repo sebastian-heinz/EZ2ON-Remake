@@ -56,7 +56,7 @@ namespace EZR
         {
             updateNote();
 
-            if (IsDestroy || Position + NoteLength - PlayManager.Position < -(JudgmentDelta.Miss + 1))
+            if (IsDestroy || Position + NoteLength - PlayManager.Position < -(JudgmentDelta.Miss + 2))
             {
                 Destroy(gameObject);
                 return;

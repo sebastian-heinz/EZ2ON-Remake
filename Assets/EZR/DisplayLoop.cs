@@ -359,7 +359,8 @@ namespace EZR
             {
                 if (noteInLines[i].Count > 0)
                 {
-                    if (noteInLines[i].Peek().Position + noteInLines[i].Peek().NoteLength - PlayManager.Position < -(JudgmentDelta.Miss + 1))
+                    if (noteInLines[i].Peek() == null ||
+                    (noteInLines[i].Peek().Position + noteInLines[i].Peek().NoteLength - PlayManager.Position < -(JudgmentDelta.Miss + 1)))
                     {
                         noteInLines[i].Dequeue();
                     }

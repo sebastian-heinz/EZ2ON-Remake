@@ -12,35 +12,35 @@ namespace EZR
         public static int Miss = 76;
         public static float Scale = 0.5f;
 
-        public static bool CompareJudgmentDelta(double delta, JudgmentType judgment)
+        public static bool CompareJudgmentDelta(double delta, JudgmentType judgment, float uniqueScale)
         {
             switch (judgment)
             {
                 case JudgmentType.Kool:
-                    return delta <= GetJudgmentDelta(JudgmentType.Kool);
+                    return delta <= GetJudgmentDelta(JudgmentType.Kool, uniqueScale);
                 case JudgmentType.Cool:
-                    return delta > GetJudgmentDelta(JudgmentType.Kool) && delta <= GetJudgmentDelta(JudgmentType.Cool);
+                    return delta > GetJudgmentDelta(JudgmentType.Kool, uniqueScale) && delta <= GetJudgmentDelta(JudgmentType.Cool, uniqueScale);
                 case JudgmentType.Good:
-                    return delta > GetJudgmentDelta(JudgmentType.Cool) && delta <= GetJudgmentDelta(JudgmentType.Good);
+                    return delta > GetJudgmentDelta(JudgmentType.Cool, uniqueScale) && delta <= GetJudgmentDelta(JudgmentType.Good, uniqueScale);
                 case JudgmentType.Miss:
-                    return delta > GetJudgmentDelta(JudgmentType.Good) && delta <= GetJudgmentDelta(JudgmentType.Miss);
+                    return delta > GetJudgmentDelta(JudgmentType.Good, uniqueScale) && delta <= GetJudgmentDelta(JudgmentType.Miss, uniqueScale);
                 default:
                     return false;
             }
         }
 
-        public static float GetJudgmentDelta(JudgmentType judgment)
+        public static float GetJudgmentDelta(JudgmentType judgment, float uniqueScale)
         {
             switch (judgment)
             {
                 case JudgmentType.Kool:
-                    return Kool * 0.5f * Scale;
+                    return Kool * uniqueScale * Scale;
                 case JudgmentType.Cool:
-                    return Cool * 0.5f * Scale;
+                    return Cool * uniqueScale * Scale;
                 case JudgmentType.Good:
-                    return Good * 0.5f * Scale;
+                    return Good * uniqueScale * Scale;
                 case JudgmentType.Miss:
-                    return Miss * 0.5f * Scale;
+                    return Miss * uniqueScale * Scale;
                 default:
                     return -1;
             }
