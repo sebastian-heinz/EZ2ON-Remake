@@ -293,6 +293,7 @@ namespace FMODUnity
                     }
 
                     stringsBankRef.Path = stringBankPath;
+                    stringsBankRef.name = "bank:/" + Path.GetFileName(stringsBankRef.Path);
                     stringsBankRef.LastModified = stringBankFileInfo.LastWriteTime;
                     stringsBankRef.Exists = true;
                     stringsBankRef.FileSizes.Clear();
@@ -327,6 +328,7 @@ namespace FMODUnity
                         AssetDatabase.AddObjectToAsset(bankRef, eventCache);
                         AssetDatabase.ImportAsset(AssetDatabase.GetAssetPath(bankRef));
                         bankRef.Path = bankFileInfo.FullName;
+                        bankRef.name = "bank:/" + Path.GetFileName(bankRef.Path);
                         bankRef.LastModified = DateTime.MinValue;
                         bankRef.FileSizes = new List<EditorBankRef.NameValuePair>();
                         eventCache.EditorBanks.Add(bankRef);
@@ -425,13 +427,14 @@ namespace FMODUnity
                             AssetDatabase.ImportAsset(AssetDatabase.GetAssetPath(eventRef));
                             eventRef.Banks = new List<EditorBankRef>();
                             eventCache.EditorEvents.Add(eventRef);
+                            eventRef.Parameters = new List<EditorParamRef>();
                         }
 
                         eventRef.Banks.Add(bankRef);
                         Guid guid;
                         eventDesc.getID(out guid);
                         eventRef.Guid = guid;
-                        eventRef.Path = path;
+                        eventRef.Path = eventRef.name = path;
                         eventDesc.is3D(out eventRef.Is3D);
                         eventDesc.isOneshot(out eventRef.IsOneShot);
                         eventDesc.isStream(out eventRef.IsStream);
@@ -440,7 +443,7 @@ namespace FMODUnity
                         eventDesc.getLength(out eventRef.Length);
                         int paramCount = 0;
                         eventDesc.getParameterCount(out paramCount);
-                        eventRef.Parameters = new List<EditorParamRef>(paramCount);
+                        eventRef.Parameters.ForEach((x) => x.Exists = false);
                         for (int paramIndex = 0; paramIndex < paramCount; paramIndex++)
                         {
                             FMOD.Studio.PARAMETER_DESCRIPTION param;
@@ -449,15 +452,22 @@ namespace FMODUnity
                             {
                                 continue;
                             }
-                            EditorParamRef paramRef = ScriptableObject.CreateInstance<EditorParamRef>();
-                            AssetDatabase.AddObjectToAsset(paramRef, eventCache);
-                            AssetDatabase.ImportAsset(AssetDatabase.GetAssetPath(paramRef));
+                            EditorParamRef paramRef = eventRef.Parameters.Find((x) => x.name == param.name);
+                            if (paramRef == null)
+                            {
+                                paramRef = ScriptableObject.CreateInstance<EditorParamRef>();
+                                AssetDatabase.AddObjectToAsset(paramRef, eventCache);
+                                AssetDatabase.ImportAsset(AssetDatabase.GetAssetPath(paramRef));
+                                eventRef.Parameters.Add(paramRef);
+                            }
                             paramRef.Name = param.name;
+                            paramRef.name = "parameter:/" + Path.GetFileName(path) + "/" + paramRef.Name;
                             paramRef.Min = param.minimum;
                             paramRef.Max = param.maximum;
                             paramRef.Default = param.defaultvalue;
-                            eventRef.Parameters.Add(paramRef);
+                            paramRef.Exists = true;
                         }
+                        eventRef.Parameters.RemoveAll((x) => !x.Exists);
                     }
                 }
 
@@ -596,6 +606,8 @@ namespace FMODUnity
                     settings.Banks.Add(bankRef.Name);
                 }
             }
+
+            settings.Banks.Sort((a, b) => string.Compare(a, b, StringComparison.CurrentCultureIgnoreCase));
             EditorUtility.SetDirty(settings);
 
             CopyToStreamingAssets();

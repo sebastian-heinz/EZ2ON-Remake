@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Serialization;
 using Newtonsoft.Json.Linq;
 using System.IO;
 
@@ -17,43 +18,58 @@ public class SingleResultUI : MonoBehaviour
     public Sprite BonusAK;
     public Sprite ClearFailed;
     public Sprite ClearSuccess;
+    [FormerlySerializedAs("ColorAC")]
     public Color ColorAC = Color.white;
+    [FormerlySerializedAs("ColorACC")]
     public Color ColorACC = Color.white;
-    public Color ColorAK = Color.white;
+    [FormerlySerializedAs("ColorACK")]
+    public Color ColorACK = Color.white;
+    [FormerlySerializedAs("EzColor")]
     public Color EzColor = Color.white;
+    [FormerlySerializedAs("NmColor")]
     public Color NmColor = Color.white;
+    [FormerlySerializedAs("HdColor")]
     public Color HdColor = Color.white;
+    [FormerlySerializedAs("ShdColor")]
     public Color ShdColor = Color.white;
+    [FormerlySerializedAs("ScColor")]
+    public Color ScColor = Color.white;
     public Color[] LinesColor = new Color[EZR.PlayManager.MaxLines - 3];
 
     void Start()
     {
-        var info = EZR.SongsList.List[EZR.SongsList.currentIndex];
+        var info = EZR.SongsList.List[EZR.SongsList.CurrentIndex];
         transform.Find("SongName").GetComponent<Text>().text = info.displayName.ToUpper();
-        var diffText = transform.Find("Difficulty").GetComponent<Text>();
-        diffText.text = EZR.GameDifficulty.GetFullName(EZR.PlayManager.GameDifficult).ToUpper();
+        var diffText = transform.Find("Difficult").GetComponent<Text>();
+        diffText.text = EZR.GameDifficult.GetFullName(EZR.PlayManager.GameDifficult).ToUpper();
         switch (EZR.PlayManager.GameDifficult)
         {
-            case EZR.GameDifficulty.Difficulty.EZ:
+            case EZR.GameDifficult.Difficult.EZ:
                 diffText.color = EzColor;
                 break;
-            case EZR.GameDifficulty.Difficulty.NM:
+            case EZR.GameDifficult.Difficult.NM:
                 diffText.color = NmColor;
                 break;
-            case EZR.GameDifficulty.Difficulty.HD:
+            case EZR.GameDifficult.Difficult.HD:
                 diffText.color = HdColor;
                 break;
-            case EZR.GameDifficulty.Difficulty.SHD:
+            case EZR.GameDifficult.Difficult.SHD:
                 diffText.color = ShdColor;
                 break;
-            case EZR.GameDifficulty.Difficulty.DJMAX_NM:
+            case EZR.GameDifficult.Difficult.DJMAX_EZ:
+                diffText.color = EzColor;
+                break;
+            case EZR.GameDifficult.Difficult.DJMAX_NM:
                 diffText.color = NmColor;
                 break;
-            case EZR.GameDifficulty.Difficulty.DJMAX_HD:
+            case EZR.GameDifficult.Difficult.DJMAX_HD:
                 diffText.color = HdColor;
                 break;
-            case EZR.GameDifficulty.Difficulty.DJMAX_MX:
+            case EZR.GameDifficult.Difficult.DJMAX_MX:
                 diffText.color = ShdColor;
+                break;
+            case EZR.GameDifficult.Difficult.DJMAX_SC:
+                diffText.color = ScColor;
                 break;
         }
         var keyMode = transform.Find("KeyMode").GetComponent<Text>();
@@ -74,7 +90,7 @@ public class SingleResultUI : MonoBehaviour
         switch (bonus)
         {
             case EZR.Score.Bonus.AllKool:
-                bonusText.color = ColorAK;
+                bonusText.color = ColorACK;
                 bonusImage.overrideSprite = BonusAK;
                 break;
             case EZR.Score.Bonus.AllCool:
@@ -127,7 +143,7 @@ public class SingleResultUI : MonoBehaviour
                 break;
         }
         var clear = transform.Find("Clear").GetComponent<Image>();
-        if (EZR.PlayManager.Score.IsClear)
+        if (EZR.PlayManager.Score.IsClear && grade != EZR.Score.Grade.F)
             clear.overrideSprite = ClearSuccess;
         else
             clear.overrideSprite = ClearFailed;
@@ -135,20 +151,91 @@ public class SingleResultUI : MonoBehaviour
         switch (EZR.PlayManager.GameType)
         {
             case EZR.GameType.EZ2ON:
-                fileName = "big_" + EZR.PlayManager.SongName + EZR.GameDifficulty.GetString(EZR.PlayManager.GameDifficult) + ".png";
+                fileName = "big_" + EZR.PlayManager.SongName + EZR.GameDifficult.GetString(EZR.PlayManager.GameDifficult) + ".png";
                 break;
             case EZR.GameType.EZ2DJ:
-                fileName = EZR.PlayManager.SongName + EZR.GameDifficulty.GetString(EZR.PlayManager.GameDifficult) + ".bmp";
+                fileName = EZR.PlayManager.SongName + EZR.GameDifficult.GetString(EZR.PlayManager.GameDifficult) + ".bmp";
                 break;
             case EZR.GameType.DJMAX:
-                fileName = "song_pic_f_" + EZR.PlayManager.SongName + "_" + ((int)EZR.PlayManager.GameDifficult - 3).ToString().PadLeft(2, '0') + ".png";
+                if (EZR.PlayManager.GameMode == EZR.GameMode.Mode.FourKey ||
+                    EZR.PlayManager.GameMode == EZR.GameMode.Mode.FiveKey ||
+                    EZR.PlayManager.GameMode == EZR.GameMode.Mode.SixKey ||
+                    EZR.PlayManager.GameMode == EZR.GameMode.Mode.SevenKey ||
+                    EZR.PlayManager.GameMode == EZR.GameMode.Mode.EightKey)
+                    fileName = EZR.PlayManager.SongName + "_ORG" + EZR.GameDifficult.GetString(EZR.PlayManager.GameDifficult) + ".png";
+                else
+                    fileName = "song_pic_f_" + EZR.PlayManager.SongName + "_" + ((int)EZR.PlayManager.GameDifficult - 4).ToString().PadLeft(2, '0') + ".png";
                 break;
         }
 
-        var buffer = EZR.ZipLoader.LoadFile(Path.Combine(EZR.Master.GameResourcesFolder, EZR.PlayManager.GameType.ToString(), "Songs", EZR.PlayManager.SongName + ".zip"), fileName);
+        var buffer = EZR.ZipLoader.LoadFileSync(Path.Combine(EZR.Master.GameResourcesFolder, EZR.PlayManager.GameType.ToString(), "Songs", EZR.PlayManager.SongName + ".zip"), fileName);
         if (buffer != null)
         {
-            transform.Find("Disc").GetComponent<RawImage>().texture = EZR.ImageLoader.Load(buffer, fileName);
+            var dmo = transform.Find("Disc/Dmo");
+            var image = transform.Find("Disc/Image");
+            if (EZR.PlayManager.GameType == EZR.GameType.DJMAX
+            && (EZR.PlayManager.GameMode == EZR.GameMode.Mode.FourKey ||
+            EZR.PlayManager.GameMode == EZR.GameMode.Mode.FiveKey ||
+            EZR.PlayManager.GameMode == EZR.GameMode.Mode.SixKey ||
+            EZR.PlayManager.GameMode == EZR.GameMode.Mode.SevenKey ||
+            EZR.PlayManager.GameMode == EZR.GameMode.Mode.EightKey))
+            {
+                image.gameObject.SetActive(false);
+                dmo.gameObject.SetActive(true);
+                dmo.GetComponent<RawImage>().texture = EZR.ImageLoader.Load(buffer, fileName);
+            }
+            else
+            {
+                image.gameObject.SetActive(true);
+                dmo.gameObject.SetActive(false);
+                image.GetComponent<RawImage>().texture = EZR.ImageLoader.Load(buffer, fileName);
+            }
+        }
+
+        StartCoroutine(playSoundDelay(grade, bonus, isNewRecord));
+    }
+
+    IEnumerator playSoundDelay(EZR.Score.Grade grade, EZR.Score.Bonus bonus, bool isNewRecord)
+    {
+        yield return new WaitForSecondsRealtime(0.5f);
+        EZR.MemorySound.PlaySound("e_result");
+        if (EZR.PlayManager.Score.IsClear && grade != EZR.Score.Grade.F)
+            EZR.MemorySound.PlaySound("e_clear");
+        switch (bonus)
+        {
+            case EZR.Score.Bonus.AllKool:
+                EZR.MemorySound.PlaySound("e_kool");
+                break;
+            case EZR.Score.Bonus.AllCool:
+                EZR.MemorySound.PlaySound("e_cool");
+                break;
+            case EZR.Score.Bonus.AllCombo:
+                EZR.MemorySound.PlaySound("e_combo");
+                break;
+        }
+        if (isNewRecord)
+            EZR.MemorySound.PlaySound("e_record");
+        yield return new WaitForSecondsRealtime(0.75f);
+        switch (grade)
+        {
+            case EZR.Score.Grade.APlus:
+                EZR.MemorySound.PlaySound("e_grade_a+");
+                break;
+            case EZR.Score.Grade.A:
+                EZR.MemorySound.PlaySound("e_grade_a");
+                break;
+            case EZR.Score.Grade.B:
+                EZR.MemorySound.PlaySound("e_grade_b");
+                break;
+            case EZR.Score.Grade.C:
+                EZR.MemorySound.PlaySound("e_grade_c");
+                break;
+            case EZR.Score.Grade.D:
+                EZR.MemorySound.PlaySound("e_grade_d");
+                break;
+            case EZR.Score.Grade.F:
+                EZR.MemorySound.PlaySound("e_grade_f");
+                break;
         }
     }
 }

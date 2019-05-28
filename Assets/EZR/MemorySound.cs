@@ -66,18 +66,20 @@ namespace EZR
         public static FMOD.ChannelGroup BGM;
         public static FMOD.ChannelGroup Game;
 
-        static object shareSound;
-        static object shareChannel;
-        static object streamSound;
-        static object streamChannel;
+        static FMOD.Sound? shareSound;
+        static FMOD.Channel? shareChannel;
+        static FMOD.Sound? streamSound;
+        static FMOD.Channel? streamChannel;
 
         static MemorySound()
         {
+            // 防止爆音？
+            MasterVolume = 0.7f;
             FMODUnity.RuntimeManager.LowlevelSystem.createChannelGroup("Main", out Main);
             FMODUnity.RuntimeManager.LowlevelSystem.createChannelGroup("BGM", out BGM);
             FMODUnity.RuntimeManager.LowlevelSystem.createChannelGroup("Game", out Game);
 
-            var soundUIPath = Path.Combine(EZR.Master.GameResourcesFolder, "SoundUI");
+            var soundUIPath = Path.Combine(Master.GameResourcesFolder, "SoundUI");
             if (Directory.Exists(soundUIPath))
             {
                 var files = Directory.GetFiles(soundUIPath);
@@ -112,7 +114,7 @@ namespace EZR
                 SoundUI[name] = sound;
         }
 
-        public static object PlaySound(int id, float vol, float pan, FMOD.ChannelGroup group)
+        public static FMOD.Channel? PlaySound(int id, float vol, float pan, FMOD.ChannelGroup group)
         {
             if (SoundList.ContainsKey(id))
             {

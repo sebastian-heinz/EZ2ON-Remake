@@ -53,20 +53,25 @@ namespace EZR
                 case JudgmentType.Kool:
                     Kool++;
                     RawScore += 170 + 17 * Mathf.Log(combo, 2);
+                    PlayManager.HP += GaugeUpDownRate.Cool;
                     break;
                 case JudgmentType.Cool:
                     Cool++;
                     RawScore += 100 + 10 * Mathf.Log(combo, 2);
+                    PlayManager.HP += GaugeUpDownRate.Cool;
                     break;
                 case JudgmentType.Good:
                     Good++;
                     RawScore += 40 + 4 * Mathf.Log(combo, 2);
+                    PlayManager.HP += GaugeUpDownRate.Good;
                     break;
                 case JudgmentType.Miss:
                     Miss++;
+                    PlayManager.HP += GaugeUpDownRate.Miss;
                     break;
                 case JudgmentType.Fail:
                     Fail++;
+                    PlayManager.HP += GaugeUpDownRate.Fail;
                     break;
             }
         }

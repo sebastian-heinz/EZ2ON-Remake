@@ -94,7 +94,11 @@ namespace FMODUnity
         CollisionEnter2D,
         CollisionExit2D,
         ObjectEnable,
-        ObjectDisable
+        ObjectDisable,
+        MouseEnter,
+        MouseExit,
+        MouseDown,
+        MouseUp,
     }
 
     public enum LoaderGameEvent

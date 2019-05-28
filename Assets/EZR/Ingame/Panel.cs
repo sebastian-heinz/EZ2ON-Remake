@@ -3,12 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Panel : MonoBehaviour
+namespace EZR
 {
-    public GameObject Judgment;
-    public GameObject LongFlare;
-    public Text ScoreText;
-    public Text MaxComboText;
+    public class Panel : MonoBehaviour
+    {
+        public GameObject LongFlare;
+        public GameObject MeasureLine;
+        public Text ScoreText;
+        public Text MaxComboText;
 
-    public GameObject[] Lines = new GameObject[EZR.PlayManager.MaxLines - 3];
+        public GameObject[] Lines = new GameObject[PlayManager.MaxLines - 3];
+    }
 }

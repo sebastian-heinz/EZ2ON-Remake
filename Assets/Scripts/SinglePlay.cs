@@ -6,16 +6,21 @@ using UnityEngine.SceneManagement;
 public class SinglePlay : MonoBehaviour
 {
     bool isFinished = false;
-    DisplayLoop displayLoop;
+    EZR.DisplayLoop displayLoop;
 
     void Start()
     {
+#if (!UNITY_EDITOR)
+        // 关闭内存回收
+        UnityEngine.Scripting.GarbageCollector.GCMode = UnityEngine.Scripting.GarbageCollector.Mode.Disabled;
+#endif
+
         EZR.PlayManager.Reset();
         EZR.PlayManager.LoadPattern();
 
         EZR.PlayManager.LoopStop += loopStop;
 
-        displayLoop = GetComponent<DisplayLoop>();
+        displayLoop = GetComponent<EZR.DisplayLoop>();
         displayLoop.enabled = true;
     }
 
@@ -26,8 +31,15 @@ public class SinglePlay : MonoBehaviour
         if (isFinished)
         {
             isFinished = false;
-            finished();
+            finished(true);
             return;
+        }
+
+        // 关门
+        if (EZR.PlayManager.HP == 0)
+        {
+            finished(true);
+            EZR.MemorySound.PlaySound("e_die");
         }
 
         if (Input.GetKeyDown(KeyCode.F4))
@@ -41,7 +53,7 @@ public class SinglePlay : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            finished();
+            finished(false);
         }
 
         if (Input.GetKeyDown(KeyCode.F2))
@@ -74,6 +86,7 @@ public class SinglePlay : MonoBehaviour
         }
         else
         {
+            if (speedPressedCoroutine != null) StopCoroutine(speedPressedCoroutine);
             if (Input.GetKeyDown(KeyCode.UpArrow))
             {
                 speedAdd(0.25f);
@@ -123,7 +136,7 @@ public class SinglePlay : MonoBehaviour
         EZR.PlayManager.Score.IsClear = true;
     }
 
-    void finished()
+    void finished(bool isResult)
     {
         EZR.PlayManager.LoopStop -= loopStop;
         displayLoop.Stop();
@@ -132,6 +145,15 @@ public class SinglePlay : MonoBehaviour
         EZR.MemorySound.BGM.stop();
         EZR.MemorySound.UnloadAllSound();
 
-        SceneManager.LoadScene("SingleResult");
+        if (isResult)
+            SceneManager.LoadScene("SingleResult");
+        else
+            SceneManager.LoadScene("SingleSelectSongs");
+
+#if (!UNITY_EDITOR)
+                // 开启内存回收
+                UnityEngine.Scripting.GarbageCollector.GCMode = UnityEngine.Scripting.GarbageCollector.Mode.Enabled;
+                System.GC.Collect();
+#endif
     }
 }

@@ -9,12 +9,13 @@ namespace EZR
     public static partial class PlayManager
     {
         public static Stopwatch Stopwatch = new Stopwatch();
-        public static double DeltaTime = 0d;
-        public static double PositionDelta = 0d;
-        static double lastTime = 0d;
+        public static double DeltaTime = 0;
+        public static double PositionDelta = 0;
+        public static double TickPerSecond = 0;
+        static double lastTime = 0;
 
         public static event Action Groove;
-        static double beat = 0d;
+        static double beat = 0;
 
         public static event Action<string, int> DebugEvent;
         public static event Action LoopStop;
@@ -45,7 +46,6 @@ namespace EZR
                 TimeLines.BPMIndex++;
             }
 
-            bool isEnd = true;
             // 播放音符
             for (int i = 0; i < TimeLines.MaxLines; i++)
             {
@@ -58,7 +58,9 @@ namespace EZR
                     {
                         var note = line.Notes[TimeLines.LinesIndex[i]];
 
-                        if (PlayManager.GameType == GameType.DJMAX && note.id == 0)
+                        if (PlayManager.GameType == GameType.DJMAX &&
+                        PlayManager.GameMode < EZR.GameMode.Mode.FourKey &&
+                        note.id == 0)
                             IsPlayBGA = true;
 
                         MemorySound.PlaySound(note.id, note.vol, note.pan, MemorySound.BGM);
@@ -78,29 +80,24 @@ namespace EZR
 
                     TimeLines.LinesIndex[i]++;
                 }
-
-                if (TimeLines.LinesIndex[i] < line.Notes.Count) isEnd = false;
-            }
-
-            // 检测结束
-            if (isEnd)
-            {
-                EZR.MemorySound.BGM.isPlaying(out bool isPlaying);
-                if (!isPlaying)
-                {
-                    Stop();
-                    if (LoopStop != null)
-                        LoopStop();
-                    return;
-                }
             }
 
             long now = Stopwatch.ElapsedTicks;
             DeltaTime = (now - lastTime) / 10000000d;
             lastTime = now;
 
-            PositionDelta = DeltaTime * ((TimeLines.BPM / 4d / 60d) * PatternUtils.Pattern.MeasureLength);
+            TickPerSecond = TimeLines.BPM / 4d / 60d * PatternUtils.Pattern.TickPerMeasure;
+            PositionDelta = DeltaTime * TickPerSecond;
             Position += PositionDelta;
+
+            // 检测结束
+            if (Position >= TimeLines.EndTick)
+            {
+                Stop();
+                if (LoopStop != null)
+                    LoopStop();
+                return;
+            }
 
             beat += DeltaTime * (TimeLines.BPM / 60d);
 

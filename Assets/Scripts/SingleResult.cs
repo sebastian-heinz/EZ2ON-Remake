@@ -25,13 +25,14 @@ public class SingleResult : MonoBehaviour
 
     IEnumerator waitEnd()
     {
-        yield return new WaitForSecondsRealtime(9);
+        yield return new WaitForSecondsRealtime(10);
         End();
     }
 
     void End()
     {
-        SceneManager.LoadScene("SelectSongs");
+        SceneManager.LoadScene("SingleSelectSongs");
         EZR.MemorySound.StopStream();
+        EZR.MemorySound.Game.stop();
     }
 }

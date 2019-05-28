@@ -39,7 +39,7 @@ namespace EZR
         public static event Action MainLoop;
 
         public static event Action<int, bool> InputEvent;
-        public static bool[] KeysState = new bool[EZR.PlayManager.MaxLines];
+        public static bool[] KeysState = new bool[PlayManager.MaxLines];
 
         public static char[][] DefaultKeyCodeMapping = new char[][]{
             new char[]{'D','F','J','K'},
@@ -81,9 +81,9 @@ namespace EZR
                     {
                         // 捕获按键
 #if (UNITY_STANDALONE_WIN || UNITY_EDITOR_WIN)
-                        for (int i = 0; i < EZR.PlayManager.NumLines; i++)
+                        for (int i = 0; i < PlayManager.NumLines; i++)
                         {
-                            var keyCode = KeyCodeMapping[EZR.PlayManager.NumLines - 4][i];
+                            var keyCode = KeyCodeMapping[PlayManager.NumLines - 4][i];
                             var isDown = GetAsyncKeyState(keyCode) < 0;
                             if (isDown != KeysState[i])
                             {
@@ -108,14 +108,14 @@ namespace EZR
 #endif
             });
 
-            GameObject ListenUnityEvents = new GameObject();
-            ListenUnityEvents.name = "ListenUnityEvents";
-            ListenUnityEvents.AddComponent<listenEvents>();
+            var listenUnityEvents = new GameObject();
+            listenUnityEvents.name = "ListenUnityEvents";
+            listenUnityEvents.AddComponent<listenUnityEvents>();
 
             Debug.Log("EZR.Master done!");
         }
 
-        class listenEvents : MonoBehaviour
+        class listenUnityEvents : MonoBehaviour
         {
             void Awake()
             {
@@ -131,9 +131,9 @@ namespace EZR
 #if (!UNITY_STANDALONE_WIN && !UNITY_EDITOR_WIN)
             void Update()
             {
-                for (int i = 0; i < EZR.PlayManager.NumLines; i++)
+                for (int i = 0; i < PlayManager.NumLines; i++)
                 {
-                    var keyCode = KeyCodeMapping[EZR.PlayManager.NumLines - 4][i];
+                    var keyCode = KeyCodeMapping[PlayManager.NumLines - 4][i];
                     keyCode = keyCode.ToString().ToLower()[0];
                     var isDown = Input.GetKey((KeyCode)keyCode);
                     if (isDown != KeysState[i])

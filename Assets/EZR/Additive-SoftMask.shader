@@ -57,7 +57,7 @@ Shader "UI/EZR/Additive-SoftMask"
             #pragma multi_compile __ UNITY_UI_CLIP_RECT
             #pragma multi_compile __ UNITY_UI_ALPHACLIP
 
-            #include "./../Coffee/UIExtensions/SoftMaskForUGUI/SoftMask.cginc"	// Add for soft mask
+            #include "Assets/Plugins/Coffee/UIExtensions/SoftMaskForUGUI/SoftMask.cginc"	// Add for soft mask
 			#pragma shader_feature __ SOFTMASK_EDITOR	// Add for soft mask
 
             struct appdata_t

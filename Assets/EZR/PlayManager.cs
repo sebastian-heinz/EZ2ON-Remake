@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace EZR
 {
@@ -26,7 +27,7 @@ namespace EZR
         public static int NumLines = 4;
         public static int MaxLines { get => 8; }
         public static GameMode.Mode GameMode = EZR.GameMode.Mode.RubyMixON;
-        public static GameDifficulty.Difficulty GameDifficult = EZR.GameDifficulty.Difficulty.EZ;
+        public static GameDifficult.Difficult GameDifficult = EZR.GameDifficult.Difficult.EZ;
 
         public static TimeLines TimeLines;
 
@@ -37,11 +38,23 @@ namespace EZR
 
         public static Score Score = new Score();
 
+        public static float MaxHp = 50;
+        static float hp = MaxHp;
+        public static float HP
+        {
+            get => hp;
+            set { hp = Mathf.Clamp(value, 0, MaxHp); }
+        }
+
+        public static bool IsSimVsync = true;
+        public static float PreSimVsyncDelay { get => 0.01666667f; }
+        public static double SimVsyncDelta = 0;
+
         public static void LoadPattern()
         {
-            string jsonPath = PatternUtils.Pattern.GetPath(SongName, GameType, GameMode, GameDifficult);
-            string zipPath = Path.Combine(EZR.Master.GameResourcesFolder, GameType.ToString(), "Songs", SongName + ".zip");
-            var buffer = ZipLoader.LoadFile(zipPath, jsonPath);
+            string jsonPath = PatternUtils.Pattern.GetFileName(SongName, GameType, GameMode, GameDifficult);
+            string zipPath = Path.Combine(Master.GameResourcesFolder, GameType.ToString(), "Songs", SongName + ".zip");
+            var buffer = ZipLoader.LoadFileSync(zipPath, jsonPath);
             Debug.Log(jsonPath);
             if (buffer == null)
             {
@@ -51,77 +64,63 @@ namespace EZR
             var pattern = PatternUtils.Pattern.Parse(Encoding.UTF8.GetString(buffer));
             if (pattern == null) return;
             // 读取所有音频
-            EZR.ZipLoader.OpenZip(zipPath);
+            ZipLoader.OpenZip(zipPath);
             for (int i = 0; i < pattern.SoundList.Count; i++)
             {
-                string ext = "wav";
-                for (int j = 0; j < 3; j++)
+                var fileName = pattern.SoundList[i].filename;
+                for (int j = 0; j < 4; j++)
                 {
                     switch (j)
                     {
                         case 1:
-                            ext = "mp3";
+                            fileName = Path.ChangeExtension(pattern.SoundList[i].filename, "wav");
                             break;
                         case 2:
-                            ext = "ogg";
+                            fileName = Path.ChangeExtension(pattern.SoundList[i].filename, "ogg");
+                            break;
+                        case 3:
+                            fileName = Path.ChangeExtension(pattern.SoundList[i].filename, "mp3");
                             break;
                     }
-                    var fileName = Path.ChangeExtension(pattern.SoundList[i].filename, ext);
                     if (ZipLoader.Exists(fileName))
                     {
-                        buffer = EZR.ZipLoader.LoadFile(fileName);
+                        buffer = ZipLoader.LoadFile(fileName);
                         MemorySound.LoadSound(i, buffer);
                         break;
                     }
                 }
             }
-            EZR.ZipLoader.CloseZip();
+            ZipLoader.CloseZip();
 
             // 清空lines
             TimeLines = new TimeLines();
             TimeLines.Clear();
 
+            // 结束tick
+            TimeLines.EndTick = pattern.EndTick;
             TimeLines.SoundList = pattern.SoundList;
             // bpm
-            foreach (var bpm in pattern.BPMList)
-            {
-                if (bpm.type == 3)
-                {
-                    TimeLines.BPMList.Add(bpm);
-                }
-            }
+            TimeLines.BPMList = pattern.BPMList;
             // 映射Lines
             for (int i = 0; i < pattern.TrackList.Count; i++)
             {
                 if (pattern.TrackList[i].Notes.Count > 0)
                 {
-                    int mapping;
-                    if (GameType == EZR.GameType.DJMAX &&
-                    GameMode != EZR.GameMode.Mode.EightButtons)
-                    {
-                        mapping = PatternUtils.Pattern.Mapping(GameType, i) - 1;
-                        if (mapping == 7) mapping = 8;
-                    }
-                    else
-                    {
-                        mapping = PatternUtils.Pattern.Mapping(GameType, i);
-                    }
+                    int mapping = PatternUtils.Pattern.Mapping(i, GameType, GameMode);
 
                     for (int j = 0; j < pattern.TrackList[i].Notes.Count; j++)
                     {
                         var note = pattern.TrackList[i].Notes[j];
-                        if (note.type == 1)
+
+                        TimeLines.Lines[mapping].Notes.Add(note);
+                        if (mapping <= 7)
                         {
-                            TimeLines.Lines[mapping].Notes.Add(note);
-                            if (mapping <= 7)
+                            if (note.length > 6)
                             {
-                                if (note.length > 6)
-                                {
-                                    TimeLines.TotalNote += 1 + note.length / Judgment.LongNoteComboStep;
-                                }
-                                else
-                                    TimeLines.TotalNote++;
+                                TimeLines.TotalNote += 1 + note.length / Judgment.LongNoteComboStep;
                             }
+                            else
+                                TimeLines.TotalNote++;
                         }
                     }
                 }
@@ -135,22 +134,17 @@ namespace EZR
             NumLines = EZR.GameMode.GetNumLines(GameMode);
 
             // 读BGA ini文件 修正bga延迟
-            if (GameType == GameType.EZ2ON)
+            var iniPath = Path.Combine(Master.GameResourcesFolder, GameType.ToString(), "Ingame", SongName + ".ini");
+            if (File.Exists(iniPath))
             {
-                var iniPath = Path.Combine(EZR.Master.GameResourcesFolder, GameType.ToString(), "Ingame", SongName + ".ini");
-                if (File.Exists(iniPath))
+                try
                 {
-                    try
-                    {
-                        BGADelay = System.Convert.ToInt32(File.ReadAllText(iniPath)) / 1000f;
-                    }
-                    catch
-                    {
-                        BGADelay = 0;
-                    }
+                    BGADelay = System.Convert.ToInt32(File.ReadAllText(iniPath)) / 1000f;
                 }
-                else
+                catch
+                {
                     BGADelay = 0;
+                }
             }
             else
                 BGADelay = 0;
@@ -164,6 +158,7 @@ namespace EZR
 
             beat = 0d;
             Score.Reset();
+            HP = MaxHp;
             Combo = 0;
 
             if (TimeLines != null)
@@ -186,8 +181,8 @@ namespace EZR
 
         public static void AddCombo()
         {
-            Combo++;
             if (IsAutoPlay) return;
+            Combo++;
             if (Combo > Score.MaxCombo)
                 Score.MaxCombo = Combo;
         }

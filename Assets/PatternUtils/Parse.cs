@@ -15,6 +15,7 @@ namespace PatternUtils
             {
                 var jobj = JObject.Parse(data);
 
+                pattern.EndTick = (int)jobj["headerData"]["endTick"];
                 // 读取声音列表
                 foreach (var sound in jobj["soundList"].Children())
                 {
@@ -31,7 +32,6 @@ namespace PatternUtils
                     pattern.BPMList.Add(new Pattern.BPM
                     {
                         position = (int)bpm["position"],
-                        type = (int)bpm["type"],
                         bpm = (float)bpm["bpm"]
                     });
                 }
@@ -44,7 +44,6 @@ namespace PatternUtils
                         pattern.TrackList[pattern.TrackList.Count - 1].Notes.Add(new Note
                         {
                             position = (int)note["position"],
-                            type = (int)note["type"],
                             id = (int)note["id"],
                             vol = getVol((int)note["vol"]),
                             pan = getPan((int)note["pan"]),

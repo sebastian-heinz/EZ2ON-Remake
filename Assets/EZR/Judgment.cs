@@ -39,14 +39,6 @@ namespace EZR
                             noteInLines[i].Dequeue();
                             goto endif;
                         }
-                        // 按住不会miss
-                        // if (noteInLine.Position + noteInLine.NoteLength - Position < -JudgmentDelta.GOOD / 2f * JudgmentDelta.Scale)
-                        // {
-                        //     judgmentAnim.Play("miss");
-                        //     comboBreak();
-                        //     LongflarePlayList[i].IsStop = true;
-                        //     noteInLines[i].RemoveAt(0);
-                        // }
                     }
 
                     // FAIL
@@ -96,15 +88,6 @@ namespace EZR
                                 flarePlayList[i].Play();
                                 MemorySound.PlaySound(note.id, note.vol, note.pan, MemorySound.Main);
                             }
-                            // else if (noteInLine.isLongPressed &&
-                            // noteInLine.Position + noteInLine.NoteLength <= Position)
-                            // {
-                            //     noteInLine.isLongPressed = false;
-                            //     noteInLine.isDestroy = true;
-                            //     LongflarePlayList[i].isStop = true;
-                            //     flarePlayList[i].Play();
-                            //     noteInLines[i].RemoveAt(0);
-                            // }
                         }
                         else
                         {

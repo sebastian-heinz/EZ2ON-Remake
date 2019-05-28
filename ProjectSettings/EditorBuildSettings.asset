@@ -9,7 +9,7 @@ EditorBuildSettings:
     path: Assets/Scenes/Launcher.unity
     guid: 2cda990e2423bbf4892e6590ba056729
   - enabled: 1
-    path: Assets/Scenes/SelectSongs.unity
+    path: Assets/Scenes/SingleSelectSongs.unity
     guid: 7cc6acfe5c80cc04b99d858f83be6bd8
   - enabled: 1
     path: Assets/Scenes/SinglePlay.unity

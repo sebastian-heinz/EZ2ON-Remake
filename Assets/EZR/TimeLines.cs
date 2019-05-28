@@ -9,12 +9,14 @@ namespace EZR
     {
         public int MaxLines { get => 9; }
         public float BPM = 120f;
+
+        public int EndTick = 0;
         public int BPMIndex = 0;
         public List<Pattern.BPM> BPMList = new List<Pattern.BPM>();
-        public int TotalNote = 0;
         public int[] LinesIndex;
         public Pattern.Track[] Lines;
         public List<Pattern.Sound> SoundList = new List<Pattern.Sound>();
+        public int TotalNote = 0;
 
         public void SortLines()
         {
@@ -35,6 +37,7 @@ namespace EZR
             Reset();
             BPMList = new List<Pattern.BPM>();
             TotalNote = 0;
+            EndTick = 0;
             Lines = new Pattern.Track[MaxLines];
             for (int i = 0; i < Lines.Length; i++)
             {
