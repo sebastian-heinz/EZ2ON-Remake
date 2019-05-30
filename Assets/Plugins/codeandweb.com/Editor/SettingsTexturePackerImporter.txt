@@ -1,12 +1,15 @@
 version: 2
 importPivots: 1
 tpsheetFileNames:
-- Assets/UI/SelectSongs/SelectSongsUI.tpsheet
+- Assets/UI/Option/Option.tpsheet
+- Assets/UI/SelectSongs/SelectSongs.tpsheet
 - Assets/UI/Skin/Common.tpsheet
 textureFileNames:
-- Assets/UI/SelectSongs/SelectSongsUI.png
+- Assets/UI/Option/Option.png
+- Assets/UI/SelectSongs/SelectSongs.png
 - Assets/UI/Skin/Common.png
 normalmapFileNames:
+- 
 - 
 - 
 enableDebugOutput: 0

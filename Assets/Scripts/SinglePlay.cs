@@ -96,6 +96,13 @@ public class SinglePlay : MonoBehaviour
                 speedAdd(-0.25f);
             }
         }
+
+        if (Input.GetKeyDown(KeyCode.F12))
+        {
+            var Info = GameObject.Find("DebugCanvas").transform.Find("Info").gameObject;
+            Info.SetActive(!Info.activeSelf);
+            EZR.MemorySound.PlaySound("e_count_1");
+        }
     }
 
     IEnumerator speedPressed(float val)

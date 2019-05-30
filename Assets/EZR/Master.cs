@@ -54,6 +54,8 @@ namespace EZR
         static Master()
         {
             // 全屏
+            QualitySettings.vSyncCount = 0;
+            Application.targetFrameRate = 240;
             Screen.SetResolution(Screen.resolutions[Screen.resolutions.Length - 1].width, Screen.resolutions[Screen.resolutions.Length - 1].height, FullScreenMode.ExclusiveFullScreen);
 
             // 初始化按键映射

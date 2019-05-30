@@ -4,6 +4,7 @@ Shader "Unlit/FrostedGlass"
 {
     Properties
     {
+        [PerRendererData] _MainTex ("Sprite Texture", 2D) = "white" {}
         _Radius("Radius", Range(1, 255)) = 1
     }
 
