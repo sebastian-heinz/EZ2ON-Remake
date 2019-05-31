@@ -64,13 +64,7 @@ namespace EZR
             {
                 var jobj = JObject.Parse(data);
 
-                var ver = ((string)jobj["version"]).Split('.');
-                var version = ver[0] + ".";
-                for (int i = 1; i < ver.Length; i++)
-                {
-                    version += ver[i];
-                }
-                Version = Convert.ToDecimal(version);
+                Version = Utils.Version2Decmal((string)jobj["version"]);
 
                 List = new List<SongInfo>();
                 foreach (var info in jobj["list"].Children())

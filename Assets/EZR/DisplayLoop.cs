@@ -157,6 +157,11 @@ namespace EZR
             if (File.Exists(bgaUrl))
                 // 初始化BGA
                 VideoPlayer.url = bgaUrl;
+
+            // 找毛玻璃
+            var frostedGlass = panel.transform.Find("FrostedGlass").gameObject;
+            var option = UserSaveData.GetOption();
+            frostedGlass.SetActive(option.FrostedGlassEffect);
         }
 
         void StartPlay()

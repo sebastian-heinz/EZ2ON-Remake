@@ -12,6 +12,7 @@ public class SingleSelectSongsUI : MonoBehaviour
 {
     public GameObject SongUI;
     public GameObject Eyecatch;
+    public GameObject Option;
 
     Transform songslistContent;
     Transform gameTypeContent;
@@ -30,7 +31,7 @@ public class SingleSelectSongsUI : MonoBehaviour
 
     void Start()
     {
-        if (EZR.SongsList.List.Count == 0 || EZR.SongsList.Version < 1.1m)
+        if (EZR.SongsList.List.Count == 0 || EZR.SongsList.Version < EZR.Utils.Version2Decmal("1.1"))
         {
             var messageBox = Instantiate(EZR.Master.MessageBox);
             messageBox.transform.SetParent(transform.parent, false);
@@ -890,7 +891,15 @@ public class SingleSelectSongsUI : MonoBehaviour
     public void BtnBack()
     {
         // 暂时退出程序
-        EZR.MemorySound.PlaySound("e_click");
+        EZR.MemorySound.PlaySound("e_motion");
         Application.Quit();
+    }
+
+    public void BtnOption()
+    {
+        // 打开设置面板
+        var option = Instantiate(Option);
+        option.transform.SetParent(transform.parent, false);
+        EZR.MemorySound.PlaySound("e_click");
     }
 }

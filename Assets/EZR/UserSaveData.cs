@@ -9,7 +9,8 @@ namespace EZR
 {
     public static class UserSaveData
     {
-        public static JObject UserData = new JObject();
+        public static string MinVer = "1.0";
+        public static JObject UserData = new JObject(new JProperty("version", MinVer));
         static string aesKey = "GameOldBoyEZ2ONRemake";
         static string saveName = "userdata.save";
 
@@ -86,7 +87,10 @@ namespace EZR
                             var plaintext = srDecrypt.ReadToEnd();
                             try
                             {
-                                UserData = JObject.Parse(plaintext);
+                                var userData = JObject.Parse(plaintext);
+                                if (!string.IsNullOrEmpty(((string)userData["version"])) &&
+                                EZR.Utils.Version2Decmal((string)userData["version"]) >= EZR.Utils.Version2Decmal(MinVer))
+                                    UserData = userData;
                             }
                             catch { }
                         }
@@ -137,6 +141,44 @@ namespace EZR
                 return true;
             }
             else return false;
+        }
+
+        public static Option GetOption()
+        {
+            var option = new Option();
+            if (!UserData.ContainsKey("setting")) return option;
+            option.FullScreenMode = Utils.ParseEnum<FullScreenMode>((string)UserData["setting"]["fullScreenMode"]);
+            option.Resolution = new Resolution()
+            {
+                width = (int)UserData["setting"]["resolution"]["width"],
+                height = (int)UserData["setting"]["resolution"]["height"]
+            };
+            option.Language = Utils.ParseEnum<SystemLanguage>((string)UserData["setting"]["language"]);
+            option.TimePrecision = (int)UserData["setting"]["timePrecision"];
+            option.FrostedGlassEffect = (bool)UserData["setting"]["frostedGlassEffect"];
+            option.VSync = (bool)UserData["setting"]["vSync"];
+            option.LimitFPS = (bool)UserData["setting"]["limitFPS"];
+            option.TargetFrameRate = (int)UserData["setting"]["targetFrameRate"];
+            return option;
+        }
+
+        public static void SetOption(Option option)
+        {
+            JObject jobj;
+            if (!UserData.ContainsKey("setting"))
+                UserData["setting"] = new JObject();
+            jobj = (JObject)UserData["setting"];
+            jobj["fullScreenMode"] = option.FullScreenMode.ToString();
+            if (!jobj.ContainsKey("resolution"))
+                jobj["resolution"] = new JObject();
+            jobj["resolution"]["width"] = option.Resolution.width;
+            jobj["resolution"]["height"] = option.Resolution.height;
+            jobj["language"] = option.Language.ToString();
+            jobj["timePrecision"] = option.TimePrecision;
+            jobj["frostedGlassEffect"] = option.FrostedGlassEffect;
+            jobj["vSync"] = option.VSync;
+            jobj["limitFPS"] = option.LimitFPS;
+            jobj["targetFrameRate"] = option.TargetFrameRate;
         }
     }
 }

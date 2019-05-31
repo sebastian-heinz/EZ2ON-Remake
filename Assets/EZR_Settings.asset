@@ -12,9 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e33df994d4a164d4c961422c888a809e, type: 3}
   m_Name: EZR_Settings
   m_EditorClassIdentifier: 
-  Version: alpha1fix7
+  Version: alpha2
   devGameResourcesFolder: D:\EZRData
-  TimePrecision: 1
   LaunchScene: SingleSelectSongs
   MessageBox: {fileID: 529640093577671964, guid: 8d455199744e63a4bb90187a34b065a7,
     type: 3}

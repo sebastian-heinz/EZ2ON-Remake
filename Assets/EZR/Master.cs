@@ -18,7 +18,7 @@ namespace EZR
 #else
         public static bool IsDebug = false;
 #endif
-        public static int TimePrecision = 10;
+        public static int TimePrecision = 1;
         public static GameObject MessageBox;
 
         static byte TaskExitFlag = 0;
@@ -53,11 +53,6 @@ namespace EZR
 
         static Master()
         {
-            // 全屏
-            QualitySettings.vSyncCount = 0;
-            Application.targetFrameRate = 240;
-            Screen.SetResolution(Screen.resolutions[Screen.resolutions.Length - 1].width, Screen.resolutions[Screen.resolutions.Length - 1].height, FullScreenMode.ExclusiveFullScreen);
-
             // 初始化按键映射
             KeyCodeMapping = new char[DefaultKeyCodeMapping.Length][];
             for (int i = 0; i < DefaultKeyCodeMapping.Length; i++)

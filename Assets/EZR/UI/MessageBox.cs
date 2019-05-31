@@ -7,6 +7,7 @@ namespace EZR
 {
     public class MessageBox : MonoBehaviour
     {
+        [HideInInspector]
         public string Text = "Message box.";
         void Start()
         {
