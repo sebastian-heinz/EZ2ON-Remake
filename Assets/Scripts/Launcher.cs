@@ -37,7 +37,10 @@ public class Launcher : MonoBehaviour
             Application.targetFrameRate = option.TargetFrameRate;
         else
             Application.targetFrameRate = 0;
-        Screen.SetResolution(option.Resolution.width, option.Resolution.height, option.FullScreenMode);
+        if (option.Resolution.width != Screen.currentResolution.width ||
+        option.Resolution.height != Screen.currentResolution.height ||
+        option.FullScreenMode != Screen.fullScreenMode)
+            Screen.SetResolution(option.Resolution.width, option.Resolution.height, option.FullScreenMode);
         // 设置时间粒度
         EZR.Master.TimePrecision = option.TimePrecision;
 

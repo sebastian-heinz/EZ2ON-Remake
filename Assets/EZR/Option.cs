@@ -11,6 +11,7 @@ namespace EZR
         public int TimePrecision = 1;
         public bool FrostedGlassEffect = true;
         public bool VSync = true;
+        public bool SimVSync = false;
         public bool LimitFPS = false;
         public int TargetFrameRate = 60;
     }

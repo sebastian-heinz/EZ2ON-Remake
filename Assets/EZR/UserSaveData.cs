@@ -157,6 +157,7 @@ namespace EZR
             option.TimePrecision = (int)UserData["setting"]["timePrecision"];
             option.FrostedGlassEffect = (bool)UserData["setting"]["frostedGlassEffect"];
             option.VSync = (bool)UserData["setting"]["vSync"];
+            option.SimVSync = (bool)UserData["setting"]["simVSync"];
             option.LimitFPS = (bool)UserData["setting"]["limitFPS"];
             option.TargetFrameRate = (int)UserData["setting"]["targetFrameRate"];
             return option;
@@ -177,6 +178,7 @@ namespace EZR
             jobj["timePrecision"] = option.TimePrecision;
             jobj["frostedGlassEffect"] = option.FrostedGlassEffect;
             jobj["vSync"] = option.VSync;
+            jobj["simVSync"] = option.SimVSync;
             jobj["limitFPS"] = option.LimitFPS;
             jobj["targetFrameRate"] = option.TargetFrameRate;
         }

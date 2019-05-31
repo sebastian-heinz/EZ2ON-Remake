@@ -8,10 +8,13 @@ public class OptionUI : MonoBehaviour
 {
     EZR.Option option;
     Text sliderLimitFPSText;
+    List<Resolution> resolutions = new List<Resolution>();
+    Dropdown dropdownResolutions;
 
     void Start()
     {
         sliderLimitFPSText = transform.Find("GroupSystem/BarPerformance/ChkBoxLimitFPS/SliderLimitFPS/Text").GetComponent<Text>();
+        dropdownResolutions = transform.Find("GroupSystem/BarResolutions/Dropdown").GetComponent<Dropdown>();
 
         option = EZR.UserSaveData.GetOption();
 
@@ -33,14 +36,32 @@ public class OptionUI : MonoBehaviour
                 screenMode.Find("ChkBoxWindowed").GetComponent<Toggle>().isOn = true;
                 break;
         }
-        var resolutions = transform.Find("GroupSystem/BarResolutions/Dropdown").GetComponent<Dropdown>();
-        resolutions.options.Clear();
-        for (int i = 0; i < Screen.resolutions.Length; i++)
+        dropdownResolutions.options.Clear();
+        foreach (var resolutionA in Screen.resolutions)
         {
-            var resolution = Screen.resolutions[i];
-            resolutions.options.Add(new Dropdown.OptionData(resolution.width + "×" + resolution.height));
-            if (option.Resolution.width == resolution.width && option.Resolution.height == resolution.height)
-                resolutions.value = i;
+            var isHit = false;
+            foreach (var resolutionB in resolutions)
+            {
+                if (resolutionA.width == resolutionB.width &&
+                resolutionA.height == resolutionB.height)
+                {
+                    isHit = true;
+                    break;
+                }
+            }
+            if (!isHit) resolutions.Add(new Resolution()
+            {
+                width = resolutionA.width,
+                height = resolutionA.height
+            });
+        }
+        for (int i = 0; i < resolutions.Count; i++)
+        {
+            var resolution = resolutions[i];
+            dropdownResolutions.options.Add(new Dropdown.OptionData(resolution.width + "×" + resolution.height));
+            if (option.Resolution.width == resolution.width &&
+            option.Resolution.height == resolution.height)
+                dropdownResolutions.value = i;
         }
         var language = transform.Find("GroupSystem/BarLanguage");
         switch (option.Language)
@@ -68,9 +89,19 @@ public class OptionUI : MonoBehaviour
         var performance = transform.Find("GroupSystem/BarPerformance");
         performance.Find("ChkBoxFrostedGlass").GetComponent<Toggle>().isOn = option.FrostedGlassEffect;
         performance.Find("ChkBoxVSync").GetComponent<Toggle>().isOn = option.VSync;
+        var chkBoxSimVSync = performance.Find("ChkBoxSimVSync");
         var chkBoxLimitFPS = performance.Find("ChkBoxLimitFPS");
-        if (!option.VSync) chkBoxLimitFPS.gameObject.SetActive(true);
-        else chkBoxLimitFPS.gameObject.SetActive(false);
+        if (!option.VSync)
+        {
+            chkBoxSimVSync.gameObject.SetActive(true);
+            chkBoxLimitFPS.gameObject.SetActive(true);
+        }
+        else
+        {
+            chkBoxSimVSync.gameObject.SetActive(false);
+            chkBoxLimitFPS.gameObject.SetActive(false);
+        }
+        chkBoxSimVSync.GetComponent<Toggle>().isOn = option.SimVSync;
         chkBoxLimitFPS.GetComponent<Toggle>().isOn = option.LimitFPS;
         var sliderLimitFPS = chkBoxLimitFPS.Find("SliderLimitFPS");
         if (option.LimitFPS) sliderLimitFPS.gameObject.SetActive(true);
@@ -97,9 +128,15 @@ public class OptionUI : MonoBehaviour
         }
     }
 
-    public void DropdownResolution(int index)
+    public void DropdownResolutionsClick()
     {
-        option.Resolution = Screen.resolutions[index];
+        dropdownResolutions.transform.Find("Dropdown List").GetComponent<ScrollRect>().verticalNormalizedPosition =
+        1 - (float)dropdownResolutions.value / (resolutions.Count - 1);
+        EZR.MemorySound.PlaySound("e_click");
+    }
+    public void DropdownResolutions(int index)
+    {
+        option.Resolution = resolutions[index];
     }
 
     public void ToggleTimePrecision(bool value)
@@ -131,14 +168,26 @@ public class OptionUI : MonoBehaviour
             case "ChkBoxVSync":
                 option.VSync = value;
                 break;
+            case "ChkBoxSimVSync":
+                option.SimVSync = value;
+                break;
             case "ChkBoxLimitFPS":
                 option.LimitFPS = value;
                 break;
         }
         var performance = transform.Find("GroupSystem/BarPerformance");
+        var chkBoxSimVSync = performance.Find("ChkBoxSimVSync");
         var chkBoxLimitFPS = performance.Find("ChkBoxLimitFPS");
-        if (!option.VSync) chkBoxLimitFPS.gameObject.SetActive(true);
-        else chkBoxLimitFPS.gameObject.SetActive(false);
+        if (!option.VSync)
+        {
+            chkBoxSimVSync.gameObject.SetActive(true);
+            chkBoxLimitFPS.gameObject.SetActive(true);
+        }
+        else
+        {
+            chkBoxSimVSync.gameObject.SetActive(false);
+            chkBoxLimitFPS.gameObject.SetActive(false);
+        }
         var sliderLimitFPS = chkBoxLimitFPS.Find("SliderLimitFPS");
         if (option.LimitFPS) sliderLimitFPS.gameObject.SetActive(true);
         else sliderLimitFPS.gameObject.SetActive(false);
@@ -167,7 +216,10 @@ public class OptionUI : MonoBehaviour
             Application.targetFrameRate = option.TargetFrameRate;
         else
             Application.targetFrameRate = 0;
-        Screen.SetResolution(option.Resolution.width, option.Resolution.height, option.FullScreenMode);
+        if (option.Resolution.width != Screen.currentResolution.width ||
+        option.Resolution.height != Screen.currentResolution.height ||
+        option.FullScreenMode != Screen.fullScreenMode)
+            Screen.SetResolution(option.Resolution.width, option.Resolution.height, option.FullScreenMode);
         // 设置时间粒度
         EZR.Master.TimePrecision = option.TimePrecision;
 

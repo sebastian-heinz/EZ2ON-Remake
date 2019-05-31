@@ -26,7 +26,7 @@ namespace EZR
                 return;
             }
 
-            if (PlayManager.IsAutoPlay || !PlayManager.IsSimVsync)
+            if (PlayManager.IsAutoPlay || !PlayManager.IsSimVSync)
             {
                 transform.localPosition = new Vector3(
                     0,

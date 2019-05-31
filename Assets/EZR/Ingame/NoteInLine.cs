@@ -65,7 +65,7 @@ namespace EZR
             // 长音符按下
             if (IsLongPressed)
             {
-                if (PlayManager.IsAutoPlay || !PlayManager.IsSimVsync)
+                if (PlayManager.IsAutoPlay || !PlayManager.IsSimVSync)
                 {
                     transform.localPosition = new Vector3(
                         initX,
@@ -95,7 +95,7 @@ namespace EZR
         // 更新位置和长度
         void updateNote()
         {
-            if (PlayManager.IsAutoPlay || !PlayManager.IsSimVsync)
+            if (PlayManager.IsAutoPlay || !PlayManager.IsSimVSync)
             {
                 transform.localPosition = new Vector3(
                     initX,

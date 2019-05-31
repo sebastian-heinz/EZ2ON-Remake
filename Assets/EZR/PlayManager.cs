@@ -46,7 +46,7 @@ namespace EZR
             set { hp = Mathf.Clamp(value, 0, MaxHp); }
         }
 
-        public static bool IsSimVsync = true;
+        public static bool IsSimVSync = true;
         public static float PreSimVsyncDelay { get => 0.01666667f; }
         public static double SimVsyncDelta = 0;
 

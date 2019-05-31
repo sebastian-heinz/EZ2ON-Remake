@@ -60,6 +60,13 @@ namespace EZR
 
         void Start()
         {
+            // 读取设置
+            var option = UserSaveData.GetOption();
+            if (option.VSync)
+                PlayManager.IsSimVSync = false;
+            else
+                PlayManager.IsSimVSync = option.SimVSync;
+
             // 初始化面板
             var panel = Instantiate(Resources.Load<GameObject>("Skin/Panel/" + PanelResource));
             panel.transform.SetParent(GameObject.Find("Canvas").transform, false);
@@ -160,7 +167,6 @@ namespace EZR
 
             // 找毛玻璃
             var frostedGlass = panel.transform.Find("FrostedGlass").gameObject;
-            var option = UserSaveData.GetOption();
             frostedGlass.SetActive(option.FrostedGlassEffect);
         }
 
@@ -303,7 +309,7 @@ namespace EZR
                 }
 
                 // 算模拟同步垂直延迟
-                if (PlayManager.IsSimVsync)
+                if (PlayManager.IsSimVSync)
                     PlayManager.SimVsyncDelta = PlayManager.PreSimVsyncDelay * PlayManager.TickPerSecond;
             }
 
