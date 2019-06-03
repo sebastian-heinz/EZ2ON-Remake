@@ -36,33 +36,9 @@ public class OptionUI : MonoBehaviour
                 screenMode.Find("ChkBoxWindowed").GetComponent<Toggle>().isOn = true;
                 break;
         }
-        dropdownResolutions.options.Clear();
-        foreach (var resolutionA in Screen.resolutions)
-        {
-            var isHit = false;
-            foreach (var resolutionB in resolutions)
-            {
-                if (resolutionA.width == resolutionB.width &&
-                resolutionA.height == resolutionB.height)
-                {
-                    isHit = true;
-                    break;
-                }
-            }
-            if (!isHit) resolutions.Add(new Resolution()
-            {
-                width = resolutionA.width,
-                height = resolutionA.height
-            });
-        }
-        for (int i = 0; i < resolutions.Count; i++)
-        {
-            var resolution = resolutions[i];
-            dropdownResolutions.options.Add(new Dropdown.OptionData(resolution.width + "×" + resolution.height));
-            if (option.Resolution.width == resolution.width &&
-            option.Resolution.height == resolution.height)
-                dropdownResolutions.value = i;
-        }
+
+        updateResolutions();
+
         var language = transform.Find("GroupSystem/BarLanguage");
         switch (option.Language)
         {
@@ -110,6 +86,50 @@ public class OptionUI : MonoBehaviour
         sliderLimitFPS.Find("Slider").GetComponent<Slider>().value = option.TargetFrameRate;
     }
 
+    void updateResolutions()
+    {
+        if (dropdownResolutions == null) return;
+        dropdownResolutions.options.Clear();
+        foreach (var resolutionA in Screen.resolutions)
+        {
+            var isHit = false;
+            foreach (var resolutionB in resolutions)
+            {
+                if (resolutionA.width == resolutionB.width &&
+                resolutionA.height == resolutionB.height)
+                {
+                    isHit = true;
+                    break;
+                }
+            }
+            if (!isHit) resolutions.Add(new Resolution()
+            {
+                width = resolutionA.width,
+                height = resolutionA.height
+            });
+        }
+        bool isHit2 = false;
+        for (int i = 0; i < resolutions.Count; i++)
+        {
+            if (option.FullScreenMode == FullScreenMode.Windowed &&
+            i == resolutions.Count - 1)
+                break;
+            var resolution = resolutions[i];
+            dropdownResolutions.options.Add(new Dropdown.OptionData(resolution.width + "×" + resolution.height));
+            if (option.Resolution.width == resolution.width &&
+            option.Resolution.height == resolution.height)
+            {
+                isHit2 = true;
+                dropdownResolutions.value = i;
+            }
+        }
+        if (!isHit2)
+        {
+            dropdownResolutions.value = resolutions.Count - 1;
+            option.Resolution = resolutions[resolutions.Count - 1];
+        }
+    }
+
     public void ToggleScreenMode(bool value)
     {
         if (!value) return;
@@ -126,6 +146,7 @@ public class OptionUI : MonoBehaviour
                 option.FullScreenMode = FullScreenMode.Windowed;
                 break;
         }
+        updateResolutions();
     }
 
     public void DropdownResolutionsClick()

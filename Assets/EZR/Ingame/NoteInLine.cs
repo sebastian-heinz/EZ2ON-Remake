@@ -40,7 +40,7 @@ namespace EZR
 
             NoteScale = scale;
             transform.localScale = new Vector3(NoteScale, NoteScale, 1);
-            rect = GetComponent<RectTransform>();
+            rect = (RectTransform)transform;
             NoteHeight = rect.sizeDelta.y;
 
             if (length > 6)

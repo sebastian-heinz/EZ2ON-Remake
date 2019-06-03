@@ -31,7 +31,7 @@ public class SingleSelectSongsUI : MonoBehaviour
 
     void Start()
     {
-        if (EZR.SongsList.List.Count == 0 || EZR.SongsList.Version < EZR.Utils.Version2Decmal("1.1"))
+        if (EZR.SongsList.List.Count == 0 || EZR.SongsList.Version < EZR.Utils.Version2Decmal(EZR.SongsList.MinVer))
         {
             var messageBox = Instantiate(EZR.Master.MessageBox);
             messageBox.transform.SetParent(transform.parent, false);
@@ -175,25 +175,43 @@ public class SingleSelectSongsUI : MonoBehaviour
                 break;
         }
 
-        // 找首个可用的歌曲
+        // 找当前歌曲可用难度
+        var state2 = songDifficultState(EZR.SongsList.List[currentSongIndex]);
         bool isHit = false;
-        foreach (var info in currentList)
+        for (int i = 0; i < state2.Length; i++)
         {
-            var state = songDifficultState(info);
-            for (int i = 0; i < state.Length; i++)
+            if (state2[i])
             {
-                if (state[i])
+                isHit = true;
+                if (currentType == EZR.GameType.DJMAX)
+                    currentDifficult = (EZR.GameDifficult.Difficult)(i + 4);
+                else
+                    currentDifficult = (EZR.GameDifficult.Difficult)i;
+                break;
+            }
+        }
+        // 找首个可用的歌曲
+        if (!isHit)
+        {
+            foreach (var info in currentList)
+            {
+                state2 = songDifficultState(info);
+                for (int i = 0; i < state2.Length; i++)
                 {
-                    var index = EZR.SongsList.List.IndexOf(info);
-                    if (currentSongIndex == index && info.GetCurrentMode(currentMode, currentDifficult) != EZR.GameMode.Mode.None)
+                    if (state2[i])
                     {
                         isHit = true;
+                        currentSongIndex = EZR.SongsList.List.IndexOf(info);
+                        if (currentType == EZR.GameType.DJMAX)
+                            currentDifficult = (EZR.GameDifficult.Difficult)(i + 4);
+                        else
+                            currentDifficult = (EZR.GameDifficult.Difficult)i;
                         break;
                     }
                 }
+                if (isHit) break;
             }
         }
-        if (!isHit) currentSongIndex = EZR.SongsList.List.IndexOf(currentList[0]);
     }
 
     // 刷新歌曲列表

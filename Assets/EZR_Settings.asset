@@ -17,3 +17,5 @@ MonoBehaviour:
   LaunchScene: SingleSelectSongs
   MessageBox: {fileID: 529640093577671964, guid: 8d455199744e63a4bb90187a34b065a7,
     type: 3}
+  Tooltips: {fileID: 5422760972405883614, guid: 0dca5375a6fd1b64cbde6ee24d66a391,
+    type: 3}

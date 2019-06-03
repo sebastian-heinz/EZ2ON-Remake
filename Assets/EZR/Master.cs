@@ -20,6 +20,7 @@ namespace EZR
 #endif
         public static int TimePrecision = 1;
         public static GameObject MessageBox;
+        public static GameObject Tooltips;
 
         static byte TaskExitFlag = 0;
 

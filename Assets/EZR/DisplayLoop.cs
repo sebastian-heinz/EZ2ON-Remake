@@ -37,7 +37,7 @@ namespace EZR
         RectTransform noteArea;
 
         FlareAnimCTL[] flarePlayList;
-        FlareAnimCTL[] LongflarePlayList;
+        FlareAnimCTL[] longflarePlayList;
         JudgmentAnimCTL judgmentAnim;
 
         ComboCounter comboCounter;
@@ -46,7 +46,8 @@ namespace EZR
         Text scoreText;
         Text maxComboText;
 
-        NoteType.Note[] Notes;
+        NoteType.Note[] notes;
+        Animation noteTargetAnim;
 
         GameObject measureLine;
         int measureCount = 0;
@@ -57,6 +58,8 @@ namespace EZR
         Queue<NoteInLine>[] noteInLines;
 
         public VideoPlayer VideoPlayer;
+
+        GameObject autoObj;
 
         void Start()
         {
@@ -73,10 +76,11 @@ namespace EZR
 
             // 初始化音符
             var noteType = Resources.Load<NoteType>("Skin/Note/" + NoteResource);
-            Notes = noteType.Notes;
+            notes = noteType.Notes;
             noteScale = noteType.NoteScale[PlayManager.NumLines - 4];
             var target = Instantiate(noteType.Target[PlayManager.NumLines - 4]);
             target.transform.SetParent(panel.transform.Find("Target"), false);
+            noteTargetAnim = target.GetComponent<Animation>();
 
             // 节奏线
             measureLine = panel.GetComponent<Panel>().MeasureLine;
@@ -84,7 +88,7 @@ namespace EZR
             // 找节奏灯
             grooveLightAnim = panel.transform.Find("Groove").GetComponent<Animation>();
             // 找HP
-            HP = panel.transform.Find("HP").GetComponent<RectTransform>();
+            HP = (RectTransform)panel.transform.Find("HP");
 
             // 找按键动画
             linesUpdate = new bool[PlayManager.NumLines];
@@ -106,17 +110,17 @@ namespace EZR
 
             // 找播放头
             header = panel.transform.Find("NoteArea/Header");
-            noteArea = header.parent.GetComponent<RectTransform>();
+            noteArea = (RectTransform)header.parent;
 
             // 初始化按键火花特效
             flarePlayList = new FlareAnimCTL[PlayManager.NumLines];
-            LongflarePlayList = new FlareAnimCTL[PlayManager.NumLines];
+            longflarePlayList = new FlareAnimCTL[PlayManager.NumLines];
             for (int i = 0; i < PlayManager.NumLines; i++)
             {
                 var flare = Instantiate(noteType.Flare);
                 var longFlare = Instantiate(panel.GetComponent<Panel>().LongFlare);
                 flarePlayList[i] = flare.GetComponent<FlareAnimCTL>();
-                LongflarePlayList[i] = longFlare.GetComponent<FlareAnimCTL>();
+                longflarePlayList[i] = longFlare.GetComponent<FlareAnimCTL>();
                 flare.transform.SetParent(panel.transform, false);
                 longFlare.transform.SetParent(panel.transform, false);
                 var panelTarget = panel.transform.Find("Target");
@@ -168,6 +172,9 @@ namespace EZR
             // 找毛玻璃
             var frostedGlass = panel.transform.Find("FrostedGlass").gameObject;
             frostedGlass.SetActive(option.FrostedGlassEffect);
+
+            // 找 auto play 对象
+            autoObj = panel.transform.Find("Auto").gameObject;
         }
 
         void StartPlay()
@@ -260,6 +267,16 @@ namespace EZR
                 {
                     measure.PlayAnim();
                 }
+
+                // 音符目标跳动
+                noteTargetAnim[noteTargetAnim.clip.name].time = 0;
+                noteTargetAnim.Play();
+            }
+
+            // auto play滚屏效果
+            if (PlayManager.IsAutoPlay != autoObj.activeSelf)
+            {
+                autoObj.SetActive(PlayManager.IsAutoPlay);
             }
 
             // 按键表现
@@ -337,7 +354,7 @@ namespace EZR
                     //     currentIndex[i]++;
                     //     continue;
                     // }
-                    var note = Instantiate(Notes[PlayManager.NumLines - 4].NotePrefab[i]);
+                    var note = Instantiate(notes[PlayManager.NumLines - 4].NotePrefab[i]);
                     note.transform.SetParent(header, false);
                     // 新产生的音符永远在最下层
                     note.transform.SetSiblingIndex(0);
@@ -411,14 +428,14 @@ namespace EZR
 
         void judgmentLoop()
         {
-            Judgment.Loop(noteInLines, judgmentAnim, flarePlayList, LongflarePlayList);
+            Judgment.Loop(noteInLines, judgmentAnim, flarePlayList, longflarePlayList);
         }
 
         void inputEvent(int keyId, bool state)
         {
             if (PlayManager.IsAutoPlay) return;
             linesUpdate[keyId] = true;
-            Judgment.InputEvent(state, keyId, noteInLines, judgmentAnim, flarePlayList, LongflarePlayList);
+            Judgment.InputEvent(state, keyId, noteInLines, judgmentAnim, flarePlayList, longflarePlayList);
         }
 
         IEnumerator hpBeat()

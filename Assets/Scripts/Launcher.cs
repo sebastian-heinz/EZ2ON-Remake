@@ -13,6 +13,8 @@ public class Launcher : MonoBehaviour
         EZR.Master.Version = Settings.Version;
         EZR.Master.GameResourcesFolder = EZR.Master.IsDebug ? Settings.devGameResourcesFolder : "EZRData";
         EZR.Master.MessageBox = Settings.MessageBox;
+        EZR.Master.Tooltips = Instantiate(Settings.Tooltips);
+        DontDestroyOnLoad(EZR.Master.Tooltips);
         string songListData;
         try
         {

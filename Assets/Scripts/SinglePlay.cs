@@ -59,6 +59,7 @@ public class SinglePlay : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.F2))
         {
             EZR.PlayManager.IsAutoPlay = !EZR.PlayManager.IsAutoPlay;
+            EZR.MemorySound.PlaySound("e_count_1");
         }
 
         if (Input.GetKey(KeyCode.LeftControl) || Input.GetKey(KeyCode.RightControl))

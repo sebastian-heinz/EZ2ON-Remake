@@ -9,8 +9,9 @@ namespace EZR
 {
     public static class UserSaveData
     {
-        public static string MinVer = "1.0";
-        public static JObject UserData = new JObject(new JProperty("version", MinVer));
+        public static string Version => "1.0";
+        public static string MinVer => "1.0";
+        public static JObject UserData = new JObject(new JProperty("version", Version));
         static string aesKey = "GameOldBoyEZ2ONRemake";
         static string saveName = "userdata.save";
 
@@ -58,6 +59,7 @@ namespace EZR
                     {
                         using (var swEncrypt = new StreamWriter(csEncrypt))
                         {
+                            UserData["version"] = Version;
                             swEncrypt.Write(UserData.ToString(Formatting.None));
                         }
                         File.WriteAllBytes(Path.Combine(Application.persistentDataPath, saveName), msEncrypt.ToArray());
@@ -147,19 +149,19 @@ namespace EZR
         {
             var option = new Option();
             if (!UserData.ContainsKey("setting")) return option;
-            option.FullScreenMode = Utils.ParseEnum<FullScreenMode>((string)UserData["setting"]["fullScreenMode"]);
+            option.FullScreenMode = Utils.ParseEnum<FullScreenMode>((string)UserData["setting"]["fullScreenMode"] ?? option.FullScreenMode.ToString());
             option.Resolution = new Resolution()
             {
-                width = (int)UserData["setting"]["resolution"]["width"],
-                height = (int)UserData["setting"]["resolution"]["height"]
+                width = (int)(UserData["setting"]["resolution"]["width"] ?? option.Resolution.width),
+                height = (int)(UserData["setting"]["resolution"]["height"] ?? option.Resolution.height)
             };
-            option.Language = Utils.ParseEnum<SystemLanguage>((string)UserData["setting"]["language"]);
-            option.TimePrecision = (int)UserData["setting"]["timePrecision"];
-            option.FrostedGlassEffect = (bool)UserData["setting"]["frostedGlassEffect"];
-            option.VSync = (bool)UserData["setting"]["vSync"];
-            option.SimVSync = (bool)UserData["setting"]["simVSync"];
-            option.LimitFPS = (bool)UserData["setting"]["limitFPS"];
-            option.TargetFrameRate = (int)UserData["setting"]["targetFrameRate"];
+            option.Language = Utils.ParseEnum<SystemLanguage>((string)UserData["setting"]["language"] ?? option.Language.ToString());
+            option.TimePrecision = (int)(UserData["setting"]["timePrecision"] ?? option.TimePrecision);
+            option.FrostedGlassEffect = (bool)(UserData["setting"]["frostedGlassEffect"] ?? option.FrostedGlassEffect);
+            option.VSync = (bool)(UserData["setting"]["vSync"] ?? option.VSync);
+            option.SimVSync = (bool)(UserData["setting"]["simVSync"] ?? option.SimVSync);
+            option.LimitFPS = (bool)(UserData["setting"]["limitFPS"] ?? option.LimitFPS);
+            option.TargetFrameRate = (int)(UserData["setting"]["targetFrameRate"] ?? option.TargetFrameRate);
             return option;
         }
 
