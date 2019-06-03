@@ -124,7 +124,23 @@ public class SingleSelectSongsUI : MonoBehaviour
     // 找首个可用的歌曲和难度
     void updateDifficultState()
     {
+        // 当前歌曲和难度直接可用，直接排一次序就完事
+        if (EZR.SongsList.List[currentSongIndex].GetCurrentMode(currentMode, currentDifficult) != EZR.GameMode.Mode.None)
+        {
+            switch (EZR.SongsList.CurrentSortMode)
+            {
+                case EZR.SongsList.SortMode.ByName:
+                    sortListByName(EZR.SongsList.IsAscending);
+                    break;
+                case EZR.SongsList.SortMode.ByDifficult:
+                    sortListByDifficult(EZR.SongsList.IsAscending);
+                    break;
+            }
+            return;
+        }
+
         bool[] currentDifficultState = new bool[] { false, false, false, false, false };
+
         foreach (var info in EZR.SongsList.List)
         {
             var state = songDifficultState(info);
