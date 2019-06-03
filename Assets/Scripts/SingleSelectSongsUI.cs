@@ -290,6 +290,7 @@ public class SingleSelectSongsUI : MonoBehaviour
 
         // 滚动定位
         var scroll = songslistContent.parent.parent.GetComponent<ScrollRect>();
+        Canvas.ForceUpdateCanvases();
         scroll.verticalNormalizedPosition = 1 - curSong.GetSiblingIndex() / (float)songslistContent.childCount;
     }
 
@@ -810,8 +811,6 @@ public class SingleSelectSongsUI : MonoBehaviour
         EZR.PlayManager.GameDifficult = currentDifficult;
         EZR.PlayManager.FallSpeed = speed;
 
-        EZR.MemorySound.StopSound();
-        EZR.MemorySound.StopStream();
         if (delayPlay != null) StopCoroutine(delayPlay);
 
         if (currentType == EZR.GameType.DJMAX)
@@ -826,6 +825,8 @@ public class SingleSelectSongsUI : MonoBehaviour
         {
             yield return null;
         }
+        EZR.MemorySound.StopSound();
+        EZR.MemorySound.StopStream();
         SceneManager.LoadScene("SinglePlay");
     }
 

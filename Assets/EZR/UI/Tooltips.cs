@@ -30,7 +30,7 @@ namespace EZR
         {
             if (fade != null) StopCoroutine(fade);
             fade = null;
-            Master.Tooltips.transform.SetParent(null);
+            Master.Tooltips.transform.SetParent(null, false);
             startPos = null;
         }
 
@@ -53,7 +53,7 @@ namespace EZR
             {
                 if (fade != null) StopCoroutine(fade);
                 fade = null;
-                Master.Tooltips.transform.SetParent(null);
+                Master.Tooltips.transform.SetParent(null, false);
                 startPos = null;
             }
         }
