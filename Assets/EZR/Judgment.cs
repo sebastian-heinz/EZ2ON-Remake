@@ -44,7 +44,7 @@ namespace EZR
                     else if (noteInLine.NoteLength > 0)
                     {
                         // 长音
-                        if (noteInLine.Position - PlayManager.Position < -JudgmentDelta.GetJudgmentDelta(JudgmentType.Miss, 0.8f))
+                        if (noteInLine.Position - PlayManager.Position < -JudgmentDelta.GetJudgmentDelta(JudgmentType.Miss, 1))
                         {
                             PlayManager.ComboBreak();
                             PlayManager.AddScore(JudgmentType.Fail);
@@ -125,7 +125,7 @@ namespace EZR
                     // 长音
                     if (note.length > 6)
                     {
-                        if (JudgmentDelta.CompareJudgmentDelta(judgmentDelta, JudgmentType.Kool, 0.8f))
+                        if (JudgmentDelta.CompareJudgmentDelta(judgmentDelta, JudgmentType.Kool, 1))
                         {
                             PlayManager.AddCombo();
                             PlayManager.AddScore(JudgmentType.Kool);
@@ -135,7 +135,7 @@ namespace EZR
                             noteInLine.IsLongPressed = true;
                             noteInLine.LongNoteJudgment = JudgmentType.Kool;
                         }
-                        else if (JudgmentDelta.CompareJudgmentDelta(judgmentDelta, JudgmentType.Cool, 0.8f))
+                        else if (JudgmentDelta.CompareJudgmentDelta(judgmentDelta, JudgmentType.Cool, 1))
                         {
                             PlayManager.AddCombo();
                             PlayManager.AddScore(JudgmentType.Cool);
@@ -145,7 +145,7 @@ namespace EZR
                             noteInLine.IsLongPressed = true;
                             noteInLine.LongNoteJudgment = JudgmentType.Cool;
                         }
-                        else if (JudgmentDelta.CompareJudgmentDelta(judgmentDelta, JudgmentType.Good, 0.8f))
+                        else if (JudgmentDelta.CompareJudgmentDelta(judgmentDelta, JudgmentType.Good, 1))
                         {
                             PlayManager.AddCombo();
                             PlayManager.AddScore(JudgmentType.Good);
@@ -155,7 +155,7 @@ namespace EZR
                             noteInLine.IsLongPressed = true;
                             noteInLine.LongNoteJudgment = JudgmentType.Good;
                         }
-                        else if (JudgmentDelta.CompareJudgmentDelta(judgmentDelta, JudgmentType.Miss, 0.8f))
+                        else if (JudgmentDelta.CompareJudgmentDelta(judgmentDelta, JudgmentType.Miss, 1))
                         {
                             PlayManager.ComboBreak();
                             PlayManager.AddScore(JudgmentType.Miss);

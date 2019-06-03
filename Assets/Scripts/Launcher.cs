@@ -15,6 +15,7 @@ public class Launcher : MonoBehaviour
         EZR.Master.MessageBox = Settings.MessageBox;
         EZR.Master.Tooltips = Instantiate(Settings.Tooltips);
         DontDestroyOnLoad(EZR.Master.Tooltips);
+        DontDestroyOnLoad(GameObject.Find("PersistentCanvas"));
         string songListData;
         try
         {

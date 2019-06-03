@@ -16,7 +16,7 @@ namespace EZR
 
         void Start()
         {
-            canvas = GameObject.Find("Canvas").transform;
+            canvas = GameObject.Find("PersistentCanvas").transform;
         }
 
         public void OnPointerEnter(PointerEventData eventData)
