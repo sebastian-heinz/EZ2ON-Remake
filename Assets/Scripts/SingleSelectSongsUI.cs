@@ -164,7 +164,7 @@ public class SingleSelectSongsUI : MonoBehaviour
             }
         }
 
-        // 排序
+        // 第一次排序
         switch (EZR.SongsList.CurrentSortMode)
         {
             case EZR.SongsList.SortMode.ByName:
@@ -211,6 +211,17 @@ public class SingleSelectSongsUI : MonoBehaviour
                 }
                 if (isHit) break;
             }
+        }
+
+        // 第二次排序
+        switch (EZR.SongsList.CurrentSortMode)
+        {
+            case EZR.SongsList.SortMode.ByName:
+                sortListByName(EZR.SongsList.IsAscending);
+                break;
+            case EZR.SongsList.SortMode.ByDifficult:
+                sortListByDifficult(EZR.SongsList.IsAscending);
+                break;
         }
     }
 
