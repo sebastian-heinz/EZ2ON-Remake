@@ -65,30 +65,7 @@ namespace EZR
             // 长音符按下
             if (IsLongPressed)
             {
-                if (PlayManager.IsAutoPlay || !PlayManager.IsSimVSync)
-                {
-                    transform.localPosition = new Vector3(
-                        initX,
-                        (float)(displayLoop.Position * PlayManager.GetSpeed()),
-                        0
-                    );
-                    rect.sizeDelta = new Vector2(
-                        rect.sizeDelta.x,
-                        (float)((Position + NoteLength - displayLoop.Position) * PlayManager.GetSpeed() / NoteScale + NoteHeight)
-                    );
-                }
-                else
-                {
-                    transform.localPosition = new Vector3(
-                        initX,
-                        (float)(displayLoop.Position * PlayManager.GetSpeed()),
-                        0
-                    );
-                    rect.sizeDelta = new Vector2(
-                        rect.sizeDelta.x,
-                        (float)(((Position + PlayManager.SimVsyncDelta) + NoteLength - displayLoop.Position) * PlayManager.GetSpeed() / NoteScale + NoteHeight)
-                    );
-                }
+                updateLongNote();
             }
         }
 
@@ -99,7 +76,7 @@ namespace EZR
             {
                 transform.localPosition = new Vector3(
                     initX,
-                    Position * PlayManager.GetSpeed(),
+                    (float)(Position - displayLoop.Position) * PlayManager.GetSpeed(),
                     0
                 );
                 rect.sizeDelta = new Vector2(rect.sizeDelta.x, NoteLength * PlayManager.GetSpeed() / NoteScale + NoteHeight);
@@ -108,10 +85,38 @@ namespace EZR
             {
                 transform.localPosition = new Vector3(
                     initX,
-                    (float)((Position + PlayManager.SimVsyncDelta) * PlayManager.GetSpeed()),
+                    (float)((Position - displayLoop.Position + PlayManager.SimVsyncDelta) * PlayManager.GetSpeed()),
                     0
                 );
                 rect.sizeDelta = new Vector2(rect.sizeDelta.x, NoteLength * PlayManager.GetSpeed() / NoteScale + NoteHeight);
+            }
+        }
+
+        void updateLongNote()
+        {
+            if (PlayManager.IsAutoPlay || !PlayManager.IsSimVSync)
+            {
+                transform.localPosition = new Vector3(
+                    initX,
+                    0,
+                    0
+                );
+                rect.sizeDelta = new Vector2(
+                    rect.sizeDelta.x,
+                    (float)((Position + NoteLength - displayLoop.Position) * PlayManager.GetSpeed() / NoteScale + NoteHeight)
+                );
+            }
+            else
+            {
+                transform.localPosition = new Vector3(
+                    initX,
+                    0,
+                    0
+                );
+                rect.sizeDelta = new Vector2(
+                    rect.sizeDelta.x,
+                    (float)(((Position + PlayManager.SimVsyncDelta) + NoteLength - displayLoop.Position) * PlayManager.GetSpeed() / NoteScale + NoteHeight)
+                );
             }
         }
     }

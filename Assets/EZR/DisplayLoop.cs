@@ -33,7 +33,6 @@ namespace EZR
         bool[] linesUpdate;
         Animation[] linesAnim;
 
-        Transform header;
         RectTransform noteArea;
 
         FlareAnimCTL[] flarePlayList;
@@ -108,9 +107,8 @@ namespace EZR
                     lines.SetActive(false);
             }
 
-            // 找播放头
-            header = panel.transform.Find("NoteArea/Header");
-            noteArea = (RectTransform)header.parent;
+            // 找音符节点
+            noteArea = (RectTransform)panel.transform.Find("NoteArea");
 
             // 初始化按键火花特效
             flarePlayList = new FlareAnimCTL[PlayManager.NumLines];
@@ -335,16 +333,10 @@ namespace EZR
                 Mathf.Min(Time.unscaledDeltaTime * 12, 1)
             );
 
-            // 播放头
-            header.localPosition = new Vector3(0,
-                -(float)(Position * PlayManager.GetSpeed()),
-                0
-            );
-
+            var screenHeight = noteArea.sizeDelta.y / PlayManager.GetSpeed();
             // 生成实时音符
             for (int i = 0; i < PlayManager.NumLines; i++)
             {
-                var screenHeight = noteArea.sizeDelta.y / PlayManager.GetSpeed();
                 while (currentIndex[i] < PlayManager.TimeLines.Lines[i].Notes.Count &&
                 PlayManager.TimeLines.Lines[i].Notes[currentIndex[i]].position - Position < screenHeight)
                 {
@@ -355,7 +347,7 @@ namespace EZR
                     //     continue;
                     // }
                     var note = Instantiate(notes[PlayManager.NumLines - 4].NotePrefab[i]);
-                    note.transform.SetParent(header, false);
+                    note.transform.SetParent(noteArea, false);
                     // 新产生的音符永远在最下层
                     note.transform.SetSiblingIndex(0);
 
@@ -367,19 +359,21 @@ namespace EZR
 
                     currentIndex[i]++;
                 }
-                int currentMeasureCount = (int)((Position + screenHeight) / PatternUtils.Pattern.TickPerMeasure);
-                if (currentMeasureCount > measureCount)
+            }
+            // 生成节奏线
+            int currentMeasureCount = (int)((Position + screenHeight) / PatternUtils.Pattern.TickPerMeasure);
+            if (currentMeasureCount > measureCount)
+            {
+                var measureDelta = currentMeasureCount - measureCount;
+                for (int j = 0; j < measureDelta; j++)
                 {
-                    var measureDelta = currentMeasureCount - measureCount;
-                    for (int j = 0; j < measureDelta; j++)
-                    {
-                        var measureInst = Instantiate(measureLine);
-                        measureInst.transform.SetParent(header, false);
-                        measureInst.transform.SetSiblingIndex(0);
-                        measureInst.GetComponent<MeasureLine>().Index = measureCount + j + 1;
-                    }
-                    measureCount = currentMeasureCount;
+                    var measureInst = Instantiate(measureLine);
+                    measureInst.transform.SetParent(noteArea, false);
+                    measureInst.transform.SetSiblingIndex(0);
+                    var measureLineComponent = measureInst.GetComponent<MeasureLine>();
+                    measureLineComponent.Init(measureCount + j + 1, this);
                 }
+                measureCount = currentMeasureCount;
             }
 
             // 移除长音符音符

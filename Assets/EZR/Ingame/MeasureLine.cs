@@ -5,32 +5,41 @@ namespace EZR
 {
     public class MeasureLine : MonoBehaviour
     {
-        [HideInInspector]
-        public int Index = 0;
+        int index = 0;
 
         public static List<MeasureLine> MeasureLines = new List<MeasureLine>();
 
         Animator anim;
+        DisplayLoop displayLoop;
 
-        void Start()
+        public void Init(int index, DisplayLoop loop)
         {
+            this.index = index;
+            displayLoop = loop;
             anim = GetComponent<Animator>();
             MeasureLines.Add(this);
+
+            updateMeasure();
         }
 
         void Update()
         {
-            if ((Index * PatternUtils.Pattern.TickPerMeasure) - PlayManager.Position < -(JudgmentDelta.Miss + 2))
+            if ((index * PatternUtils.Pattern.TickPerMeasure) - PlayManager.Position < -(JudgmentDelta.Miss + 2))
             {
                 Destroy(gameObject);
                 return;
             }
 
+            updateMeasure();
+        }
+
+        void updateMeasure()
+        {
             if (PlayManager.IsAutoPlay || !PlayManager.IsSimVSync)
             {
                 transform.localPosition = new Vector3(
                     0,
-                    (Index * PatternUtils.Pattern.TickPerMeasure) * PlayManager.GetSpeed(),
+                    (float)(index * PatternUtils.Pattern.TickPerMeasure - displayLoop.Position) * PlayManager.GetSpeed(),
                     0
                 );
             }
@@ -38,7 +47,7 @@ namespace EZR
             {
                 transform.localPosition = new Vector3(
                     0,
-                    (float)(((Index * PatternUtils.Pattern.TickPerMeasure) + PlayManager.SimVsyncDelta) * PlayManager.GetSpeed()),
+                    (float)((index * PatternUtils.Pattern.TickPerMeasure - displayLoop.Position + PlayManager.SimVsyncDelta) * PlayManager.GetSpeed()),
                     0
                 );
             }
