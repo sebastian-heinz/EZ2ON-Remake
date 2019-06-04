@@ -62,12 +62,14 @@ namespace PatternUtils
 
         static float getVol(int vol)
         {
-            return vol / 127f;
+            return Mathf.Pow(vol / 127f, 4f);
         }
 
         static float getPan(int pan)
         {
-            return (pan - 64) / 64f;
+            float val = pan - 64;
+            val = val < 0 ? (val / 64f) : val / 63f;
+            return Mathf.Sign(val) * Mathf.Pow(Mathf.Abs(val), 0.5f);
         }
     }
 }
