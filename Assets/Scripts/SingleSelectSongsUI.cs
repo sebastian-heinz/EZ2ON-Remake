@@ -683,7 +683,7 @@ public class SingleSelectSongsUI : MonoBehaviour
 
     IEnumerator DelayPlayPreview(string songName)
     {
-        yield return new WaitForSecondsRealtime(0.4f);
+        yield return new WaitForSeconds(0.4f);
 
         string fileName = "";
         if (currentType == EZR.GameType.DJMAX)
@@ -903,10 +903,10 @@ public class SingleSelectSongsUI : MonoBehaviour
 
     IEnumerator speedPressed(float val)
     {
-        yield return new WaitForSecondsRealtime(0.2f);
+        yield return new WaitForSeconds(0.2f);
         for (; ; )
         {
-            yield return new WaitForSecondsRealtime(0.075f);
+            yield return new WaitForSeconds(0.075f);
             speedAddSmall(val);
         }
     }

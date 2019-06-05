@@ -310,14 +310,14 @@ namespace EZR
                 VideoPlayer.Play();
             }
 
-            // Unity Delta Time Position 用于消除音符抖动
+            // Unity smoothDeltaTime计算Position 用于消除音符抖动
             if (isStarted)
             {
-                PositionDelta = Time.unscaledDeltaTime * PlayManager.TickPerSecond;
+                PositionDelta = Time.smoothDeltaTime * PlayManager.TickPerSecond;
                 Position += PositionDelta;
 
                 // 记录时间
-                time += Time.unscaledDeltaTime;
+                time += Time.deltaTime;
                 if (!bgaPlayed && !(PlayManager.GameType == GameType.DJMAX &&
                 PlayManager.GameMode < EZR.GameMode.Mode.FourKey) &&
                 PlayManager.BGADelay > 0 && PlayManager.BGADelay <= time)
@@ -333,7 +333,7 @@ namespace EZR
 
             // 插值下落速度
             PlayManager.RealFallSpeed = Mathf.Lerp(PlayManager.RealFallSpeed, PlayManager.FallSpeed,
-                Mathf.Min(Time.unscaledDeltaTime * 12, 1)
+                Mathf.Min(Time.deltaTime * 12, 1)
             );
 
             var screenHeight = noteArea.sizeDelta.y / PlayManager.GetSpeed();
@@ -437,7 +437,7 @@ namespace EZR
 
         IEnumerator hpBeat()
         {
-            for (float i = 0; i < 1; i += Time.unscaledDeltaTime * 2)
+            for (float i = 0; i < 1; i += Time.deltaTime * 2)
             {
                 if (i >= 1) i -= 1;
                 yield return null;

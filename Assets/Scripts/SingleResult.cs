@@ -25,7 +25,7 @@ public class SingleResult : MonoBehaviour
 
     IEnumerator waitEnd()
     {
-        yield return new WaitForSecondsRealtime(10);
+        yield return new WaitForSeconds(10);
         End();
     }
 

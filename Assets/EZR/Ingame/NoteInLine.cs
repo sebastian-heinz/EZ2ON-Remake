@@ -79,7 +79,7 @@ namespace EZR
                     (float)((Position - displayLoop.Position) * PlayManager.GetSpeed()),
                     0
                 );
-                rect.sizeDelta = new Vector2(rect.sizeDelta.x, NoteLength * PlayManager.GetSpeed() / NoteScale + NoteHeight);
+                rect.sizeDelta = new Vector2(rect.sizeDelta.x, (float)((double)NoteLength * PlayManager.GetSpeed() / NoteScale) + NoteHeight);
             }
             else
             {
@@ -88,7 +88,7 @@ namespace EZR
                     (float)((Position - displayLoop.Position + PlayManager.SimVsyncDelta) * PlayManager.GetSpeed()),
                     0
                 );
-                rect.sizeDelta = new Vector2(rect.sizeDelta.x, NoteLength * PlayManager.GetSpeed() / NoteScale + NoteHeight);
+                rect.sizeDelta = new Vector2(rect.sizeDelta.x, (float)((double)NoteLength * PlayManager.GetSpeed() / NoteScale) + NoteHeight);
             }
         }
 
@@ -103,7 +103,7 @@ namespace EZR
                 );
                 rect.sizeDelta = new Vector2(
                     rect.sizeDelta.x,
-                    (float)((Position + NoteLength - displayLoop.Position) * PlayManager.GetSpeed() / NoteScale + NoteHeight)
+                    (float)((Position + NoteLength - displayLoop.Position) * PlayManager.GetSpeed() / NoteScale) + NoteHeight
                 );
             }
             else
@@ -115,7 +115,7 @@ namespace EZR
                 );
                 rect.sizeDelta = new Vector2(
                     rect.sizeDelta.x,
-                    (float)((Position + NoteLength - displayLoop.Position + PlayManager.SimVsyncDelta) * PlayManager.GetSpeed() / NoteScale + NoteHeight)
+                    (float)((Position + NoteLength - displayLoop.Position + PlayManager.SimVsyncDelta) * PlayManager.GetSpeed() / NoteScale) + NoteHeight
                 );
             }
         }

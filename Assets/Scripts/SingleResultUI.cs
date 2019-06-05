@@ -197,7 +197,7 @@ public class SingleResultUI : MonoBehaviour
 
     IEnumerator playSoundDelay(EZR.Score.Grade grade, EZR.Score.Bonus bonus, bool isNewRecord)
     {
-        yield return new WaitForSecondsRealtime(0.5f);
+        yield return new WaitForSeconds(0.5f);
         EZR.MemorySound.PlaySound("e_result");
         if (EZR.PlayManager.Score.IsClear && grade != EZR.Score.Grade.F)
             EZR.MemorySound.PlaySound("e_clear");
@@ -215,7 +215,7 @@ public class SingleResultUI : MonoBehaviour
         }
         if (isNewRecord)
             EZR.MemorySound.PlaySound("e_record");
-        yield return new WaitForSecondsRealtime(0.75f);
+        yield return new WaitForSeconds(0.75f);
         switch (grade)
         {
             case EZR.Score.Grade.APlus:

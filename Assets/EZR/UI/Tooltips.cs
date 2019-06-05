@@ -65,7 +65,7 @@ namespace EZR
             contentSizeFitter.enabled = false;
             yield return null;
             contentSizeFitter.enabled = true;
-            yield return new WaitForSecondsRealtime(0.2f);
+            yield return new WaitForSeconds(0.2f);
             startPos = Input.mousePosition;
             Master.Tooltips.transform.SetParent(canvas, false);
             ((RectTransform)Master.Tooltips.transform).position = pos;

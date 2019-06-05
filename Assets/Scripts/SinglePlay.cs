@@ -108,10 +108,10 @@ public class SinglePlay : MonoBehaviour
 
     IEnumerator speedPressed(float val)
     {
-        yield return new WaitForSecondsRealtime(0.2f);
+        yield return new WaitForSeconds(0.2f);
         for (; ; )
         {
-            yield return new WaitForSecondsRealtime(0.075f);
+            yield return new WaitForSeconds(0.075f);
             speedAddSmall(val);
         }
     }

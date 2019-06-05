@@ -86,7 +86,7 @@ namespace EZR
             DeltaTime = (now - lastTime) / 10000000d;
             lastTime = now;
 
-            TickPerSecond = TimeLines.BPM / 4d / 60d * PatternUtils.Pattern.TickPerMeasure;
+            TickPerSecond = TimeLines.BPM * 0.25d * PatternUtils.Pattern.TickPerMeasure / 60d;
             PositionDelta = DeltaTime * TickPerSecond;
             Position += PositionDelta;
 

@@ -21,7 +21,7 @@ public class SoundPlayDebug : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        frameTime += Time.unscaledDeltaTime;
+        frameTime += Time.deltaTime;
         frames++;
         if (frameTime >= 1)
         {
