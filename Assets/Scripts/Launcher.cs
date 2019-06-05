@@ -33,6 +33,8 @@ public class Launcher : MonoBehaviour
         EZR.UserSaveData.LoadSave();
 
         var option = EZR.UserSaveData.GetOption();
+        // Direct3D11 API下解决开启垂直同步后画面延迟的问题
+        QualitySettings.maxQueuedFrames = 0;
         // 设置画面模式
         if (option.VSync) QualitySettings.vSyncCount = 1;
         else QualitySettings.vSyncCount = 0;
