@@ -54,18 +54,18 @@ namespace EZR
 
         void Update()
         {
-            updateNote();
+            if (IsLongPressed)
+            {
+                updateLongNote();
+            }
+            else
+            {
+                updateNote();
+            }
 
             if (IsDestroy || Position + NoteLength - PlayManager.Position < -(JudgmentDelta.Miss + 2))
             {
                 Destroy(gameObject);
-                return;
-            }
-
-            // 长音符按下
-            if (IsLongPressed)
-            {
-                updateLongNote();
             }
         }
 
@@ -76,7 +76,7 @@ namespace EZR
             {
                 transform.localPosition = new Vector3(
                     initX,
-                    (float)(Position - displayLoop.Position) * PlayManager.GetSpeed(),
+                    (float)((Position - displayLoop.Position) * PlayManager.GetSpeed()),
                     0
                 );
                 rect.sizeDelta = new Vector2(rect.sizeDelta.x, NoteLength * PlayManager.GetSpeed() / NoteScale + NoteHeight);
@@ -115,7 +115,7 @@ namespace EZR
                 );
                 rect.sizeDelta = new Vector2(
                     rect.sizeDelta.x,
-                    (float)(((Position + PlayManager.SimVsyncDelta) + NoteLength - displayLoop.Position) * PlayManager.GetSpeed() / NoteScale + NoteHeight)
+                    (float)((Position + NoteLength - displayLoop.Position + PlayManager.SimVsyncDelta) * PlayManager.GetSpeed() / NoteScale + NoteHeight)
                 );
             }
         }

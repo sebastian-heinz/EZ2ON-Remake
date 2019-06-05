@@ -41,7 +41,7 @@ namespace EZR
                     }
 
                     // FAIL
-                    else if (noteInLine.NoteLength > 0)
+                    else if (noteInLine.NoteLength > 6)
                     {
                         // 长音
                         if (noteInLine.Position - PlayManager.Position < -JudgmentDelta.GetJudgmentDelta(JudgmentType.Miss, 1))

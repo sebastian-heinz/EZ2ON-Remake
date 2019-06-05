@@ -24,7 +24,7 @@ namespace EZR
 
         int readyFrame;
 
-        bool grooveLight = false;
+        bool grooveDisplay = false;
         Animation grooveLightAnim;
 
         RectTransform HP;
@@ -249,10 +249,18 @@ namespace EZR
                     StartPlay();
             }
 
-            // 节奏灯
-            if (grooveLight)
+
+            if (grooveDisplay)
             {
-                grooveLight = false;
+                grooveDisplay = false;
+
+                // 消除误差，同步时间轴
+                if (System.Math.Abs(Position - PlayManager.Position) > 1)
+                {
+                    Position = PlayManager.Position;
+                }
+
+                // 节奏灯
                 grooveLightAnim["GrooveLight"].time = 0;
                 grooveLightAnim.Play("GrooveLight");
 
@@ -307,11 +315,6 @@ namespace EZR
             {
                 PositionDelta = Time.unscaledDeltaTime * PlayManager.TickPerSecond;
                 Position += PositionDelta;
-                // 消除误差，同步时间轴
-                if (System.Math.Abs(Position - PlayManager.Position) > 1)
-                {
-                    Position = PlayManager.Position;
-                }
 
                 // 记录时间
                 time += Time.unscaledDeltaTime;
@@ -417,7 +420,7 @@ namespace EZR
 
         void groove()
         {
-            grooveLight = true;
+            grooveDisplay = true;
         }
 
         void judgmentLoop()
