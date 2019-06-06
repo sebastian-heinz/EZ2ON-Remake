@@ -56,7 +56,7 @@ namespace EZR
         int[] currentIndex;
         Queue<NoteInLine>[] noteInLines;
 
-        public VideoPlayer VideoPlayer;
+        public HTC.UnityPlugin.Multimedia.ViveMediaDecoder VideoPlayer;
 
         GameObject autoObj;
 
@@ -164,8 +164,11 @@ namespace EZR
                  );
             }
             if (File.Exists(bgaUrl))
+            {
                 // 初始化BGA
-                VideoPlayer.url = bgaUrl;
+                // VideoPlayer.mediaPath = bgaUrl;
+                VideoPlayer.initDecoder(bgaUrl);
+            }
 
             // 找毛玻璃
             var frostedGlass = panel.transform.Find("FrostedGlass").gameObject;
@@ -193,7 +196,7 @@ namespace EZR
             PlayManager.GameMode < EZR.GameMode.Mode.FourKey) &&
             PlayManager.BGADelay == 0)
             {
-                VideoPlayer.Play();
+                VideoPlayer.startDecoding();
             }
         }
 
@@ -228,8 +231,7 @@ namespace EZR
             time = 0;
             bgaPlayed = false;
 
-            VideoPlayer.Stop();
-            VideoPlayer.targetTexture.Release();
+            VideoPlayer.setPause();
         }
 
         public void Stop()
@@ -307,7 +309,7 @@ namespace EZR
             if (PlayManager.IsPlayBGA)
             {
                 PlayManager.IsPlayBGA = false;
-                VideoPlayer.Play();
+                VideoPlayer.startDecoding();
             }
 
             // Unity smoothDeltaTime计算Position 用于消除音符抖动
@@ -322,7 +324,7 @@ namespace EZR
                 PlayManager.GameMode < EZR.GameMode.Mode.FourKey) &&
                 PlayManager.BGADelay > 0 && PlayManager.BGADelay <= time)
                 {
-                    VideoPlayer.Play();
+                    VideoPlayer.startDecoding();
                     bgaPlayed = true;
                 }
 
@@ -412,10 +414,10 @@ namespace EZR
             maxComboText.text = PlayManager.Score.MaxCombo.ToString();
 
             // 修复BGA重复播放问题
-            if (!VideoPlayer.isPaused && VideoPlayer.frameCount > 0 && (ulong)VideoPlayer.frame == VideoPlayer.frameCount)
-            {
-                VideoPlayer.Pause();
-            }
+            // if (!VideoPlayer.isPaused && VideoPlayer.frameCount > 0 && (ulong)VideoPlayer.frame == VideoPlayer.frameCount)
+            // {
+            //     VideoPlayer.Pause();
+            // }
         }
 
         void groove()
