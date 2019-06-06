@@ -13,6 +13,12 @@ namespace EZR
         {
             transform.Find("Text").GetComponent<Text>().text = Text + "\n\n";
             EZR.MemorySound.PlaySound("e_error");
+
+            var option = UserSaveData.GetOption();
+
+            // 找毛玻璃
+            var frostedGlass = transform.Find("FrostedGlass").gameObject;
+            frostedGlass.SetActive(option.FrostedGlassEffect);
         }
 
         public void BtnOk()

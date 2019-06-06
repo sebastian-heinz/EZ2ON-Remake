@@ -18,6 +18,10 @@ public class OptionUI : MonoBehaviour
 
         option = EZR.UserSaveData.GetOption();
 
+        // 找毛玻璃
+        var frostedGlass = transform.Find("FrostedGlass").gameObject;
+        frostedGlass.SetActive(option.FrostedGlassEffect);
+
         updateSystem();
     }
 
@@ -236,7 +240,7 @@ public class OptionUI : MonoBehaviour
         if (option.LimitFPS)
             Application.targetFrameRate = option.TargetFrameRate;
         else
-            Application.targetFrameRate = 0;
+            Application.targetFrameRate = -1;
         if (option.Resolution.width != Screen.currentResolution.width ||
         option.Resolution.height != Screen.currentResolution.height ||
         option.FullScreenMode != Screen.fullScreenMode)

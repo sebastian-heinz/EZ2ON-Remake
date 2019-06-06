@@ -41,7 +41,7 @@ public class Launcher : MonoBehaviour
         if (option.LimitFPS)
             Application.targetFrameRate = option.TargetFrameRate;
         else
-            Application.targetFrameRate = 0;
+            Application.targetFrameRate = -1;
         if (option.Resolution.width != Screen.currentResolution.width ||
         option.Resolution.height != Screen.currentResolution.height ||
         option.FullScreenMode != Screen.fullScreenMode)
