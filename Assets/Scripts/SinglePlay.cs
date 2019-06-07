@@ -104,6 +104,16 @@ public class SinglePlay : MonoBehaviour
             Info.SetActive(!Info.activeSelf);
             EZR.MemorySound.PlaySound("e_count_1");
         }
+
+        if (Input.GetKeyDown(KeyCode.Delete))
+        {
+            var bga = GameObject.Find("Canvas").transform.Find("BGA");
+            if (bga != null && bga.gameObject.activeSelf)
+            {
+                Destroy(bga.gameObject);
+                EZR.MemorySound.PlaySound("e_count_1");
+            }
+        }
     }
 
     IEnumerator speedPressed(float val)

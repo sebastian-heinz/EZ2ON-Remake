@@ -185,7 +185,7 @@ namespace HTC.UnityPlugin.Multimedia
                         }
 
                         //	Update video frame by dspTime.
-                        double setTime = AudioSettings.dspTime - globalStartTime;
+                        double setTime = getTime() - globalStartTime;
 
                         //	Normal update frame.
                         if (setTime < videoTotalTime || videoTotalTime == -1.0f)
@@ -219,7 +219,7 @@ namespace HTC.UnityPlugin.Multimedia
                     if (nativeIsVideoBufferEmpty(decoderID) && !nativeIsEOF(decoderID))
                     {
                         decoderState = DecoderState.BUFFERING;
-                        hangTime = AudioSettings.dspTime - globalStartTime;
+                        hangTime = getTime() - globalStartTime;
                     }
 
                     break;
@@ -227,7 +227,7 @@ namespace HTC.UnityPlugin.Multimedia
                 case DecoderState.SEEK_FRAME:
                     if (nativeIsSeekOver(decoderID))
                     {
-                        globalStartTime = AudioSettings.dspTime - hangTime;
+                        globalStartTime = getTime() - hangTime;
                         decoderState = DecoderState.START;
                         if (lastState == DecoderState.PAUSE)
                         {
@@ -241,7 +241,7 @@ namespace HTC.UnityPlugin.Multimedia
                     if (nativeIsVideoBufferFull(decoderID) || nativeIsEOF(decoderID))
                     {
                         decoderState = DecoderState.START;
-                        globalStartTime = AudioSettings.dspTime - hangTime;
+                        globalStartTime = getTime() - hangTime;
                     }
                     break;
 
@@ -380,8 +380,8 @@ namespace HTC.UnityPlugin.Multimedia
                 }
 
                 decoderState = DecoderState.BUFFERING;
-                globalStartTime = AudioSettings.dspTime;
-                hangTime = AudioSettings.dspTime - globalStartTime;
+                globalStartTime = getTime();
+                hangTime = getTime() - globalStartTime;
 
                 isVideoReadyToReplay = isAudioReadyToReplay = false;
                 if (isAudioEnabled && !isAllAudioChEnabled)
@@ -493,7 +493,7 @@ namespace HTC.UnityPlugin.Multimedia
         {
             if (setSeekTime(0.0f))
             {
-                globalStartTime = AudioSettings.dspTime;
+                globalStartTime = getTime();
                 isVideoReadyToReplay = isAudioReadyToReplay = false;
             }
         }
@@ -539,7 +539,7 @@ namespace HTC.UnityPlugin.Multimedia
             {
                 if (decoderState == DecoderState.START)
                 {
-                    double currentTime = AudioSettings.dspTime - globalStartTime;
+                    double currentTime = getTime() - globalStartTime;
                     if (currentTime < audioTotalTime || audioTotalTime == -1.0f)
                     {
                         if (audioDataBuff != null && audioDataBuff.Count >= audioDataLength)
@@ -549,7 +549,7 @@ namespace HTC.UnityPlugin.Multimedia
                                 //  To simplify, the first overlap data would not be played.
                                 //  Correct the audio progress time by adding OVERLAP_TIME.
                                 audioProgressTime = firstAudioFrameTime + OVERLAP_TIME;
-                                globalStartTime = AudioSettings.dspTime - audioProgressTime;
+                                globalStartTime = getTime() - audioProgressTime;
                             }
 
                             while (audioSource[swapIndex].isPlaying || decoderState == DecoderState.SEEK_FRAME) { yield return null; }
@@ -561,9 +561,9 @@ namespace HTC.UnityPlugin.Multimedia
                                 double endTime = playTime + audioDataTime;
 
                                 //  If audio is late, adjust start time and re-calculate audio clip time.
-                                if (playTime <= AudioSettings.dspTime)
+                                if (playTime <= getTime())
                                 {
-                                    globalStartTime = AudioSettings.dspTime - audioProgressTime;
+                                    globalStartTime = getTime() - audioProgressTime;
                                     playTime = audioProgressTime + globalStartTime;
                                     endTime = playTime + audioDataTime;
                                 }
@@ -695,7 +695,7 @@ namespace HTC.UnityPlugin.Multimedia
 
         public void setStepForward(float sec)
         {
-            double targetTime = AudioSettings.dspTime - globalStartTime + sec;
+            double targetTime = getTime() - globalStartTime + sec;
             if (setSeekTime((float)targetTime))
             {
                 print(LOG_TAG + " set forward : " + sec);
@@ -704,7 +704,7 @@ namespace HTC.UnityPlugin.Multimedia
 
         public void setStepBackward(float sec)
         {
-            double targetTime = AudioSettings.dspTime - globalStartTime - sec;
+            double targetTime = getTime() - globalStartTime - sec;
             if (setSeekTime((float)targetTime))
             {
                 print(LOG_TAG + " set backward : " + sec);
@@ -725,7 +725,7 @@ namespace HTC.UnityPlugin.Multimedia
             }
             else
             {
-                return (float)(AudioSettings.dspTime - globalStartTime);
+                return (float)(getTime() - globalStartTime);
             }
         }
 
@@ -738,7 +738,7 @@ namespace HTC.UnityPlugin.Multimedia
         {
             if (decoderState == DecoderState.START)
             {
-                hangTime = AudioSettings.dspTime - globalStartTime;
+                hangTime = getTime() - globalStartTime;
                 decoderState = DecoderState.PAUSE;
                 if (isAudioEnabled && !isAllAudioChEnabled)
                 {
@@ -754,7 +754,7 @@ namespace HTC.UnityPlugin.Multimedia
         {
             if (decoderState == DecoderState.PAUSE)
             {
-                globalStartTime = AudioSettings.dspTime - hangTime;
+                globalStartTime = getTime() - hangTime;
                 decoderState = DecoderState.START;
                 if (isAudioEnabled && !isAllAudioChEnabled)
                 {
@@ -877,6 +877,11 @@ namespace HTC.UnityPlugin.Multimedia
             {
                 setSeekTime(getVideoCurrentTime());
             }
+        }
+
+        double getTime()
+        {
+            return DateTime.Now.Ticks / 10000000d;
         }
 
         void OnApplicationQuit()

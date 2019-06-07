@@ -106,18 +106,15 @@ Shader "UI/YUV2RGBA"
 
             fixed4 frag(v2f IN) : SV_Target
             {
-                float ych = tex2D(_YTex, IN.texcoord).a;
-				float uch = tex2D(_UTex, IN.texcoord).a * 0.872 - 0.436;		//	Scale from 0 ~ 1 to -0.436 ~ +0.436
-				float vch = tex2D(_VTex, IN.texcoord).a * 1.230 - 0.615;		//	Scale from 0 ~ 1 to -0.615 ~ +0.615
-				/*	BT.601	*/
-				float rch = ych + 1.13983 * vch;
-				float gch = ych - 0.39465 * uch - 0.58060 * vch;
-				float bch = ych + 2.03211 * uch;
+                float ych = tex2D(_YTex, IN.texcoord).a - 0.0625;
+                float uch = tex2D(_UTex, IN.texcoord).a - 0.5;
+				float vch = tex2D(_VTex, IN.texcoord).a - 0.5;
+                /*	BT.709	*/
+                float rch = 1.164384 * ych + 1.792748 * vch;
+				float gch = 1.164384 * ych - 0.2132472 * uch - 0.5329109 * vch;
+				float bch = 1.164384 * ych + 2.1124 * uch;
 				
 				fixed4 color = clamp(fixed4(rch, gch, bch, 1.0), 0.0, 1.0);
-
-				// remap 16-235 to 0-255
-				color = color*1.163636-0.0625;
 
 				if(!IsGammaSpace()) {	//	If linear space.
 					color = pow(color, 2.2);

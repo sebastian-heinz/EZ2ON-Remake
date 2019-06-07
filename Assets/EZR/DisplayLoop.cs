@@ -167,7 +167,10 @@ namespace EZR
             {
                 // 初始化BGA
                 // VideoPlayer.mediaPath = bgaUrl;
-                VideoPlayer.initDecoder(bgaUrl);
+                if (VideoPlayer != null)
+                {
+                    VideoPlayer.initDecoder(bgaUrl);
+                }
             }
 
             // 找毛玻璃
@@ -196,7 +199,8 @@ namespace EZR
             PlayManager.GameMode < EZR.GameMode.Mode.FourKey) &&
             PlayManager.BGADelay == 0)
             {
-                VideoPlayer.startDecoding();
+                if (VideoPlayer != null)
+                    VideoPlayer.startDecoding();
             }
         }
 
@@ -231,7 +235,8 @@ namespace EZR
             time = 0;
             bgaPlayed = false;
 
-            VideoPlayer.setPause();
+            if (VideoPlayer != null)
+                VideoPlayer.setPause();
         }
 
         public void Stop()
@@ -309,7 +314,8 @@ namespace EZR
             if (PlayManager.IsPlayBGA)
             {
                 PlayManager.IsPlayBGA = false;
-                VideoPlayer.startDecoding();
+                if (VideoPlayer != null)
+                    VideoPlayer.startDecoding();
             }
 
             // Unity smoothDeltaTime计算Position 用于消除音符抖动
@@ -324,7 +330,8 @@ namespace EZR
                 PlayManager.GameMode < EZR.GameMode.Mode.FourKey) &&
                 PlayManager.BGADelay > 0 && PlayManager.BGADelay <= time)
                 {
-                    VideoPlayer.startDecoding();
+                    if (VideoPlayer != null)
+                        VideoPlayer.startDecoding();
                     bgaPlayed = true;
                 }
 
