@@ -11,6 +11,13 @@ public class Launcher : MonoBehaviour
     void Start()
     {
         EZR.Master.Version = Settings.Version;
+        if (SystemInfo.operatingSystemFamily == OperatingSystemFamily.Windows)
+        {
+            if (System.Environment.OSVersion.Version.Major <= 6 && System.Environment.OSVersion.Version.Minor <= 1)
+            {
+                EZR.Master.IsOldWin = true;
+            }
+        }
         EZR.Master.GameResourcesFolder = EZR.Master.IsDebug ? Settings.devGameResourcesFolder : "EZRData";
         EZR.Master.MessageBox = Settings.MessageBox;
         EZR.Master.Tooltips = Instantiate(Settings.Tooltips);

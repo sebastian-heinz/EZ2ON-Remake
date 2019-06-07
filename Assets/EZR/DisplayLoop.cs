@@ -56,7 +56,8 @@ namespace EZR
         int[] currentIndex;
         Queue<NoteInLine>[] noteInLines;
 
-        public HTC.UnityPlugin.Multimedia.ViveMediaDecoder VideoPlayer;
+        VideoPlayer videoPlayer;
+        HTC.UnityPlugin.Multimedia.ViveMediaDecoder viveMediaDecoder;
 
         GameObject autoObj;
 
@@ -166,10 +167,18 @@ namespace EZR
             if (File.Exists(bgaUrl))
             {
                 // 初始化BGA
-                // VideoPlayer.mediaPath = bgaUrl;
-                if (VideoPlayer != null)
+                if (Master.IsOldWin)
                 {
-                    VideoPlayer.initDecoder(bgaUrl);
+                    viveMediaDecoder = GameObject.Find("Canvas").transform.Find("BGA").GetComponent<HTC.UnityPlugin.Multimedia.ViveMediaDecoder>();
+                    Destroy(viveMediaDecoder.GetComponent<VideoPlayer>());
+                    viveMediaDecoder.initDecoder(bgaUrl);
+                }
+                else
+                {
+                    videoPlayer = GameObject.Find("Canvas").transform.Find("BGA").GetComponent<VideoPlayer>();
+                    videoPlayer.GetComponent<RawImage>().material = null;
+                    Destroy(videoPlayer.GetComponent<HTC.UnityPlugin.Multimedia.ViveMediaDecoder>());
+                    videoPlayer.url = bgaUrl;
                 }
             }
 
@@ -199,8 +208,10 @@ namespace EZR
             PlayManager.GameMode < EZR.GameMode.Mode.FourKey) &&
             PlayManager.BGADelay == 0)
             {
-                if (VideoPlayer != null)
-                    VideoPlayer.startDecoding();
+                if (viveMediaDecoder != null)
+                    viveMediaDecoder.startDecoding();
+                if (videoPlayer != null)
+                    videoPlayer.Play();
             }
         }
 
@@ -235,8 +246,10 @@ namespace EZR
             time = 0;
             bgaPlayed = false;
 
-            if (VideoPlayer != null)
-                VideoPlayer.setPause();
+            if (viveMediaDecoder != null)
+                viveMediaDecoder.setPause();
+            if (videoPlayer != null)
+                videoPlayer.Pause();
         }
 
         public void Stop()
@@ -314,8 +327,10 @@ namespace EZR
             if (PlayManager.IsPlayBGA)
             {
                 PlayManager.IsPlayBGA = false;
-                if (VideoPlayer != null)
-                    VideoPlayer.startDecoding();
+                if (viveMediaDecoder != null)
+                    viveMediaDecoder.startDecoding();
+                if (videoPlayer != null)
+                    videoPlayer.Play();
             }
 
             // Unity smoothDeltaTime计算Position 用于消除音符抖动
@@ -330,8 +345,10 @@ namespace EZR
                 PlayManager.GameMode < EZR.GameMode.Mode.FourKey) &&
                 PlayManager.BGADelay > 0 && PlayManager.BGADelay <= time)
                 {
-                    if (VideoPlayer != null)
-                        VideoPlayer.startDecoding();
+                    if (viveMediaDecoder != null)
+                        viveMediaDecoder.startDecoding();
+                    if (videoPlayer != null)
+                        videoPlayer.Play();
                     bgaPlayed = true;
                 }
 
@@ -421,10 +438,10 @@ namespace EZR
             maxComboText.text = PlayManager.Score.MaxCombo.ToString();
 
             // 修复BGA重复播放问题
-            // if (!VideoPlayer.isPaused && VideoPlayer.frameCount > 0 && (ulong)VideoPlayer.frame == VideoPlayer.frameCount)
-            // {
-            //     VideoPlayer.Pause();
-            // }
+            if (videoPlayer != null && !videoPlayer.isPaused && videoPlayer.frameCount > 0 && (ulong)videoPlayer.frame == videoPlayer.frameCount)
+            {
+                videoPlayer.Pause();
+            }
         }
 
         void groove()

@@ -12,6 +12,7 @@ namespace EZR
     public static class Master
     {
         public static string Version = "";
+        public static bool IsOldWin = false;
         public static string GameResourcesFolder = "";
 #if (UNITY_EDITOR)
         public static bool IsDebug = true;
