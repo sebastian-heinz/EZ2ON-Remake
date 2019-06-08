@@ -106,9 +106,9 @@ Shader "UI/YUV2RGBA"
 
             fixed4 frag(v2f IN) : SV_Target
             {
-                float ych = tex2D(_YTex, IN.texcoord).a - 0.0625;
-                float uch = tex2D(_UTex, IN.texcoord).a - 0.5;
-				float vch = tex2D(_VTex, IN.texcoord).a - 0.5;
+                float ych = tex2D(_YTex, IN.texcoord).a - 0.0627451;
+                float uch = tex2D(_UTex, IN.texcoord).a - 0.5019608;
+				float vch = tex2D(_VTex, IN.texcoord).a - 0.5019608;
                 /*	BT.709	*/
                 float rch = 1.164384 * ych + 1.792748 * vch;
 				float gch = 1.164384 * ych - 0.2132472 * uch - 0.5329109 * vch;
