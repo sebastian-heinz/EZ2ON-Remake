@@ -457,17 +457,14 @@ namespace HTC.UnityPlugin.Multimedia
                 videoWidth, videoHeight, TextureFormat.Alpha8, false, false, nativeTexturePtrY);
             videoTexYch.filterMode = FilterMode.Bilinear;
             videoTexYch.wrapMode = TextureWrapMode.Clamp;
-            videoTexYch.wrapMode = TextureWrapMode.Repeat;
             videoTexUch = Texture2D.CreateExternalTexture(
                 videoWidth / 2, videoHeight / 2, TextureFormat.Alpha8, false, false, nativeTexturePtrU);
             videoTexUch.filterMode = FilterMode.Bilinear;
             videoTexUch.wrapMode = TextureWrapMode.Clamp;
-            videoTexUch.wrapMode = TextureWrapMode.Repeat;
             videoTexVch = Texture2D.CreateExternalTexture(
                 videoWidth / 2, videoHeight / 2, TextureFormat.Alpha8, false, false, nativeTexturePtrV);
             videoTexVch.filterMode = FilterMode.Bilinear;
             videoTexVch.wrapMode = TextureWrapMode.Clamp;
-            videoTexVch.wrapMode = TextureWrapMode.Repeat;
         }
 
         private void ReleaseTexture()
