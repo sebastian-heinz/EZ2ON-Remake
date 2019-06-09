@@ -143,27 +143,13 @@ namespace EZR
                 noteInLines[i] = new Queue<NoteInLine>();
             }
 
-            string bgaUrl;
-            if (Master.IsDebug)
-            {
-                bgaUrl = Path.Combine(
-                    Master.GameResourcesFolder,
-                    PlayManager.GameType.ToString(),
-                    "Ingame",
-                    PlayManager.SongName + ".mp4"
-                );
-            }
-            else
-            {
-                bgaUrl = Path.Combine(
-                    Application.dataPath,
-                    "..",
-                    Master.GameResourcesFolder,
-                    PlayManager.GameType.ToString(),
-                    "Ingame",
-                    PlayManager.SongName + ".mp4"
-                 );
-            }
+            string bgaUrl = Path.Combine(
+                Master.GameResourcesFolder,
+                PlayManager.GameType.ToString(),
+                "Ingame",
+                PlayManager.SongName + ".mp4"
+            );
+
             if (File.Exists(bgaUrl))
             {
                 // 初始化BGA

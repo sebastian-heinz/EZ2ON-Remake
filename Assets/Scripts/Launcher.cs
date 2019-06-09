@@ -18,7 +18,14 @@ public class Launcher : MonoBehaviour
                 EZR.Master.IsOldWin = true;
             }
         }
-        EZR.Master.GameResourcesFolder = EZR.Master.IsDebug ? Settings.devGameResourcesFolder : "EZRData";
+        EZR.Master.GameResourcesFolder =
+         EZR.Master.IsDebug ?
+         Settings.devGameResourcesFolder :
+         Path.Combine(
+             Application.dataPath,
+             "..",
+             "EZRData"
+        );
         EZR.Master.MessageBox = Settings.MessageBox;
         EZR.Master.Tooltips = Instantiate(Settings.Tooltips);
         DontDestroyOnLoad(EZR.Master.Tooltips);
