@@ -84,18 +84,18 @@ namespace EZR
                 {
                     using (var csDecrypt = new CryptoStream(msDecrypt, decryptor, CryptoStreamMode.Read))
                     {
-                        using (var srDecrypt = new StreamReader(csDecrypt))
+                        try
                         {
-                            var plaintext = srDecrypt.ReadToEnd();
-                            try
+                            using (var srDecrypt = new StreamReader(csDecrypt))
                             {
+                                var plaintext = srDecrypt.ReadToEnd();
                                 var userData = JObject.Parse(plaintext);
                                 if (!string.IsNullOrEmpty(((string)userData["version"])) &&
                                 EZR.Utils.Version2Decmal((string)userData["version"]) >= EZR.Utils.Version2Decmal(MinVer))
                                     UserData = userData;
                             }
-                            catch { }
                         }
+                        catch { }
                     }
                 }
             }
