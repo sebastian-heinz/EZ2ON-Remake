@@ -157,21 +157,21 @@ namespace EZR
                 // 初始化BGA
                 if (Master.IsOldWin)
                 {
-                    Destroy(viveMediaDecoder.GetComponent<VideoPlayer>());
+                    Destroy(videoPlayer);
                     viveMediaDecoder.initDecoder(bgaUrl);
                 }
                 else
                 {
                     videoPlayer.GetComponent<RawImage>().material = null;
-                    Destroy(videoPlayer.GetComponent<HTC.UnityPlugin.Multimedia.ViveMediaDecoder>());
+                    Destroy(viveMediaDecoder);
                     videoPlayer.url = bgaUrl;
                 }
             }
             else
             {
                 // 这里应该fallback通用bga
-                Destroy(viveMediaDecoder.GetComponent<VideoPlayer>());
-                Destroy(videoPlayer.GetComponent<HTC.UnityPlugin.Multimedia.ViveMediaDecoder>());
+                Destroy(videoPlayer);
+                Destroy(viveMediaDecoder);
             }
 
             // 找毛玻璃
@@ -198,12 +198,18 @@ namespace EZR
 
             if (!(PlayManager.GameType == GameType.DJMAX &&
             PlayManager.GameMode < EZR.GameMode.Mode.FourKey) &&
-            PlayManager.BGADelay == 0)
+            PlayManager.BGADelay <= 0)
             {
                 if (viveMediaDecoder != null)
+                {
                     viveMediaDecoder.startDecoding();
+                    viveMediaDecoder.setSeekTime(-PlayManager.BGADelay);
+                }
                 if (videoPlayer != null)
+                {
                     videoPlayer.Play();
+                    videoPlayer.time = -PlayManager.BGADelay;
+                }
             }
         }
 
