@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Video;
@@ -143,6 +142,9 @@ namespace EZR
                 noteInLines[i] = new Queue<NoteInLine>();
             }
 
+            viveMediaDecoder = GameObject.Find("Canvas").transform.Find("BGA").GetComponent<HTC.UnityPlugin.Multimedia.ViveMediaDecoder>();
+            videoPlayer = GameObject.Find("Canvas").transform.Find("BGA").GetComponent<VideoPlayer>();
+
             string bgaUrl = Path.Combine(
                 Master.GameResourcesFolder,
                 PlayManager.GameType.ToString(),
@@ -155,13 +157,11 @@ namespace EZR
                 // 初始化BGA
                 if (Master.IsOldWin)
                 {
-                    viveMediaDecoder = GameObject.Find("Canvas").transform.Find("BGA").GetComponent<HTC.UnityPlugin.Multimedia.ViveMediaDecoder>();
                     Destroy(viveMediaDecoder.GetComponent<VideoPlayer>());
                     viveMediaDecoder.initDecoder(bgaUrl);
                 }
                 else
                 {
-                    videoPlayer = GameObject.Find("Canvas").transform.Find("BGA").GetComponent<VideoPlayer>();
                     videoPlayer.GetComponent<RawImage>().material = null;
                     Destroy(videoPlayer.GetComponent<HTC.UnityPlugin.Multimedia.ViveMediaDecoder>());
                     videoPlayer.url = bgaUrl;
@@ -403,11 +403,8 @@ namespace EZR
                 if (noteInLines[i].Count > 0)
                 {
                     var noteInLine = noteInLines[i].Peek();
-                    if (!noteInLine)
-                    {
-                        noteInLines[i].Dequeue();
-                    }
-                    else if (noteInLine.Position + noteInLine.NoteLength - PlayManager.Position < -(JudgmentDelta.Miss + 1))
+                    if (noteInLine == null ||
+                    noteInLine.Position + noteInLine.NoteLength - PlayManager.Position < -(JudgmentDelta.Miss + 1))
                     {
                         noteInLines[i].Dequeue();
                     }
