@@ -9,9 +9,15 @@ namespace EZR
         public Sprite NormalSprite;
         public Sprite SelectedSprite;
 
+        public class ButtonExtensionGroup
+        {
+            public ButtonExtension CurrentSelected;
+            public List<ButtonExtension> List = new List<ButtonExtension>();
+        }
+
         public string Group = "";
 
-        public static Dictionary<string, List<ButtonExtension>> GroupMaster = new Dictionary<string, List<ButtonExtension>>();
+        public static Dictionary<string, ButtonExtensionGroup> GroupMaster = new Dictionary<string, ButtonExtensionGroup>();
 
         bool isSelected = false;
 
@@ -22,8 +28,8 @@ namespace EZR
         void Awake()
         {
             if (!GroupMaster.ContainsKey(Group))
-                GroupMaster[Group] = new List<ButtonExtension>();
-            GroupMaster[Group].Add(this);
+                GroupMaster[Group] = new ButtonExtensionGroup();
+            GroupMaster[Group].List.Add(this);
 
             image = (Image)GetComponent<Button>().targetGraphic;
         }
@@ -34,11 +40,9 @@ namespace EZR
 
             if (this.isSelected)
             {
-                foreach (var btn in GroupMaster[Group])
-                {
-                    if (btn != this)
-                        btn.SetSelected(false);
-                }
+                if (GroupMaster[Group].CurrentSelected != null && GroupMaster[Group].CurrentSelected != this)
+                    GroupMaster[Group].CurrentSelected.SetSelected(false);
+                GroupMaster[Group].CurrentSelected = this;
                 image.sprite = SelectedSprite;
             }
             else
@@ -47,8 +51,8 @@ namespace EZR
 
         void OnDestroy()
         {
-            if (GroupMaster[Group].Contains(this))
-                GroupMaster[Group].Remove(this);
+            if (GroupMaster[Group].List.Contains(this))
+                GroupMaster[Group].List.Remove(this);
         }
     }
 }

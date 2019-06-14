@@ -167,6 +167,12 @@ namespace EZR
                     videoPlayer.url = bgaUrl;
                 }
             }
+            else
+            {
+                // 这里应该fallback通用bga
+                Destroy(viveMediaDecoder.GetComponent<VideoPlayer>());
+                Destroy(videoPlayer.GetComponent<HTC.UnityPlugin.Multimedia.ViveMediaDecoder>());
+            }
 
             // 找毛玻璃
             var frostedGlass = panel.transform.Find("FrostedGlass").gameObject;
@@ -396,8 +402,12 @@ namespace EZR
             {
                 if (noteInLines[i].Count > 0)
                 {
-                    if (noteInLines[i].Peek() == null ||
-                    (noteInLines[i].Peek().Position + noteInLines[i].Peek().NoteLength - PlayManager.Position < -(JudgmentDelta.Miss + 1)))
+                    var noteInLine = noteInLines[i].Peek();
+                    if (!noteInLine)
+                    {
+                        noteInLines[i].Dequeue();
+                    }
+                    else if (noteInLine.Position + noteInLine.NoteLength - PlayManager.Position < -(JudgmentDelta.Miss + 1))
                     {
                         noteInLines[i].Dequeue();
                     }
