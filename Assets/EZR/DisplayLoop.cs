@@ -151,6 +151,7 @@ namespace EZR
                 "Ingame",
                 PlayManager.SongName + ".mp4"
             );
+            string genericBgaUrl = Path.Combine(Master.GameResourcesFolder, "GenericBGA.mp4");
 
             if (File.Exists(bgaUrl))
             {
@@ -167,9 +168,28 @@ namespace EZR
                     videoPlayer.url = bgaUrl;
                 }
             }
+            else if (File.Exists(genericBgaUrl))
+            {
+                // fallback通用bga
+                if (Master.IsOldWin)
+                {
+                    Destroy(videoPlayer);
+                    viveMediaDecoder.initDecoder(genericBgaUrl);
+                    viveMediaDecoder.onVideoEnd.AddListener(() =>
+                    {
+                        viveMediaDecoder.replay();
+                    });
+                }
+                else
+                {
+                    videoPlayer.GetComponent<RawImage>().material = null;
+                    Destroy(viveMediaDecoder);
+                    videoPlayer.url = genericBgaUrl;
+                    videoPlayer.isLooping = true;
+                }
+            }
             else
             {
-                // 这里应该fallback通用bga
                 Destroy(videoPlayer);
                 Destroy(viveMediaDecoder);
             }
@@ -437,7 +457,11 @@ namespace EZR
             maxComboText.text = PlayManager.Score.MaxCombo.ToString();
 
             // 修复BGA重复播放问题
-            if (videoPlayer != null && !videoPlayer.isPaused && videoPlayer.frameCount > 0 && (ulong)videoPlayer.frame == videoPlayer.frameCount)
+            if (videoPlayer != null &&
+            !videoPlayer.isLooping &&
+            !videoPlayer.isPaused &&
+            videoPlayer.frameCount > 0 &&
+            (ulong)videoPlayer.frame == videoPlayer.frameCount)
             {
                 videoPlayer.Pause();
             }
