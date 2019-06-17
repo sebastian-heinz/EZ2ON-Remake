@@ -74,6 +74,90 @@ TextureImporter:
   - first:
       213: -9184006122335078624
     second: flare0009
+  - first:
+      213: 8838439766176759746
+    second: Note_01_4_A_0
+  - first:
+      213: 7814819201855006687
+    second: Note_01_4_B_0
+  - first:
+      213: -4994395815359619107
+    second: Note_01_4_C_0
+  - first:
+      213: 3781538415084762086
+    second: Note_01_4_Target_0
+  - first:
+      213: 2574247908678432406
+    second: Note_01_flare_0
+  - first:
+      213: -8850739681143786928
+    second: Note_01_flare_1
+  - first:
+      213: 9063641959498006505
+    second: Note_01_flare_2
+  - first:
+      213: -2553676742317448142
+    second: Note_01_flare_3
+  - first:
+      213: 3467832114490558472
+    second: Note_01_flare_4
+  - first:
+      213: -7878976754850120363
+    second: Note_01_flare_5
+  - first:
+      213: -7992649120585851872
+    second: Note_01_flare_6
+  - first:
+      213: -2638685861061685242
+    second: Note_01_flare_7
+  - first:
+      213: 8522889376533791649
+    second: Note_01_flare_8
+  - first:
+      213: 1858419045035200188
+    second: Note_01_flare_9
+  - first:
+      213: 1500739635543503716
+    second: Note_02_4_A_0
+  - first:
+      213: 5229743585162377635
+    second: Note_02_4_B_0
+  - first:
+      213: -9090378224187001938
+    second: Note_02_4_C_0
+  - first:
+      213: -4481824501843237005
+    second: Note_02_4_Target_0
+  - first:
+      213: -4506337371356254848
+    second: Note_02_flare_0
+  - first:
+      213: 1363208413176247948
+    second: Note_02_flare_1
+  - first:
+      213: -7889870904611670641
+    second: Note_02_flare_2
+  - first:
+      213: 8014737271903499916
+    second: Note_02_flare_3
+  - first:
+      213: -257989346681772080
+    second: Note_02_flare_4
+  - first:
+      213: 1134565161719991988
+    second: Note_02_flare_5
+  - first:
+      213: 6752563506999156251
+    second: Note_02_flare_6
+  - first:
+      213: 3833578893639739139
+    second: Note_02_flare_7
+  - first:
+      213: 5514124324701236038
+    second: Note_02_flare_8
+  - first:
+      213: -5531733949030931928
+    second: Note_02_flare_9
   externalObjects: {}
   serializedVersion: 10
   mipmaps:
@@ -156,21 +240,609 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Note_04_4_A_0
+      name: Note_01_4_A_0
       rect:
         serializedVersion: 2
-        x: 469
-        y: 982
-        width: 41
-        height: 41
+        x: 949
+        y: 995
+        width: 68
+        height: 14
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 20, z: 0, w: 20}
+      border: {x: 0, y: 7, z: 0, w: 7}
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 102ffdd89f248fe4ba87bb3e0481ee47
+      spriteID: ed3b6dc7d9ffc654381a268d2e729c76
+      internalID: 8838439766176759746
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Note_01_4_B_0
+      rect:
+        serializedVersion: 2
+        x: 873
+        y: 993
+        width: 68
+        height: 14
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 7, z: 0, w: 7}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2a76d38aec0e3744fa2b651a3612d09f
+      internalID: 7814819201855006687
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Note_01_4_C_0
+      rect:
+        serializedVersion: 2
+        x: 873
+        y: 1009
+        width: 74
+        height: 14
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 7, z: 0, w: 7}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c664fb12fb797fa46a2fd874c861e187
+      internalID: -4994395815359619107
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Note_01_4_Target_0
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 1005
+        width: 278
+        height: 18
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1ac005c3ad4b2fd4a8bc9ac1e2b24f09
+      internalID: 3781538415084762086
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Note_01_flare_0
+      rect:
+        serializedVersion: 2
+        x: 561
+        y: 869
+        width: 154
+        height: 154
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 63358064002340f47b2e6470c15e3c54
+      internalID: 2574247908678432406
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Note_01_flare_1
+      rect:
+        serializedVersion: 2
+        x: 717
+        y: 869
+        width: 154
+        height: 154
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 252998c73f97cbf4fb7b5307370f4087
+      internalID: -8850739681143786928
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Note_01_flare_2
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 849
+        width: 154
+        height: 154
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 28218f33852731e42afb4595ea0fec91
+      internalID: 9063641959498006505
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Note_01_flare_3
+      rect:
+        serializedVersion: 2
+        x: 157
+        y: 849
+        width: 154
+        height: 154
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1bcfdb769c2de9a419704da1ca5258ac
+      internalID: -2553676742317448142
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Note_01_flare_4
+      rect:
+        serializedVersion: 2
+        x: 313
+        y: 849
+        width: 154
+        height: 154
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 93a63373739bc5c43b99a8b2c8f44e5e
+      internalID: 3467832114490558472
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Note_01_flare_5
+      rect:
+        serializedVersion: 2
+        x: 469
+        y: 713
+        width: 154
+        height: 154
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5feba0376b1da5847894e0ae077a4710
+      internalID: -7878976754850120363
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Note_01_flare_6
+      rect:
+        serializedVersion: 2
+        x: 625
+        y: 713
+        width: 154
+        height: 154
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ff496d37fe326bc4baaa2f36a02258d6
+      internalID: -7992649120585851872
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Note_01_flare_7
+      rect:
+        serializedVersion: 2
+        x: 781
+        y: 713
+        width: 154
+        height: 154
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2a3c1b67d0936d34fbb191201db110e8
+      internalID: -2638685861061685242
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Note_01_flare_8
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 693
+        width: 154
+        height: 154
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d99173fcf6d4812419d873ab183055ad
+      internalID: 8522889376533791649
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Note_01_flare_9
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 693
+        width: 154
+        height: 154
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: aaab5e4886da883408ee818c075d741f
+      internalID: 1858419045035200188
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Note_02_4_A_0
+      rect:
+        serializedVersion: 2
+        x: 943
+        y: 981
+        width: 66
+        height: 12
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 6, z: 0, w: 6}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4374bc1bc7e674d40ab6066465dbe5ca
+      internalID: 1500739635543503716
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Note_02_4_B_0
+      rect:
+        serializedVersion: 2
+        x: 873
+        y: 979
+        width: 66
+        height: 12
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 6, z: 0, w: 6}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 92f43a91389cbc549bcd4ccfc6f6bb71
+      internalID: 5229743585162377635
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Note_02_4_C_0
+      rect:
+        serializedVersion: 2
+        x: 949
+        y: 1011
+        width: 74
+        height: 12
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 6, z: 0, w: 6}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e4505f39fdf838543a292707e30120ef
+      internalID: -9090378224187001938
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Note_02_4_Target_0
+      rect:
+        serializedVersion: 2
+        x: 281
+        y: 1005
+        width: 278
+        height: 18
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e3142777c3e9c1c48ba5a34b74af152a
+      internalID: -4481824501843237005
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Note_02_flare_0
+      rect:
+        serializedVersion: 2
+        x: 157
+        y: 693
+        width: 154
+        height: 154
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 823223208e2e13646af2c5bdd4096e3c
+      internalID: -4506337371356254848
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Note_02_flare_1
+      rect:
+        serializedVersion: 2
+        x: 313
+        y: 693
+        width: 154
+        height: 154
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c150812a4e1d32941860c775a14fbbc9
+      internalID: 1363208413176247948
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Note_02_flare_2
+      rect:
+        serializedVersion: 2
+        x: 469
+        y: 557
+        width: 154
+        height: 154
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b95987b07ac3ee5478a5c96a2388012d
+      internalID: -7889870904611670641
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Note_02_flare_3
+      rect:
+        serializedVersion: 2
+        x: 625
+        y: 557
+        width: 154
+        height: 154
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b810d2a4962d61b44a0e5a655b50911c
+      internalID: 8014737271903499916
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Note_02_flare_4
+      rect:
+        serializedVersion: 2
+        x: 781
+        y: 557
+        width: 154
+        height: 154
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 37170f36125a14f46b4d0df2df9102b3
+      internalID: -257989346681772080
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Note_02_flare_5
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 537
+        width: 154
+        height: 154
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 51a05e724012a124f8c6eec12f309bbd
+      internalID: 1134565161719991988
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Note_02_flare_6
+      rect:
+        serializedVersion: 2
+        x: 157
+        y: 537
+        width: 154
+        height: 154
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2bac2ccb9f4d2714bb9b109221550f54
+      internalID: 6752563506999156251
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Note_02_flare_7
+      rect:
+        serializedVersion: 2
+        x: 313
+        y: 537
+        width: 154
+        height: 154
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: df8e5b5f6e5b8ad4b96cd8a261503ec6
+      internalID: 3833578893639739139
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Note_02_flare_8
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 693
+        width: 154
+        height: 154
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bc9f274702484124a8391cda04785608
+      internalID: 5514124324701236038
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Note_02_flare_9
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 693
+        width: 154
+        height: 154
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9c020b3f3ab7f08439da7183059ec992
+      internalID: -5531733949030931928
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Note_04_4_A_0
+      rect:
+        serializedVersion: 2
+        x: 941
+        y: 938
+        width: 41
+        height: 41
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 21, z: 0, w: 20}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ce849297065e95f4b9077e7687001ea0
       internalID: -2397725807186050050
       vertices: []
       indices: 
@@ -180,18 +852,18 @@ TextureImporter:
       name: Note_04_4_B_0
       rect:
         serializedVersion: 2
-        x: 469
-        y: 939
+        x: 873
+        y: 936
         width: 41
         height: 41
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 20, z: 0, w: 20}
+      border: {x: 0, y: 21, z: 0, w: 20}
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 426086cb143619d498bcf0c3dfb01aff
+      spriteID: a912a44f8fc57824595f1692194e00d1
       internalID: 6188634832531520012
       vertices: []
       indices: 
@@ -201,18 +873,18 @@ TextureImporter:
       name: Note_04_4_C_0
       rect:
         serializedVersion: 2
-        x: 469
-        y: 896
+        x: 916
+        y: 895
         width: 41
         height: 41
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 20, z: 0, w: 20}
+      border: {x: 0, y: 21, z: 0, w: 20}
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 75974fbb1fa4d1e45baf457e207c5ab3
+      spriteID: 21ee8655ac259f94998fef2f11a1c04f
       internalID: 4189949713047359120
       vertices: []
       indices: 
@@ -223,7 +895,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 1
-        y: 869
+        y: 381
         width: 154
         height: 154
       alignment: 0
@@ -233,7 +905,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: b1995ccfa3f2f954ba946237be7abdc9
+      spriteID: 9a6a42237a3178f4b9592ffd98075133
       internalID: 4309856501740257422
       vertices: []
       indices: 
@@ -243,8 +915,8 @@ TextureImporter:
       name: Note_04_flare_1
       rect:
         serializedVersion: 2
-        x: 157
-        y: 869
+        x: 1
+        y: 225
         width: 154
         height: 154
       alignment: 0
@@ -254,7 +926,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 329fc809e2e25e042b8f91f54e5de731
+      spriteID: e8e5c76c37711774a87e6bc1415916a3
       internalID: -1695750083817648580
       vertices: []
       indices: 
@@ -264,8 +936,8 @@ TextureImporter:
       name: Note_04_flare_2
       rect:
         serializedVersion: 2
-        x: 313
-        y: 869
+        x: 1
+        y: 69
         width: 154
         height: 154
       alignment: 0
@@ -275,7 +947,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: d36375230d762834195e6f1e269f2a8e
+      spriteID: afe6b76ff730a9943b2eb41c71e5f576
       internalID: 8818983603090013550
       vertices: []
       indices: 
@@ -285,8 +957,8 @@ TextureImporter:
       name: Note_04_flare_3
       rect:
         serializedVersion: 2
-        x: 1
-        y: 713
+        x: 157
+        y: 381
         width: 154
         height: 154
       alignment: 0
@@ -296,7 +968,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: d8634c4a249221947922acaed9ed3ae9
+      spriteID: 6455f922c6ad7884698bb6af48f129e3
       internalID: 7339858749298684300
       vertices: []
       indices: 
@@ -307,7 +979,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 157
-        y: 713
+        y: 225
         width: 154
         height: 154
       alignment: 0
@@ -317,7 +989,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 868f1e20a3c4e47428b87bed72b74a98
+      spriteID: d9d3f46797163c441862c2192ff166b4
       internalID: -4104589710377831551
       vertices: []
       indices: 
@@ -327,8 +999,8 @@ TextureImporter:
       name: Note_04_flare_5
       rect:
         serializedVersion: 2
-        x: 313
-        y: 713
+        x: 157
+        y: 69
         width: 154
         height: 154
       alignment: 0
@@ -338,7 +1010,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: be3fc73b0c41d1541a7e2dcb26c812ed
+      spriteID: 74740c9c1f413084681e25e08f9fc454
       internalID: 3483448532697446882
       vertices: []
       indices: 
@@ -348,8 +1020,8 @@ TextureImporter:
       name: Note_04_flare_6
       rect:
         serializedVersion: 2
-        x: 1
-        y: 557
+        x: 313
+        y: 381
         width: 154
         height: 154
       alignment: 0
@@ -359,7 +1031,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 202e817a941491e4882741dc48d5bf72
+      spriteID: 2220b2d40a92d5a4192035649fcf0634
       internalID: -1175451435261524181
       vertices: []
       indices: 
@@ -369,8 +1041,8 @@ TextureImporter:
       name: Note_04_flare_7
       rect:
         serializedVersion: 2
-        x: 157
-        y: 557
+        x: 313
+        y: 225
         width: 154
         height: 154
       alignment: 0
@@ -380,7 +1052,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 3098aa27b9906054fadc697771e8a552
+      spriteID: 5ffc3ef9796f4024b8de185df1fd7ec5
       internalID: -4713083547031884197
       vertices: []
       indices: 
@@ -391,7 +1063,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 313
-        y: 557
+        y: 69
         width: 154
         height: 154
       alignment: 0
@@ -401,7 +1073,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: dcb7d308de10aab44a00abfc1e3dd762
+      spriteID: 0283c26d98ed4844f978a3c39e521a5c
       internalID: 4077350693509536682
       vertices: []
       indices: 
@@ -411,7 +1083,7 @@ TextureImporter:
       name: Note_04_flare_9
       rect:
         serializedVersion: 2
-        x: 1
+        x: 469
         y: 401
         width: 154
         height: 154
@@ -422,7 +1094,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 380e2f5fa8e33754b83339477ed76771
+      spriteID: 1542c4b5aa6c4f243b33b8f9305698d1
       internalID: 8575008005389849360
       vertices: []
       indices: 
@@ -432,8 +1104,8 @@ TextureImporter:
       name: Note_Target
       rect:
         serializedVersion: 2
-        x: 469
-        y: 853
+        x: 873
+        y: 893
         width: 41
         height: 41
       alignment: 0
@@ -443,7 +1115,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 757e35f6069ce1a4ba64f460e233d930
+      spriteID: cd92a25f911199043a7a2162fba0f65f
       internalID: -3853521795571175487
       vertices: []
       indices: 

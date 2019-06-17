@@ -1,0 +1,437 @@
+fileFormatVersion: 2
+guid: 3acdb3987aaab24468cd98e9014a6e1c
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -4850688684442502817
+    second: 04_GEM_BLUEKEY
+  - first:
+      213: -3167566449363972165
+    second: 04_GEM_PUSH_BLUEKEY
+  - first:
+      213: 7600387266654614309
+    second: 04_GEM_PUSH_WHITEKEY
+  - first:
+      213: 4802319490046972367
+    second: 04_GEM_PUSH_WHITEKEY_a
+  - first:
+      213: -1159930975147965072
+    second: 04_GEM_WHITEKEY
+  - first:
+      213: -6569764901602333334
+    second: 04_GEM_WHITEKEY_a
+  - first:
+      213: 3443743321510702439
+    second: GEM_COMBO
+  - first:
+      213: 2520745483326456051
+    second: GEM_Decision_COOL
+  - first:
+      213: -1105143363382101408
+    second: GEM_Decision_FAIL
+  - first:
+      213: -8672987457330952538
+    second: GEM_Decision_GOOD
+  - first:
+      213: -6244175656921522816
+    second: GEM_Decision_KOOL
+  - first:
+      213: 179885798120613999
+    second: GEM_Decision_MISS
+  - first:
+      213: 6054067506851846357
+    second: gem_gage
+  - first:
+      213: 2962760001914901958
+    second: GEM_Panel_4_a
+  externalObjects: {}
+  serializedVersion: 10
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: -1
+    aniso: -1
+    mipBias: -100
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  platformSettings:
+  - serializedVersion: 2
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+  - serializedVersion: 2
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: 04_GEM_BLUEKEY
+      rect:
+        serializedVersion: 2
+        x: 71
+        y: 218
+        width: 68
+        height: 40
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 10, y: 10, z: 10, w: 10}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a9c847c877d02ff4cb3d920257eb36f8
+      internalID: -4850688684442502817
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 04_GEM_PUSH_BLUEKEY
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 217
+        width: 68
+        height: 41
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 10, y: 10, z: 10, w: 10}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 89ce1f8ea436caf41bbc1b812e598451
+      internalID: -3167566449363972165
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 04_GEM_PUSH_WHITEKEY
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 174
+        width: 68
+        height: 41
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 10, y: 10, z: 10, w: 10}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b4424a08fa2eb3a47adbf8c244a78ab2
+      internalID: 7600387266654614309
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 04_GEM_PUSH_WHITEKEY_a
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 260
+        width: 77
+        height: 41
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 10, y: 10, z: 10, w: 10}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 17e873a353297a74d97613182e0390d1
+      internalID: 4802319490046972367
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 04_GEM_WHITEKEY
+      rect:
+        serializedVersion: 2
+        x: 80
+        y: 261
+        width: 68
+        height: 40
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 10, y: 10, z: 10, w: 10}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7d1e160a1adf25043beaad2bd72428da
+      internalID: -1159930975147965072
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 04_GEM_WHITEKEY_a
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 132
+        width: 76
+        height: 40
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 10, y: 10, z: 10, w: 10}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 75eef106b8d679c4ea10bd32d53c6a8a
+      internalID: -6569764901602333334
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: GEM_COMBO
+      rect:
+        serializedVersion: 2
+        x: 71
+        y: 184
+        width: 128
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 50f1e3d0bb41ff34dbd1c7e21d14d4a0
+      internalID: 3443743321510702439
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: GEM_Decision_COOL
+      rect:
+        serializedVersion: 2
+        x: 141
+        y: 227
+        width: 128
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2a50d41863c82dc4a946f99c8b8f4d56
+      internalID: 2520745483326456051
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: GEM_Decision_FAIL
+      rect:
+        serializedVersion: 2
+        x: 150
+        y: 269
+        width: 128
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 266dc6610dcebc646a1bba988b6dcabb
+      internalID: -1105143363382101408
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: GEM_Decision_GOOD
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 98
+        width: 128
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 34b4d9daf8c9154418927ee77b47ac90
+      internalID: -8672987457330952538
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: GEM_Decision_KOOL
+      rect:
+        serializedVersion: 2
+        x: 79
+        y: 150
+        width: 128
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 281b43937539a7945a54c12a708c92eb
+      internalID: -6244175656921522816
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: GEM_Decision_MISS
+      rect:
+        serializedVersion: 2
+        x: 201
+        y: 193
+        width: 128
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 50b37beba8618cc48a3cb2801ee7091a
+      internalID: 179885798120613999
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: gem_gage
+      rect:
+        serializedVersion: 2
+        x: 331
+        y: 663
+        width: 302
+        height: 360
+      alignment: 9
+      pivot: {x: 0.5033113, y: 0.7111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e4237e807239ecd479664d6f8028814f
+      internalID: 6054067506851846357
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: GEM_Panel_4_a
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 303
+        width: 308
+        height: 720
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8b4674104b49b9048911c6c9ee6f1d4d
+      internalID: 2962760001914901958
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    physicsShape: []
+    bones: []
+    spriteID: df03c1dc27ed47941bd2ecf250017b57
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+  spritePackingTag: 
+  pSDRemoveMatte: 0
+  pSDShowRemoveMatteOption: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

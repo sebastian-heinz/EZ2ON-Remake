@@ -27,6 +27,7 @@ namespace EZR
         Animation grooveLightAnim;
 
         RectTransform HP;
+        float HPHeight;
         Coroutine hpBeatCoroutine;
 
         bool[] linesUpdate;
@@ -50,7 +51,8 @@ namespace EZR
         GameObject measureLine;
         int measureCount = 0;
 
-        float noteScale;
+        public bool NoteUseScale = false;
+        public float NoteSize;
 
         int[] currentIndex;
         Queue<NoteInLine>[] noteInLines;
@@ -76,7 +78,8 @@ namespace EZR
             // 初始化音符
             var noteType = Resources.Load<NoteType>("Skin/Note/" + NoteResource);
             notes = noteType.Notes;
-            noteScale = noteType.NoteScale[PlayManager.NumLines - 4];
+            NoteUseScale = noteType.UseScale;
+            NoteSize = noteType.NoteSize[PlayManager.NumLines - 4];
             var target = Instantiate(noteType.Target[PlayManager.NumLines - 4]);
             target.transform.SetParent(panel.transform.Find("Target"), false);
             noteTargetAnim = target.GetComponent<Animation>();
@@ -88,6 +91,7 @@ namespace EZR
             grooveLightAnim = panel.transform.Find("Groove").GetComponent<Animation>();
             // 找HP
             HP = (RectTransform)panel.transform.Find("HP");
+            HPHeight = HP.sizeDelta.y;
 
             // 找按键动画
             linesUpdate = new bool[PlayManager.NumLines];
@@ -401,7 +405,7 @@ namespace EZR
                     Pattern.Note patternNote = PlayManager.TimeLines.Lines[i].Notes[currentIndex[i]];
 
                     var noteInLine = note.GetComponent<NoteInLine>();
-                    noteInLine.Init(currentIndex[i], patternNote.position, noteScale, patternNote.length, linesAnim[i].transform.localPosition.x, this);
+                    noteInLine.Init(currentIndex[i], patternNote.position, patternNote.length, linesAnim[i].transform.localPosition.x, this);
                     noteInLines[i].Enqueue(noteInLine);
 
                     currentIndex[i]++;
@@ -490,9 +494,9 @@ namespace EZR
             {
                 if (i >= 1) i -= 1;
                 yield return null;
-                HP.localScale = Vector3.Lerp(
-                    new Vector3(1, PlayManager.HP / PlayManager.MaxHp + 0.1f, 1),
-                    new Vector3(1, PlayManager.HP / PlayManager.MaxHp, 1),
+                HP.sizeDelta = Vector2.Lerp(
+                    new Vector2(HP.sizeDelta.x, (PlayManager.HP / PlayManager.MaxHp + 0.1f) * HPHeight),
+                    new Vector2(HP.sizeDelta.x, (PlayManager.HP / PlayManager.MaxHp) * HPHeight),
                     Mathf.Sqrt(1 - Mathf.Pow(1 - i, 2))
                 );
             }

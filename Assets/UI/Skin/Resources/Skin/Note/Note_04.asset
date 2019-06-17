@@ -49,7 +49,8 @@ MonoBehaviour:
     - {fileID: 2254475354668552933, guid: 0a050814fc4f50141b8282f5356e4853, type: 3}
     - {fileID: 2254475354668552933, guid: 8b608303a212dc84f823cf6356a6d981, type: 3}
   Flare: {fileID: 6170197108312205137, guid: 4c07b5636fed9e24daa383ed56681e94, type: 3}
-  NoteScale:
+  UseScale: 1
+  NoteSize:
   - 1.5
   - 1.375
   - 1.25

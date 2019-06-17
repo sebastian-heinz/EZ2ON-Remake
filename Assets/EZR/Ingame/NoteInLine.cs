@@ -33,21 +33,29 @@ namespace EZR
         DisplayLoop displayLoop;
 
         // 初始化音符
-        public void Init(int index, int position, float scale, int length, float x, DisplayLoop loop)
+        public void Init(int index, int position, int length, float x, DisplayLoop loop)
         {
             this.Index = index;
             Position = position;
 
-            NoteScale = scale;
-            transform.localScale = new Vector3(NoteScale, NoteScale, 1);
+            displayLoop = loop;
             rect = (RectTransform)transform;
+            if (displayLoop.NoteUseScale)
+                NoteScale = displayLoop.NoteSize;
+            else
+            {
+                NoteScale = 1;
+                rect.sizeDelta = new Vector2(displayLoop.NoteSize, rect.sizeDelta.y);
+            }
+            transform.localScale = new Vector3(NoteScale, NoteScale, 1);
+
             NoteHeight = rect.sizeDelta.y;
+
 
             if (length > 6)
                 NoteLength = length;
 
             initX = x;
-            displayLoop = loop;
 
             updateNote();
         }
