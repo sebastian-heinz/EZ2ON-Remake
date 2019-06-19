@@ -44,6 +44,7 @@ public class SingleSelectSongsUI : MonoBehaviour
             var messageBox = Instantiate(EZR.Master.MessageBox);
             messageBox.transform.SetParent(transform.parent, false);
             messageBox.GetComponent<EZR.MessageBox>().Text = "加载歌曲列表失败！";
+            Destroy(this);
             return;
         }
 
