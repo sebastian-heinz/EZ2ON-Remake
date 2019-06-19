@@ -50,6 +50,8 @@ namespace EZR
         public static float PreSimVsyncDelay { get => 0.01666667f; }
         public static double SimVsyncDelta = 0;
 
+        public static JudgmentDelta.Mode JudgmentMode = JudgmentDelta.Mode.Normal;
+
         public static void LoadPattern()
         {
             string jsonPath = PatternUtils.Pattern.GetFileName(SongName, GameType, GameMode, GameDifficult);
@@ -63,6 +65,43 @@ namespace EZR
 
             var pattern = PatternUtils.Pattern.Parse(Encoding.UTF8.GetString(buffer));
             if (pattern == null) return;
+
+            // 歌曲特别判定
+            if (GameType == GameType.EZ2ON && SongName.ToLower() == "sudden")
+            {
+                switch (GameDifficult)
+                {
+                    case EZR.GameDifficult.Difficult.EZ:
+                        JudgmentDelta.SetJudgmentDelta(JudgmentDelta.Difficult.SuddenEZ, JudgmentMode);
+                        break;
+                    case EZR.GameDifficult.Difficult.NM:
+                        JudgmentDelta.SetJudgmentDelta(JudgmentDelta.Difficult.SuddenNM, JudgmentMode);
+                        break;
+                    case EZR.GameDifficult.Difficult.HD:
+                        JudgmentDelta.SetJudgmentDelta(JudgmentDelta.Difficult.SuddenHD, JudgmentMode);
+                        break;
+                    case EZR.GameDifficult.Difficult.SHD:
+                        JudgmentDelta.SetJudgmentDelta(JudgmentDelta.Difficult.SuddenSHD, JudgmentMode);
+                        break;
+                }
+            }
+            else if (GameType == GameType.EZ2ON && SongName.ToLower() == "tomylove")
+            {
+                switch (GameDifficult)
+                {
+                    case EZR.GameDifficult.Difficult.SHD:
+                        JudgmentDelta.SetJudgmentDelta(JudgmentDelta.Difficult.SuddenSHD, JudgmentMode);
+                        break;
+                    default:
+                        JudgmentDelta.SetJudgmentDelta(JudgmentDelta.Difficult.Standard, JudgmentMode);
+                        break;
+                }
+            }
+            else
+            {
+                JudgmentDelta.SetJudgmentDelta(JudgmentDelta.Difficult.Standard, JudgmentMode);
+            }
+
             // 读取所有音频
             ZipLoader.OpenZip(zipPath);
             for (int i = 0; i < pattern.SoundList.Count; i++)

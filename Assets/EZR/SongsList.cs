@@ -10,16 +10,15 @@ namespace EZR
     {
         public enum SortMode
         {
-            None,
             ByName,
             ByDifficult
         }
 
         public static decimal Version = 1;
-        public static string MinVer => "1.1";
+        public static string MinVer => "3.0";
         public static List<SongInfo> List;
         public static int CurrentIndex = 0;
-        public static SortMode CurrentSortMode = SortMode.None;
+        public static SortMode CurrentSortMode = SortMode.ByName;
         public static bool IsAscending = true;
 
         public class SongInfo

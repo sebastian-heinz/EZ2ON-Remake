@@ -9,8 +9,8 @@ namespace EZR
 {
     public class DisplayLoop : MonoBehaviour
     {
-        public string PanelResource = "";
-        public string NoteResource = "";
+        public static string PanelResource = "R14";
+        public static string NoteResource = "Note_04";
 
         [HideInInspector]
         public double Position = 0;
@@ -51,7 +51,9 @@ namespace EZR
         GameObject measureLine;
         int measureCount = 0;
 
+        [HideInInspector]
         public bool NoteUseScale = false;
+        [HideInInspector]
         public float NoteSize;
 
         int[] currentIndex;

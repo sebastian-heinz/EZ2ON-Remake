@@ -13,6 +13,7 @@ public class SingleSelectSongsUI : MonoBehaviour
     public GameObject SongUI;
     public GameObject Eyecatch;
     public GameObject Option;
+    public GameObject Inventory;
 
     ScrollRect songsListScrollRect;
 
@@ -69,6 +70,16 @@ public class SingleSelectSongsUI : MonoBehaviour
             case EZR.GameMode.Mode.EightButton:
                 currentMode = EZR.GameMode.Mode.EightKey;
                 break;
+        }
+
+        // 歌曲列表按钮初始状态
+        if (EZR.SongsList.CurrentSortMode == EZR.SongsList.SortMode.ByName && !EZR.SongsList.IsAscending)
+        {
+            transform.Find("PanelSongsList/BtnSongsName").GetComponent<EZR.ButtonExtension>().SetSelected(true);
+        }
+        else if (EZR.SongsList.CurrentSortMode == EZR.SongsList.SortMode.ByDifficult && !EZR.SongsList.IsAscending)
+        {
+            transform.Find("PanelSongsList/BtnDifficult").GetComponent<EZR.ButtonExtension>().SetSelected(true);
         }
 
         filterSongs();
@@ -275,7 +286,9 @@ public class SingleSelectSongsUI : MonoBehaviour
         );
 
         // 滚动定位
-        songsListScrollRect.verticalNormalizedPosition = 1 - Mathf.Min((currentList.IndexOf(EZR.SongsList.List[currentSongIndex]) * songUIHeight) / (songsListContent.sizeDelta.y - songListHeight), 1);
+        songsListScrollRect.verticalNormalizedPosition =
+            1 - Mathf.Clamp01(
+                    ((currentList.IndexOf(EZR.SongsList.List[currentSongIndex]) - songUICount / 2 + 1) * songUIHeight) / (songsListContent.sizeDelta.y - songListHeight));
 
         updateSongUI(true);
 
@@ -655,8 +668,8 @@ public class SingleSelectSongsUI : MonoBehaviour
             isSameSong = true;
 
         currentSongName = info.name;
-        var btn2 = songUI.Find("Over").GetComponent<EZR.ButtonExtension>();
-        btn2.SetSelected(true);
+        var btn = songUI.Find("Over").GetComponent<EZR.ButtonExtension>();
+        btn.SetSelected(true);
 
         var disc = transform.Find("Disc/PicDisc");
 
@@ -1020,6 +1033,14 @@ public class SingleSelectSongsUI : MonoBehaviour
         // 打开设置面板
         var option = Instantiate(Option);
         option.transform.SetParent(transform.parent, false);
+        EZR.MemorySound.PlaySound("e_click");
+    }
+
+    public void BtnInventory()
+    {
+        // 打开库存
+        var inventory = Instantiate(Inventory);
+        inventory.transform.SetParent(transform.parent, false);
         EZR.MemorySound.PlaySound("e_click");
     }
 }

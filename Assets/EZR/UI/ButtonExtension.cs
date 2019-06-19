@@ -19,9 +19,7 @@ namespace EZR
 
         public static Dictionary<string, ButtonExtensionGroup> GroupMaster = new Dictionary<string, ButtonExtensionGroup>();
 
-        bool isSelected = false;
-
-        public bool IsSelected { get => isSelected; }
+        public bool IsSelected { get; private set; }
 
         Image image;
 
@@ -36,9 +34,9 @@ namespace EZR
 
         public void SetSelected(bool isSelected)
         {
-            this.isSelected = isSelected;
+            IsSelected = isSelected;
 
-            if (this.isSelected)
+            if (IsSelected)
             {
                 if (GroupMaster[Group].CurrentSelected != null && GroupMaster[Group].CurrentSelected != this)
                     GroupMaster[Group].CurrentSelected.SetSelected(false);

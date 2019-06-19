@@ -184,5 +184,28 @@ namespace EZR
             jobj["limitFPS"] = option.LimitFPS;
             jobj["targetFrameRate"] = option.TargetFrameRate;
         }
+
+        public static Dictionary<string, string> GetInventory()
+        {
+            var inventory = new Dictionary<string, string>()
+            {
+                ["panelResource"] = "R14",
+                ["noteResource"] = "Note_04"
+            };
+            if (!UserData.ContainsKey("inventory")) return inventory;
+            inventory["panelResource"] = (string)UserData["inventory"]["panelResource"] ?? inventory["panelResource"];
+            inventory["noteResource"] = (string)UserData["inventory"]["noteResource"] ?? inventory["noteResource"];
+            return inventory;
+        }
+
+        public static void SetInventory()
+        {
+            JObject jobj;
+            if (!UserData.ContainsKey("inventory"))
+                UserData["inventory"] = new JObject();
+            jobj = (JObject)UserData["inventory"];
+            jobj["panelResource"] = EZR.DisplayLoop.PanelResource;
+            jobj["noteResource"] = EZR.DisplayLoop.NoteResource;
+        }
     }
 }
