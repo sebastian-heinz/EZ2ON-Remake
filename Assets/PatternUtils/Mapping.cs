@@ -29,24 +29,45 @@ namespace PatternUtils
                             return 8;
                     }
                 case EZR.GameType.EZ2DJ:
-                    switch (trackNum)
+                    if (mode == EZR.GameMode.Mode.FiveKeyOnly)
                     {
-                        case 10:
-                            return 0;
-                        case 3:
-                            return 1;
-                        case 4:
-                            return 2;
-                        case 5:
-                            return 3;
-                        case 6:
-                            return 4;
-                        case 7:
-                            return 5;
-                        case 11:
-                            return 6;
-                        default:
-                            return 8;
+                        switch (trackNum)
+                        {
+                            case 3:
+                                return 0;
+                            case 4:
+                                return 1;
+                            case 5:
+                                return 2;
+                            case 6:
+                                return 3;
+                            case 7:
+                                return 4;
+                            default:
+                                return 8;
+                        }
+                    }
+                    else
+                    {
+                        switch (trackNum)
+                        {
+                            case 10:
+                                return 0;
+                            case 3:
+                                return 1;
+                            case 4:
+                                return 2;
+                            case 5:
+                                return 3;
+                            case 6:
+                                return 4;
+                            case 7:
+                                return 5;
+                            case 11:
+                                return 6;
+                            default:
+                                return 8;
+                        }
                     }
                 case EZR.GameType.DJMAX:
                     if (mode == EZR.GameMode.Mode.FourButton ||

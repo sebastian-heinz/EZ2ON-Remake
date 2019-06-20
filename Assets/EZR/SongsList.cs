@@ -95,7 +95,7 @@ namespace EZR
             }
             catch (System.Exception ex)
             {
-                Debug.LogError(ex.Message + '\n' + ex.StackTrace);
+                Debug.LogWarning(ex.Message + '\n' + ex.StackTrace);
                 List = new List<SongInfo>();
             }
         }
