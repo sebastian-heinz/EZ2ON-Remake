@@ -159,9 +159,11 @@ namespace EZR
             option.TimePrecision = (int)(UserData["setting"]["timePrecision"] ?? option.TimePrecision);
             option.FrostedGlassEffect = (bool)(UserData["setting"]["frostedGlassEffect"] ?? option.FrostedGlassEffect);
             option.VSync = (bool)(UserData["setting"]["vSync"] ?? option.VSync);
-            option.SimVSync = (bool)(UserData["setting"]["simVSync"] ?? option.SimVSync);
             option.LimitFPS = (bool)(UserData["setting"]["limitFPS"] ?? option.LimitFPS);
             option.TargetFrameRate = (int)(UserData["setting"]["targetFrameRate"] ?? option.TargetFrameRate);
+            option.PanelPosition = Utils.ParseEnum<Option.PanelPositionEnum>((string)(UserData["setting"]["panelPosition"] ?? option.PanelPosition.ToString()));
+            option.TargetLineType = Utils.ParseEnum<Option.TargetLineTypeEnum>((string)(UserData["setting"]["targetLineType"] ?? option.TargetLineType.ToString()));
+            option.JudgmentOffset = (int)(UserData["setting"]["judgmentOffset"] ?? option.JudgmentOffset);
             return option;
         }
 
@@ -180,9 +182,11 @@ namespace EZR
             jobj["timePrecision"] = option.TimePrecision;
             jobj["frostedGlassEffect"] = option.FrostedGlassEffect;
             jobj["vSync"] = option.VSync;
-            jobj["simVSync"] = option.SimVSync;
             jobj["limitFPS"] = option.LimitFPS;
             jobj["targetFrameRate"] = option.TargetFrameRate;
+            jobj["panelPosition"] = option.PanelPosition.ToString();
+            jobj["targetLineType"] = option.TargetLineType.ToString();
+            jobj["judgmentOffset"] = option.JudgmentOffset;
         }
 
         public static Dictionary<string, string> GetInventory()

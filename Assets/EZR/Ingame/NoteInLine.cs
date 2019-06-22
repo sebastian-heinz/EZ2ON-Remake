@@ -80,11 +80,11 @@ namespace EZR
         // 更新位置和长度
         void updateNote()
         {
-            if (PlayManager.IsAutoPlay || !PlayManager.IsSimVSync)
+            if (PlayManager.IsAutoPlay)
             {
                 transform.localPosition = new Vector3(
                     initX,
-                    (float)((Position - displayLoop.Position) * PlayManager.RealFallSpeed),
+                    (float)((Position - displayLoop.Position) * PlayManager.RealFallSpeed) + (int)PlayManager.TargetLineType,
                     0
                 );
                 rect.sizeDelta = new Vector2(rect.sizeDelta.x, (float)((double)NoteLength * PlayManager.RealFallSpeed / NoteScale) + NoteHeight);
@@ -93,7 +93,7 @@ namespace EZR
             {
                 transform.localPosition = new Vector3(
                     initX,
-                    (float)((Position - displayLoop.Position + PlayManager.SimVsyncDelta) * PlayManager.RealFallSpeed),
+                    (float)((Position - displayLoop.Position) * PlayManager.RealFallSpeed) + (int)PlayManager.TargetLineType - PlayManager.JudgmentOffset,
                     0
                 );
                 rect.sizeDelta = new Vector2(rect.sizeDelta.x, (float)((double)NoteLength * PlayManager.RealFallSpeed / NoteScale) + NoteHeight);
@@ -102,11 +102,11 @@ namespace EZR
 
         void updateLongNote()
         {
-            if (PlayManager.IsAutoPlay || !PlayManager.IsSimVSync)
+            if (PlayManager.IsAutoPlay)
             {
                 transform.localPosition = new Vector3(
                     initX,
-                    0,
+                    (int)PlayManager.TargetLineType,
                     0
                 );
                 rect.sizeDelta = new Vector2(
@@ -118,12 +118,12 @@ namespace EZR
             {
                 transform.localPosition = new Vector3(
                     initX,
-                    0,
+                    (int)PlayManager.TargetLineType,
                     0
                 );
                 rect.sizeDelta = new Vector2(
                     rect.sizeDelta.x,
-                    (float)((Position + NoteLength - displayLoop.Position + PlayManager.SimVsyncDelta) * PlayManager.RealFallSpeed / NoteScale) + NoteHeight
+                    (float)(((Position + NoteLength - displayLoop.Position) * PlayManager.RealFallSpeed - PlayManager.JudgmentOffset) / NoteScale) + NoteHeight
                 );
             }
         }

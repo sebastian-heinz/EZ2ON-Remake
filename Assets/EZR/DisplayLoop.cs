@@ -68,14 +68,19 @@ namespace EZR
         {
             // 读取设置
             var option = UserSaveData.GetOption();
-            if (option.VSync)
-                PlayManager.IsSimVSync = false;
-            else
-                PlayManager.IsSimVSync = option.SimVSync;
+            PlayManager.PanelPosition = option.PanelPosition;
+            PlayManager.TargetLineType = option.TargetLineType;
+            PlayManager.JudgmentOffset = option.JudgmentOffset;
 
             // 初始化面板
             var panel = Instantiate(Resources.Load<GameObject>("Skin/Panel/" + PanelResource));
             panel.transform.SetParent(GameObject.Find("Canvas").transform, false);
+            // 面板位置
+            panel.transform.localPosition = new Vector3(
+                (int)PlayManager.PanelPosition,
+                panel.transform.localPosition.y,
+                0
+            );
 
             // 初始化音符
             var noteType = Resources.Load<NoteType>("Skin/Note/" + NoteResource);
@@ -85,6 +90,12 @@ namespace EZR
             var target = Instantiate(noteType.Target[PlayManager.NumLines - 4]);
             target.transform.SetParent(panel.transform.Find("Target"), false);
             noteTargetAnim = target.GetComponent<Animation>();
+
+            // 判定线偏移
+            target.transform.parent.localPosition = new Vector3(
+                target.transform.parent.localPosition.x,
+                target.transform.parent.localPosition.y + (int)PlayManager.TargetLineType,
+                0);
 
             // 节奏线
             measureLine = panel.GetComponent<Panel>().MeasureLine;
@@ -385,10 +396,6 @@ namespace EZR
                         videoPlayer.Play();
                     bgaPlayed = true;
                 }
-
-                // 算模拟同步垂直延迟
-                if (PlayManager.IsSimVSync)
-                    PlayManager.SimVsyncDelta = PlayManager.PreSimVsyncDelay * PlayManager.TickPerSecond;
             }
 
             // 插值下落速度
@@ -396,7 +403,7 @@ namespace EZR
                 Mathf.Min(Time.deltaTime * 12, 1)
             );
 
-            var screenHeight = noteArea.sizeDelta.y / PlayManager.RealFallSpeed;
+            var screenHeight = (noteArea.sizeDelta.y + PlayManager.JudgmentOffset) / PlayManager.RealFallSpeed;
             // 生成实时音符
             for (int i = 0; i < PlayManager.NumLines; i++)
             {

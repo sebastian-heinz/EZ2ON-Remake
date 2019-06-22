@@ -45,11 +45,11 @@ namespace EZR
             set { hp = Mathf.Clamp(value, 0, MaxHp); }
         }
 
-        public static bool IsSimVSync = true;
-        public static float PreSimVsyncDelay { get => 0.01666667f; }
-        public static double SimVsyncDelta = 0;
-
         public static JudgmentDelta.Mode JudgmentMode = JudgmentDelta.Mode.Normal;
+
+        public static Option.PanelPositionEnum PanelPosition = Option.PanelPositionEnum.Center;
+        public static Option.TargetLineTypeEnum TargetLineType = Option.TargetLineTypeEnum.Classic;
+        public static int JudgmentOffset = 0;
 
         public static void LoadPattern()
         {

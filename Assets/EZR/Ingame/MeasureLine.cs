@@ -34,11 +34,11 @@ namespace EZR
 
         void updateMeasure()
         {
-            if (PlayManager.IsAutoPlay || !PlayManager.IsSimVSync)
+            if (PlayManager.IsAutoPlay)
             {
                 transform.localPosition = new Vector3(
                     0,
-                    (float)((index * PatternUtils.Pattern.TickPerMeasure - displayLoop.Position) * PlayManager.RealFallSpeed),
+                    (float)((index * PatternUtils.Pattern.TickPerMeasure - displayLoop.Position) * PlayManager.RealFallSpeed) + (int)PlayManager.TargetLineType,
                     0
                 );
             }
@@ -46,7 +46,7 @@ namespace EZR
             {
                 transform.localPosition = new Vector3(
                     0,
-                    (float)((index * PatternUtils.Pattern.TickPerMeasure - displayLoop.Position + PlayManager.SimVsyncDelta) * PlayManager.RealFallSpeed),
+                    (float)((index * PatternUtils.Pattern.TickPerMeasure - displayLoop.Position) * PlayManager.RealFallSpeed) + (int)PlayManager.TargetLineType - PlayManager.JudgmentOffset,
                     0
                 );
             }

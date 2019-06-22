@@ -22,6 +22,8 @@ public class OptionUI : MonoBehaviour
         var frostedGlass = transform.Find("FrostedGlass").gameObject;
         frostedGlass.SetActive(option.FrostedGlassEffect);
 
+        transform.Find("BtnSystem").GetComponent<EZR.ButtonExtension>().SetSelected(true);
+
         updateSystem();
     }
 
@@ -69,25 +71,45 @@ public class OptionUI : MonoBehaviour
         var performance = transform.Find("GroupSystem/BarPerformance");
         performance.Find("ChkBoxFrostedGlass").GetComponent<Toggle>().isOn = option.FrostedGlassEffect;
         performance.Find("ChkBoxVSync").GetComponent<Toggle>().isOn = option.VSync;
-        var chkBoxSimVSync = performance.Find("ChkBoxSimVSync");
         var chkBoxLimitFPS = performance.Find("ChkBoxLimitFPS");
         if (!option.VSync)
         {
-            chkBoxSimVSync.gameObject.SetActive(true);
             chkBoxLimitFPS.gameObject.SetActive(true);
         }
         else
         {
-            chkBoxSimVSync.gameObject.SetActive(false);
             chkBoxLimitFPS.gameObject.SetActive(false);
         }
-        chkBoxSimVSync.GetComponent<Toggle>().isOn = option.SimVSync;
         chkBoxLimitFPS.GetComponent<Toggle>().isOn = option.LimitFPS;
         var sliderLimitFPS = chkBoxLimitFPS.Find("SliderLimitFPS");
         if (option.LimitFPS) sliderLimitFPS.gameObject.SetActive(true);
         else sliderLimitFPS.gameObject.SetActive(false);
         sliderLimitFPS.Find("Text").GetComponent<Text>().text = option.TargetFrameRate.ToString();
         sliderLimitFPS.Find("Slider").GetComponent<Slider>().value = option.TargetFrameRate;
+        var panelPosition = transform.Find("GroupSkin/BarPanelPosition");
+        switch (option.PanelPosition)
+        {
+            case EZR.Option.PanelPositionEnum.Left:
+                panelPosition.Find("ChkBoxLeft").GetComponent<Toggle>().isOn = true;
+                break;
+            case EZR.Option.PanelPositionEnum.Center:
+                panelPosition.Find("ChkBoxCenter").GetComponent<Toggle>().isOn = true;
+                break;
+            case EZR.Option.PanelPositionEnum.Right:
+                panelPosition.Find("ChkBoxRight").GetComponent<Toggle>().isOn = true;
+                break;
+        }
+        var targetLineType = transform.Find("GroupSkin/BarLineType");
+        switch (option.TargetLineType)
+        {
+            case EZR.Option.TargetLineTypeEnum.New:
+                targetLineType.Find("ChkBoxNew").GetComponent<Toggle>().isOn = true;
+                break;
+            case EZR.Option.TargetLineTypeEnum.Classic:
+                targetLineType.Find("ChkBoxClassic").GetComponent<Toggle>().isOn = true;
+                break;
+        }
+        updateJudgmentOffset();
     }
 
     void updateResolutions()
@@ -193,24 +215,18 @@ public class OptionUI : MonoBehaviour
             case "ChkBoxVSync":
                 option.VSync = value;
                 break;
-            case "ChkBoxSimVSync":
-                option.SimVSync = value;
-                break;
             case "ChkBoxLimitFPS":
                 option.LimitFPS = value;
                 break;
         }
         var performance = transform.Find("GroupSystem/BarPerformance");
-        var chkBoxSimVSync = performance.Find("ChkBoxSimVSync");
         var chkBoxLimitFPS = performance.Find("ChkBoxLimitFPS");
         if (!option.VSync)
         {
-            chkBoxSimVSync.gameObject.SetActive(true);
             chkBoxLimitFPS.gameObject.SetActive(true);
         }
         else
         {
-            chkBoxSimVSync.gameObject.SetActive(false);
             chkBoxLimitFPS.gameObject.SetActive(false);
         }
         var sliderLimitFPS = chkBoxLimitFPS.Find("SliderLimitFPS");
@@ -218,10 +234,114 @@ public class OptionUI : MonoBehaviour
         else sliderLimitFPS.gameObject.SetActive(false);
     }
 
+    public void TogglePanelPosition(bool value)
+    {
+        if (!value) return;
+        var toggle = EventSystem.current.currentSelectedGameObject;
+        switch (toggle.name)
+        {
+            case "ChkBoxLeft":
+                option.PanelPosition = EZR.Option.PanelPositionEnum.Left;
+                break;
+            case "ChkBoxCenter":
+                option.PanelPosition = EZR.Option.PanelPositionEnum.Center;
+                break;
+            case "ChkBoxRight":
+                option.PanelPosition = EZR.Option.PanelPositionEnum.Right;
+                break;
+        }
+    }
+    public void ToggleTargetLineType(bool value)
+    {
+        if (!value) return;
+        var toggle = EventSystem.current.currentSelectedGameObject;
+        switch (toggle.name)
+        {
+            case "ChkBoxNew":
+                option.TargetLineType = EZR.Option.TargetLineTypeEnum.New;
+                break;
+            case "ChkBoxClassic":
+                option.TargetLineType = EZR.Option.TargetLineTypeEnum.Classic;
+                break;
+        }
+    }
+
     public void SliderLimitFPS(float value)
     {
         option.TargetFrameRate = (int)value;
         sliderLimitFPSText.text = option.TargetFrameRate.ToString();
+    }
+
+    public void BtnSwitchTag()
+    {
+        var btn = EventSystem.current.currentSelectedGameObject.GetComponent<EZR.ButtonExtension>();
+        if (btn.IsSelected) return;
+        transform.Find("GroupSystem").gameObject.SetActive(false);
+        transform.Find("GroupSkin").gameObject.SetActive(false);
+        switch (btn.gameObject.name)
+        {
+            case "BtnSystem":
+                transform.Find("GroupSystem").gameObject.SetActive(true);
+                break;
+            case "BtnSkin":
+                transform.Find("GroupSkin").gameObject.SetActive(true);
+                break;
+        }
+        updateSystem();
+        btn.SetSelected(true);
+        EZR.MemorySound.PlaySound("e_click");
+    }
+
+    void updateJudgmentOffset()
+    {
+        var value = transform.Find("GroupSkin/BarOffset/UpDownOffset/Value").GetComponent<Text>();
+        if (option.JudgmentOffset == 0)
+        {
+            value.text = "0";
+        }
+        else if (option.JudgmentOffset > 0)
+        {
+            value.text = "+" + option.JudgmentOffset;
+        }
+        else if (option.JudgmentOffset < 0)
+        {
+            value.text = option.JudgmentOffset.ToString();
+        }
+    }
+
+    Coroutine offsetDelayCoroutine;
+    public void BtnOffsetLeftDown()
+    {
+        addOffset(-1);
+        if (offsetDelayCoroutine != null) StopCoroutine(offsetDelayCoroutine);
+        offsetDelayCoroutine = StartCoroutine(offsetDelay(-1));
+    }
+    public void BtnOffsetRightDown()
+    {
+        addOffset(1);
+        if (offsetDelayCoroutine != null) StopCoroutine(offsetDelayCoroutine);
+        offsetDelayCoroutine = StartCoroutine(offsetDelay(1));
+    }
+    public void BtnOffsetUp()
+    {
+        StopCoroutine(offsetDelayCoroutine);
+        offsetDelayCoroutine = null;
+    }
+    IEnumerator offsetDelay(int value)
+    {
+        yield return new WaitForSeconds(0.2f);
+        for (; ; )
+        {
+            yield return new WaitForSeconds(0.075f);
+            addOffset(value);
+        }
+    }
+
+    void addOffset(int value)
+    {
+        option.JudgmentOffset += value;
+        updateJudgmentOffset();
+        EZR.MemorySound.PlaySound("e_click");
     }
 
     public void ClickSound()
