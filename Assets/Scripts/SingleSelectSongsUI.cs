@@ -305,13 +305,11 @@ public class SingleSelectSongsUI : MonoBehaviour
             1 - Mathf.Clamp01(
                     ((currentList.IndexOf(EZR.SongsList.List[currentSongIndex]) - songUICount / 2 + 1) * songUIHeight) / (songsListContent.sizeDelta.y - songListHeight));
 
-        updateSongUI(true);
-
-        if (songsListContent.GetChild(1).gameObject.activeSelf)
-        {
-            var selectedSongUI = (EZR.ButtonExtension.GroupMaster["SongUI"].CurrentSelected ?? songsListContent.GetChild(1).Find("Over").GetComponent<EZR.ButtonExtension>()).transform.parent;
+        var selectedSongUI = updateSongUI(true);
+        if (EZR.ButtonExtension.GroupMaster["SongUI"].CurrentSelected != null)
+            selectedSongUI = EZR.ButtonExtension.GroupMaster["SongUI"].CurrentSelected.transform.parent;
+        if (selectedSongUI != null)
             setCurrentSong(selectedSongUI, "level");
-        }
     }
 
     void updateSongsListContentHeight()
@@ -322,10 +320,12 @@ public class SingleSelectSongsUI : MonoBehaviour
         );
     }
 
-    void updateSongUI(bool isRefresh)
+    Transform updateSongUI(bool isRefresh)
     {
         float currentPosition = songsListContent.localPosition.y - (4 + headSplitHeight);
         int startIndex = (int)(currentPosition / songUIHeight);
+
+        Transform outSongUI = null;
 
         for (int i = 1; i < songsListContent.childCount; i++)
         {
@@ -354,6 +354,8 @@ public class SingleSelectSongsUI : MonoBehaviour
                 else
                 {
                     songUI.gameObject.SetActive(true);
+                    if (songUIComp.Index == startIndex)
+                        outSongUI = songUI;
                 }
 
                 songUI.localPosition = new Vector3(
@@ -392,6 +394,8 @@ public class SingleSelectSongsUI : MonoBehaviour
                 }
             }
         }
+
+        return outSongUI;
     }
 
     void sortListByName(bool isAsc)
