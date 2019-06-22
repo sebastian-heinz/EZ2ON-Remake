@@ -61,7 +61,8 @@ public class SingleSelectSongsUI : MonoBehaviour
         searchSongName = transform.Find("PanelSongsList/SearchSongName").GetComponent<InputField>();
 
         //设置滚动条最小值
-        songsListScrollRect.onValueChanged.AddListener(vector2 =>
+        songsListScrollRect.verticalNormalizedPosition = 0;
+        songsListScrollRect.onValueChanged.AddListener(value =>
         {
             if (songsListScrollRect.verticalScrollbar.size > 0)
                 songsListScrollRect.verticalScrollbar.size = Mathf.Max(0.1f, songsListScrollRect.verticalScrollbar.size);
