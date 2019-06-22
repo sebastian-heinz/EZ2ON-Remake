@@ -290,7 +290,17 @@ namespace EZR
             {
                 readyFrame++;
                 if (readyFrame > 10)
-                    StartPlay();
+                {
+                    if (viveMediaDecoder != null)
+                    {
+                        if (viveMediaDecoder.getDecoderState() ==
+                        HTC.UnityPlugin.Multimedia.ViveMediaDecoder.DecoderState.INITIALIZED ||
+                        viveMediaDecoder.getDecoderState() ==
+                        HTC.UnityPlugin.Multimedia.ViveMediaDecoder.DecoderState.INIT_FAIL)
+                            StartPlay();
+                    }
+                    else StartPlay();
+                }
             }
 
 
@@ -361,7 +371,7 @@ namespace EZR
             if (isStarted)
             {
                 PositionDelta = Time.smoothDeltaTime * PlayManager.TickPerSecond;
-                Position += PositionDelta;
+                Position += PositionDelta * JudgmentDelta.MeasureScale;
 
                 // 记录时间
                 time += Time.deltaTime;
@@ -386,7 +396,7 @@ namespace EZR
                 Mathf.Min(Time.deltaTime * 12, 1)
             );
 
-            var screenHeight = noteArea.sizeDelta.y / PlayManager.GetSpeed();
+            var screenHeight = noteArea.sizeDelta.y / PlayManager.RealFallSpeed;
             // 生成实时音符
             for (int i = 0; i < PlayManager.NumLines; i++)
             {
@@ -414,7 +424,7 @@ namespace EZR
                 }
             }
             // 生成节奏线
-            int currentMeasureCount = (int)((Position + screenHeight) / PatternUtils.Pattern.TickPerMeasure);
+            int currentMeasureCount = (int)((Position + screenHeight) / (PatternUtils.Pattern.TickPerMeasure * JudgmentDelta.MeasureScale));
             if (currentMeasureCount > measureCount)
             {
                 var measureDelta = currentMeasureCount - measureCount;
@@ -424,7 +434,7 @@ namespace EZR
                     measureInst.transform.SetParent(noteArea, false);
                     measureInst.transform.SetSiblingIndex(0);
                     var measureLineComponent = measureInst.GetComponent<MeasureLine>();
-                    measureLineComponent.Init(measureCount + j + 1, this);
+                    measureLineComponent.Init((measureCount + j + 1) * JudgmentDelta.MeasureScale, this);
                 }
                 measureCount = currentMeasureCount;
             }

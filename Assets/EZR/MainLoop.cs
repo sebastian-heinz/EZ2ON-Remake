@@ -88,7 +88,7 @@ namespace EZR
 
             TickPerSecond = TimeLines.BPM * 0.25d * PatternUtils.Pattern.TickPerMeasure / 60d;
             PositionDelta = DeltaTime * TickPerSecond;
-            Position += PositionDelta;
+            Position += PositionDelta * JudgmentDelta.MeasureScale;
 
             // 检测结束
             if (Position >= TimeLines.EndTick)

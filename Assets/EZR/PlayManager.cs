@@ -10,7 +10,6 @@ namespace EZR
     public static partial class PlayManager
     {
         public static double Position = 0d;
-        public static float MeasureScale = 2;
         static float fallSpeed = 2;
         public static float FallSpeed
         {
@@ -62,10 +61,6 @@ namespace EZR
             {
                 throw new System.Exception("JSON file does not exist.");
             }
-
-            var pattern = PatternUtils.Pattern.Parse(Encoding.UTF8.GetString(buffer));
-            if (pattern == null) return;
-
             // 歌曲特别判定
             if (GameType == GameType.EZ2ON && SongName.ToLower() == "sudden")
             {
@@ -101,6 +96,8 @@ namespace EZR
             {
                 JudgmentDelta.SetJudgmentDelta(JudgmentDelta.Difficult.Standard, JudgmentMode);
             }
+            var pattern = PatternUtils.Pattern.Parse(Encoding.UTF8.GetString(buffer));
+            if (pattern == null) return;
 
             // 读取所有音频
             ZipLoader.OpenZip(zipPath);
@@ -156,7 +153,7 @@ namespace EZR
                         {
                             if (note.length > 6)
                             {
-                                TimeLines.TotalNote += 1 + note.length / Judgment.LongNoteComboStep;
+                                TimeLines.TotalNote += 1 + (int)(note.length / Judgment.LongNoteComboStep);
                             }
                             else
                                 TimeLines.TotalNote++;
@@ -205,11 +202,6 @@ namespace EZR
 
             MemorySound.Main.stop();
             MemorySound.BGM.stop();
-        }
-
-        public static float GetSpeed()
-        {
-            return MeasureScale * RealFallSpeed;
         }
 
         public static void AddScore(JudgmentType judgment)

@@ -6,7 +6,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 using UnityEngine.Serialization;
 using System.IO;
-using System.Threading.Tasks;
+using System.Text.RegularExpressions;
 
 public class SingleSelectSongsUI : MonoBehaviour
 {
@@ -18,7 +18,7 @@ public class SingleSelectSongsUI : MonoBehaviour
     ScrollRect songsListScrollRect;
 
     RectTransform songsListContent;
-    RectTransform gameTypeContent;
+    RectTransform gameModeContent;
     List<EZR.SongsList.SongInfo> currentList = new List<EZR.SongsList.SongInfo>();
 
     EZR.GameType currentType = EZR.PlayManager.GameType;
@@ -37,6 +37,9 @@ public class SingleSelectSongsUI : MonoBehaviour
     float songUIHeight;
     int songUICount;
 
+    InputField searchSongName;
+    string searchText;
+
     void Start()
     {
         if (EZR.SongsList.List.Count == 0 || EZR.SongsList.Version < EZR.Utils.Version2Decmal(EZR.SongsList.MinVer))
@@ -50,11 +53,19 @@ public class SingleSelectSongsUI : MonoBehaviour
 
         songsListScrollRect = transform.Find("PanelSongsList/List").GetComponent<ScrollRect>();
         songsListContent = (RectTransform)songsListScrollRect.transform.Find("Viewport/Content");
-        gameTypeContent = (RectTransform)transform.Find("PanelSongsList/ListGameType/Viewport/Content");
+        gameModeContent = (RectTransform)transform.Find("PanelSongsList/ListGameMode/Viewport/Content");
         songListHeight = ((RectTransform)songsListScrollRect.transform).sizeDelta.y;
         headSplitHeight = ((RectTransform)songsListContent.GetChild(0)).sizeDelta.y;
         songUIHeight = ((RectTransform)SongUI.transform).sizeDelta.y;
-        songUICount = (int)Mathf.Ceil(songListHeight / songUIHeight);
+        songUICount = (int)(songListHeight / songUIHeight + 1);
+        searchSongName = transform.Find("PanelSongsList/SearchSongName").GetComponent<InputField>();
+
+        //设置滚动条最小值
+        songsListScrollRect.onValueChanged.AddListener(vector2 =>
+        {
+            if (songsListScrollRect.verticalScrollbar.size > 0)
+                songsListScrollRect.verticalScrollbar.size = Mathf.Max(0.1f, songsListScrollRect.verticalScrollbar.size);
+        });
 
         // 重新映射模式
         switch (currentMode)
@@ -86,6 +97,7 @@ public class SingleSelectSongsUI : MonoBehaviour
         filterSongs();
         updateDifficultState();
         focusOnBtnDifficult();
+        updateGameModeButton();
         updateGameType();
         updateList();
         updateBtnSpeed();
@@ -97,6 +109,10 @@ public class SingleSelectSongsUI : MonoBehaviour
         currentList.Clear();
         foreach (var info in EZR.SongsList.List)
         {
+            if (!string.IsNullOrEmpty(searchText) &&
+            !Regex.IsMatch(info.displayName, "^" + Regex.Escape(searchText), RegexOptions.IgnoreCase))
+                continue;
+
             bool isHit = false;
 
             if (info.difficult.ContainsKey(currentMode))
@@ -281,10 +297,7 @@ public class SingleSelectSongsUI : MonoBehaviour
             }
         }
 
-        songsListContent.sizeDelta = new Vector2(
-            songsListContent.sizeDelta.x,
-            4 + headSplitHeight + currentList.Count * songUIHeight + 100
-        );
+        updateSongsListContentHeight();
 
         // 滚动定位
         songsListScrollRect.verticalNormalizedPosition =
@@ -293,8 +306,19 @@ public class SingleSelectSongsUI : MonoBehaviour
 
         updateSongUI(true);
 
-        var selectedSongUI = (EZR.ButtonExtension.GroupMaster["SongUI"].CurrentSelected ?? songsListContent.GetChild(1).Find("Over").GetComponent<EZR.ButtonExtension>()).transform.parent;
-        setCurrentSong(selectedSongUI, "level");
+        if (songsListContent.GetChild(1).gameObject.activeSelf)
+        {
+            var selectedSongUI = (EZR.ButtonExtension.GroupMaster["SongUI"].CurrentSelected ?? songsListContent.GetChild(1).Find("Over").GetComponent<EZR.ButtonExtension>()).transform.parent;
+            setCurrentSong(selectedSongUI, "level");
+        }
+    }
+
+    void updateSongsListContentHeight()
+    {
+        songsListContent.sizeDelta = new Vector2(
+            songsListContent.sizeDelta.x,
+            4 + headSplitHeight + currentList.Count * songUIHeight + 100
+        );
     }
 
     void updateSongUI(bool isRefresh)
@@ -312,7 +336,6 @@ public class SingleSelectSongsUI : MonoBehaviour
             {
                 isLoop = true;
                 songUIComp.Index += songUICount;
-
             }
             while (songUIComp.Index > startIndex + (songUICount - 1))
             {
@@ -356,7 +379,7 @@ public class SingleSelectSongsUI : MonoBehaviour
                 {
                     difficult.text = songInfo.difficult[songInfo.GetCurrentMode(currentMode, currentDifficult)][currentDifficult].ToString();
                     songName.color = songUIComp.NormalColor;
-                    difficult.color = songUIComp.NormalColor;
+                    difficult.color = Color.white;
                     btn.interactable = true;
                 }
                 else
@@ -434,12 +457,88 @@ public class SingleSelectSongsUI : MonoBehaviour
     {
         var btn = EventSystem.current.currentSelectedGameObject.GetComponent<EZR.ButtonExtension>();
         if (btn.IsSelected) return;
+
+        switch (btn.gameObject.name)
+        {
+            case "BtnEZ2ON":
+                currentType = EZR.GameType.EZ2ON;
+                currentMode = EZR.GameMode.Mode.RubyMixON;
+                break;
+            case "BtnEZ2DJ":
+                currentType = EZR.GameType.EZ2DJ;
+                currentMode = EZR.GameMode.Mode.RubyMixDJ;
+                break;
+            case "BtnDJMAX":
+                currentType = EZR.GameType.DJMAX;
+                currentMode = EZR.GameMode.Mode.FourKey;
+                break;
+        }
+        currentDifficult = EZR.GameDifficult.Difficult.EZ;
+        updateGameModeButton();
+
+        updateGameDefaultDifficut();
+
+        filterSongs();
+        updateDifficultState();
+        focusOnBtnDifficult();
+        updateGameType();
+        updateList();
+
+        EZR.MemorySound.PlaySound("e_page");
+    }
+
+    public void BtnSetGameMode()
+    {
+        var btn = EventSystem.current.currentSelectedGameObject.GetComponent<EZR.ButtonExtension>();
+        if (btn.IsSelected) return;
         var diffUI = btn.GetComponent<EZR.GameTypeUI>();
 
         currentType = diffUI.GameType;
         currentMode = diffUI.GameMode;
         currentDifficult = EZR.GameDifficult.Difficult.EZ;
 
+        updateGameDefaultDifficut();
+
+        filterSongs();
+        updateDifficultState();
+        focusOnBtnDifficult();
+        btn.SetSelected(true);
+        updateList();
+
+        EZR.MemorySound.PlaySound("e_page");
+    }
+
+    void updateGameModeButton()
+    {
+        foreach (Transform btn2 in gameModeContent)
+        {
+            btn2.gameObject.SetActive(false);
+        }
+        switch (currentType)
+        {
+            case EZR.GameType.EZ2ON:
+                gameModeContent.Find("BtnOnRuby").gameObject.SetActive(true);
+                gameModeContent.Find("BtnOnStreet").gameObject.SetActive(true);
+                gameModeContent.Find("BtnOnClub").gameObject.SetActive(true);
+                gameModeContent.Find("BtnOn8K").gameObject.SetActive(true);
+                break;
+            case EZR.GameType.EZ2DJ:
+                gameModeContent.Find("BtnDjRuby").gameObject.SetActive(true);
+                gameModeContent.Find("BtnDjStreet").gameObject.SetActive(true);
+                gameModeContent.Find("BtnDj5K").gameObject.SetActive(true);
+                break;
+            case EZR.GameType.DJMAX:
+                gameModeContent.Find("BtnMax4K").gameObject.SetActive(true);
+                gameModeContent.Find("BtnMax5K").gameObject.SetActive(true);
+                gameModeContent.Find("BtnMax6K").gameObject.SetActive(true);
+                gameModeContent.Find("BtnMax7K").gameObject.SetActive(true);
+                gameModeContent.Find("BtnMax8K").gameObject.SetActive(true);
+                break;
+        }
+    }
+
+    void updateGameDefaultDifficut()
+    {
         if (currentType == EZR.GameType.EZ2ON && (
         currentDifficult != EZR.GameDifficult.Difficult.EZ &&
         currentDifficult != EZR.GameDifficult.Difficult.NM &&
@@ -474,20 +573,26 @@ public class SingleSelectSongsUI : MonoBehaviour
         {
             currentDifficult = EZR.GameDifficult.Difficult.DJMAX_EZ;
         }
-
-        filterSongs();
-        updateDifficultState();
-        focusOnBtnDifficult();
-        btn.SetSelected(true);
-        updateList();
-
-        EZR.MemorySound.PlaySound("e_page");
     }
 
     void updateGameType()
     {
-        var scroll = gameTypeContent.parent.parent.GetComponent<ScrollRect>();
-        foreach (Transform btn in gameTypeContent)
+        switch (currentType)
+        {
+            case EZR.GameType.EZ2ON:
+                transform.Find("PanelSongsList/ListGameType/BtnEZ2ON")
+                .GetComponent<EZR.ButtonExtension>().SetSelected(true);
+                break;
+            case EZR.GameType.EZ2DJ:
+                transform.Find("PanelSongsList/ListGameType/BtnEZ2DJ")
+                .GetComponent<EZR.ButtonExtension>().SetSelected(true);
+                break;
+            case EZR.GameType.DJMAX:
+                transform.Find("PanelSongsList/ListGameType/BtnDJMAX")
+                .GetComponent<EZR.ButtonExtension>().SetSelected(true);
+                break;
+        }
+        foreach (Transform btn in gameModeContent)
         {
             var typeUI = btn.GetComponent<EZR.GameTypeUI>();
             if (typeUI.GameType == currentType)
@@ -496,7 +601,6 @@ public class SingleSelectSongsUI : MonoBehaviour
                 EZR.SongsList.DJMaxModeMapping(typeUI.GameMode) == currentMode)
                 {
                     btn.GetComponent<EZR.ButtonExtension>().SetSelected(true);
-                    scroll.verticalNormalizedPosition = 1 - btn.GetSiblingIndex() / (float)gameTypeContent.childCount;
                     break;
                 }
             }
@@ -1022,26 +1126,48 @@ public class SingleSelectSongsUI : MonoBehaviour
         EZR.MemorySound.PlaySound("e_count_1");
     }
 
+    // 暂时退出程序
     public void BtnBack()
     {
-        // 暂时退出程序
         EZR.MemorySound.PlaySound("e_motion");
         Application.Quit();
     }
 
+    // 打开设置面板
     public void BtnOption()
     {
-        // 打开设置面板
         var option = Instantiate(Option);
         option.transform.SetParent(transform.parent, false);
         EZR.MemorySound.PlaySound("e_click");
     }
 
+    // 打开库存
     public void BtnInventory()
     {
-        // 打开库存
         var inventory = Instantiate(Inventory);
         inventory.transform.SetParent(transform.parent, false);
         EZR.MemorySound.PlaySound("e_click");
+    }
+
+    // 过滤歌曲名
+    public void InputSearchSongName(string text)
+    {
+        searchText = text;
+        if (!string.IsNullOrEmpty(searchText))
+            searchSongName.transform.Find("Clear").gameObject.SetActive(true);
+        else
+            searchSongName.transform.Find("Clear").gameObject.SetActive(false);
+
+        filterSongs();
+
+        updateSongsListContentHeight();
+        songsListScrollRect.verticalNormalizedPosition = Mathf.Clamp01(songsListScrollRect.verticalNormalizedPosition);
+
+        updateSongUI(true);
+    }
+
+    public void BtnClearSearchSongName()
+    {
+        searchSongName.text = "";
     }
 }

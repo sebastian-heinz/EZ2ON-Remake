@@ -10,7 +10,7 @@ namespace EZR
         public int MaxLines { get => 9; }
         public float BPM = 120f;
 
-        public int EndTick = 0;
+        public float EndTick = 0;
         public int BPMIndex = 0;
         public List<Pattern.BPM> BPMList = new List<Pattern.BPM>();
         public int[] LinesIndex;

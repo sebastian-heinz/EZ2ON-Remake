@@ -5,14 +5,14 @@ namespace EZR
 {
     public class MeasureLine : MonoBehaviour
     {
-        int index = 0;
+        float index = 0;
 
         public static List<MeasureLine> MeasureLines = new List<MeasureLine>();
 
         Animator anim;
         DisplayLoop displayLoop;
 
-        public void Init(int index, DisplayLoop loop)
+        public void Init(float index, DisplayLoop loop)
         {
             this.index = index;
             displayLoop = loop;
@@ -38,7 +38,7 @@ namespace EZR
             {
                 transform.localPosition = new Vector3(
                     0,
-                    (float)((index * PatternUtils.Pattern.TickPerMeasure - displayLoop.Position) * PlayManager.GetSpeed()),
+                    (float)((index * PatternUtils.Pattern.TickPerMeasure - displayLoop.Position) * PlayManager.RealFallSpeed),
                     0
                 );
             }
@@ -46,7 +46,7 @@ namespace EZR
             {
                 transform.localPosition = new Vector3(
                     0,
-                    (float)((index * PatternUtils.Pattern.TickPerMeasure - displayLoop.Position + PlayManager.SimVsyncDelta) * PlayManager.GetSpeed()),
+                    (float)((index * PatternUtils.Pattern.TickPerMeasure - displayLoop.Position + PlayManager.SimVsyncDelta) * PlayManager.RealFallSpeed),
                     0
                 );
             }

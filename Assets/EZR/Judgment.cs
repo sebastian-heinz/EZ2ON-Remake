@@ -5,7 +5,7 @@ namespace EZR
 {
     public static class Judgment
     {
-        public static int LongNoteComboStep { get => 12; }
+        public static float LongNoteComboStep { get => 12 * JudgmentDelta.MeasureScale; }
 
         public static void Loop(Queue<NoteInLine>[] noteInLines, JudgmentAnimCTL judgmentAnim, FlareAnimCTL[] flarePlayList, FlareAnimCTL[] LongflarePlayList)
         {
@@ -17,7 +17,7 @@ namespace EZR
                     if (noteInLine.IsLongPressed)
                     {
                         // 长音连击
-                        var longNoteCombo = (int)((System.Math.Min(PlayManager.Position, noteInLine.Position + noteInLine.NoteLength) - noteInLine.Position) / LongNoteComboStep);
+                        int longNoteCombo = (int)((System.Math.Min(PlayManager.Position, noteInLine.Position + noteInLine.NoteLength) - noteInLine.Position) / LongNoteComboStep);
                         if (longNoteCombo > noteInLine.LongNoteCombo)
                         {
                             var delta = longNoteCombo - noteInLine.LongNoteCombo;
@@ -224,7 +224,7 @@ namespace EZR
 
                     bool needStopSound = false;
                     double judgmentDelta = System.Math.Abs(noteInLine.Position + noteInLine.NoteLength - PlayManager.Position);
-                    var longNoteCombo = noteInLine.NoteLength / LongNoteComboStep;
+                    int longNoteCombo = (int)(noteInLine.NoteLength / LongNoteComboStep);
                     if (judgmentDelta <= JudgmentDelta.GetJudgmentDelta(JudgmentType.Cool, 0.5f))
                     {
                         var delta = longNoteCombo - noteInLine.LongNoteCombo;

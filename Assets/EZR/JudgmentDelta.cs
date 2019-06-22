@@ -26,37 +26,37 @@ namespace EZR
         public static float Cool { get; private set; }
         public static float Good { get; private set; }
         public static float Miss { get; private set; }
-        public static float Scale = 0.5f;
+        public static float MeasureScale { get; private set; }
 
-        public static bool CompareJudgmentDelta(double delta, JudgmentType judgment, float uniqueScale)
+        public static bool CompareJudgmentDelta(double delta, JudgmentType judgment, float scale)
         {
             switch (judgment)
             {
                 case JudgmentType.Kool:
-                    return delta <= GetJudgmentDelta(JudgmentType.Kool, uniqueScale);
+                    return delta <= GetJudgmentDelta(JudgmentType.Kool, scale);
                 case JudgmentType.Cool:
-                    return delta > GetJudgmentDelta(JudgmentType.Kool, uniqueScale) && delta <= GetJudgmentDelta(JudgmentType.Cool, uniqueScale);
+                    return delta > GetJudgmentDelta(JudgmentType.Kool, scale) && delta <= GetJudgmentDelta(JudgmentType.Cool, scale);
                 case JudgmentType.Good:
-                    return delta > GetJudgmentDelta(JudgmentType.Cool, uniqueScale) && delta <= GetJudgmentDelta(JudgmentType.Good, uniqueScale);
+                    return delta > GetJudgmentDelta(JudgmentType.Cool, scale) && delta <= GetJudgmentDelta(JudgmentType.Good, scale);
                 case JudgmentType.Miss:
-                    return delta > GetJudgmentDelta(JudgmentType.Good, uniqueScale) && delta <= GetJudgmentDelta(JudgmentType.Miss, uniqueScale);
+                    return delta > GetJudgmentDelta(JudgmentType.Good, scale) && delta <= GetJudgmentDelta(JudgmentType.Miss, scale);
                 default:
                     return false;
             }
         }
 
-        public static float GetJudgmentDelta(JudgmentType judgment, float uniqueScale)
+        public static float GetJudgmentDelta(JudgmentType judgment, float scale)
         {
             switch (judgment)
             {
                 case JudgmentType.Kool:
-                    return Kool * uniqueScale * Scale;
+                    return Kool * scale;
                 case JudgmentType.Cool:
-                    return Cool * uniqueScale * Scale;
+                    return Cool * scale;
                 case JudgmentType.Good:
-                    return Good * uniqueScale * Scale;
+                    return Good * scale;
                 case JudgmentType.Miss:
-                    return Miss * uniqueScale * Scale;
+                    return Miss * scale;
                 default:
                     return -1;
             }
@@ -64,14 +64,27 @@ namespace EZR
 
         public static void SetJudgmentDelta(Difficult difficult, Mode mode)
         {
-
+            // var JudgmentDeltaDataPath = System.IO.Path.Combine(Application.dataPath, "..", "JudgmentDelta.json");
+            // Newtonsoft.Json.Linq.JObject jobj = new Newtonsoft.Json.Linq.JObject();
+            // if (System.IO.File.Exists(JudgmentDeltaDataPath))
+            // {
+            //     try
+            //     {
+            //         jobj = Newtonsoft.Json.Linq.JObject.Parse(System.IO.File.ReadAllText(JudgmentDeltaDataPath));
+            //     }
+            //     catch { }
+            // }
             switch (difficult)
             {
                 case Difficult.Standard:
                     Kool = 8;
                     Cool = 24;
+                    // Kool = (int)(jobj["Kool"] ?? 8);
+                    // Cool = (int)(jobj["Cool"] ?? 24);
                     if (mode == Mode.Hard)
                     {
+                        Kool = 8;
+                        Cool = 24;
                         Good = 40;
                         Miss = 56;
                     }
@@ -79,6 +92,8 @@ namespace EZR
                     {
                         Good = 60;
                         Miss = 76;
+                        // Good = (int)(jobj["Good"] ?? 60);
+                        // Miss = (int)(jobj["Miss"] ?? 76);
                     }
                     break;
                 case Difficult.SuddenEZ:
@@ -108,13 +123,18 @@ namespace EZR
             }
             switch (mode)
             {
+                case Mode.Normal:
+                    MeasureScale = 1.6f;
+                    break;
                 case Mode.Easy:
                     Kool *= 2;
                     Cool *= 2;
+                    MeasureScale = 1.6f;
                     break;
                 case Mode.Hard:
                     Kool *= 0.5f;
                     Cool *= 0.5f;
+                    MeasureScale = 2.0f;
                     break;
             }
         }
