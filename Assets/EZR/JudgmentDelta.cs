@@ -27,6 +27,7 @@ namespace EZR
         public static float Good { get; private set; }
         public static float Miss { get; private set; }
         public static float MeasureScale { get; private set; }
+        static float globalScale = 0.8f;
 
         public static bool CompareJudgmentDelta(double delta, JudgmentType judgment, float scale)
         {
@@ -50,13 +51,13 @@ namespace EZR
             switch (judgment)
             {
                 case JudgmentType.Kool:
-                    return Kool * scale;
+                    return Kool * scale * globalScale;
                 case JudgmentType.Cool:
-                    return Cool * scale;
+                    return Cool * scale * globalScale;
                 case JudgmentType.Good:
-                    return Good * scale;
+                    return Good * scale * globalScale;
                 case JudgmentType.Miss:
-                    return Miss * scale;
+                    return Miss * scale * globalScale;
                 default:
                     return -1;
             }
@@ -77,24 +78,31 @@ namespace EZR
             switch (difficult)
             {
                 case Difficult.Standard:
-                    Kool = 8;
-                    Cool = 24;
-                    // Kool = (int)(jobj["Kool"] ?? 8);
-                    // Cool = (int)(jobj["Cool"] ?? 24);
-                    if (mode == Mode.Hard)
+                    switch (mode)
                     {
-                        Kool = 8;
-                        Cool = 24;
-                        Good = 40;
-                        Miss = 56;
+                        case Mode.Normal:
+                            Kool = 8;
+                            Cool = 24;
+                            Good = 50;
+                            Miss = 66;
+                            break;
+                        case Mode.Easy:
+                            Kool = 12;
+                            Cool = 32;
+                            Good = 60;
+                            Miss = 76;
+                            break;
+                        case Mode.Hard:
+                            Kool = 8;
+                            Cool = 24;
+                            Good = 40;
+                            Miss = 56;
+                            break;
                     }
-                    else
-                    {
-                        Good = 60;
-                        Miss = 76;
-                        // Good = (int)(jobj["Good"] ?? 60);
-                        // Miss = (int)(jobj["Miss"] ?? 76);
-                    }
+                    // if (jobj.ContainsKey("Kool")) Kool = (int)jobj["Kool"];
+                    // if (jobj.ContainsKey("Cool")) Kool = (int)jobj["Cool"];
+                    // if (jobj.ContainsKey("Good")) Kool = (int)jobj["Good"];
+                    // if (jobj.ContainsKey("Miss")) Kool = (int)jobj["Miss"];
                     break;
                 case Difficult.SuddenEZ:
                     Kool = 8;
@@ -124,19 +132,17 @@ namespace EZR
             switch (mode)
             {
                 case Mode.Normal:
-                    MeasureScale = 1.6f;
+                    MeasureScale = 1.8f;
                     break;
                 case Mode.Easy:
-                    Kool *= 2;
-                    Cool *= 2;
                     MeasureScale = 1.6f;
                     break;
                 case Mode.Hard:
-                    Kool *= 0.5f;
-                    Cool *= 0.5f;
                     MeasureScale = 2.0f;
                     break;
             }
+            // if (jobj.ContainsKey("MeasureScale")) MeasureScale = (float)jobj["MeasureScale"];
+            // if (jobj.ContainsKey("GlobalScale")) globalScale = (float)jobj["GlobalScale"];
         }
     }
 }

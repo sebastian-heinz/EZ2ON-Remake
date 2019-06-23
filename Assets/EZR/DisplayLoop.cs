@@ -183,6 +183,7 @@ namespace EZR
                     videoPlayer.GetComponent<RawImage>().material = null;
                     Destroy(viveMediaDecoder);
                     videoPlayer.url = bgaUrl;
+                    videoPlayer.Prepare();
                 }
             }
             else if (File.Exists(genericBgaUrl))
@@ -202,6 +203,7 @@ namespace EZR
                     videoPlayer.GetComponent<RawImage>().material = null;
                     Destroy(viveMediaDecoder);
                     videoPlayer.url = genericBgaUrl;
+                    videoPlayer.Prepare();
                     videoPlayer.isLooping = true;
                 }
             }
@@ -309,6 +311,10 @@ namespace EZR
                         viveMediaDecoder.getDecoderState() ==
                         HTC.UnityPlugin.Multimedia.ViveMediaDecoder.DecoderState.INIT_FAIL)
                             StartPlay();
+                    }
+                    if (videoPlayer != null)
+                    {
+                        if (videoPlayer.isPrepared) StartPlay();
                     }
                     else StartPlay();
                 }
