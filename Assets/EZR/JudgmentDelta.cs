@@ -100,9 +100,9 @@ namespace EZR
                             break;
                     }
                     // if (jobj.ContainsKey("Kool")) Kool = (int)jobj["Kool"];
-                    // if (jobj.ContainsKey("Cool")) Kool = (int)jobj["Cool"];
-                    // if (jobj.ContainsKey("Good")) Kool = (int)jobj["Good"];
-                    // if (jobj.ContainsKey("Miss")) Kool = (int)jobj["Miss"];
+                    // if (jobj.ContainsKey("Cool")) Cool = (int)jobj["Cool"];
+                    // if (jobj.ContainsKey("Good")) Good = (int)jobj["Good"];
+                    // if (jobj.ContainsKey("Miss")) Miss = (int)jobj["Miss"];
                     break;
                 case Difficult.SuddenEZ:
                     Kool = 8;
