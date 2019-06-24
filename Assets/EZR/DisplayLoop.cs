@@ -316,7 +316,7 @@ namespace EZR
                     {
                         if (videoPlayer.isPrepared) StartPlay();
                     }
-                    else StartPlay();
+                    if (viveMediaDecoder == null && videoPlayer == null) StartPlay();
                 }
             }
 

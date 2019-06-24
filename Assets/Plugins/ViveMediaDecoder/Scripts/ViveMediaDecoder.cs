@@ -661,9 +661,12 @@ namespace HTC.UnityPlugin.Multimedia
 
                 if (isAudioEnabled && !isAllAudioChEnabled)
                 {
-                    lock (_lock)
+                    if (audioDataBuff != null)
                     {
-                        audioDataBuff.Clear();
+                        lock (_lock)
+                        {
+                            audioDataBuff.Clear();
+                        }
                     }
                     audioProgressTime = firstAudioFrameTime = -1.0;
                     foreach (AudioSource src in audioSource)
