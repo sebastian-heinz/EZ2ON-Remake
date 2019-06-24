@@ -1166,7 +1166,7 @@ public class SingleSelectSongsUI : MonoBehaviour
         filterSongs();
 
         updateSongsListContentHeight();
-        songsListScrollRect.verticalNormalizedPosition = Mathf.Clamp01(songsListScrollRect.verticalNormalizedPosition);
+        songsListScrollRect.verticalNormalizedPosition = 1;
 
         updateSongUI(true);
     }

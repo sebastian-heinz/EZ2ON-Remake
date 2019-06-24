@@ -204,10 +204,15 @@ namespace EZR
                 else
                 {
                     noteInLine = null;
-                    note = PlayManager.TimeLines.Lines[keyId].Notes[Mathf.Min(PlayManager.TimeLines.LinesIndex[keyId], PlayManager.TimeLines.Lines[keyId].Notes.Count - 1)];
+                    if (PlayManager.TimeLines.Lines[keyId].Notes.Count > 0)
+                        note = PlayManager.TimeLines.Lines[keyId].Notes[Mathf.Min(PlayManager.TimeLines.LinesIndex[keyId], PlayManager.TimeLines.Lines[keyId].Notes.Count - 1)];
+                    else
+                        note = null;
                 }
 
-                var channel = MemorySound.PlaySound(note.id, note.vol, note.pan, MemorySound.Main);
+                FMOD.Channel? channel = null;
+                if (note != null)
+                    channel = MemorySound.PlaySound(note.id, note.vol, note.pan, MemorySound.Main);
                 if (noteInLine != null && note.length > 6)
                 {
                     noteInLine.NoteSound = channel;
