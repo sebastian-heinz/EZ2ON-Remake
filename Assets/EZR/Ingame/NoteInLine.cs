@@ -44,8 +44,8 @@ namespace EZR
                 NoteScale = displayLoop.NoteSize;
             else
             {
-                NoteScale = 1;
-                rect.sizeDelta = new Vector2(displayLoop.NoteSize, rect.sizeDelta.y);
+                NoteScale = transform.localScale.y;
+                rect.sizeDelta = new Vector2(displayLoop.NoteSize / NoteScale, rect.sizeDelta.y);
             }
             transform.localScale = new Vector3(NoteScale, NoteScale, 1);
 
