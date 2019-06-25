@@ -18,7 +18,7 @@ namespace EZR
             set { fallSpeed = Mathf.Max(value, 0.25f); }
         }
         public static float RealFallSpeed = FallSpeed;
-        static float speedScale = 2;
+        static float speedScale = 1.8f;
         public static float GetSpeed()
         {
             return RealFallSpeed * speedScale;
