@@ -12,8 +12,8 @@ namespace EZR
         public static string PanelResource = "R14";
         public static string NoteResource = "Note_04";
 
-        [HideInInspector]
-        public double Position = 0;
+        double position = 0;
+        public double Position => position * JudgmentDelta.MeasureScale;
         [HideInInspector]
         public double PositionDelta;
         float time = 0;
@@ -273,7 +273,7 @@ namespace EZR
                 noteInLines[i].Clear();
                 currentIndex[i] = 0;
             }
-            PlayManager.Position = Position = 0;
+            PlayManager.UnscaledPosition = position = 0;
 
             measureCount = 0;
 
@@ -326,9 +326,9 @@ namespace EZR
                 grooveDisplay = false;
 
                 // 消除误差，同步时间轴
-                if (System.Math.Abs(Position - PlayManager.Position) > 1)
+                if (System.Math.Abs(position - PlayManager.UnscaledPosition) > 1)
                 {
-                    Position = PlayManager.Position;
+                    position = PlayManager.UnscaledPosition;
                 }
 
                 // 节奏灯
@@ -388,7 +388,7 @@ namespace EZR
             if (isStarted)
             {
                 PositionDelta = Time.smoothDeltaTime * PlayManager.TickPerSecond;
-                Position += PositionDelta * JudgmentDelta.MeasureScale;
+                position += PositionDelta;
 
                 // 记录时间
                 time += Time.deltaTime;
@@ -409,7 +409,7 @@ namespace EZR
                 Mathf.Min(Time.deltaTime * 12, 1)
             );
 
-            var screenHeight = (noteArea.sizeDelta.y + PlayManager.JudgmentOffset) / PlayManager.RealFallSpeed;
+            var screenHeight = (noteArea.sizeDelta.y + PlayManager.JudgmentOffset) / PlayManager.GetSpeed();
             // 生成实时音符
             for (int i = 0; i < PlayManager.NumLines; i++)
             {
@@ -447,7 +447,7 @@ namespace EZR
                     measureInst.transform.SetParent(noteArea, false);
                     measureInst.transform.SetSiblingIndex(0);
                     var measureLineComponent = measureInst.GetComponent<MeasureLine>();
-                    measureLineComponent.Init((measureCount + j + 1) * JudgmentDelta.MeasureScale, this);
+                    measureLineComponent.Init(measureCount + j + 1, this);
                 }
                 measureCount = currentMeasureCount;
             }

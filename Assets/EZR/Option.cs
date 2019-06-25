@@ -14,7 +14,7 @@ namespace EZR
         public enum TargetLineTypeEnum
         {
             Classic,
-            New = 20
+            New = 30
         }
         public FullScreenMode FullScreenMode = FullScreenMode.FullScreenWindow;
         public Resolution Resolution = Screen.resolutions[Screen.resolutions.Length - 1];

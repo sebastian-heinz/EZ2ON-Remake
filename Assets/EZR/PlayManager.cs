@@ -9,7 +9,8 @@ namespace EZR
 {
     public static partial class PlayManager
     {
-        public static double Position = 0d;
+        public static double UnscaledPosition = 0;
+        public static double Position => UnscaledPosition * JudgmentDelta.MeasureScale;
         static float fallSpeed = 2;
         public static float FallSpeed
         {
@@ -17,14 +18,19 @@ namespace EZR
             set { fallSpeed = Mathf.Max(value, 0.25f); }
         }
         public static float RealFallSpeed = FallSpeed;
+        static float speedScale = 2;
+        public static float GetSpeed()
+        {
+            return RealFallSpeed * speedScale;
+        }
 
         static float[] fallSpeedStep = new float[] { 0, 0.25f, 0.5f, 0.75f, 1 };
-        public static float[] FallSpeedStep { get => fallSpeedStep; }
+        public static float[] FallSpeedStep => fallSpeedStep;
 
         public static GameType GameType = EZR.GameType.EZ2ON;
         public static string SongName = "";
         public static int NumLines = 4;
-        public static int MaxLines { get => 8; }
+        public static int MaxLines => 8;
         public static GameMode.Mode GameMode = EZR.GameMode.Mode.RubyMixON;
         public static GameDifficult.Difficult GameDifficult = EZR.GameDifficult.Difficult.EZ;
 
@@ -153,7 +159,7 @@ namespace EZR
                         {
                             if (note.length > 6)
                             {
-                                TimeLines.TotalNote += 1 + (int)(note.length / Judgment.LongNoteComboStep);
+                                TimeLines.TotalNote += note.length / Judgment.LongNoteComboStep;
                             }
                             else
                                 TimeLines.TotalNote++;
@@ -188,11 +194,11 @@ namespace EZR
 
         public static void Reset()
         {
-            Position = 0d;
-            lastTime = 0d;
+            UnscaledPosition = 0;
+            lastTime = 0;
             Stopwatch.Restart();
 
-            beat = 0d;
+            beat = 0;
             Score.Reset();
             HP = MaxHp;
             Combo = 0;
@@ -212,7 +218,7 @@ namespace EZR
 
         public static void AddCombo()
         {
-            if (IsAutoPlay) return;
+            // if (IsAutoPlay) return;
             Combo++;
             if (Combo > Score.MaxCombo)
                 Score.MaxCombo = Combo;

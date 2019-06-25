@@ -9,14 +9,14 @@ namespace EZR
     {
         [HideInInspector]
         public int Index;
-        [HideInInspector]
-        public float Position;
+        int position = 0;
+        public float Position => position * JudgmentDelta.MeasureScale;
         [HideInInspector]
         public bool IsDestroy = false;
         [HideInInspector]
         public bool IsLongPressed = false;
-        [HideInInspector]
-        public float NoteLength = 0;
+        int noteLength = 0;
+        public float NoteLength => noteLength * JudgmentDelta.MeasureScale;
         [HideInInspector]
         public int LongNoteCombo = 0;
         [HideInInspector]
@@ -33,10 +33,10 @@ namespace EZR
         DisplayLoop displayLoop;
 
         // 初始化音符
-        public void Init(int index, float position, float length, float x, DisplayLoop loop)
+        public void Init(int index, int position, int length, float x, DisplayLoop loop)
         {
             this.Index = index;
-            Position = position;
+            this.position = position;
 
             displayLoop = loop;
             rect = (RectTransform)transform;
@@ -53,7 +53,7 @@ namespace EZR
 
 
             if (length > 6)
-                NoteLength = length;
+                noteLength = length;
 
             initX = x;
 
@@ -84,19 +84,19 @@ namespace EZR
             {
                 transform.localPosition = new Vector3(
                     initX,
-                    (float)((Position - displayLoop.Position) * PlayManager.RealFallSpeed) + (int)PlayManager.TargetLineType,
+                    (float)((Position - displayLoop.Position) * PlayManager.GetSpeed()) + (int)PlayManager.TargetLineType,
                     0
                 );
-                rect.sizeDelta = new Vector2(rect.sizeDelta.x, (float)((double)NoteLength * PlayManager.RealFallSpeed / NoteScale) + NoteHeight);
+                rect.sizeDelta = new Vector2(rect.sizeDelta.x, (float)((double)NoteLength * PlayManager.GetSpeed() / NoteScale) + NoteHeight);
             }
             else
             {
                 transform.localPosition = new Vector3(
                     initX,
-                    (float)((Position - displayLoop.Position) * PlayManager.RealFallSpeed) + (int)PlayManager.TargetLineType - PlayManager.JudgmentOffset,
+                    (float)((Position - displayLoop.Position) * PlayManager.GetSpeed()) + (int)PlayManager.TargetLineType - PlayManager.JudgmentOffset,
                     0
                 );
-                rect.sizeDelta = new Vector2(rect.sizeDelta.x, (float)((double)NoteLength * PlayManager.RealFallSpeed / NoteScale) + NoteHeight);
+                rect.sizeDelta = new Vector2(rect.sizeDelta.x, (float)((double)NoteLength * PlayManager.GetSpeed() / NoteScale) + NoteHeight);
             }
         }
 
@@ -111,7 +111,7 @@ namespace EZR
                 );
                 rect.sizeDelta = new Vector2(
                     rect.sizeDelta.x,
-                    (float)((Position + NoteLength - displayLoop.Position) * PlayManager.RealFallSpeed / NoteScale) + NoteHeight
+                    (float)((Position + NoteLength - displayLoop.Position) * PlayManager.GetSpeed() / NoteScale) + NoteHeight
                 );
             }
             else
@@ -123,7 +123,7 @@ namespace EZR
                 );
                 rect.sizeDelta = new Vector2(
                     rect.sizeDelta.x,
-                    (float)(((Position + NoteLength - displayLoop.Position) * PlayManager.RealFallSpeed - PlayManager.JudgmentOffset) / NoteScale) + NoteHeight
+                    (float)(((Position + NoteLength - displayLoop.Position) * PlayManager.GetSpeed() - PlayManager.JudgmentOffset) / NoteScale) + NoteHeight
                 );
             }
         }

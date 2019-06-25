@@ -5,14 +5,15 @@ namespace EZR
 {
     public class MeasureLine : MonoBehaviour
     {
-        float index = 0;
+        int index = 0;
+        float Index => index * JudgmentDelta.MeasureScale;
 
         public static List<MeasureLine> MeasureLines = new List<MeasureLine>();
 
         Animator anim;
         DisplayLoop displayLoop;
 
-        public void Init(float index, DisplayLoop loop)
+        public void Init(int index, DisplayLoop loop)
         {
             this.index = index;
             displayLoop = loop;
@@ -26,7 +27,7 @@ namespace EZR
         {
             updateMeasure();
 
-            if ((index * PatternUtils.Pattern.TickPerMeasure) - PlayManager.Position < -(JudgmentDelta.Miss + 2))
+            if ((Index * PatternUtils.Pattern.TickPerMeasure) - PlayManager.Position < -(JudgmentDelta.Miss + 2))
             {
                 Destroy(gameObject);
             }
@@ -38,7 +39,7 @@ namespace EZR
             {
                 transform.localPosition = new Vector3(
                     0,
-                    (float)((index * PatternUtils.Pattern.TickPerMeasure - displayLoop.Position) * PlayManager.RealFallSpeed) + (int)PlayManager.TargetLineType,
+                    (float)((Index * PatternUtils.Pattern.TickPerMeasure - displayLoop.Position) * PlayManager.GetSpeed()) + (int)PlayManager.TargetLineType,
                     0
                 );
             }
@@ -46,7 +47,7 @@ namespace EZR
             {
                 transform.localPosition = new Vector3(
                     0,
-                    (float)((index * PatternUtils.Pattern.TickPerMeasure - displayLoop.Position) * PlayManager.RealFallSpeed) + (int)PlayManager.TargetLineType - PlayManager.JudgmentOffset,
+                    (float)((Index * PatternUtils.Pattern.TickPerMeasure - displayLoop.Position) * PlayManager.GetSpeed()) + (int)PlayManager.TargetLineType - PlayManager.JudgmentOffset,
                     0
                 );
             }

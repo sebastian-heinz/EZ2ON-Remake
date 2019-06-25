@@ -5,7 +5,7 @@ namespace EZR
 {
     public static class Judgment
     {
-        public static float LongNoteComboStep { get => 12 * JudgmentDelta.MeasureScale; }
+        public static int LongNoteComboStep => 12;
 
         public static void Loop(Queue<NoteInLine>[] noteInLines, JudgmentAnimCTL judgmentAnim, FlareAnimCTL[] flarePlayList, FlareAnimCTL[] LongflarePlayList)
         {
@@ -17,7 +17,10 @@ namespace EZR
                     if (noteInLine.IsLongPressed)
                     {
                         // 长音连击
-                        int longNoteCombo = (int)((System.Math.Min(PlayManager.Position, noteInLine.Position + noteInLine.NoteLength) - noteInLine.Position) / LongNoteComboStep);
+                        int longNoteCombo = (int)System.Math.Ceiling(
+                            (System.Math.Min(PlayManager.Position, noteInLine.Position + noteInLine.NoteLength) - noteInLine.Position) /
+                            (LongNoteComboStep * JudgmentDelta.MeasureScale)
+                        );
                         if (longNoteCombo > noteInLine.LongNoteCombo)
                         {
                             var delta = longNoteCombo - noteInLine.LongNoteCombo;
@@ -64,25 +67,21 @@ namespace EZR
                     }
                 }
 
-                if (noteInLines[i].Count > 0 && noteInLines[i].Peek() != null)
+                // Auto play
+                if (PlayManager.IsAutoPlay)
                 {
-                    // Auto play
-                    var noteInLine = noteInLines[i].Peek();
-                    if (PlayManager.IsAutoPlay)
+                    if (noteInLines[i].Count > 0 && noteInLines[i].Peek() != null)
                     {
+                        var noteInLine = noteInLines[i].Peek();
                         if (noteInLine.NoteLength > 6)
                         {
                             // 长音
                             if (!noteInLine.IsLongPressed && noteInLine.Position <= PlayManager.Position)
                             {
-                                PlayManager.AddCombo();
-                                PlayManager.AddScore(JudgmentType.Kool);
-                                judgmentAnim.Play(JudgmentType.Kool);
                                 var note = PlayManager.TimeLines.Lines[i].Notes[noteInLine.Index];
                                 noteInLine.IsLongPressed = true;
                                 noteInLine.LongNoteJudgment = JudgmentType.Kool;
                                 LongflarePlayList[i].Play();
-                                flarePlayList[i].Play();
                                 MemorySound.PlaySound(note.id, note.vol, note.pan, MemorySound.Main);
                             }
                         }
@@ -126,30 +125,18 @@ namespace EZR
                     {
                         if (JudgmentDelta.CompareJudgmentDelta(judgmentDelta, JudgmentType.Kool, 1))
                         {
-                            PlayManager.AddCombo();
-                            PlayManager.AddScore(JudgmentType.Kool);
-                            judgmentAnim.Play(JudgmentType.Kool);
-                            flarePlayList[keyId].Play();
                             LongflarePlayList[keyId].Play();
                             noteInLine.IsLongPressed = true;
                             noteInLine.LongNoteJudgment = JudgmentType.Kool;
                         }
                         else if (JudgmentDelta.CompareJudgmentDelta(judgmentDelta, JudgmentType.Cool, 1))
                         {
-                            PlayManager.AddCombo();
-                            PlayManager.AddScore(JudgmentType.Cool);
-                            judgmentAnim.Play(JudgmentType.Cool);
-                            flarePlayList[keyId].Play();
                             LongflarePlayList[keyId].Play();
                             noteInLine.IsLongPressed = true;
                             noteInLine.LongNoteJudgment = JudgmentType.Cool;
                         }
                         else if (JudgmentDelta.CompareJudgmentDelta(judgmentDelta, JudgmentType.Good, 1))
                         {
-                            PlayManager.AddCombo();
-                            PlayManager.AddScore(JudgmentType.Good);
-                            judgmentAnim.Play(JudgmentType.Good);
-                            flarePlayList[keyId].Play(JudgmentType.Good);
                             LongflarePlayList[keyId].Play(JudgmentType.Good);
                             noteInLine.IsLongPressed = true;
                             noteInLine.LongNoteJudgment = JudgmentType.Good;
@@ -229,7 +216,7 @@ namespace EZR
 
                     bool needStopSound = false;
                     double judgmentDelta = System.Math.Abs(noteInLine.Position + noteInLine.NoteLength - PlayManager.Position);
-                    int longNoteCombo = (int)(noteInLine.NoteLength / LongNoteComboStep);
+                    int longNoteCombo = (int)Mathf.Ceil(noteInLine.NoteLength / (LongNoteComboStep * JudgmentDelta.MeasureScale));
                     if (judgmentDelta <= JudgmentDelta.GetJudgmentDelta(JudgmentType.Cool, 0.5f))
                     {
                         var delta = longNoteCombo - noteInLine.LongNoteCombo;
