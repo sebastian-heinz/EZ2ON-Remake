@@ -112,6 +112,10 @@ public class OptionUI : MonoBehaviour
         var panelETC = transform.Find("GroupSkin/BarETC");
         panelETC.Find("ChkBoxShowFastSlow").GetComponent<Toggle>().isOn = option.ShowFastSlow;
         updateJudgmentOffset();
+        transform.Find("GroupSound/SliderMasterVolume").GetComponent<Slider>().value = option.Volume.Master;
+        transform.Find("GroupSound/SliderGameVolume").GetComponent<Slider>().value = option.Volume.Game;
+        transform.Find("GroupSound/SliderMainVolume").GetComponent<Slider>().value = option.Volume.Main;
+        transform.Find("GroupSound/SliderBGMVolume").GetComponent<Slider>().value = option.Volume.BGM;
     }
 
     void updateResolutions()
@@ -292,6 +296,7 @@ public class OptionUI : MonoBehaviour
         if (btn.IsSelected) return;
         transform.Find("GroupSystem").gameObject.SetActive(false);
         transform.Find("GroupSkin").gameObject.SetActive(false);
+        transform.Find("GroupSound").gameObject.SetActive(false);
         switch (btn.gameObject.name)
         {
             case "BtnSystem":
@@ -299,6 +304,9 @@ public class OptionUI : MonoBehaviour
                 break;
             case "BtnSkin":
                 transform.Find("GroupSkin").gameObject.SetActive(true);
+                break;
+            case "BtnSound":
+                transform.Find("GroupSound").gameObject.SetActive(true);
                 break;
         }
         updateSystem();
@@ -324,13 +332,13 @@ public class OptionUI : MonoBehaviour
     }
 
     Coroutine offsetDelayCoroutine;
-    public void BtnOffsetLeftDown()
+    public void BtnOffsetSubtractDown()
     {
         addOffset(-1);
         if (offsetDelayCoroutine != null) StopCoroutine(offsetDelayCoroutine);
         offsetDelayCoroutine = StartCoroutine(offsetDelay(-1));
     }
-    public void BtnOffsetRightDown()
+    public void BtnOffsetAddDown()
     {
         addOffset(1);
         if (offsetDelayCoroutine != null) StopCoroutine(offsetDelayCoroutine);
@@ -358,6 +366,28 @@ public class OptionUI : MonoBehaviour
         EZR.MemorySound.PlaySound("e_click");
     }
 
+    public void SliderVolume(float value)
+    {
+        var slider = EventSystem.current.currentSelectedGameObject.GetComponent<Slider>();
+        if (slider == null) return;
+        switch (slider.name)
+        {
+            case "SliderMasterVolume":
+                option.Volume.Master = (int)slider.value;
+                break;
+            case "SliderGameVolume":
+                option.Volume.Game = (int)slider.value;
+                break;
+            case "SliderMainVolume":
+                option.Volume.Main = (int)slider.value;
+                break;
+            case "SliderBGMVolume":
+                option.Volume.BGM = (int)slider.value;
+                break;
+
+        }
+    }
+
     public void ClickSound()
     {
         EZR.MemorySound.PlaySound("e_click");
@@ -368,19 +398,7 @@ public class OptionUI : MonoBehaviour
         EZR.UserSaveData.SetOption(option);
         EZR.UserSaveData.SaveData();
 
-        // 设置画面模式
-        if (option.VSync) QualitySettings.vSyncCount = 1;
-        else QualitySettings.vSyncCount = 0;
-        if (option.LimitFPS)
-            Application.targetFrameRate = option.TargetFrameRate;
-        else
-            Application.targetFrameRate = -1;
-        if (option.Resolution.width != Screen.currentResolution.width ||
-        option.Resolution.height != Screen.currentResolution.height ||
-        option.FullScreenMode != Screen.fullScreenMode)
-            Screen.SetResolution(option.Resolution.width, option.Resolution.height, option.FullScreenMode);
-        // 设置时间粒度
-        EZR.Master.TimePrecision = option.TimePrecision;
+        EZR.Option.ApplyOption(option);
 
         Destroy(gameObject);
         EZR.MemorySound.PlaySound("e_click");

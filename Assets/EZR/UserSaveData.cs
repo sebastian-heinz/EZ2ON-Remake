@@ -9,8 +9,8 @@ namespace EZR
 {
     public static class UserSaveData
     {
-        public static string Version => "1.0";
-        public static string MinVer => "1.0";
+        public static string Version => "1.1";
+        public static string MinVer => "1.1";
         public static JObject UserData = new JObject(new JProperty("version", Version));
         static string aesKey = "GameOldBoyEZ2ONRemake";
         static string saveName = "userdata.save";
@@ -66,7 +66,7 @@ namespace EZR
                     }
                 }
             }
-            Debug.Log(UserData.ToString(Formatting.Indented));
+            Debug.Log("Save user data...");
         }
 
         public static void LoadSave()
@@ -165,6 +165,10 @@ namespace EZR
             option.TargetLineType = Utils.ParseEnum<Option.TargetLineTypeEnum>((string)(UserData["setting"]["targetLineType"] ?? option.TargetLineType.ToString()));
             option.JudgmentOffset = (int)(UserData["setting"]["judgmentOffset"] ?? option.JudgmentOffset);
             option.ShowFastSlow = (bool)(UserData["setting"]["showFastSlow"] ?? option.ShowFastSlow);
+            option.Volume.Master = Mathf.Clamp((int)(UserData["setting"]["volume"]["master"] ?? option.Volume.Master), 0, 100);
+            option.Volume.Game = Mathf.Clamp((int)(UserData["setting"]["volume"]["game"] ?? option.Volume.Game), 0, 100);
+            option.Volume.Main = Mathf.Clamp((int)(UserData["setting"]["volume"]["main"] ?? option.Volume.Main), 0, 100);
+            option.Volume.BGM = Mathf.Clamp((int)(UserData["setting"]["volume"]["bgm"] ?? option.Volume.BGM), 0, 100);
             return option;
         }
 
@@ -189,6 +193,12 @@ namespace EZR
             jobj["targetLineType"] = option.TargetLineType.ToString();
             jobj["judgmentOffset"] = option.JudgmentOffset;
             jobj["showFastSlow"] = option.ShowFastSlow;
+            if (!jobj.ContainsKey("volume"))
+                jobj["volume"] = new JObject();
+            jobj["volume"]["master"] = option.Volume.Master;
+            jobj["volume"]["game"] = option.Volume.Game;
+            jobj["volume"]["main"] = option.Volume.Main;
+            jobj["volume"]["bgm"] = option.Volume.BGM;
         }
 
         public static Dictionary<string, string> GetInventory()

@@ -46,23 +46,12 @@ public class Launcher : MonoBehaviour
         Debug.Log("Load user data...");
         EZR.UserSaveData.LoadSave();
 
-        // 读取设置
-        var option = EZR.UserSaveData.GetOption();
         // Direct3D11 API下解决开启垂直同步后画面延迟的问题
         QualitySettings.maxQueuedFrames = 0;
-        // 设置画面模式
-        if (option.VSync) QualitySettings.vSyncCount = 1;
-        else QualitySettings.vSyncCount = 0;
-        if (option.LimitFPS)
-            Application.targetFrameRate = option.TargetFrameRate;
-        else
-            Application.targetFrameRate = -1;
-        if (option.Resolution.width != Screen.currentResolution.width ||
-        option.Resolution.height != Screen.currentResolution.height ||
-        option.FullScreenMode != Screen.fullScreenMode)
-            Screen.SetResolution(option.Resolution.width, option.Resolution.height, option.FullScreenMode);
-        // 设置时间粒度
-        EZR.Master.TimePrecision = option.TimePrecision;
+
+        // 读取设置
+        var option = EZR.UserSaveData.GetOption();
+        EZR.Option.ApplyOption(option);
 
         // 读取库存
         var inventory = EZR.UserSaveData.GetInventory();

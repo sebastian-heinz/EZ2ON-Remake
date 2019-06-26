@@ -137,6 +137,9 @@ TextureImporter:
   - first:
       213: -4362296169439061169
     second: music2_arrow_up_button_over
+  - first:
+      213: -2526800755827041633
+    second: sound_op_panel
   externalObjects: {}
   serializedVersion: 10
   mipmaps:
@@ -222,8 +225,8 @@ TextureImporter:
       name: bar1
       rect:
         serializedVersion: 2
-        x: 526
-        y: 205
+        x: 124
+        y: 8
         width: 11
         height: 21
       alignment: 0
@@ -233,7 +236,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: b7259326f6823b24786da493de208f5f
+      spriteID: cabacdc02d74e2843907de2617dae1b0
       internalID: 2467808050957912475
       vertices: []
       indices: 
@@ -243,8 +246,8 @@ TextureImporter:
       name: bar2
       rect:
         serializedVersion: 2
-        x: 539
-        y: 205
+        x: 137
+        y: 8
         width: 11
         height: 21
       alignment: 0
@@ -254,7 +257,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: a7713f28a64d48b4d8c4295c45f47475
+      spriteID: 359a70482160c9c439b209b1ad7690ed
       internalID: 20582874522542742
       vertices: []
       indices: 
@@ -264,7 +267,7 @@ TextureImporter:
       name: btn_cancel_down
       rect:
         serializedVersion: 2
-        x: 21
+        x: 549
         y: 62
         width: 139
         height: 58
@@ -275,7 +278,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: d7d696c94e10b89429970dade8015c3f
+      spriteID: 7c316ee589ca3d84c84cb66653e4849f
       internalID: 2270909837284215834
       vertices: []
       indices: 
@@ -285,7 +288,7 @@ TextureImporter:
       name: btn_cancel_normal
       rect:
         serializedVersion: 2
-        x: 38
+        x: 566
         y: 2
         width: 139
         height: 58
@@ -296,7 +299,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: b5af0bbf8fa0e6941b0aed0c333a11dc
+      spriteID: 16930eab6c763f5418044cae59cc80b8
       internalID: -3330948500669950446
       vertices: []
       indices: 
@@ -306,7 +309,7 @@ TextureImporter:
       name: btn_cancel_over
       rect:
         serializedVersion: 2
-        x: 162
+        x: 690
         y: 62
         width: 139
         height: 58
@@ -317,7 +320,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 2e432ebc1eeaf6041a517d4329703203
+      spriteID: ed90ae1770da1ff49a53ae9d2938a943
       internalID: 4674048982062134094
       vertices: []
       indices: 
@@ -327,7 +330,7 @@ TextureImporter:
       name: btn_end_disable
       rect:
         serializedVersion: 2
-        x: 21
+        x: 549
         y: 122
         width: 161
         height: 73
@@ -338,7 +341,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: a0205d6791c17714b909dea8ca8d43f9
+      spriteID: ab386f32fafe0af428f2b795944757a2
       internalID: -509555228589883411
       vertices: []
       indices: 
@@ -348,7 +351,7 @@ TextureImporter:
       name: btn_end_down
       rect:
         serializedVersion: 2
-        x: 184
+        x: 712
         y: 122
         width: 161
         height: 73
@@ -359,7 +362,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 608c2e74978ad274a9e5a65e8c996f63
+      spriteID: 6e261adef2217524a96ba9cade96242d
       internalID: -8963215929751705157
       vertices: []
       indices: 
@@ -369,7 +372,7 @@ TextureImporter:
       name: btn_end_normal
       rect:
         serializedVersion: 2
-        x: 347
+        x: 875
         y: 122
         width: 161
         height: 73
@@ -380,7 +383,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: cf00a5f75a0eb7e4f9b7d13372aca247
+      spriteID: 611a23ca9613f0d4b936d6b114d4c9bc
       internalID: -4117859306526354406
       vertices: []
       indices: 
@@ -390,7 +393,7 @@ TextureImporter:
       name: btn_end_over
       rect:
         serializedVersion: 2
-        x: 467
+        x: 989
         y: 10
         width: 161
         height: 73
@@ -401,7 +404,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 868e6bbf3690f71479ffd48f5484f561
+      spriteID: cca31b47fb971fa478c91e07822c2933
       internalID: 851076584439934722
       vertices: []
       indices: 
@@ -411,7 +414,7 @@ TextureImporter:
       name: btn_first_disable
       rect:
         serializedVersion: 2
-        x: 426
+        x: 954
         y: 228
         width: 159
         height: 73
@@ -422,7 +425,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 0a876fb497bf81847af587c9eff269cc
+      spriteID: 203b623e0dff7f34eb4b9ad46a591c39
       internalID: 8984903987148238983
       vertices: []
       indices: 
@@ -432,70 +435,7 @@ TextureImporter:
       name: btn_first_down
       rect:
         serializedVersion: 2
-        x: 510
-        y: 130
-        width: 159
-        height: 73
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 419a8e49643bce84abee65072e5f37e7
-      internalID: 6632570932184759193
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: btn_first_normal
-      rect:
-        serializedVersion: 2
-        x: 587
-        y: 228
-        width: 159
-        height: 73
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 56401df340c5cd24bb3f1d3baa17efcd
-      internalID: 4340572718038802513
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: btn_first_over
-      rect:
-        serializedVersion: 2
-        x: 630
-        y: 55
-        width: 159
-        height: 73
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: bfae0d2c2c618734780e1bf4e66c1477
-      internalID: -1555248374361707780
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: btn_mid_disable
-      rect:
-        serializedVersion: 2
-        x: 671
+        x: 1038
         y: 153
         width: 159
         height: 73
@@ -506,17 +446,17 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 276644d01f8e5494a976f830262c31e4
-      internalID: 6172448724501981466
+      spriteID: c28cf402f8bb32942a486017b2a330ce
+      internalID: 6632570932184759193
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: btn_mid_down
+      name: btn_first_normal
       rect:
         serializedVersion: 2
-        x: 748
+        x: 1115
         y: 228
         width: 159
         height: 73
@@ -527,17 +467,17 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: ffab9e337fd6a0c43a049685edf950f5
-      internalID: 3974234121719472685
+      spriteID: 8cc573b5c1d82f2409a78f51afa80e05
+      internalID: 4340572718038802513
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: btn_mid_normal
+      name: btn_first_over
       rect:
         serializedVersion: 2
-        x: 791
+        x: 1152
         y: 78
         width: 159
         height: 73
@@ -548,17 +488,17 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: f976d8794fa43a542a9e2e77fbcb15d8
-      internalID: 2294452735752484488
+      spriteID: 750655444cf0ca14fa760237520d02db
+      internalID: -1555248374361707780
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: btn_mid_over
+      name: btn_mid_disable
       rect:
         serializedVersion: 2
-        x: 832
+        x: 1199
         y: 153
         width: 159
         height: 73
@@ -569,7 +509,70 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: c88ee0537c5e6294d93db6e1257e0262
+      spriteID: eff4503746b73c1498b1198f7913fe04
+      internalID: 6172448724501981466
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: btn_mid_down
+      rect:
+        serializedVersion: 2
+        x: 1276
+        y: 228
+        width: 159
+        height: 73
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 945d20380f7db0f448026661d09e179c
+      internalID: 3974234121719472685
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: btn_mid_normal
+      rect:
+        serializedVersion: 2
+        x: 1152
+        y: 3
+        width: 159
+        height: 73
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5bbf97005bfca934ea57d1542a2eb2c7
+      internalID: 2294452735752484488
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: btn_mid_over
+      rect:
+        serializedVersion: 2
+        x: 1313
+        y: 78
+        width: 159
+        height: 73
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 920a034c1aaf5d7478e5622fe16a4bda
       internalID: -3866633690897948264
       vertices: []
       indices: 
@@ -579,7 +582,7 @@ TextureImporter:
       name: btn_ok_down
       rect:
         serializedVersion: 2
-        x: 179
+        x: 707
         y: 2
         width: 139
         height: 58
@@ -590,7 +593,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 78f13abebd535e34c9c73cf54e828259
+      spriteID: 0b8df0682139db44193642c98fcb015b
       internalID: -794658427486176613
       vertices: []
       indices: 
@@ -600,7 +603,7 @@ TextureImporter:
       name: btn_ok_normal
       rect:
         serializedVersion: 2
-        x: 303
+        x: 831
         y: 62
         width: 139
         height: 58
@@ -611,7 +614,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 5d3d93372660b1f4d862b5eedfcdd952
+      spriteID: 7f9e9637ec8e4374ba27b5b162b3a794
       internalID: 6644887244152769901
       vertices: []
       indices: 
@@ -621,7 +624,7 @@ TextureImporter:
       name: btn_ok_over
       rect:
         serializedVersion: 2
-        x: 320
+        x: 848
         y: 2
         width: 139
         height: 58
@@ -632,7 +635,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: a22980fb3e57c08419bcfc86bc3ebc96
+      spriteID: 7bfd9a7cf43323843b62595f68b0e5f9
       internalID: -543457048367364082
       vertices: []
       indices: 
@@ -642,8 +645,8 @@ TextureImporter:
       name: checkbox
       rect:
         serializedVersion: 2
-        x: 1
-        y: 1
+        x: 150
+        y: 9
         width: 20
         height: 20
       alignment: 0
@@ -653,7 +656,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: e916e5682035e494185eabd9b026a8cc
+      spriteID: 7b04bc5d2b9f75d438cee77a640a7a27
       internalID: 6222368226356386398
       vertices: []
       indices: 
@@ -663,8 +666,8 @@ TextureImporter:
       name: checkbox_down
       rect:
         serializedVersion: 2
-        x: 23
-        y: 8
+        x: 172
+        y: 16
         width: 13
         height: 13
       alignment: 9
@@ -674,7 +677,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 5704787f54bba204da16816c872fe669
+      spriteID: e0552f5277b404a47b9e3f67497df041
       internalID: -5074999874005087078
       vertices: []
       indices: 
@@ -684,7 +687,7 @@ TextureImporter:
       name: music2_arrow_down_button_disable
       rect:
         serializedVersion: 2
-        x: 1
+        x: 529
         y: 23
         width: 35
         height: 35
@@ -695,7 +698,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 8061168b9ad8e6243a23090538445eb6
+      spriteID: 7c41112178b8193469fe5d5076911443
       internalID: -1494436146742516881
       vertices: []
       indices: 
@@ -705,28 +708,7 @@ TextureImporter:
       name: music2_arrow_down_button_down
       rect:
         serializedVersion: 2
-        x: 444
-        y: 85
-        width: 35
-        height: 35
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: e4e07a5237e04bd4b9240229f5ed26c6
-      internalID: 4941525847404536369
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: music2_arrow_down_button_normal
-      rect:
-        serializedVersion: 2
-        x: 1
+        x: 529
         y: 23
         width: 35
         height: 35
@@ -737,7 +719,28 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: a761c93d584e8fc42b24f6d796cdcf34
+      spriteID: 40e007a928f7f184296e97bfa9001874
+      internalID: 4941525847404536369
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: music2_arrow_down_button_normal
+      rect:
+        serializedVersion: 2
+        x: 529
+        y: 23
+        width: 35
+        height: 35
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d2bc3ee210da2e04aaed57c4c9315694
       internalID: -1679239516748466407
       vertices: []
       indices: 
@@ -747,7 +750,7 @@ TextureImporter:
       name: music2_arrow_down_button_over
       rect:
         serializedVersion: 2
-        x: 481
+        x: 972
         y: 85
         width: 35
         height: 35
@@ -758,7 +761,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 2cf9e02e2c1cb204b9871f1530f8ffc7
+      spriteID: 7af69aa7a2ef3b444a71a9af821c89d2
       internalID: -4196773318407533869
       vertices: []
       indices: 
@@ -768,8 +771,8 @@ TextureImporter:
       name: music2_arrow_up_button_disable
       rect:
         serializedVersion: 2
-        x: 518
-        y: 93
+        x: 1009
+        y: 85
         width: 35
         height: 35
       alignment: 0
@@ -779,7 +782,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 0c15931dab05722468f3a9b01f32c3a1
+      spriteID: 28440a87a27d63d4eb798f2440129a4f
       internalID: -2531310696630123263
       vertices: []
       indices: 
@@ -789,8 +792,8 @@ TextureImporter:
       name: music2_arrow_up_button_down
       rect:
         serializedVersion: 2
-        x: 555
-        y: 93
+        x: 1046
+        y: 116
         width: 35
         height: 35
       alignment: 0
@@ -800,7 +803,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 6f1a4cc69791c4d429b61d93fab7e905
+      spriteID: 40df3841c24bbde4c90cd42ef92a1bcb
       internalID: 8130686585959971087
       vertices: []
       indices: 
@@ -810,8 +813,8 @@ TextureImporter:
       name: music2_arrow_up_button_normal
       rect:
         serializedVersion: 2
-        x: 518
-        y: 93
+        x: 1009
+        y: 85
         width: 35
         height: 35
       alignment: 0
@@ -821,7 +824,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 4080a45bf2dd05e428c23adf39a2a642
+      spriteID: e57ca85c7be641740aeec73362429c98
       internalID: 3813104362981560377
       vertices: []
       indices: 
@@ -831,8 +834,8 @@ TextureImporter:
       name: music2_arrow_up_button_over
       rect:
         serializedVersion: 2
-        x: 592
-        y: 93
+        x: 1083
+        y: 116
         width: 35
         height: 35
       alignment: 0
@@ -842,7 +845,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 7c39fdfac1664234a8ff7cf3adeaad2a
+      spriteID: e09c92fda7e30744789c11850db5c91f
       internalID: -4362296169439061169
       vertices: []
       indices: 
@@ -863,7 +866,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: cf3abc5b282f1fd4580843dbcb3f3d3b
+      spriteID: c1c5dc62b2c1057479ced578d543a9ff
       internalID: 2142060312386285835
       vertices: []
       indices: 
@@ -873,7 +876,7 @@ TextureImporter:
       name: OptionTitle
       rect:
         serializedVersion: 2
-        x: 21
+        x: 549
         y: 197
         width: 403
         height: 104
@@ -884,7 +887,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: e755f1b725747d34aad6918d27ba1ca8
+      spriteID: b9e0f36b2a5544c468fdd30a0965a84c
       internalID: 253485361681214161
       vertices: []
       indices: 
@@ -894,8 +897,8 @@ TextureImporter:
       name: panel_dropdown
       rect:
         serializedVersion: 2
-        x: 552
-        y: 216
+        x: 172
+        y: 4
         width: 9
         height: 10
       alignment: 0
@@ -905,7 +908,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: d2b3c34d5bb1f3f46bdf0c354ba9d382
+      spriteID: 2f3e9a381b78e2341baf1f4b50cbcc22
       internalID: 8339933008121152858
       vertices: []
       indices: 
@@ -915,8 +918,8 @@ TextureImporter:
       name: scroll_button_down
       rect:
         serializedVersion: 2
-        x: 426
-        y: 201
+        x: 1
+        y: 4
         width: 16
         height: 25
       alignment: 9
@@ -926,7 +929,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: c94df585a37eb2847bb9b19aff60b74d
+      spriteID: 02c0d3dc3a98edb42aefe33fb1ae1208
       internalID: -3391575843698506396
       vertices: []
       indices: 
@@ -936,8 +939,8 @@ TextureImporter:
       name: scroll_button_normal
       rect:
         serializedVersion: 2
-        x: 444
-        y: 201
+        x: 19
+        y: 4
         width: 16
         height: 25
       alignment: 9
@@ -947,7 +950,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 07e5a5b1e15852743b27856bf176a3dc
+      spriteID: c90246c50f2be1f4188d4044616fa5b1
       internalID: -7692953203605079007
       vertices: []
       indices: 
@@ -957,8 +960,8 @@ TextureImporter:
       name: scroll_button_over
       rect:
         serializedVersion: 2
-        x: 462
-        y: 201
+        x: 37
+        y: 4
         width: 16
         height: 25
       alignment: 9
@@ -968,7 +971,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: e40e60cf6922c9c4c84389a23b7e4a1f
+      spriteID: 9740ef181787c104cb20e52cc2259d17
       internalID: 1143931180423251424
       vertices: []
       indices: 
@@ -978,8 +981,8 @@ TextureImporter:
       name: scroll_down_button_disable
       rect:
         serializedVersion: 2
-        x: 444
-        y: 62
+        x: 55
+        y: 8
         width: 21
         height: 21
       alignment: 0
@@ -989,7 +992,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 09c5cee5fb18092448de8db59c083c96
+      spriteID: a983e66d6a4ee3e47afb0ffc452ddc78
       internalID: 38731286327294997
       vertices: []
       indices: 
@@ -999,8 +1002,8 @@ TextureImporter:
       name: scroll_down_button_down
       rect:
         serializedVersion: 2
-        x: 480
-        y: 205
+        x: 78
+        y: 8
         width: 21
         height: 21
       alignment: 0
@@ -1010,7 +1013,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 675183c17b558ae44b69c71dc7331ba8
+      spriteID: a3e56697a6149d446888e3dfb1e9723a
       internalID: -2554579648683704515
       vertices: []
       indices: 
@@ -1020,8 +1023,8 @@ TextureImporter:
       name: scroll_down_button_normal
       rect:
         serializedVersion: 2
-        x: 444
-        y: 62
+        x: 55
+        y: 8
         width: 21
         height: 21
       alignment: 0
@@ -1031,7 +1034,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: f30f07ec2d2a6d84daac0488b463fcca
+      spriteID: 7d7087ace4cc6b1488e8a56bdf4ad10c
       internalID: -4619428189366129251
       vertices: []
       indices: 
@@ -1041,8 +1044,8 @@ TextureImporter:
       name: scroll_down_button_over
       rect:
         serializedVersion: 2
-        x: 503
-        y: 205
+        x: 101
+        y: 8
         width: 21
         height: 21
       alignment: 0
@@ -1052,7 +1055,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 3c7a4a9daac6ce040a6acc5d55d9e334
+      spriteID: 6326aa272e721a6439e39cc67b7a62f6
       internalID: 8870141764392990757
       vertices: []
       indices: 
@@ -1062,7 +1065,7 @@ TextureImporter:
       name: scroll_eye_one
       rect:
         serializedVersion: 2
-        x: 1
+        x: 529
         y: 60
         width: 18
         height: 241
@@ -1073,8 +1076,29 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 34ca1f5b662ec7348bf7246affc2e7c3
+      spriteID: 74f6eb126b6635e4aa21c72ad22907d7
       internalID: -8174775436216756859
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: sound_op_panel
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 31
+        width: 526
+        height: 270
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2d9c4d8ef290ec44aa3f9642af2a91dc
+      internalID: -2526800755827041633
       vertices: []
       indices: 
       edges: []

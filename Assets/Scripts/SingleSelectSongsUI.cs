@@ -745,8 +745,8 @@ public class SingleSelectSongsUI : MonoBehaviour
                 else
                     text.text = "SHD";
             }
-            if (btn.GetComponent<EZR.ButtonExtension>().IsSelected) continue;
             btn.interactable = state[i];
+            if (btn.GetComponent<EZR.ButtonExtension>().IsSelected) continue;
             if (state[i])
                 text.color = UnselectedColor;
             else
