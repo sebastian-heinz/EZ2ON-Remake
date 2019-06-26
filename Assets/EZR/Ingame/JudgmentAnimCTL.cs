@@ -78,9 +78,11 @@ namespace EZR
                 {
                     case true:
                         imagefastSlow.sprite = Fast;
+                        imagefastSlow.SetNativeSize();
                         break;
                     case false:
                         imagefastSlow.sprite = Slow;
+                        imagefastSlow.SetNativeSize();
                         break;
                 }
                 animFastSlow["FastSlow"].normalizedTime = 0;
