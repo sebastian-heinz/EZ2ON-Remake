@@ -169,6 +169,7 @@ namespace EZR
             option.Volume.Game = Mathf.Clamp((int)(UserData["setting"]["volume"]["game"] ?? option.Volume.Game), 0, 100);
             option.Volume.Main = Mathf.Clamp((int)(UserData["setting"]["volume"]["main"] ?? option.Volume.Main), 0, 100);
             option.Volume.BGM = Mathf.Clamp((int)(UserData["setting"]["volume"]["bgm"] ?? option.Volume.BGM), 0, 100);
+            option.Volume.Live3D = (bool)(UserData["setting"]["volume"]["live3D"] ?? option.Volume.Live3D);
             return option;
         }
 
@@ -199,6 +200,7 @@ namespace EZR
             jobj["volume"]["game"] = option.Volume.Game;
             jobj["volume"]["main"] = option.Volume.Main;
             jobj["volume"]["bgm"] = option.Volume.BGM;
+            jobj["volume"]["live3D"] = option.Volume.Live3D;
         }
 
         public static Dictionary<string, string> GetInventory()

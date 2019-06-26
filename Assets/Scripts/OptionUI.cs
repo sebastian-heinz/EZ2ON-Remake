@@ -116,6 +116,7 @@ public class OptionUI : MonoBehaviour
         transform.Find("GroupSound/SliderGameVolume").GetComponent<Slider>().value = option.Volume.Game;
         transform.Find("GroupSound/SliderMainVolume").GetComponent<Slider>().value = option.Volume.Main;
         transform.Find("GroupSound/SliderBGMVolume").GetComponent<Slider>().value = option.Volume.BGM;
+        transform.Find("GroupSound/ChkBoxLive3D").GetComponent<Toggle>().isOn = option.Volume.Live3D;
     }
 
     void updateResolutions()
@@ -385,6 +386,17 @@ public class OptionUI : MonoBehaviour
                 option.Volume.BGM = (int)slider.value;
                 break;
 
+        }
+    }
+
+    public void ToggleSound(bool value)
+    {
+        var toggle = EventSystem.current.currentSelectedGameObject;
+        switch (toggle.name)
+        {
+            case "ChkBoxLive3D":
+                option.Volume.Live3D = value;
+                break;
         }
     }
 

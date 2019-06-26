@@ -22,6 +22,7 @@ namespace EZR
             public int Game = 100;
             public int Main = 100;
             public int BGM = 100;
+            public bool Live3D = false;
         }
         public FullScreenMode FullScreenMode = FullScreenMode.FullScreenWindow;
         public Resolution Resolution = Screen.resolutions[Screen.resolutions.Length - 1];
@@ -57,6 +58,16 @@ namespace EZR
             EZR.MemorySound.GameVolume = option.Volume.Game / 100f;
             EZR.MemorySound.MainVolume = option.Volume.Main / 100f;
             EZR.MemorySound.BGMVolume = option.Volume.BGM / 100f;
+            if (option.Volume.Live3D)
+            {
+                var prop = FMOD.PRESET.CONCERTHALL();
+                FMODUnity.RuntimeManager.LowlevelSystem.setReverbProperties(0, ref prop);
+            }
+            else
+            {
+                var prop = FMOD.PRESET.OFF();
+                FMODUnity.RuntimeManager.LowlevelSystem.setReverbProperties(0, ref prop);
+            }
         }
     }
 }
