@@ -164,6 +164,7 @@ namespace EZR
             option.PanelPosition = Utils.ParseEnum<Option.PanelPositionEnum>((string)(UserData["setting"]["panelPosition"] ?? option.PanelPosition.ToString()));
             option.TargetLineType = Utils.ParseEnum<Option.TargetLineTypeEnum>((string)(UserData["setting"]["targetLineType"] ?? option.TargetLineType.ToString()));
             option.JudgmentOffset = (int)(UserData["setting"]["judgmentOffset"] ?? option.JudgmentOffset);
+            option.ShowFastSlow = (bool)(UserData["setting"]["showFastSlow"] ?? option.ShowFastSlow);
             return option;
         }
 
@@ -187,6 +188,7 @@ namespace EZR
             jobj["panelPosition"] = option.PanelPosition.ToString();
             jobj["targetLineType"] = option.TargetLineType.ToString();
             jobj["judgmentOffset"] = option.JudgmentOffset;
+            jobj["showFastSlow"] = option.ShowFastSlow;
         }
 
         public static Dictionary<string, string> GetInventory()

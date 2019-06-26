@@ -27,5 +27,6 @@ namespace EZR
         public PanelPositionEnum PanelPosition = PanelPositionEnum.Center;
         public TargetLineTypeEnum TargetLineType = TargetLineTypeEnum.Classic;
         public int JudgmentOffset = 0;
+        public bool ShowFastSlow = false;
     }
 }

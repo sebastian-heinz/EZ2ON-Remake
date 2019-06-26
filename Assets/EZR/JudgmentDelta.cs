@@ -27,7 +27,7 @@ namespace EZR
         public static float Good { get; private set; }
         public static float Miss { get; private set; }
         public static float MeasureScale { get; private set; }
-        static float globalScale = 0.8f;
+        static float globalScale = 0.7f;
 
         public static bool CompareJudgmentDelta(double delta, JudgmentType judgment, float scale)
         {

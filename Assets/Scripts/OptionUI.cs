@@ -109,6 +109,8 @@ public class OptionUI : MonoBehaviour
                 targetLineType.Find("ChkBoxClassic").GetComponent<Toggle>().isOn = true;
                 break;
         }
+        var panelETC = transform.Find("GroupSkin/BarETC");
+        panelETC.Find("ChkBoxShowFastSlow").GetComponent<Toggle>().isOn = option.ShowFastSlow;
         updateJudgmentOffset();
     }
 
@@ -251,6 +253,7 @@ public class OptionUI : MonoBehaviour
                 break;
         }
     }
+
     public void ToggleTargetLineType(bool value)
     {
         if (!value) return;
@@ -262,6 +265,17 @@ public class OptionUI : MonoBehaviour
                 break;
             case "ChkBoxClassic":
                 option.TargetLineType = EZR.Option.TargetLineTypeEnum.Classic;
+                break;
+        }
+    }
+
+    public void ToggleETC(bool value)
+    {
+        var toggle = EventSystem.current.currentSelectedGameObject;
+        switch (toggle.name)
+        {
+            case "ChkBoxShowFastSlow":
+                option.ShowFastSlow = value;
                 break;
         }
     }

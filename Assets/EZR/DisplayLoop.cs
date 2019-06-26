@@ -145,6 +145,7 @@ namespace EZR
 
             // 初始化判定字动画
             judgmentAnim = panel.transform.Find("Judgment").GetComponent<JudgmentAnimCTL>();
+            judgmentAnim.transform.Find("FastSlow").gameObject.SetActive(option.ShowFastSlow);
 
             // 找连击计数器
             comboCounter = panel.transform.Find("Combo/ComboCounter").GetComponent<ComboCounter>();

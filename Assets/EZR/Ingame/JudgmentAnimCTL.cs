@@ -11,12 +11,17 @@ namespace EZR
         public Sprite Good;
         public Sprite Miss;
         public Sprite Fail;
+        public Sprite Fast;
+        public Sprite Slow;
 
         Animation anim;
+        Animation animFastSlow;
         Image image;
-        JudgmentType sprite = JudgmentType.Kool;
+        Image imagefastSlow;
+        JudgmentType judgmentType = JudgmentType.Kool;
 
         bool isPlay = false;
+        bool? isFast = null;
 
         void Start()
         {
@@ -24,7 +29,12 @@ namespace EZR
             anim["KOOL"].normalizedTime = 1;
             anim.Play("KOOL");
 
+            animFastSlow = transform.Find("FastSlow").GetComponent<Animation>();
+            animFastSlow["FastSlow"].normalizedTime = 1;
+            animFastSlow.Play("FastSlow");
+
             image = transform.Find("Parent/Image").GetComponent<Image>();
+            imagefastSlow = transform.Find("FastSlow").GetComponent<Image>();
         }
 
         // Update is called once per frame
@@ -34,7 +44,7 @@ namespace EZR
             {
                 isPlay = false;
 
-                if (sprite == JudgmentType.Kool)
+                if (judgmentType == JudgmentType.Kool)
                 {
                     image.overrideSprite = null;
                     anim["KOOL"].normalizedTime = 0;
@@ -42,7 +52,7 @@ namespace EZR
                 }
                 else
                 {
-                    switch (sprite)
+                    switch (judgmentType)
                     {
                         case JudgmentType.Cool:
                             image.overrideSprite = Cool;
@@ -61,12 +71,33 @@ namespace EZR
                     anim.Play("Any");
                 }
             }
+
+            if (isFast != null)
+            {
+                switch (isFast)
+                {
+                    case true:
+                        imagefastSlow.sprite = Fast;
+                        break;
+                    case false:
+                        imagefastSlow.sprite = Slow;
+                        break;
+                }
+                animFastSlow["FastSlow"].normalizedTime = 0;
+                animFastSlow.Play("FastSlow");
+                isFast = null;
+            }
         }
 
         public void Play(JudgmentType Judgment)
         {
             isPlay = true;
-            sprite = Judgment;
+            judgmentType = Judgment;
+        }
+
+        public void ShowFastSlow(bool? isFast)
+        {
+            this.isFast = isFast;
         }
     }
 }
