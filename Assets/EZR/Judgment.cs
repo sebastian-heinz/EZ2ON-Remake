@@ -227,7 +227,7 @@ namespace EZR
                     bool isFast = judgmentDelta > 0;
                     judgmentDelta = System.Math.Abs(judgmentDelta);
                     int longNoteCombo = (int)Mathf.Ceil(noteInLine.NoteLength / (LongNoteComboStep * JudgmentDelta.MeasureScale));
-                    if (judgmentDelta <= JudgmentDelta.GetJudgmentDelta(JudgmentType.Cool, 0.5f))
+                    if (judgmentDelta <= JudgmentDelta.GetJudgmentDelta(JudgmentType.Cool, 1))
                     {
                         var delta = longNoteCombo - noteInLine.LongNoteCombo;
                         for (int j = 0; j < delta; j++)
@@ -237,10 +237,11 @@ namespace EZR
                             judgmentAnim.Play(noteInLine.LongNoteJudgment);
                             flarePlayList[keyId].Play(noteInLine.LongNoteJudgment);
                         }
-                        judgmentAnim.ShowFastSlow(isFast);
+                        if (!JudgmentDelta.CompareJudgmentDelta(judgmentDelta, JudgmentType.Kool, 1))
+                            judgmentAnim.ShowFastSlow(isFast);
                         noteInLine.IsDestroy = true;
                     }
-                    else if (JudgmentDelta.CompareJudgmentDelta(judgmentDelta, JudgmentType.Good, 0.5f))
+                    else if (JudgmentDelta.CompareJudgmentDelta(judgmentDelta, JudgmentType.Good, 1))
                     {
                         var delta = longNoteCombo - noteInLine.LongNoteCombo;
                         for (int j = 0; j < delta; j++)
@@ -253,7 +254,7 @@ namespace EZR
                         judgmentAnim.ShowFastSlow(isFast);
                         needStopSound = true;
                     }
-                    else if (judgmentDelta > JudgmentDelta.GetJudgmentDelta(JudgmentType.Good, 0.5f))
+                    else if (judgmentDelta > JudgmentDelta.GetJudgmentDelta(JudgmentType.Good, 1))
                     {
                         PlayManager.ComboBreak();
                         PlayManager.AddScore(JudgmentType.Miss);

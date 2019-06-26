@@ -97,7 +97,7 @@ namespace EZR
             judgmentType = Judgment;
         }
 
-        public void ShowFastSlow(bool? isFast)
+        public void ShowFastSlow(bool isFast)
         {
             this.isFast = isFast;
         }

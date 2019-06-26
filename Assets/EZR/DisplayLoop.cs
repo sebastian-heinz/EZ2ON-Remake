@@ -482,7 +482,7 @@ namespace EZR
             }
 
             // 分数
-            scoreText.text = PlayManager.Score.GetScore().ToString();
+            scoreText.text = Mathf.Round(PlayManager.Score.RawScore).ToString();
             // 最大连击
             maxComboText.text = PlayManager.Score.MaxCombo.ToString();
 
