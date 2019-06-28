@@ -9,14 +9,16 @@ namespace EZR
     {
         [HideInInspector]
         public int Index;
-        [HideInInspector]
-        public int Position;
+        int position = 0;
+        public float Position => position * JudgmentDelta.MeasureScale;
         [HideInInspector]
         public bool IsDestroy = false;
         [HideInInspector]
         public bool IsLongPressed = false;
+        int noteLength = 0;
+        public float NoteLength => noteLength * JudgmentDelta.MeasureScale;
         [HideInInspector]
-        public int NoteLength = 0;
+        public int LongNoteCount { get; private set; }
         [HideInInspector]
         public int LongNoteCombo = 0;
         [HideInInspector]
@@ -33,21 +35,32 @@ namespace EZR
         DisplayLoop displayLoop;
 
         // 初始化音符
-        public void Init(int index, int position, float scale, int length, float x, DisplayLoop loop)
+        public void Init(int index, int position, int length, float x, DisplayLoop loop)
         {
             this.Index = index;
-            Position = position;
+            this.position = position;
 
-            NoteScale = scale;
-            transform.localScale = new Vector3(NoteScale, NoteScale, 1);
+            displayLoop = loop;
             rect = (RectTransform)transform;
+            if (displayLoop.NoteUseScale)
+                NoteScale = displayLoop.NoteSize;
+            else
+            {
+                NoteScale = transform.localScale.y;
+                rect.sizeDelta = new Vector2(displayLoop.NoteSize / NoteScale, rect.sizeDelta.y);
+            }
+            transform.localScale = new Vector3(NoteScale, NoteScale, 1);
+
             NoteHeight = rect.sizeDelta.y;
 
+
             if (length > 6)
-                NoteLength = length;
+            {
+                noteLength = length;
+                LongNoteCount = noteLength / Judgment.LongNoteComboStep;
+            }
 
             initX = x;
-            displayLoop = loop;
 
             updateNote();
         }
@@ -72,11 +85,11 @@ namespace EZR
         // 更新位置和长度
         void updateNote()
         {
-            if (PlayManager.IsAutoPlay || !PlayManager.IsSimVSync)
+            if (PlayManager.IsAutoPlay)
             {
                 transform.localPosition = new Vector3(
                     initX,
-                    (float)((Position - displayLoop.Position) * PlayManager.GetSpeed()),
+                    (float)((Position - displayLoop.Position) * PlayManager.GetSpeed()) + (int)PlayManager.TargetLineType,
                     0
                 );
                 rect.sizeDelta = new Vector2(rect.sizeDelta.x, (float)((double)NoteLength * PlayManager.GetSpeed() / NoteScale) + NoteHeight);
@@ -85,7 +98,7 @@ namespace EZR
             {
                 transform.localPosition = new Vector3(
                     initX,
-                    (float)((Position - displayLoop.Position + PlayManager.SimVsyncDelta) * PlayManager.GetSpeed()),
+                    (float)((Position - displayLoop.Position) * PlayManager.GetSpeed()) + (int)PlayManager.TargetLineType - PlayManager.JudgmentOffset,
                     0
                 );
                 rect.sizeDelta = new Vector2(rect.sizeDelta.x, (float)((double)NoteLength * PlayManager.GetSpeed() / NoteScale) + NoteHeight);
@@ -94,11 +107,11 @@ namespace EZR
 
         void updateLongNote()
         {
-            if (PlayManager.IsAutoPlay || !PlayManager.IsSimVSync)
+            if (PlayManager.IsAutoPlay)
             {
                 transform.localPosition = new Vector3(
                     initX,
-                    0,
+                    (int)PlayManager.TargetLineType,
                     0
                 );
                 rect.sizeDelta = new Vector2(
@@ -110,12 +123,12 @@ namespace EZR
             {
                 transform.localPosition = new Vector3(
                     initX,
-                    0,
+                    (int)PlayManager.TargetLineType,
                     0
                 );
                 rect.sizeDelta = new Vector2(
                     rect.sizeDelta.x,
-                    (float)((Position + NoteLength - displayLoop.Position + PlayManager.SimVsyncDelta) * PlayManager.GetSpeed() / NoteScale) + NoteHeight
+                    (float)(((Position + NoteLength - displayLoop.Position) * PlayManager.GetSpeed() - PlayManager.JudgmentOffset) / NoteScale) + NoteHeight
                 );
             }
         }

@@ -49,7 +49,7 @@ namespace EZR
                 null,
                 out Vector2 p2
             );
-            if ((p1 - p2).magnitude >= 20)
+            if (Input.anyKeyDown || (p1 - p2).magnitude >= 20)
             {
                 if (fade != null) StopCoroutine(fade);
                 fade = null;

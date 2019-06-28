@@ -7,7 +7,7 @@ namespace PatternUtils
 {
     public partial class Pattern
     {
-        public static int TickPerMeasure { get => 192; }
+        public static int TickPerMeasure => 192;
         public int EndTick = 0;
         public class Sound
         {

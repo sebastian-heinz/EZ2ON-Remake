@@ -9,8 +9,8 @@ namespace EZR
 {
     public static partial class PlayManager
     {
-        public static double Position = 0d;
-        public static float MeasureScale = 2;
+        public static double UnscaledPosition = 0;
+        public static double Position => UnscaledPosition * JudgmentDelta.MeasureScale;
         static float fallSpeed = 2;
         public static float FallSpeed
         {
@@ -18,14 +18,19 @@ namespace EZR
             set { fallSpeed = Mathf.Max(value, 0.25f); }
         }
         public static float RealFallSpeed = FallSpeed;
+        static float speedScale = 1.8f;
+        public static float GetSpeed()
+        {
+            return RealFallSpeed * speedScale;
+        }
 
         static float[] fallSpeedStep = new float[] { 0, 0.25f, 0.5f, 0.75f, 1 };
-        public static float[] FallSpeedStep { get => fallSpeedStep; }
+        public static float[] FallSpeedStep => fallSpeedStep;
 
         public static GameType GameType = EZR.GameType.EZ2ON;
         public static string SongName = "";
         public static int NumLines = 4;
-        public static int MaxLines { get => 8; }
+        public static int MaxLines => 8;
         public static GameMode.Mode GameMode = EZR.GameMode.Mode.RubyMixON;
         public static GameDifficult.Difficult GameDifficult = EZR.GameDifficult.Difficult.EZ;
 
@@ -46,9 +51,11 @@ namespace EZR
             set { hp = Mathf.Clamp(value, 0, MaxHp); }
         }
 
-        public static bool IsSimVSync = true;
-        public static float PreSimVsyncDelay { get => 0.01666667f; }
-        public static double SimVsyncDelta = 0;
+        public static JudgmentDelta.Mode JudgmentMode = JudgmentDelta.Mode.Normal;
+
+        public static Option.PanelPositionEnum PanelPosition = Option.PanelPositionEnum.Center;
+        public static Option.TargetLineTypeEnum TargetLineType = Option.TargetLineTypeEnum.Classic;
+        public static int JudgmentOffset = 0;
 
         public static void LoadPattern()
         {
@@ -60,9 +67,44 @@ namespace EZR
             {
                 throw new System.Exception("JSON file does not exist.");
             }
-
+            // 歌曲特别判定
+            if (GameType == GameType.EZ2ON && SongName.ToLower() == "sudden")
+            {
+                switch (GameDifficult)
+                {
+                    case EZR.GameDifficult.Difficult.EZ:
+                        JudgmentDelta.SetJudgmentDelta(JudgmentDelta.Difficult.SuddenEZ, JudgmentMode);
+                        break;
+                    case EZR.GameDifficult.Difficult.NM:
+                        JudgmentDelta.SetJudgmentDelta(JudgmentDelta.Difficult.SuddenNM, JudgmentMode);
+                        break;
+                    case EZR.GameDifficult.Difficult.HD:
+                        JudgmentDelta.SetJudgmentDelta(JudgmentDelta.Difficult.SuddenHD, JudgmentMode);
+                        break;
+                    case EZR.GameDifficult.Difficult.SHD:
+                        JudgmentDelta.SetJudgmentDelta(JudgmentDelta.Difficult.SuddenSHD, JudgmentMode);
+                        break;
+                }
+            }
+            else if (GameType == GameType.EZ2ON && SongName.ToLower() == "tomylove")
+            {
+                switch (GameDifficult)
+                {
+                    case EZR.GameDifficult.Difficult.SHD:
+                        JudgmentDelta.SetJudgmentDelta(JudgmentDelta.Difficult.SuddenSHD, JudgmentMode);
+                        break;
+                    default:
+                        JudgmentDelta.SetJudgmentDelta(JudgmentDelta.Difficult.Standard, JudgmentMode);
+                        break;
+                }
+            }
+            else
+            {
+                JudgmentDelta.SetJudgmentDelta(JudgmentDelta.Difficult.Standard, JudgmentMode);
+            }
             var pattern = PatternUtils.Pattern.Parse(Encoding.UTF8.GetString(buffer));
             if (pattern == null) return;
+
             // 读取所有音频
             ZipLoader.OpenZip(zipPath);
             for (int i = 0; i < pattern.SoundList.Count; i++)
@@ -117,7 +159,7 @@ namespace EZR
                         {
                             if (note.length > 6)
                             {
-                                TimeLines.TotalNote += 1 + note.length / Judgment.LongNoteComboStep;
+                                TimeLines.TotalNote += note.length / Judgment.LongNoteComboStep;
                             }
                             else
                                 TimeLines.TotalNote++;
@@ -152,11 +194,11 @@ namespace EZR
 
         public static void Reset()
         {
-            Position = 0d;
-            lastTime = 0d;
+            UnscaledPosition = 0;
+            lastTime = 0;
             Stopwatch.Restart();
 
-            beat = 0d;
+            beat = 0;
             Score.Reset();
             HP = MaxHp;
             Combo = 0;
@@ -166,11 +208,6 @@ namespace EZR
 
             MemorySound.Main.stop();
             MemorySound.BGM.stop();
-        }
-
-        public static float GetSpeed()
-        {
-            return MeasureScale * RealFallSpeed;
         }
 
         public static void AddScore(JudgmentType judgment)

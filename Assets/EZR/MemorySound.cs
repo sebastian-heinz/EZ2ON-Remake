@@ -76,8 +76,6 @@ namespace EZR
             FMODUnity.RuntimeManager.LowlevelSystem.getDSPBufferSize(out uint bufferlength, out int numbuffers);
             Debug.Log(string.Format("DSP buffer length: {0}, DSP number buffers: {1}", bufferlength, numbuffers));
 
-            // 防止爆音？
-            MasterVolume = 0.7f;
             FMODUnity.RuntimeManager.LowlevelSystem.createChannelGroup("Main", out Main);
             FMODUnity.RuntimeManager.LowlevelSystem.createChannelGroup("BGM", out BGM);
             FMODUnity.RuntimeManager.LowlevelSystem.createChannelGroup("Game", out Game);

@@ -7,7 +7,7 @@ namespace EZR
 {
     public class TimeLines
     {
-        public int MaxLines { get => 9; }
+        public int MaxLines => 9;
         public float BPM = 120f;
 
         public int EndTick = 0;

@@ -40,7 +40,7 @@ namespace EZR
         public static void MainLoop()
         {
             // bpm
-            while (TimeLines.BPMIndex < TimeLines.BPMList.Count && TimeLines.BPMList[TimeLines.BPMIndex].position <= Position)
+            while (TimeLines.BPMIndex < TimeLines.BPMList.Count && TimeLines.BPMList[TimeLines.BPMIndex].position <= UnscaledPosition)
             {
                 TimeLines.BPM = TimeLines.BPMList[TimeLines.BPMIndex].bpm;
                 TimeLines.BPMIndex++;
@@ -51,7 +51,7 @@ namespace EZR
             {
                 var line = TimeLines.Lines[i];
 
-                while (TimeLines.LinesIndex[i] < line.Notes.Count && line.Notes[TimeLines.LinesIndex[i]].position <= Position)
+                while (TimeLines.LinesIndex[i] < line.Notes.Count && line.Notes[TimeLines.LinesIndex[i]].position <= UnscaledPosition)
                 {
                     // 跳过可玩轨道
                     if (i > 7)
@@ -88,10 +88,10 @@ namespace EZR
 
             TickPerSecond = TimeLines.BPM * 0.25d * PatternUtils.Pattern.TickPerMeasure / 60d;
             PositionDelta = DeltaTime * TickPerSecond;
-            Position += PositionDelta;
+            UnscaledPosition += PositionDelta;
 
             // 检测结束
-            if (Position >= TimeLines.EndTick)
+            if (UnscaledPosition >= TimeLines.EndTick)
             {
                 Stop();
                 if (LoopStop != null)

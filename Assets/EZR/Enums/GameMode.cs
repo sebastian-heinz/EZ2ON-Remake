@@ -10,6 +10,7 @@ namespace EZR
             StreetMixON,
             StreetMixDJ,
             StreetSeven,
+            FiveKeyOnly,
             ClubMix,
             ClubMix8,
             FourButton,
@@ -34,6 +35,8 @@ namespace EZR
                     return 5;
                 case Mode.StreetMixDJ:
                     return 7;
+                case Mode.FiveKeyOnly:
+                    return 5;
                 case Mode.ClubMix:
                     return 6;
                 case Mode.ClubMix8:
@@ -74,6 +77,8 @@ namespace EZR
                     return "streetmix1p-";
                 case Mode.StreetSeven:
                     return "7streetmix1p-";
+                case Mode.FiveKeyOnly:
+                    return "5keymix1p-";
                 case Mode.ClubMix:
                     return "8-";
                 case Mode.ClubMix8:

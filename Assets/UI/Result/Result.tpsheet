@@ -4,10 +4,10 @@
 # To import these sprites into your Unity project, download "TexturePackerImporter":
 # https://www.codeandweb.com/texturepacker/unity
 #
-# $TexturePacker:SmartUpdate:96fa01a94dc487b536719a809f4817cc:19116d7dd558f24d5a74e97927306036:e8fae30bd61f61a78be2dcb9860c3d3c$
+# $TexturePacker:SmartUpdate:7f516c9de092631d57bc08321557f70a:19116d7dd558f24d5a74e97927306036:028f413c79af7536db3802df5fc4c6aa$
 #
 :format=40300
-:texture=SelectSongs.png
+:texture=Result.png
 :size=2048x2048
 :pivotpoints=enabled
 :borders=disabled

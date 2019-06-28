@@ -9,8 +9,8 @@ namespace EZR
 {
     public static class UserSaveData
     {
-        public static string Version => "1.0";
-        public static string MinVer => "1.0";
+        public static string Version => "1.1";
+        public static string MinVer => "1.1";
         public static JObject UserData = new JObject(new JProperty("version", Version));
         static string aesKey = "GameOldBoyEZ2ONRemake";
         static string saveName = "userdata.save";
@@ -66,7 +66,7 @@ namespace EZR
                     }
                 }
             }
-            Debug.Log(UserData.ToString(Formatting.Indented));
+            Debug.Log("Save user data...");
         }
 
         public static void LoadSave()
@@ -84,18 +84,18 @@ namespace EZR
                 {
                     using (var csDecrypt = new CryptoStream(msDecrypt, decryptor, CryptoStreamMode.Read))
                     {
-                        using (var srDecrypt = new StreamReader(csDecrypt))
+                        try
                         {
-                            var plaintext = srDecrypt.ReadToEnd();
-                            try
+                            using (var srDecrypt = new StreamReader(csDecrypt))
                             {
+                                var plaintext = srDecrypt.ReadToEnd();
                                 var userData = JObject.Parse(plaintext);
                                 if (!string.IsNullOrEmpty(((string)userData["version"])) &&
                                 EZR.Utils.Version2Decmal((string)userData["version"]) >= EZR.Utils.Version2Decmal(MinVer))
                                     UserData = userData;
                             }
-                            catch { }
                         }
+                        catch { }
                     }
                 }
             }
@@ -159,9 +159,17 @@ namespace EZR
             option.TimePrecision = (int)(UserData["setting"]["timePrecision"] ?? option.TimePrecision);
             option.FrostedGlassEffect = (bool)(UserData["setting"]["frostedGlassEffect"] ?? option.FrostedGlassEffect);
             option.VSync = (bool)(UserData["setting"]["vSync"] ?? option.VSync);
-            option.SimVSync = (bool)(UserData["setting"]["simVSync"] ?? option.SimVSync);
             option.LimitFPS = (bool)(UserData["setting"]["limitFPS"] ?? option.LimitFPS);
             option.TargetFrameRate = (int)(UserData["setting"]["targetFrameRate"] ?? option.TargetFrameRate);
+            option.PanelPosition = Utils.ParseEnum<Option.PanelPositionEnum>((string)(UserData["setting"]["panelPosition"] ?? option.PanelPosition.ToString()));
+            option.TargetLineType = Utils.ParseEnum<Option.TargetLineTypeEnum>((string)(UserData["setting"]["targetLineType"] ?? option.TargetLineType.ToString()));
+            option.JudgmentOffset = (int)(UserData["setting"]["judgmentOffset"] ?? option.JudgmentOffset);
+            option.ShowFastSlow = (bool)(UserData["setting"]["showFastSlow"] ?? option.ShowFastSlow);
+            option.Volume.Master = Mathf.Clamp((int)(UserData["setting"]["volume"]["master"] ?? option.Volume.Master), 0, 100);
+            option.Volume.Game = Mathf.Clamp((int)(UserData["setting"]["volume"]["game"] ?? option.Volume.Game), 0, 100);
+            option.Volume.Main = Mathf.Clamp((int)(UserData["setting"]["volume"]["main"] ?? option.Volume.Main), 0, 100);
+            option.Volume.BGM = Mathf.Clamp((int)(UserData["setting"]["volume"]["bgm"] ?? option.Volume.BGM), 0, 100);
+            option.Volume.Live3D = (bool)(UserData["setting"]["volume"]["live3D"] ?? option.Volume.Live3D);
             return option;
         }
 
@@ -180,9 +188,42 @@ namespace EZR
             jobj["timePrecision"] = option.TimePrecision;
             jobj["frostedGlassEffect"] = option.FrostedGlassEffect;
             jobj["vSync"] = option.VSync;
-            jobj["simVSync"] = option.SimVSync;
             jobj["limitFPS"] = option.LimitFPS;
             jobj["targetFrameRate"] = option.TargetFrameRate;
+            jobj["panelPosition"] = option.PanelPosition.ToString();
+            jobj["targetLineType"] = option.TargetLineType.ToString();
+            jobj["judgmentOffset"] = option.JudgmentOffset;
+            jobj["showFastSlow"] = option.ShowFastSlow;
+            if (!jobj.ContainsKey("volume"))
+                jobj["volume"] = new JObject();
+            jobj["volume"]["master"] = option.Volume.Master;
+            jobj["volume"]["game"] = option.Volume.Game;
+            jobj["volume"]["main"] = option.Volume.Main;
+            jobj["volume"]["bgm"] = option.Volume.BGM;
+            jobj["volume"]["live3D"] = option.Volume.Live3D;
+        }
+
+        public static Dictionary<string, string> GetInventory()
+        {
+            var inventory = new Dictionary<string, string>()
+            {
+                ["panelResource"] = "R14",
+                ["noteResource"] = "Note_04"
+            };
+            if (!UserData.ContainsKey("inventory")) return inventory;
+            inventory["panelResource"] = (string)UserData["inventory"]["panelResource"] ?? inventory["panelResource"];
+            inventory["noteResource"] = (string)UserData["inventory"]["noteResource"] ?? inventory["noteResource"];
+            return inventory;
+        }
+
+        public static void SetInventory()
+        {
+            JObject jobj;
+            if (!UserData.ContainsKey("inventory"))
+                UserData["inventory"] = new JObject();
+            jobj = (JObject)UserData["inventory"];
+            jobj["panelResource"] = EZR.DisplayLoop.PanelResource;
+            jobj["noteResource"] = EZR.DisplayLoop.NoteResource;
         }
     }
 }

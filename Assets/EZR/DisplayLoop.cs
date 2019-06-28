@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Video;
@@ -10,11 +9,11 @@ namespace EZR
 {
     public class DisplayLoop : MonoBehaviour
     {
-        public string PanelResource = "";
-        public string NoteResource = "";
+        public static string PanelResource = "R14";
+        public static string NoteResource = "Note_04";
 
-        [HideInInspector]
-        public double Position = 0;
+        double position = 0;
+        public double Position => position * JudgmentDelta.MeasureScale;
         [HideInInspector]
         public double PositionDelta;
         float time = 0;
@@ -28,6 +27,7 @@ namespace EZR
         Animation grooveLightAnim;
 
         RectTransform HP;
+        float HPHeight;
         Coroutine hpBeatCoroutine;
 
         bool[] linesUpdate;
@@ -51,7 +51,10 @@ namespace EZR
         GameObject measureLine;
         int measureCount = 0;
 
-        float noteScale;
+        [HideInInspector]
+        public bool NoteUseScale = false;
+        [HideInInspector]
+        public float NoteSize;
 
         int[] currentIndex;
         Queue<NoteInLine>[] noteInLines;
@@ -65,22 +68,34 @@ namespace EZR
         {
             // 读取设置
             var option = UserSaveData.GetOption();
-            if (option.VSync)
-                PlayManager.IsSimVSync = false;
-            else
-                PlayManager.IsSimVSync = option.SimVSync;
+            PlayManager.PanelPosition = option.PanelPosition;
+            PlayManager.TargetLineType = option.TargetLineType;
+            PlayManager.JudgmentOffset = option.JudgmentOffset;
 
             // 初始化面板
             var panel = Instantiate(Resources.Load<GameObject>("Skin/Panel/" + PanelResource));
             panel.transform.SetParent(GameObject.Find("Canvas").transform, false);
+            // 面板位置
+            panel.transform.localPosition = new Vector3(
+                (int)PlayManager.PanelPosition,
+                panel.transform.localPosition.y,
+                0
+            );
 
             // 初始化音符
             var noteType = Resources.Load<NoteType>("Skin/Note/" + NoteResource);
             notes = noteType.Notes;
-            noteScale = noteType.NoteScale[PlayManager.NumLines - 4];
+            NoteUseScale = noteType.UseScale;
+            NoteSize = noteType.NoteSize[PlayManager.NumLines - 4];
             var target = Instantiate(noteType.Target[PlayManager.NumLines - 4]);
             target.transform.SetParent(panel.transform.Find("Target"), false);
             noteTargetAnim = target.GetComponent<Animation>();
+
+            // 判定线偏移
+            target.transform.parent.localPosition = new Vector3(
+                target.transform.parent.localPosition.x,
+                target.transform.parent.localPosition.y + (int)PlayManager.TargetLineType,
+                0);
 
             // 节奏线
             measureLine = panel.GetComponent<Panel>().MeasureLine;
@@ -89,6 +104,7 @@ namespace EZR
             grooveLightAnim = panel.transform.Find("Groove").GetComponent<Animation>();
             // 找HP
             HP = (RectTransform)panel.transform.Find("HP");
+            HPHeight = HP.sizeDelta.y;
 
             // 找按键动画
             linesUpdate = new bool[PlayManager.NumLines];
@@ -129,6 +145,7 @@ namespace EZR
 
             // 初始化判定字动画
             judgmentAnim = panel.transform.Find("Judgment").GetComponent<JudgmentAnimCTL>();
+            judgmentAnim.transform.Find("FastSlow").gameObject.SetActive(option.ShowFastSlow);
 
             // 找连击计数器
             comboCounter = panel.transform.Find("Combo/ComboCounter").GetComponent<ComboCounter>();
@@ -143,29 +160,58 @@ namespace EZR
                 noteInLines[i] = new Queue<NoteInLine>();
             }
 
+            viveMediaDecoder = GameObject.Find("Canvas").transform.Find("BGA").GetComponent<HTC.UnityPlugin.Multimedia.ViveMediaDecoder>();
+            videoPlayer = GameObject.Find("Canvas").transform.Find("BGA").GetComponent<VideoPlayer>();
+
             string bgaUrl = Path.Combine(
                 Master.GameResourcesFolder,
                 PlayManager.GameType.ToString(),
                 "Ingame",
                 PlayManager.SongName + ".mp4"
             );
+            string genericBgaUrl = Path.Combine(Master.GameResourcesFolder, "GenericBGA.mp4");
 
             if (File.Exists(bgaUrl))
             {
                 // 初始化BGA
                 if (Master.IsOldWin)
                 {
-                    viveMediaDecoder = GameObject.Find("Canvas").transform.Find("BGA").GetComponent<HTC.UnityPlugin.Multimedia.ViveMediaDecoder>();
-                    Destroy(viveMediaDecoder.GetComponent<VideoPlayer>());
+                    Destroy(videoPlayer);
                     viveMediaDecoder.initDecoder(bgaUrl);
                 }
                 else
                 {
-                    videoPlayer = GameObject.Find("Canvas").transform.Find("BGA").GetComponent<VideoPlayer>();
                     videoPlayer.GetComponent<RawImage>().material = null;
-                    Destroy(videoPlayer.GetComponent<HTC.UnityPlugin.Multimedia.ViveMediaDecoder>());
+                    Destroy(viveMediaDecoder);
                     videoPlayer.url = bgaUrl;
+                    videoPlayer.Prepare();
                 }
+            }
+            else if (File.Exists(genericBgaUrl))
+            {
+                // fallback通用bga
+                if (Master.IsOldWin)
+                {
+                    Destroy(videoPlayer);
+                    viveMediaDecoder.initDecoder(genericBgaUrl);
+                    viveMediaDecoder.onVideoEnd.AddListener(() =>
+                    {
+                        viveMediaDecoder.replay();
+                    });
+                }
+                else
+                {
+                    videoPlayer.GetComponent<RawImage>().material = null;
+                    Destroy(viveMediaDecoder);
+                    videoPlayer.url = genericBgaUrl;
+                    videoPlayer.Prepare();
+                    videoPlayer.isLooping = true;
+                }
+            }
+            else
+            {
+                Destroy(videoPlayer);
+                Destroy(viveMediaDecoder);
             }
 
             // 找毛玻璃
@@ -192,12 +238,18 @@ namespace EZR
 
             if (!(PlayManager.GameType == GameType.DJMAX &&
             PlayManager.GameMode < EZR.GameMode.Mode.FourKey) &&
-            PlayManager.BGADelay == 0)
+            PlayManager.BGADelay <= 0)
             {
                 if (viveMediaDecoder != null)
+                {
                     viveMediaDecoder.startDecoding();
+                    viveMediaDecoder.setSeekTime(-PlayManager.BGADelay);
+                }
                 if (videoPlayer != null)
+                {
                     videoPlayer.Play();
+                    videoPlayer.time = -PlayManager.BGADelay;
+                }
             }
         }
 
@@ -222,7 +274,7 @@ namespace EZR
                 noteInLines[i].Clear();
                 currentIndex[i] = 0;
             }
-            PlayManager.Position = Position = 0;
+            PlayManager.UnscaledPosition = position = 0;
 
             measureCount = 0;
 
@@ -252,7 +304,21 @@ namespace EZR
             {
                 readyFrame++;
                 if (readyFrame > 10)
-                    StartPlay();
+                {
+                    if (viveMediaDecoder != null)
+                    {
+                        if (viveMediaDecoder.getDecoderState() ==
+                        HTC.UnityPlugin.Multimedia.ViveMediaDecoder.DecoderState.INITIALIZED ||
+                        viveMediaDecoder.getDecoderState() ==
+                        HTC.UnityPlugin.Multimedia.ViveMediaDecoder.DecoderState.INIT_FAIL)
+                            StartPlay();
+                    }
+                    if (videoPlayer != null)
+                    {
+                        if (videoPlayer.isPrepared) StartPlay();
+                    }
+                    if (viveMediaDecoder == null && videoPlayer == null) StartPlay();
+                }
             }
 
 
@@ -261,9 +327,9 @@ namespace EZR
                 grooveDisplay = false;
 
                 // 消除误差，同步时间轴
-                if (System.Math.Abs(Position - PlayManager.Position) > 1)
+                if (System.Math.Abs(position - PlayManager.UnscaledPosition) > 1)
                 {
-                    Position = PlayManager.Position;
+                    position = PlayManager.UnscaledPosition;
                 }
 
                 // 节奏灯
@@ -323,7 +389,7 @@ namespace EZR
             if (isStarted)
             {
                 PositionDelta = Time.smoothDeltaTime * PlayManager.TickPerSecond;
-                Position += PositionDelta;
+                position += PositionDelta;
 
                 // 记录时间
                 time += Time.deltaTime;
@@ -337,10 +403,6 @@ namespace EZR
                         videoPlayer.Play();
                     bgaPlayed = true;
                 }
-
-                // 算模拟同步垂直延迟
-                if (PlayManager.IsSimVSync)
-                    PlayManager.SimVsyncDelta = PlayManager.PreSimVsyncDelay * PlayManager.TickPerSecond;
             }
 
             // 插值下落速度
@@ -348,7 +410,7 @@ namespace EZR
                 Mathf.Min(Time.deltaTime * 12, 1)
             );
 
-            var screenHeight = noteArea.sizeDelta.y / PlayManager.GetSpeed();
+            var screenHeight = (noteArea.sizeDelta.y + PlayManager.JudgmentOffset) / PlayManager.GetSpeed();
             // 生成实时音符
             for (int i = 0; i < PlayManager.NumLines; i++)
             {
@@ -369,14 +431,14 @@ namespace EZR
                     Pattern.Note patternNote = PlayManager.TimeLines.Lines[i].Notes[currentIndex[i]];
 
                     var noteInLine = note.GetComponent<NoteInLine>();
-                    noteInLine.Init(currentIndex[i], patternNote.position, noteScale, patternNote.length, linesAnim[i].transform.localPosition.x, this);
+                    noteInLine.Init(currentIndex[i], patternNote.position, patternNote.length, linesAnim[i].transform.localPosition.x, this);
                     noteInLines[i].Enqueue(noteInLine);
 
                     currentIndex[i]++;
                 }
             }
             // 生成节奏线
-            int currentMeasureCount = (int)((Position + screenHeight) / PatternUtils.Pattern.TickPerMeasure);
+            int currentMeasureCount = (int)((Position + screenHeight) / (PatternUtils.Pattern.TickPerMeasure * JudgmentDelta.MeasureScale));
             if (currentMeasureCount > measureCount)
             {
                 var measureDelta = currentMeasureCount - measureCount;
@@ -396,8 +458,9 @@ namespace EZR
             {
                 if (noteInLines[i].Count > 0)
                 {
-                    if (noteInLines[i].Peek() == null ||
-                    (noteInLines[i].Peek().Position + noteInLines[i].Peek().NoteLength - PlayManager.Position < -(JudgmentDelta.Miss + 1)))
+                    var noteInLine = noteInLines[i].Peek();
+                    if (noteInLine == null ||
+                    noteInLine.Position + noteInLine.NoteLength - PlayManager.Position < -(JudgmentDelta.Miss + 1))
                     {
                         noteInLines[i].Dequeue();
                     }
@@ -419,12 +482,16 @@ namespace EZR
             }
 
             // 分数
-            scoreText.text = PlayManager.Score.GetScore().ToString();
+            scoreText.text = Mathf.Round(PlayManager.Score.RawScore).ToString();
             // 最大连击
             maxComboText.text = PlayManager.Score.MaxCombo.ToString();
 
             // 修复BGA重复播放问题
-            if (videoPlayer != null && !videoPlayer.isPaused && videoPlayer.frameCount > 0 && (ulong)videoPlayer.frame == videoPlayer.frameCount)
+            if (videoPlayer != null &&
+            !videoPlayer.isLooping &&
+            !videoPlayer.isPaused &&
+            videoPlayer.frameCount > 0 &&
+            (ulong)videoPlayer.frame == videoPlayer.frameCount)
             {
                 videoPlayer.Pause();
             }
@@ -453,9 +520,9 @@ namespace EZR
             {
                 if (i >= 1) i -= 1;
                 yield return null;
-                HP.localScale = Vector3.Lerp(
-                    new Vector3(1, PlayManager.HP / PlayManager.MaxHp + 0.1f, 1),
-                    new Vector3(1, PlayManager.HP / PlayManager.MaxHp, 1),
+                HP.sizeDelta = Vector2.Lerp(
+                    new Vector2(HP.sizeDelta.x, (PlayManager.HP / PlayManager.MaxHp + 0.1f) * HPHeight),
+                    new Vector2(HP.sizeDelta.x, (PlayManager.HP / PlayManager.MaxHp) * HPHeight),
                     Mathf.Sqrt(1 - Mathf.Pow(1 - i, 2))
                 );
             }

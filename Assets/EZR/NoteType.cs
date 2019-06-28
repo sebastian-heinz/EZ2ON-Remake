@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEditor;
 
 namespace EZR
 {
@@ -17,7 +18,8 @@ namespace EZR
 
         public GameObject Flare;
 
-        public float[] NoteScale = new float[PlayManager.MaxLines - 3];
+        public bool UseScale = false;
+        public float[] NoteSize = new float[PlayManager.MaxLines - 3];
 
         public GameObject[] Target = new GameObject[PlayManager.MaxLines - 3];
     }
