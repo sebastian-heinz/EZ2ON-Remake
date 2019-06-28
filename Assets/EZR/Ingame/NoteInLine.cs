@@ -18,6 +18,8 @@ namespace EZR
         int noteLength = 0;
         public float NoteLength => noteLength * JudgmentDelta.MeasureScale;
         [HideInInspector]
+        public int LongNoteCount { get; private set; }
+        [HideInInspector]
         public int LongNoteCombo = 0;
         [HideInInspector]
         public JudgmentType LongNoteJudgment;
@@ -53,7 +55,10 @@ namespace EZR
 
 
             if (length > 6)
+            {
                 noteLength = length;
+                LongNoteCount = noteLength / Judgment.LongNoteComboStep;
+            }
 
             initX = x;
 

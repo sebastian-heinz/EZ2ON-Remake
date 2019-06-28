@@ -17,10 +17,9 @@ namespace EZR
                     if (noteInLine.IsLongPressed)
                     {
                         // 长音连击
-                        int longNoteCombo = (int)System.Math.Ceiling(
+                        int longNoteCombo = Mathf.Min(noteInLine.LongNoteCount, (int)(
                             (System.Math.Min(PlayManager.Position, noteInLine.Position + noteInLine.NoteLength) - noteInLine.Position) /
-                            (LongNoteComboStep * JudgmentDelta.MeasureScale)
-                        );
+                            (LongNoteComboStep * JudgmentDelta.MeasureScale)) + 1);
                         if (longNoteCombo > noteInLine.LongNoteCombo)
                         {
                             var delta = longNoteCombo - noteInLine.LongNoteCombo;
@@ -226,10 +225,9 @@ namespace EZR
                     double judgmentDelta = noteInLine.Position + noteInLine.NoteLength - PlayManager.Position;
                     bool isFast = judgmentDelta > 0;
                     judgmentDelta = System.Math.Abs(judgmentDelta);
-                    int longNoteCombo = (int)Mathf.Ceil(noteInLine.NoteLength / (LongNoteComboStep * JudgmentDelta.MeasureScale));
                     if (judgmentDelta <= JudgmentDelta.GetJudgmentDelta(JudgmentType.Cool, 1))
                     {
-                        var delta = longNoteCombo - noteInLine.LongNoteCombo;
+                        var delta = noteInLine.LongNoteCount - noteInLine.LongNoteCombo;
                         for (int j = 0; j < delta; j++)
                         {
                             PlayManager.AddCombo();
@@ -243,7 +241,7 @@ namespace EZR
                     }
                     else if (JudgmentDelta.CompareJudgmentDelta(judgmentDelta, JudgmentType.Good, 1))
                     {
-                        var delta = longNoteCombo - noteInLine.LongNoteCombo;
+                        var delta = noteInLine.LongNoteCount - noteInLine.LongNoteCombo;
                         for (int j = 0; j < delta; j++)
                         {
                             PlayManager.AddCombo();
