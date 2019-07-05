@@ -181,7 +181,10 @@ namespace EZR
             {
                 try
                 {
-                    BGADelay = System.Convert.ToInt32(File.ReadAllText(iniPath)) / 1000f;
+                    BGADelay = System.Convert.ToSingle(File.ReadAllText(iniPath).Split(
+                        new string[] { "\r\n", "\n" },
+                        System.StringSplitOptions.None
+                    )[0].Trim()) / 1000f;
                 }
                 catch
                 {
@@ -196,7 +199,7 @@ namespace EZR
         {
             UnscaledPosition = 0;
             lastTime = 0;
-            Stopwatch.Restart();
+            Stopwatch.Reset();
 
             beat = 0;
             Score.Reset();
