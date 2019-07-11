@@ -51,8 +51,6 @@ namespace EZR
             option.Resolution.height != Screen.currentResolution.height ||
             option.FullScreenMode != Screen.fullScreenMode)
                 Screen.SetResolution(option.Resolution.width, option.Resolution.height, option.FullScreenMode);
-            // 设置时间粒度
-            EZR.Master.TimePrecision = option.TimePrecision;
             // 设置音量
             EZR.MemorySound.MasterVolume = option.Volume.Master / 100f * 0.7f;
             EZR.MemorySound.GameVolume = option.Volume.Game / 100f;

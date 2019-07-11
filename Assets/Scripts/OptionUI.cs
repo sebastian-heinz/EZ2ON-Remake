@@ -54,18 +54,11 @@ public class OptionUI : MonoBehaviour
             case SystemLanguage.English:
                 language.Find("ChkBoxEnglish").GetComponent<Toggle>().isOn = true;
                 break;
-        }
-        var timePrecision = transform.Find("GroupSystem/BarTimePrecision");
-        switch (option.TimePrecision)
-        {
-            default:
-                timePrecision.Find("ChkBox1ms").GetComponent<Toggle>().isOn = true;
+            case SystemLanguage.Korean:
+                language.Find("ChkBoxKorean").GetComponent<Toggle>().isOn = true;
                 break;
-            case 5:
-                timePrecision.Find("ChkBox5ms").GetComponent<Toggle>().isOn = true;
-                break;
-            case 10:
-                timePrecision.Find("ChkBox10ms").GetComponent<Toggle>().isOn = true;
+            case SystemLanguage.Japanese:
+                language.Find("ChkBoxJapanese").GetComponent<Toggle>().isOn = true;
                 break;
         }
         var performance = transform.Find("GroupSystem/BarPerformance");
@@ -191,24 +184,6 @@ public class OptionUI : MonoBehaviour
     public void DropdownResolutions(int index)
     {
         option.Resolution = resolutions[index];
-    }
-
-    public void ToggleTimePrecision(bool value)
-    {
-        if (!value) return;
-        var toggle = EventSystem.current.currentSelectedGameObject;
-        switch (toggle.name)
-        {
-            case "ChkBox1ms":
-                option.TimePrecision = 1;
-                break;
-            case "ChkBox5ms":
-                option.TimePrecision = 5;
-                break;
-            case "ChkBox10ms":
-                option.TimePrecision = 10;
-                break;
-        }
     }
 
     public void TogglePerformance(bool value)

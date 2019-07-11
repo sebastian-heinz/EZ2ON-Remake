@@ -156,7 +156,6 @@ namespace EZR
                 height = (int)(UserData["setting"]["resolution"]["height"] ?? option.Resolution.height)
             };
             option.Language = Utils.ParseEnum<SystemLanguage>((string)UserData["setting"]["language"] ?? option.Language.ToString());
-            option.TimePrecision = (int)(UserData["setting"]["timePrecision"] ?? option.TimePrecision);
             option.FrostedGlassEffect = (bool)(UserData["setting"]["frostedGlassEffect"] ?? option.FrostedGlassEffect);
             option.VSync = (bool)(UserData["setting"]["vSync"] ?? option.VSync);
             option.LimitFPS = (bool)(UserData["setting"]["limitFPS"] ?? option.LimitFPS);
@@ -185,7 +184,6 @@ namespace EZR
             jobj["resolution"]["width"] = option.Resolution.width;
             jobj["resolution"]["height"] = option.Resolution.height;
             jobj["language"] = option.Language.ToString();
-            jobj["timePrecision"] = option.TimePrecision;
             jobj["frostedGlassEffect"] = option.FrostedGlassEffect;
             jobj["vSync"] = option.VSync;
             jobj["limitFPS"] = option.LimitFPS;
