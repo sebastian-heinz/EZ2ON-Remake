@@ -60,8 +60,8 @@ namespace EZR
         public static void LoadPattern()
         {
             string jsonPath = PatternUtils.Pattern.GetFileName(SongName, GameType, GameMode, GameDifficult);
-            string zipPath = Path.Combine(Master.GameResourcesFolder, GameType.ToString(), "Songs", SongName + ".zip");
-            var buffer = ZipLoader.LoadFileSync(zipPath, jsonPath);
+            var ezrPath = EZR.DataLoader.GetEZRDataPath(GameType, SongName);
+            var buffer = DataLoader.LoadFile(ezrPath, jsonPath);
             Debug.Log(jsonPath);
             if (buffer == null)
             {
@@ -106,7 +106,7 @@ namespace EZR
             if (pattern == null) return;
 
             // 读取所有音频
-            ZipLoader.OpenZip(zipPath);
+            DataLoader.OpenStream(ezrPath);
             for (int i = 0; i < pattern.SoundList.Count; i++)
             {
                 var fileName = pattern.SoundList[i].filename;
@@ -124,15 +124,15 @@ namespace EZR
                             fileName = Path.ChangeExtension(pattern.SoundList[i].filename, "mp3");
                             break;
                     }
-                    if (ZipLoader.Exists(fileName))
+                    if (DataLoader.Exists(fileName))
                     {
-                        buffer = ZipLoader.LoadFile(fileName);
+                        buffer = DataLoader.LoadFile(fileName);
                         MemorySound.LoadSound(i, buffer);
                         break;
                     }
                 }
             }
-            ZipLoader.CloseZip();
+            DataLoader.CloseStream();
 
             // 清空lines
             TimeLines = new TimeLines();
@@ -176,7 +176,11 @@ namespace EZR
             NumLines = EZR.GameMode.GetNumLines(GameMode);
 
             // 读BGA ini文件 修正bga延迟
-            var iniPath = Path.Combine(Master.GameResourcesFolder, GameType.ToString(), "Ingame", SongName + ".ini");
+            string iniPath;
+            if (GameType == GameType.EZ2ON || GameType == GameType.EZ2DJ)
+                iniPath = Path.Combine(Master.GameResourcesFolder, "EZ2Series", "Ingame", SongName + ".ini");
+            else
+                iniPath = Path.Combine(Master.GameResourcesFolder, GameType.ToString(), "Ingame", SongName + ".ini");
             if (File.Exists(iniPath))
             {
                 try

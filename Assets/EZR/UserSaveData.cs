@@ -4,6 +4,7 @@ using Newtonsoft.Json.Linq;
 using System.Security.Cryptography;
 using System.IO;
 using System.Collections.Generic;
+using System.Text;
 
 namespace EZR
 {
@@ -47,7 +48,7 @@ namespace EZR
 
         public static void SaveData()
         {
-            using (var aes = Aes.Create())
+            using (var aes = new AesManaged())
             {
                 aes.Key = getKeyBytes;
                 aes.IV = getIvBytes;
@@ -57,13 +58,14 @@ namespace EZR
                 {
                     using (var csEncrypt = new CryptoStream(msEncrypt, encryptor, CryptoStreamMode.Write))
                     {
-                        using (var swEncrypt = new StreamWriter(csEncrypt))
+                        UserData["version"] = Version;
+                        var buffer = Encoding.UTF8.GetBytes(UserData.ToString(Formatting.None));
+                        for (int i = 0; i < buffer.LongLength; i++)
                         {
-                            UserData["version"] = Version;
-                            swEncrypt.Write(UserData.ToString(Formatting.None));
+                            csEncrypt.WriteByte(buffer[i]);
                         }
-                        File.WriteAllBytes(Path.Combine(Application.persistentDataPath, saveName), msEncrypt.ToArray());
                     }
+                    File.WriteAllBytes(Path.Combine(Application.persistentDataPath, saveName), msEncrypt.ToArray());
                 }
             }
             Debug.Log("Save user data...");
@@ -74,7 +76,7 @@ namespace EZR
             var fullPath = Path.Combine(Application.persistentDataPath, saveName);
             if (!File.Exists(fullPath)) return;
             byte[] cipherText = File.ReadAllBytes(fullPath);
-            using (var aes = Aes.Create())
+            using (var aes = new AesManaged())
             {
                 aes.Key = getKeyBytes;
                 aes.IV = getIvBytes;
@@ -84,18 +86,15 @@ namespace EZR
                 {
                     using (var csDecrypt = new CryptoStream(msDecrypt, decryptor, CryptoStreamMode.Read))
                     {
-                        try
-                        {
-                            using (var srDecrypt = new StreamReader(csDecrypt))
-                            {
-                                var plaintext = srDecrypt.ReadToEnd();
-                                var userData = JObject.Parse(plaintext);
-                                if (!string.IsNullOrEmpty(((string)userData["version"])) &&
-                                EZR.Utils.Version2Decmal((string)userData["version"]) >= EZR.Utils.Version2Decmal(MinVer))
-                                    UserData = userData;
-                            }
-                        }
-                        catch { }
+                        byte[] buffer = new byte[msDecrypt.Length];
+                        csDecrypt.Read(buffer, 0, buffer.Length);
+                        var plaintext = Encoding.UTF8.GetString(buffer);
+                        var userData = JObject.Parse(plaintext);
+                        if (!string.IsNullOrEmpty(((string)userData["version"])) &&
+                        EZR.Utils.Version2Decmal((string)userData["version"]) >= EZR.Utils.Version2Decmal(MinVer))
+                            UserData = userData;
+                        else
+                            UserData["myBestScore"] = userData["myBestScore"];
                     }
                 }
             }

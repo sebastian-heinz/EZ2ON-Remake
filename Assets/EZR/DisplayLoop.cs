@@ -163,14 +163,21 @@ namespace EZR
             viveMediaDecoder = GameObject.Find("Canvas").transform.Find("BGA").GetComponent<HTC.UnityPlugin.Multimedia.ViveMediaDecoder>();
             videoPlayer = GameObject.Find("Canvas").transform.Find("BGA").GetComponent<VideoPlayer>();
 
-            string bgaUrl = Path.Combine(
-                Master.GameResourcesFolder,
-                PlayManager.GameType.ToString(),
-                "Ingame",
-                PlayManager.SongName + ".mp4"
-            );
+            string bgaUrl;
+            if (PlayManager.GameType == GameType.EZ2ON || PlayManager.GameType == GameType.EZ2DJ)
+                bgaUrl = Path.Combine(
+                    Master.GameResourcesFolder,
+                    "EZ2Series", "Ingame",
+                    PlayManager.SongName + ".mp4"
+                );
+            else
+                bgaUrl = Path.Combine(
+                    Master.GameResourcesFolder,
+                    PlayManager.GameType.ToString(),
+                    "Ingame",
+                    PlayManager.SongName + ".mp4"
+                );
             string genericBgaUrl = Path.Combine(Master.GameResourcesFolder, "GenericBGA.mp4");
-
             if (File.Exists(bgaUrl))
             {
                 // 初始化BGA

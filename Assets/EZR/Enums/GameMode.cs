@@ -72,7 +72,7 @@ namespace EZR
                 case Mode.RubyMixDJ:
                     return "rubymix1p-";
                 case Mode.StreetMixON:
-                    return "6-";
+                    return "5-";
                 case Mode.StreetMixDJ:
                     return "streetmix1p-";
                 case Mode.StreetSeven:
@@ -80,7 +80,7 @@ namespace EZR
                 case Mode.FiveKeyOnly:
                     return "5keymix1p-";
                 case Mode.ClubMix:
-                    return "8-";
+                    return "6-";
                 case Mode.ClubMix8:
                     return "8-";
                 case Mode.FourButton:

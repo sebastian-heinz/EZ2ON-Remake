@@ -164,11 +164,11 @@ public class SingleResultUI : MonoBehaviour
                     EZR.PlayManager.GameMode == EZR.GameMode.Mode.EightKey)
                     fileName = EZR.PlayManager.SongName + "_ORG" + EZR.GameDifficult.GetString(EZR.PlayManager.GameDifficult) + ".png";
                 else
-                    fileName = "song_pic_f_" + EZR.PlayManager.SongName + "_" + ((int)EZR.PlayManager.GameDifficult - 4).ToString().PadLeft(2, '0') + ".png";
+                    fileName = "song_pic_f_" + EZR.PlayManager.SongName + "_" + ((int)EZR.PlayManager.GameDifficult - (int)EZR.GameDifficult.Difficult.DJMAX_EZ).ToString().PadLeft(2, '0') + ".png";
                 break;
         }
 
-        var buffer = EZR.ZipLoader.LoadFileSync(Path.Combine(EZR.Master.GameResourcesFolder, EZR.PlayManager.GameType.ToString(), "Songs", EZR.PlayManager.SongName + ".zip"), fileName);
+        var buffer = EZR.DataLoader.LoadFile(EZR.DataLoader.GetEZRDataPath(EZR.PlayManager.GameType, EZR.PlayManager.SongName), fileName);
         if (buffer != null)
         {
             var dmo = transform.Find("Disc/Dmo");

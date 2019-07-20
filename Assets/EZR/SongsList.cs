@@ -15,7 +15,7 @@ namespace EZR
         }
 
         public static decimal Version = 1;
-        public static string MinVer => "3.0";
+        public static string MinVer => "5.0";
         public static List<SongInfo> List;
         public static int CurrentIndex = 0;
         public static SortMode CurrentSortMode = SortMode.ByName;
@@ -25,11 +25,14 @@ namespace EZR
         {
             public string name = "";
             public string displayName = "";
+            public string composer = "";
             public GameType gameType = GameType.EZ2ON;
             public bool isNew = false;
             public int bpm = 0;
             public Dictionary<GameMode.Mode, Dictionary<GameDifficult.Difficult, int>> difficult;
             public string sha1 = "";
+            public bool isHidden = false;
+
             public GameMode.Mode GetCurrentMode(GameMode.Mode mode, GameDifficult.Difficult diff)
             {
                 if (difficult.ContainsKey(mode) && difficult[mode].ContainsKey(diff))
@@ -73,8 +76,10 @@ namespace EZR
                     {
                         name = (string)info["name"],
                         displayName = (string)info["displayName"],
+                        composer = (string)info["composer"],
                         gameType = Utils.ParseEnum<GameType>((string)info["gameType"]),
                         isNew = (bool)info["isNew"],
+                        isHidden = (bool)info["isHidden"],
                         bpm = (int)info["bpm"],
                         difficult = new Dictionary<GameMode.Mode, Dictionary<GameDifficult.Difficult, int>>(),
                         sha1 = (string)info["sha1"]

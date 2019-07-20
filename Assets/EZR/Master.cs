@@ -28,14 +28,14 @@ namespace EZR
         // win平台手动调整线程片段时间
 #if (UNITY_STANDALONE_WIN || UNITY_EDITOR_WIN)
         [DllImport("winmm.dll")]
-        internal static extern uint timeBeginPeriod(uint period);
+        static extern uint timeBeginPeriod(uint period);
 
         [DllImport("winmm.dll")]
-        internal static extern uint timeEndPeriod(uint period);
+        static extern uint timeEndPeriod(uint period);
 
         // 捕获底层键盘输入
         [DllImport("user32.dll")]
-        public static extern short GetAsyncKeyState(int vKey);
+        static extern short GetAsyncKeyState(int vKey);
 #endif
 
         public static event Action MainLoop;
@@ -100,9 +100,9 @@ namespace EZR
                     }
 #if (UNITY_EDITOR)
                 }
-                catch (Exception ex)
+                catch (Exception e)
                 {
-                    Debug.LogError(ex.Message + "\n" + ex.StackTrace);
+                    Debug.LogError(e.Message + "\n" + e.StackTrace);
                 }
 #endif
             });

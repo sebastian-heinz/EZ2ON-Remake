@@ -80,19 +80,18 @@ namespace EZR
             FMODUnity.RuntimeManager.LowlevelSystem.createChannelGroup("BGM", out BGM);
             FMODUnity.RuntimeManager.LowlevelSystem.createChannelGroup("Game", out Game);
 
-            var soundUIPath = Path.Combine(Master.GameResourcesFolder, "SoundUI");
-            if (Directory.Exists(soundUIPath))
+            var ezrPath = Path.Combine(Master.GameResourcesFolder, "SoundUI.ezr");
+            var soundUINames = DataLoader.GetNames(ezrPath);
+            DataLoader.OpenStream(ezrPath);
+            foreach (var name in soundUINames)
             {
-                var files = Directory.GetFiles(soundUIPath);
-                foreach (var fileName in files)
+                var ext = Path.GetExtension(name);
+                if (Regex.IsMatch(ext, @"\.ogg$|\.mp3$|\.wav$", RegexOptions.IgnoreCase))
                 {
-                    var ext = Path.GetExtension(fileName);
-                    if (Regex.IsMatch(ext, @"\.ogg$|\.mp3$|\.wav$", RegexOptions.IgnoreCase))
-                    {
-                        LoadSound(Path.GetFileNameWithoutExtension(fileName), File.ReadAllBytes(fileName));
-                    }
+                    LoadSound(Path.GetFileNameWithoutExtension(name), DataLoader.LoadFile(name));
                 }
             }
+            DataLoader.CloseStream();
         }
 
         public static void LoadSound(int id, byte[] data)
@@ -134,9 +133,9 @@ namespace EZR
 
         public static void PlaySound(string name)
         {
-            if (SoundUI.ContainsKey(name))
+            if (SoundUI.ContainsKey(name.ToLower()))
             {
-                FMODUnity.RuntimeManager.LowlevelSystem.playSound(SoundUI[name], Game, false, out FMOD.Channel channel);
+                FMODUnity.RuntimeManager.LowlevelSystem.playSound(SoundUI[name.ToLower()], Game, false, out FMOD.Channel channel);
             }
         }
 
