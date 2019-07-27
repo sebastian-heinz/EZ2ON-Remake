@@ -811,7 +811,10 @@ public class SingleSelectSongsUI : MonoBehaviour
         switch (currentType)
         {
             case EZR.GameType.EZ2ON:
-                fileName = "big_" + currentSongName + EZR.GameDifficult.GetString(currentDifficult) + ".png";
+                if (currentDifficult == EZR.GameDifficult.Difficult.EX)
+                    fileName = "big_" + currentSongName + EZR.GameDifficult.GetString(EZR.GameDifficult.Difficult.SHD) + ".png";
+                else
+                    fileName = "big_" + currentSongName + EZR.GameDifficult.GetString(currentDifficult) + ".png";
                 break;
             case EZR.GameType.EZ2DJ:
                 fileName = currentSongName + EZR.GameDifficult.GetString(currentDifficult) + ".bmp";
@@ -859,18 +862,18 @@ public class SingleSelectSongsUI : MonoBehaviour
             image.GetComponent<RawImage>().texture = DefaultDiscImage;
         }
 
-        var songNameText = transform.Find("SongName").GetComponent<Text>();
+        var songNameText = transform.Find("SongInfo/SongName").GetComponent<Text>();
+        var composerNameText = transform.Find("SongInfo/ComposerName").GetComponent<Text>();
         if (string.IsNullOrEmpty(info.composer))
         {
-            songNameText.rectTransform.sizeDelta = new Vector2(songNameText.rectTransform.sizeDelta.x, 60);
-            songNameText.lineSpacing = 1;
             songNameText.text = info.displayName.ToUpper();
+            composerNameText.gameObject.SetActive(false);
         }
         else
         {
-            songNameText.rectTransform.sizeDelta = new Vector2(songNameText.rectTransform.sizeDelta.x, 80);
-            songNameText.lineSpacing = 0.5f;
-            songNameText.text = info.displayName.ToUpper() + "\n<size=24>" + info.composer + "</size>";
+            songNameText.text = info.displayName.ToUpper();
+            composerNameText.gameObject.SetActive(true);
+            composerNameText.text = info.composer;
         }
         transform.Find("Bpm/Text").GetComponent<Text>().text = info.bpm.ToString().PadLeft(3, '0');
         transform.Find("Level/Text").GetComponent<Text>().text = info.difficult[info.GetCurrentMode(currentMode, currentDifficult)][currentDifficult].ToString();
