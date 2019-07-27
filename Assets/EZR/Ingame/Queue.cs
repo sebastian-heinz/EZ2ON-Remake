@@ -16,10 +16,7 @@ namespace EZR
         }
         public void Clear()
         {
-            for (int i = 0; i < Count; i++)
-            {
-                TryDequeue(out T t);
-            }
+            while (TryDequeue(out T t)) ;
         }
     }
 }

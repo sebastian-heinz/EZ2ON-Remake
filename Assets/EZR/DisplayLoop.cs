@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Video;
@@ -58,6 +58,10 @@ namespace EZR
 
         int[] currentIndex;
         Queue<NoteInLine>[] noteInLines;
+        public ObjectPool notePoolA;
+        public ObjectPool notePoolB;
+        public ObjectPool notePoolC;
+        public ObjectPool measureLinePool;
 
         VideoPlayer videoPlayer;
         HTC.UnityPlugin.Multimedia.ViveMediaDecoder viveMediaDecoder;
@@ -99,6 +103,57 @@ namespace EZR
 
             // 节奏线
             measureLine = panel.GetComponent<Panel>().MeasureLine;
+
+            // 初始化对象池
+            for (int i = 0; i < PlayManager.NumLines; i++)
+            {
+                switch (notes[PlayManager.NumLines - 4].NotePrefab[i].GetComponent<NoteInLine>().Type)
+                {
+                    case NoteInLine.NoteType.A:
+                        if (notePoolA == null)
+                        {
+                            notePoolA = new ObjectPool();
+                            for (int j = 0; j < 20; j++)
+                            {
+                                var note = Instantiate(notes[PlayManager.NumLines - 4].NotePrefab[i]);
+                                note.GetComponent<NoteInLine>().Recycle(notePoolA);
+                            }
+                        }
+                        break;
+                    case NoteInLine.NoteType.B:
+                        if (notePoolB == null)
+                        {
+                            notePoolB = new ObjectPool();
+                            for (int j = 0; j < 15; j++)
+                            {
+                                var note = Instantiate(notes[PlayManager.NumLines - 4].NotePrefab[i]);
+                                note.GetComponent<NoteInLine>().Recycle(notePoolB);
+                            }
+                        }
+                        break;
+                    case NoteInLine.NoteType.C:
+                        if (notePoolC == null)
+                        {
+                            notePoolC = new ObjectPool();
+                            for (int j = 0; j < 10; j++)
+                            {
+                                var note = Instantiate(notes[PlayManager.NumLines - 4].NotePrefab[i]);
+                                note.GetComponent<NoteInLine>().Recycle(notePoolC);
+                            }
+                        }
+                        break;
+                    default: continue;
+                }
+            }
+            if (measureLinePool == null)
+            {
+                measureLinePool = new ObjectPool();
+                for (int i = 0; i < 2; i++)
+                {
+                    var line = Instantiate(measureLine);
+                    line.GetComponent<MeasureLine>().Recycle(measureLinePool);
+                }
+            }
 
             // 找节奏灯
             grooveLightAnim = panel.transform.Find("Groove").GetComponent<Animation>();
@@ -276,7 +331,7 @@ namespace EZR
             {
                 for (int j = 0; j < noteInLines[i].Count; j++)
                 {
-                    Destroy(noteInLines[i].Dequeue().gameObject);
+                    noteInLines[i].Dequeue().Recycle();
                 }
                 noteInLines[i].Clear();
                 currentIndex[i] = 0;
@@ -417,12 +472,14 @@ namespace EZR
                 Mathf.Min(Time.deltaTime * 12, 1)
             );
 
-            var screenHeight = (noteArea.sizeDelta.y + PlayManager.JudgmentOffset) / PlayManager.GetSpeed();
+            var screenHeight = (noteArea.sizeDelta.y +
+                (PlayManager.IsAutoPlay ? 0 : PlayManager.JudgmentOffset)) /
+                PlayManager.GetSpeed() / JudgmentDelta.MeasureScale;
             // 生成实时音符
             for (int i = 0; i < PlayManager.NumLines; i++)
             {
                 while (currentIndex[i] < PlayManager.TimeLines.Lines[i].Notes.Count &&
-                PlayManager.TimeLines.Lines[i].Notes[currentIndex[i]].position - Position < screenHeight)
+                PlayManager.TimeLines.Lines[i].Notes[currentIndex[i]].position - position < screenHeight)
                 {
                     // 测试长音符
                     // if (PlayManager.TimeLines.Lines[i].Notes[currentIndex[i]].length <= 6)
@@ -430,7 +487,32 @@ namespace EZR
                     //     currentIndex[i]++;
                     //     continue;
                     // }
-                    var note = Instantiate(notes[PlayManager.NumLines - 4].NotePrefab[i]);
+
+                    // 选择对象池;
+                    ObjectPool pool;
+                    switch (notes[PlayManager.NumLines - 4].NotePrefab[i].GetComponent<NoteInLine>().Type)
+                    {
+                        case NoteInLine.NoteType.A:
+                            pool = notePoolA;
+                            break;
+                        case NoteInLine.NoteType.B:
+                            pool = notePoolB;
+                            break;
+                        case NoteInLine.NoteType.C:
+                            pool = notePoolC;
+                            break;
+                        default:
+                            currentIndex[i]++;
+                            continue;
+                    }
+                    GameObject note;
+                    if (pool.Count == 0)
+                    {
+                        note = Instantiate(notes[PlayManager.NumLines - 4].NotePrefab[i]);
+                    }
+                    else
+                        note = pool.Get();
+
                     note.transform.SetParent(noteArea, false);
                     // 新产生的音符永远在最下层
                     note.transform.SetSiblingIndex(0);
@@ -438,24 +520,31 @@ namespace EZR
                     Pattern.Note patternNote = PlayManager.TimeLines.Lines[i].Notes[currentIndex[i]];
 
                     var noteInLine = note.GetComponent<NoteInLine>();
-                    noteInLine.Init(currentIndex[i], patternNote.position, patternNote.length, linesAnim[i].transform.localPosition.x, this);
+                    noteInLine.Init(currentIndex[i], patternNote.position, patternNote.length, linesAnim[i].transform.localPosition.x, this, pool);
                     noteInLines[i].Enqueue(noteInLine);
 
                     currentIndex[i]++;
                 }
             }
             // 生成节奏线
-            int currentMeasureCount = (int)((Position + screenHeight) / (PatternUtils.Pattern.TickPerMeasure * JudgmentDelta.MeasureScale));
+            int currentMeasureCount = (int)((position + screenHeight) / PatternUtils.Pattern.TickPerMeasure);
             if (currentMeasureCount > measureCount)
             {
                 var measureDelta = currentMeasureCount - measureCount;
                 for (int j = 0; j < measureDelta; j++)
                 {
-                    var measureInst = Instantiate(measureLine);
-                    measureInst.transform.SetParent(noteArea, false);
-                    measureInst.transform.SetSiblingIndex(0);
-                    var measureLineComponent = measureInst.GetComponent<MeasureLine>();
-                    measureLineComponent.Init(measureCount + j + 1, this);
+                    GameObject measureLineInstance;
+                    if (measureLinePool.Count == 0)
+                    {
+                        measureLineInstance = Instantiate(measureLine);
+                    }
+                    else
+                        measureLineInstance = measureLinePool.Get();
+
+                    measureLineInstance.transform.SetParent(noteArea, false);
+                    measureLineInstance.transform.SetSiblingIndex(0);
+                    var measureLineComponent = measureLineInstance.GetComponent<MeasureLine>();
+                    measureLineComponent.Init(measureCount + j + 1, this, measureLinePool);
                 }
                 measureCount = currentMeasureCount;
             }

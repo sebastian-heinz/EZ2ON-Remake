@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
+using UnityEngine.UI;
 
 namespace EZR
 {
@@ -10,14 +11,27 @@ namespace EZR
 
         public static List<MeasureLine> MeasureLines = new List<MeasureLine>();
 
+        Image image;
         Animator anim;
         DisplayLoop displayLoop;
+        ObjectPool pool;
 
-        public void Init(int index, DisplayLoop loop)
+        void Awake()
         {
-            this.index = index;
-            displayLoop = loop;
+            image = GetComponent<Image>();
             anim = GetComponent<Animator>();
+        }
+
+        public void Init(int index, DisplayLoop loop, ObjectPool pool)
+        {
+            enabled = true;
+            image.enabled = true;
+
+            this.index = index;
+
+            displayLoop = loop;
+            this.pool = pool;
+
             MeasureLines.Add(this);
 
             updateMeasure();
@@ -29,7 +43,7 @@ namespace EZR
 
             if ((Index * PatternUtils.Pattern.TickPerMeasure) - PlayManager.Position < -(JudgmentDelta.Miss + 2))
             {
-                Destroy(gameObject);
+                Recycle();
             }
         }
 
@@ -62,6 +76,21 @@ namespace EZR
         {
             if (MeasureLines.Contains(this))
                 MeasureLines.Remove(this);
+        }
+
+        public void Recycle()
+        {
+            if (MeasureLines.Contains(this))
+                MeasureLines.Remove(this);
+            enabled = false;
+            image.enabled = false;
+            pool.Put(gameObject);
+        }
+        public void Recycle(ObjectPool pool)
+        {
+            enabled = false;
+            image.enabled = false;
+            pool.Put(gameObject);
         }
     }
 }

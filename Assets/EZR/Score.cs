@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -52,11 +52,34 @@ namespace EZR
             {
                 case JudgmentType.Kool:
                     Kool++;
-                    RawScore += 170 + 17 * Mathf.Log(combo, 2);
+                    switch (PlayManager.JudgmentMode)
+                    {
+                        case JudgmentDelta.Mode.Normal:
+                            RawScore += 170 + 17 * Mathf.Log(combo, 2);
+                            break;
+                        case JudgmentDelta.Mode.Easy:
+                            RawScore += 150 + 15 * Mathf.Log(combo, 2);
+                            break;
+                        case JudgmentDelta.Mode.Hard:
+                            RawScore += 200 + 20 * Mathf.Log(combo, 2);
+                            break;
+                    }
                     PlayManager.HP += GaugeUpDownRate.Cool;
                     break;
                 case JudgmentType.Cool:
                     Cool++;
+                    switch (PlayManager.JudgmentMode)
+                    {
+                        case JudgmentDelta.Mode.Normal:
+                            RawScore += 100 + 10 * Mathf.Log(combo, 2);
+                            break;
+                        case JudgmentDelta.Mode.Easy:
+                            RawScore += 80 + 8 * Mathf.Log(combo, 2);
+                            break;
+                        case JudgmentDelta.Mode.Hard:
+                            RawScore += 100 + 10 * Mathf.Log(combo, 2);
+                            break;
+                    }
                     RawScore += 100 + 10 * Mathf.Log(combo, 2);
                     PlayManager.HP += GaugeUpDownRate.Cool;
                     break;

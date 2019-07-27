@@ -7,6 +7,16 @@ namespace EZR
 {
     public class NoteInLine : MonoBehaviour
     {
+        public enum NoteType
+        {
+            None = -1,
+            A,
+            B,
+            C,
+            D
+        }
+
+        public NoteType Type = NoteType.A;
         [HideInInspector]
         public int Index;
         int position = 0;
@@ -25,40 +35,56 @@ namespace EZR
         public JudgmentType LongNoteJudgment;
         [HideInInspector]
         public FMOD.Channel? NoteSound;
-        [HideInInspector]
-        public float NoteScale;
-        [HideInInspector]
-        public float NoteHeight;
 
+        float noteScale;
+        float noteHeight;
+        Image image;
         RectTransform rect;
         float initX;
         DisplayLoop displayLoop;
+        ObjectPool pool;
+
+        void Awake()
+        {
+            image = GetComponent<Image>();
+            rect = (RectTransform)transform;
+            noteHeight = rect.sizeDelta.y;
+        }
 
         // 初始化音符
-        public void Init(int index, int position, int length, float x, DisplayLoop loop)
+        public void Init(int index, int position, int length, float x, DisplayLoop loop, ObjectPool pool)
         {
+            IsDestroy = false;
+            enabled = true;
+            image.enabled = true;
+
             this.Index = index;
             this.position = position;
 
             displayLoop = loop;
-            rect = (RectTransform)transform;
+            this.pool = pool;
+
             if (displayLoop.NoteUseScale)
-                NoteScale = displayLoop.NoteSize;
+                noteScale = displayLoop.NoteSize;
             else
             {
-                NoteScale = transform.localScale.y;
-                rect.sizeDelta = new Vector2(displayLoop.NoteSize / NoteScale, rect.sizeDelta.y);
+                noteScale = transform.localScale.y;
+                rect.sizeDelta = new Vector2(displayLoop.NoteSize / noteScale, rect.sizeDelta.y);
             }
-            transform.localScale = new Vector3(NoteScale, NoteScale, 1);
+            transform.localScale = new Vector3(noteScale, noteScale, 1);
 
-            NoteHeight = rect.sizeDelta.y;
-
-
+            IsLongPressed = false;
             if (length > 6)
             {
                 noteLength = length;
                 LongNoteCount = noteLength / Judgment.LongNoteComboStep;
             }
+            else
+            {
+                noteLength = 0;
+                LongNoteCount = 0;
+            }
+            LongNoteCombo = 0;
 
             initX = x;
 
@@ -78,7 +104,7 @@ namespace EZR
 
             if (IsDestroy || Position + NoteLength - PlayManager.Position < -(JudgmentDelta.Miss + 2))
             {
-                Destroy(gameObject);
+                Recycle();
             }
         }
 
@@ -92,7 +118,7 @@ namespace EZR
                     (float)((Position - displayLoop.Position) * PlayManager.GetSpeed()) + (int)PlayManager.TargetLineType,
                     0
                 );
-                rect.sizeDelta = new Vector2(rect.sizeDelta.x, (float)((double)NoteLength * PlayManager.GetSpeed() / NoteScale) + NoteHeight);
+                rect.sizeDelta = new Vector2(rect.sizeDelta.x, (float)((double)NoteLength * PlayManager.GetSpeed() / noteScale) + noteHeight);
             }
             else
             {
@@ -101,7 +127,7 @@ namespace EZR
                     (float)((Position - displayLoop.Position) * PlayManager.GetSpeed()) + (int)PlayManager.TargetLineType - PlayManager.JudgmentOffset,
                     0
                 );
-                rect.sizeDelta = new Vector2(rect.sizeDelta.x, (float)((double)NoteLength * PlayManager.GetSpeed() / NoteScale) + NoteHeight);
+                rect.sizeDelta = new Vector2(rect.sizeDelta.x, (float)((double)NoteLength * PlayManager.GetSpeed() / noteScale) + noteHeight);
             }
         }
 
@@ -116,7 +142,7 @@ namespace EZR
                 );
                 rect.sizeDelta = new Vector2(
                     rect.sizeDelta.x,
-                    (float)((Position + NoteLength - displayLoop.Position) * PlayManager.GetSpeed() / NoteScale) + NoteHeight
+                    (float)((Position + NoteLength - displayLoop.Position) * PlayManager.GetSpeed() / noteScale) + noteHeight
                 );
             }
             else
@@ -128,9 +154,22 @@ namespace EZR
                 );
                 rect.sizeDelta = new Vector2(
                     rect.sizeDelta.x,
-                    (float)(((Position + NoteLength - displayLoop.Position) * PlayManager.GetSpeed() - PlayManager.JudgmentOffset) / NoteScale) + NoteHeight
+                    (float)(((Position + NoteLength - displayLoop.Position) * PlayManager.GetSpeed() - PlayManager.JudgmentOffset) / noteScale) + noteHeight
                 );
             }
+        }
+
+        public void Recycle()
+        {
+            enabled = false;
+            image.enabled = false;
+            pool.Put(gameObject);
+        }
+        public void Recycle(ObjectPool pool)
+        {
+            enabled = false;
+            image.enabled = false;
+            pool.Put(gameObject);
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -10,11 +10,6 @@ public class SinglePlay : MonoBehaviour
 
     void Start()
     {
-#if (!UNITY_EDITOR)
-        // 关闭内存回收
-        UnityEngine.Scripting.GarbageCollector.GCMode = UnityEngine.Scripting.GarbageCollector.Mode.Disabled;
-#endif
-
         EZR.PlayManager.Reset();
         EZR.PlayManager.LoadPattern();
 
@@ -167,11 +162,5 @@ public class SinglePlay : MonoBehaviour
             SceneManager.LoadScene("SingleResult");
         else
             SceneManager.LoadScene("SingleSelectSongs");
-
-#if (!UNITY_EDITOR)
-                // 开启内存回收
-                UnityEngine.Scripting.GarbageCollector.GCMode = UnityEngine.Scripting.GarbageCollector.Mode.Enabled;
-                System.GC.Collect();
-#endif
     }
 }
