@@ -310,7 +310,7 @@ public class SingleSelectSongsUI : MonoBehaviour
         var selectedSongUI = updateSongUI(true);
         if (EZR.ButtonExtension.GroupMaster["SongUI"].CurrentSelected != null)
             selectedSongUI = EZR.ButtonExtension.GroupMaster["SongUI"].CurrentSelected.transform.parent;
-        if (selectedSongUI != null)
+        if (selectedSongUI != null && selectedSongUI.gameObject.activeSelf)
             setCurrentSong(selectedSongUI, "level");
     }
 

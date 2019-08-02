@@ -151,7 +151,10 @@ public class SingleResultUI : MonoBehaviour
         switch (EZR.PlayManager.GameType)
         {
             case EZR.GameType.EZ2ON:
-                fileName = "big_" + EZR.PlayManager.SongName + EZR.GameDifficult.GetString(EZR.PlayManager.GameDifficult) + ".png";
+                if (EZR.PlayManager.GameDifficult == EZR.GameDifficult.Difficult.EX)
+                    fileName = "big_" + EZR.PlayManager.SongName + EZR.GameDifficult.GetString(EZR.GameDifficult.Difficult.SHD) + ".png";
+                else
+                    fileName = "big_" + EZR.PlayManager.SongName + EZR.GameDifficult.GetString(EZR.PlayManager.GameDifficult) + ".png";
                 break;
             case EZR.GameType.EZ2DJ:
                 fileName = EZR.PlayManager.SongName + EZR.GameDifficult.GetString(EZR.PlayManager.GameDifficult) + ".bmp";
