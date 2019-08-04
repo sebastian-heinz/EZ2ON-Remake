@@ -811,10 +811,7 @@ public class SingleSelectSongsUI : MonoBehaviour
         switch (currentType)
         {
             case EZR.GameType.EZ2ON:
-                if (currentDifficult == EZR.GameDifficult.Difficult.EX)
-                    fileName = "big_" + currentSongName + EZR.GameDifficult.GetString(EZR.GameDifficult.Difficult.SHD) + ".png";
-                else
-                    fileName = "big_" + currentSongName + EZR.GameDifficult.GetString(currentDifficult) + ".png";
+                fileName = "big_" + currentSongName + EZR.GameDifficult.GetString(currentDifficult) + ".png";
                 break;
             case EZR.GameType.EZ2DJ:
                 fileName = currentSongName + EZR.GameDifficult.GetString(currentDifficult) + ".bmp";
@@ -831,6 +828,19 @@ public class SingleSelectSongsUI : MonoBehaviour
                 break;
         }
         var buffer = await EZR.DataLoader.LoadFileAsync(EZR.DataLoader.GetEZRDataPath(currentType, currentSongName), fileName);
+        if (buffer == null && currentDifficult == EZR.GameDifficult.Difficult.EX)
+        {
+            switch (currentType)
+            {
+                case EZR.GameType.EZ2ON:
+                    fileName = "big_" + currentSongName + EZR.GameDifficult.GetString(EZR.GameDifficult.Difficult.SHD) + ".png";
+                    break;
+                case EZR.GameType.EZ2DJ:
+                    fileName = currentSongName + EZR.GameDifficult.GetString(EZR.GameDifficult.Difficult.SHD) + ".bmp";
+                    break;
+            }
+            buffer = await EZR.DataLoader.LoadFileAsync(EZR.DataLoader.GetEZRDataPath(currentType, currentSongName), fileName);
+        }
         if (buffer != null)
         {
             var image = disc.Find("Image");

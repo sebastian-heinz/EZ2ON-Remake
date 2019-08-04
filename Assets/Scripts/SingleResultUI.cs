@@ -151,10 +151,7 @@ public class SingleResultUI : MonoBehaviour
         switch (EZR.PlayManager.GameType)
         {
             case EZR.GameType.EZ2ON:
-                if (EZR.PlayManager.GameDifficult == EZR.GameDifficult.Difficult.EX)
-                    fileName = "big_" + EZR.PlayManager.SongName + EZR.GameDifficult.GetString(EZR.GameDifficult.Difficult.SHD) + ".png";
-                else
-                    fileName = "big_" + EZR.PlayManager.SongName + EZR.GameDifficult.GetString(EZR.PlayManager.GameDifficult) + ".png";
+                fileName = "big_" + EZR.PlayManager.SongName + EZR.GameDifficult.GetString(EZR.PlayManager.GameDifficult) + ".png";
                 break;
             case EZR.GameType.EZ2DJ:
                 fileName = EZR.PlayManager.SongName + EZR.GameDifficult.GetString(EZR.PlayManager.GameDifficult) + ".bmp";
@@ -170,8 +167,20 @@ public class SingleResultUI : MonoBehaviour
                     fileName = "song_pic_f_" + EZR.PlayManager.SongName + "_" + ((int)EZR.PlayManager.GameDifficult - (int)EZR.GameDifficult.Difficult.DJMAX_EZ).ToString().PadLeft(2, '0') + ".png";
                 break;
         }
-
         var buffer = EZR.DataLoader.LoadFile(EZR.DataLoader.GetEZRDataPath(EZR.PlayManager.GameType, EZR.PlayManager.SongName), fileName);
+        if (buffer == null && EZR.PlayManager.GameDifficult == EZR.GameDifficult.Difficult.EX)
+        {
+            switch (EZR.PlayManager.GameType)
+            {
+                case EZR.GameType.EZ2ON:
+                    fileName = "big_" + EZR.PlayManager.SongName + EZR.GameDifficult.GetString(EZR.GameDifficult.Difficult.SHD) + ".png";
+                    break;
+                case EZR.GameType.EZ2DJ:
+                    fileName = EZR.PlayManager.SongName + EZR.GameDifficult.GetString(EZR.GameDifficult.Difficult.SHD) + ".bmp";
+                    break;
+            }
+            buffer = EZR.DataLoader.LoadFile(EZR.DataLoader.GetEZRDataPath(EZR.PlayManager.GameType, EZR.PlayManager.SongName), fileName);
+        }
         if (buffer != null)
         {
             var dmo = transform.Find("Disc/Dmo");
