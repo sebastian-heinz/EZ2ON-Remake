@@ -159,7 +159,7 @@ namespace EZR
                         {
                             if (note.length > 6)
                             {
-                                TimeLines.TotalNote += note.length / Judgment.LongNoteComboStep;
+                                TimeLines.TotalNote += Mathf.Max(1, note.length / Judgment.LongNoteComboStep);
                             }
                             else
                                 TimeLines.TotalNote++;

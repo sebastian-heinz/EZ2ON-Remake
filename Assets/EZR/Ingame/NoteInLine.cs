@@ -77,7 +77,7 @@ namespace EZR
             if (length > 6)
             {
                 noteLength = length;
-                LongNoteCount = noteLength / Judgment.LongNoteComboStep;
+                LongNoteCount = Mathf.Max(1, noteLength / Judgment.LongNoteComboStep);
             }
             else
             {
