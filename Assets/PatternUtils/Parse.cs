@@ -19,7 +19,6 @@ namespace PatternUtils
                 // 读取声音列表
                 foreach (var sound in jobj["soundList"].Children())
                 {
-                    if (sound == null) continue;
                     pattern.SoundList.Add(new Sound
                     {
                         id = (string)(sound["id"] ?? ""),
