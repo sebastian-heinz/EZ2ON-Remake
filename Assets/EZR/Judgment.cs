@@ -77,7 +77,7 @@ namespace EZR
                             // 长音
                             if (!noteInLine.IsLongPressed && noteInLine.Position <= PlayManager.Position)
                             {
-                                var note = PlayManager.TimeLines.Lines[i].Notes[noteInLine.Index];
+                                var note = PlayManager.TimeLine.Lines[i].Notes[noteInLine.Index];
                                 noteInLine.IsLongPressed = true;
                                 noteInLine.LongNoteJudgment = JudgmentType.Kool;
                                 LongflarePlayList[i].Play();
@@ -92,7 +92,7 @@ namespace EZR
                                 PlayManager.AddCombo();
                                 PlayManager.AddScore(JudgmentType.Kool);
                                 judgmentAnim.Play(JudgmentType.Kool);
-                                var note = PlayManager.TimeLines.Lines[i].Notes[noteInLine.Index];
+                                var note = PlayManager.TimeLine.Lines[i].Notes[noteInLine.Index];
                                 noteInLine.IsDestroy = true;
                                 flarePlayList[i].Play();
                                 MemorySound.PlaySound(note.id, note.vol, note.pan, MemorySound.Main);
@@ -115,7 +115,7 @@ namespace EZR
                 if (noteInLines[keyId].Count > 0 && noteInLines[keyId].Peek() != null)
                 {
                     noteInLine = noteInLines[keyId].Peek();
-                    note = PlayManager.TimeLines.Lines[keyId].Notes[noteInLine.Index];
+                    note = PlayManager.TimeLine.Lines[keyId].Notes[noteInLine.Index];
 
                     double judgmentDelta = noteInLine.Position - PlayManager.Position;
                     bool isFast = judgmentDelta > 0;
@@ -198,8 +198,8 @@ namespace EZR
                 else
                 {
                     noteInLine = null;
-                    if (PlayManager.TimeLines.Lines[keyId].Notes.Count > 0)
-                        note = PlayManager.TimeLines.Lines[keyId].Notes[Mathf.Min(PlayManager.TimeLines.LinesIndex[keyId], PlayManager.TimeLines.Lines[keyId].Notes.Count - 1)];
+                    if (PlayManager.TimeLine.Lines[keyId].Notes.Count > 0)
+                        note = PlayManager.TimeLine.Lines[keyId].Notes[Mathf.Min(PlayManager.TimeLine.LinesIndex[keyId], PlayManager.TimeLine.Lines[keyId].Notes.Count - 1)];
                     else
                         note = null;
                 }

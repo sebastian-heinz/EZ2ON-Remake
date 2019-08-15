@@ -31,10 +31,10 @@ public class Launcher : MonoBehaviour
         DontDestroyOnLoad(EZR.Master.Tooltips);
         DontDestroyOnLoad(GameObject.Find("PersistentCanvas"));
 
-        var buffer = EZR.DataLoader.LoadFile(Path.Combine(EZR.Master.GameResourcesFolder, "SongsList.ezr"), "SongsList.json");
+        var buffer = EZR.DataLoader.LoadFile(Path.Combine(EZR.Master.GameResourcesFolder, "SongList.ezr"), "SongList.json");
         string songListData = null;
         if (buffer != null) songListData = Encoding.UTF8.GetString(buffer);
-        EZR.SongsList.Parse(songListData);
+        EZR.SongList.Parse(songListData);
         Debug.Log(string.Format("Version: {0}", EZR.Master.Version));
         Debug.Log(string.Format("devGameResourcesFolder: {0}", EZR.Master.GameResourcesFolder));
         Debug.Log(string.Format("TimePrecision: {0} ms", EZR.Master.TimePrecision));

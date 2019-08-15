@@ -25,6 +25,14 @@ namespace PatternUtils
 
         public List<BPM> BPMList = new List<BPM>();
 
+        public class Beat
+        {
+            public int position = 0;
+            public int beat = 4;
+        }
+
+        public List<Beat> BeatList = new List<Beat>();
+
         public class Note
         {
             public int position = 0;

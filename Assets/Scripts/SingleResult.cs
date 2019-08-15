@@ -31,7 +31,7 @@ public class SingleResult : MonoBehaviour
 
     void End()
     {
-        SceneManager.LoadScene("SingleSelectSongs");
+        SceneManager.LoadScene("SingleSelectSong");
         EZR.MemorySound.StopStream();
         EZR.MemorySound.Game.stop();
     }

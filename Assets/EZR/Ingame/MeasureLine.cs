@@ -41,7 +41,7 @@ namespace EZR
         {
             updateMeasure();
 
-            if ((Index * PatternUtils.Pattern.TickPerMeasure) - PlayManager.Position < -(JudgmentDelta.Miss + 2))
+            if ((Index * PatternUtils.Pattern.TickPerMeasure) * (PlayManager.TimeLine.Beat * 0.25f) - PlayManager.Position < -(JudgmentDelta.Miss + 2))
             {
                 Recycle();
             }
@@ -53,7 +53,7 @@ namespace EZR
             {
                 transform.localPosition = new Vector3(
                     0,
-                    (float)((Index * PatternUtils.Pattern.TickPerMeasure - displayLoop.Position) * PlayManager.GetSpeed()) + (int)PlayManager.TargetLineType,
+                    (float)((Index * PatternUtils.Pattern.TickPerMeasure * (PlayManager.TimeLine.Beat * 0.25f) - displayLoop.Position) * PlayManager.GetSpeed()) + (int)PlayManager.TargetLineType,
                     0
                 );
             }
@@ -61,7 +61,7 @@ namespace EZR
             {
                 transform.localPosition = new Vector3(
                     0,
-                    (float)((Index * PatternUtils.Pattern.TickPerMeasure - displayLoop.Position) * PlayManager.GetSpeed()) + (int)PlayManager.TargetLineType - PlayManager.JudgmentOffset,
+                    (float)((Index * PatternUtils.Pattern.TickPerMeasure * (PlayManager.TimeLine.Beat * 0.25f) - displayLoop.Position) * PlayManager.GetSpeed()) + (int)PlayManager.TargetLineType - PlayManager.JudgmentOffset,
                     0
                 );
             }

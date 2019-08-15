@@ -161,6 +161,6 @@ public class SinglePlay : MonoBehaviour
         if (isResult)
             SceneManager.LoadScene("SingleResult");
         else
-            SceneManager.LoadScene("SingleSelectSongs");
+            SceneManager.LoadScene("SingleSelectSong");
     }
 }

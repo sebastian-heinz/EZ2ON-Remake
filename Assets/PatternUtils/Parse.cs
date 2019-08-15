@@ -19,21 +19,34 @@ namespace PatternUtils
                 // 读取声音列表
                 foreach (var sound in jobj["soundList"].Children())
                 {
-                    pattern.SoundList.Add(new Pattern.Sound
+                    if (sound == null) continue;
+                    pattern.SoundList.Add(new Sound
                     {
-                        id = (string)sound["id"],
-                        type = sound["type"] != null ? (int)sound["type"] : 0,
-                        filename = sound["filename"] != null ? (string)sound["filename"] : ""
+                        id = (string)(sound["id"] ?? ""),
+                        type = (int)(sound["type"] ?? 0),
+                        filename = (string)(sound["filename"] ?? "")
                     });
                 }
                 // 读取bpm列表
                 foreach (var bpm in jobj["bpmList"].Children())
                 {
-                    pattern.BPMList.Add(new Pattern.BPM
+                    pattern.BPMList.Add(new BPM
                     {
                         position = (int)bpm["position"],
                         bpm = (float)bpm["bpm"]
                     });
+                }
+                if (jobj["beatList"] != null)
+                {
+                    // 读取Beat列表
+                    foreach (var beat in jobj["beatList"].Children())
+                    {
+                        pattern.BeatList.Add(new Beat
+                        {
+                            position = (int)beat["position"],
+                            beat = (int)beat["beat"]
+                        });
+                    }
                 }
                 // 读取轨道列表
                 foreach (var track in jobj["trackList"].Children())

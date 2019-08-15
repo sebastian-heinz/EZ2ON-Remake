@@ -223,14 +223,14 @@ namespace EZR
                 bgaUrl = Path.Combine(
                     Master.GameResourcesFolder,
                     "EZ2Series", "Ingame",
-                    PlayManager.SongName + ".mp4"
+                    SongList.List[SongList.CurrentIndex].bgaName + ".mp4"
                 );
             else
                 bgaUrl = Path.Combine(
                     Master.GameResourcesFolder,
                     PlayManager.GameType.ToString(),
                     "Ingame",
-                    PlayManager.SongName + ".mp4"
+                    SongList.List[SongList.CurrentIndex].bgaName + ".mp4"
                 );
             string genericBgaUrl = Path.Combine(Master.GameResourcesFolder, "GenericBGA.mp4");
             if (File.Exists(bgaUrl))
@@ -478,8 +478,8 @@ namespace EZR
             // 生成实时音符
             for (int i = 0; i < PlayManager.NumLines; i++)
             {
-                while (currentIndex[i] < PlayManager.TimeLines.Lines[i].Notes.Count &&
-                PlayManager.TimeLines.Lines[i].Notes[currentIndex[i]].position - position < screenHeight)
+                while (currentIndex[i] < PlayManager.TimeLine.Lines[i].Notes.Count &&
+                PlayManager.TimeLine.Lines[i].Notes[currentIndex[i]].position - position < screenHeight)
                 {
                     // 测试长音符
                     // if (PlayManager.TimeLines.Lines[i].Notes[currentIndex[i]].length <= 6)
@@ -517,7 +517,7 @@ namespace EZR
                     // 新产生的音符永远在最下层
                     note.transform.SetSiblingIndex(0);
 
-                    Pattern.Note patternNote = PlayManager.TimeLines.Lines[i].Notes[currentIndex[i]];
+                    Pattern.Note patternNote = PlayManager.TimeLine.Lines[i].Notes[currentIndex[i]];
 
                     var noteInLine = note.GetComponent<NoteInLine>();
                     noteInLine.Init(currentIndex[i], patternNote.position, patternNote.length, linesAnim[i].transform.localPosition.x, this, pool);
@@ -527,7 +527,7 @@ namespace EZR
                 }
             }
             // 生成节奏线
-            int currentMeasureCount = (int)((position + screenHeight) / PatternUtils.Pattern.TickPerMeasure);
+            int currentMeasureCount = (int)((position + screenHeight) / (PatternUtils.Pattern.TickPerMeasure * (PlayManager.TimeLine.Beat * 0.25f)));
             if (currentMeasureCount > measureCount)
             {
                 var measureDelta = currentMeasureCount - measureCount;

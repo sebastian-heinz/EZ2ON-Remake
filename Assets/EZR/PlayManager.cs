@@ -34,7 +34,7 @@ namespace EZR
         public static GameMode.Mode GameMode = EZR.GameMode.Mode.RubyMixON;
         public static GameDifficult.Difficult GameDifficult = EZR.GameDifficult.Difficult.EZ;
 
-        public static TimeLines TimeLines;
+        public static TimeLine TimeLine;
 
         public static bool IsAutoPlay = false;
         public static float BGADelay = 0;
@@ -135,14 +135,16 @@ namespace EZR
             DataLoader.CloseStream();
 
             // 清空lines
-            TimeLines = new TimeLines();
-            TimeLines.Clear();
+            TimeLine = new TimeLine();
+            TimeLine.Clear();
 
             // 结束tick
-            TimeLines.EndTick = pattern.EndTick;
-            TimeLines.SoundList = pattern.SoundList;
+            TimeLine.EndTick = pattern.EndTick;
+            TimeLine.SoundList = pattern.SoundList;
             // bpm
-            TimeLines.BPMList = pattern.BPMList;
+            TimeLine.BPMList = pattern.BPMList;
+            // beat
+            TimeLine.BeatList = pattern.BeatList;
             // 映射Lines
             for (int i = 0; i < pattern.TrackList.Count; i++)
             {
@@ -154,24 +156,24 @@ namespace EZR
                     {
                         var note = pattern.TrackList[i].Notes[j];
 
-                        TimeLines.Lines[mapping].Notes.Add(note);
+                        TimeLine.Lines[mapping].Notes.Add(note);
                         if (mapping <= 7)
                         {
                             if (note.length > 6)
                             {
-                                TimeLines.TotalNote += Mathf.Max(1, note.length / Judgment.LongNoteComboStep);
+                                TimeLine.TotalNote += Mathf.Max(1, note.length / Judgment.LongNoteComboStep);
                             }
                             else
-                                TimeLines.TotalNote++;
+                                TimeLine.TotalNote++;
                         }
                     }
                 }
             }
             // 总音符数
-            Score.TotalNote = TimeLines.TotalNote;
+            Score.TotalNote = TimeLine.TotalNote;
             Debug.Log("Total note: " + Score.TotalNote);
             // 排序
-            TimeLines.SortLines();
+            TimeLine.SortLines();
 
             NumLines = EZR.GameMode.GetNumLines(GameMode);
 
@@ -210,8 +212,8 @@ namespace EZR
             HP = MaxHp;
             Combo = 0;
 
-            if (TimeLines != null)
-                TimeLines.Reset();
+            if (TimeLine != null)
+                TimeLine.Reset();
 
             MemorySound.Main.stop();
             MemorySound.BGM.stop();
