@@ -180,9 +180,9 @@ namespace EZR
             // 读BGA ini文件 修正bga延迟
             string iniPath;
             if (GameType == GameType.EZ2ON || GameType == GameType.EZ2DJ)
-                iniPath = Path.Combine(Master.GameResourcesFolder, "EZ2Series", "Ingame", SongName + ".ini");
+                iniPath = Path.Combine(Master.GameResourcesFolder, "EZ2Series", "Ingame", SongList.List[SongList.CurrentIndex].bgaName + ".ini");
             else
-                iniPath = Path.Combine(Master.GameResourcesFolder, GameType.ToString(), "Ingame", SongName + ".ini");
+                iniPath = Path.Combine(Master.GameResourcesFolder, GameType.ToString(), "Ingame", SongList.List[SongList.CurrentIndex].bgaName + ".ini");
             if (File.Exists(iniPath))
             {
                 try
