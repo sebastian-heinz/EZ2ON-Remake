@@ -16,13 +16,13 @@ namespace EZR
         {
             get
             {
-                FMODUnity.RuntimeManager.LowlevelSystem.getMasterChannelGroup(out FMOD.ChannelGroup masterGroup);
+                FMODUnity.RuntimeManager.CoreSystem.getMasterChannelGroup(out FMOD.ChannelGroup masterGroup);
                 masterGroup.getVolume(out float vol);
                 return vol;
             }
             set
             {
-                FMODUnity.RuntimeManager.LowlevelSystem.getMasterChannelGroup(out FMOD.ChannelGroup masterGroup);
+                FMODUnity.RuntimeManager.CoreSystem.getMasterChannelGroup(out FMOD.ChannelGroup masterGroup);
                 masterGroup.setVolume(value);
             }
         }
@@ -73,12 +73,12 @@ namespace EZR
 
         static MemorySound()
         {
-            FMODUnity.RuntimeManager.LowlevelSystem.getDSPBufferSize(out uint bufferlength, out int numbuffers);
+            FMODUnity.RuntimeManager.CoreSystem.getDSPBufferSize(out uint bufferlength, out int numbuffers);
             Debug.Log(string.Format("DSP buffer length: {0}, DSP number buffers: {1}", bufferlength, numbuffers));
 
-            FMODUnity.RuntimeManager.LowlevelSystem.createChannelGroup("Main", out Main);
-            FMODUnity.RuntimeManager.LowlevelSystem.createChannelGroup("BGM", out BGM);
-            FMODUnity.RuntimeManager.LowlevelSystem.createChannelGroup("Game", out Game);
+            FMODUnity.RuntimeManager.CoreSystem.createChannelGroup("Main", out Main);
+            FMODUnity.RuntimeManager.CoreSystem.createChannelGroup("BGM", out BGM);
+            FMODUnity.RuntimeManager.CoreSystem.createChannelGroup("Game", out Game);
 
             var ezrPath = Path.Combine(Master.GameResourcesFolder, "SoundUI.ezr");
             var soundUINames = DataLoader.GetNames(ezrPath);
@@ -99,7 +99,7 @@ namespace EZR
             var exinfo = new FMOD.CREATESOUNDEXINFO();
             exinfo.cbsize = Marshal.SizeOf(exinfo);
             exinfo.length = (uint)data.Length;
-            var result = FMODUnity.RuntimeManager.LowlevelSystem.createSound(data, FMOD.MODE._2D | FMOD.MODE.OPENMEMORY, ref exinfo, out FMOD.Sound sound);
+            var result = FMODUnity.RuntimeManager.CoreSystem.createSound(data, FMOD.MODE._2D | FMOD.MODE.OPENMEMORY, ref exinfo, out FMOD.Sound sound);
             if (result == FMOD.RESULT.OK)
                 SoundList[id] = sound;
         }
@@ -109,7 +109,7 @@ namespace EZR
             var exinfo = new FMOD.CREATESOUNDEXINFO();
             exinfo.cbsize = Marshal.SizeOf(exinfo);
             exinfo.length = (uint)data.Length;
-            var result = FMODUnity.RuntimeManager.LowlevelSystem.createSound(data, FMOD.MODE._2D | FMOD.MODE.OPENMEMORY, ref exinfo, out FMOD.Sound sound);
+            var result = FMODUnity.RuntimeManager.CoreSystem.createSound(data, FMOD.MODE._2D | FMOD.MODE.OPENMEMORY, ref exinfo, out FMOD.Sound sound);
             if (result == FMOD.RESULT.OK)
                 SoundUI[name] = sound;
         }
@@ -118,7 +118,7 @@ namespace EZR
         {
             if (SoundList.ContainsKey(id))
             {
-                var result = FMODUnity.RuntimeManager.LowlevelSystem.playSound(SoundList[id], group, true, out FMOD.Channel channel);
+                var result = FMODUnity.RuntimeManager.CoreSystem.playSound(SoundList[id], group, true, out FMOD.Channel channel);
                 if (result == FMOD.RESULT.OK)
                 {
                     channel.setVolume(vol);
@@ -135,7 +135,7 @@ namespace EZR
         {
             if (SoundUI.ContainsKey(name.ToLower()))
             {
-                FMODUnity.RuntimeManager.LowlevelSystem.playSound(SoundUI[name.ToLower()], Game, false, out FMOD.Channel channel);
+                FMODUnity.RuntimeManager.CoreSystem.playSound(SoundUI[name.ToLower()], Game, false, out FMOD.Channel channel);
             }
         }
 
@@ -145,11 +145,11 @@ namespace EZR
             var exinfo = new FMOD.CREATESOUNDEXINFO();
             exinfo.cbsize = Marshal.SizeOf(exinfo);
             exinfo.length = (uint)data.Length;
-            var result = FMODUnity.RuntimeManager.LowlevelSystem.createSound(data, FMOD.MODE._2D | FMOD.MODE.OPENMEMORY | (isLoop ? FMOD.MODE.LOOP_NORMAL : 0), ref exinfo, out FMOD.Sound sound);
+            var result = FMODUnity.RuntimeManager.CoreSystem.createSound(data, FMOD.MODE._2D | FMOD.MODE.OPENMEMORY | (isLoop ? FMOD.MODE.LOOP_NORMAL : 0), ref exinfo, out FMOD.Sound sound);
             if (result == FMOD.RESULT.OK)
             {
                 shareSound = sound;
-                var result2 = FMODUnity.RuntimeManager.LowlevelSystem.playSound(sound, Game, false, out FMOD.Channel channel);
+                var result2 = FMODUnity.RuntimeManager.CoreSystem.playSound(sound, Game, false, out FMOD.Channel channel);
                 if (result2 == FMOD.RESULT.OK)
                     shareChannel = channel;
             }
@@ -158,11 +158,11 @@ namespace EZR
         public static void PlayStream(string path, bool isLoop)
         {
             StopStream();
-            var result = FMODUnity.RuntimeManager.LowlevelSystem.createSound(path, FMOD.MODE._2D | FMOD.MODE.CREATESTREAM | (isLoop ? FMOD.MODE.LOOP_NORMAL : 0), out FMOD.Sound sound);
+            var result = FMODUnity.RuntimeManager.CoreSystem.createSound(path, FMOD.MODE._2D | FMOD.MODE.CREATESTREAM | (isLoop ? FMOD.MODE.LOOP_NORMAL : 0), out FMOD.Sound sound);
             if (result == FMOD.RESULT.OK)
             {
                 streamSound = sound;
-                var result2 = FMODUnity.RuntimeManager.LowlevelSystem.playSound(sound, Game, false, out FMOD.Channel channel);
+                var result2 = FMODUnity.RuntimeManager.CoreSystem.playSound(sound, Game, false, out FMOD.Channel channel);
                 if (result2 == FMOD.RESULT.OK)
                     streamChannel = channel;
             }

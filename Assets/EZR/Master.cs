@@ -53,6 +53,8 @@ namespace EZR
 
         public static char[][] KeyCodeMapping;
 
+        public static bool GameHasFocus = true;
+
         static Master()
         {
             // 初始化按键映射
@@ -80,15 +82,19 @@ namespace EZR
                     {
                         // 捕获按键
 #if (UNITY_STANDALONE_WIN || UNITY_EDITOR_WIN)
-                        for (int i = 0; i < PlayManager.NumLines; i++)
+                        // 游戏失焦键盘输入需失效
+                        if (GameHasFocus)
                         {
-                            var keyCode = KeyCodeMapping[PlayManager.NumLines - 4][i];
-                            var isDown = GetAsyncKeyState(keyCode) < 0;
-                            if (isDown != KeysState[i])
+                            for (int i = 0; i < PlayManager.NumLines; i++)
                             {
-                                KeysState[i] = isDown;
-                                if (InputEvent != null)
-                                    InputEvent(i, KeysState[i]);
+                                var keyCode = KeyCodeMapping[PlayManager.NumLines - 4][i];
+                                var isDown = GetAsyncKeyState(keyCode) < 0;
+                                if (isDown != KeysState[i])
+                                {
+                                    KeysState[i] = isDown;
+                                    if (InputEvent != null)
+                                        InputEvent(i, KeysState[i]);
+                                }
                             }
                         }
 #endif
@@ -152,6 +158,14 @@ namespace EZR
                 timeEndPeriod(1);
 #endif
                 MemorySound.StopSound();
+            }
+
+            void OnApplicationFocus(bool hasFocus)
+            {
+                Master.GameHasFocus = hasFocus;
+                // 失焦静音
+                FMODUnity.RuntimeManager.CoreSystem.getMasterChannelGroup(out FMOD.ChannelGroup masterGroup);
+                masterGroup.setMute(!Master.GameHasFocus);
             }
         }
     }

@@ -71,7 +71,7 @@ namespace EZR
             Debug.Log("Save user data...");
         }
 
-        public static void LoadSave()
+        public static void LoadData()
         {
             var fullPath = Path.Combine(Application.persistentDataPath, saveName);
             if (!File.Exists(fullPath)) return;

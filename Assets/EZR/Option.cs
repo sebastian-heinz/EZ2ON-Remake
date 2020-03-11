@@ -59,12 +59,12 @@ namespace EZR
             if (option.Volume.Live3D)
             {
                 var prop = FMOD.PRESET.CONCERTHALL();
-                FMODUnity.RuntimeManager.LowlevelSystem.setReverbProperties(0, ref prop);
+                FMODUnity.RuntimeManager.CoreSystem.setReverbProperties(0, ref prop);
             }
             else
             {
                 var prop = FMOD.PRESET.OFF();
-                FMODUnity.RuntimeManager.LowlevelSystem.setReverbProperties(0, ref prop);
+                FMODUnity.RuntimeManager.CoreSystem.setReverbProperties(0, ref prop);
             }
         }
     }
