@@ -8,6 +8,7 @@ namespace EZR
     public class TimeLine
     {
         public int MaxLines => 9;
+        public float HeadBPM = 120f;
         public float BPM = 120f;
         public int Beat = 4;
 
@@ -30,7 +31,7 @@ namespace EZR
 
         public void Reset()
         {
-            BPM = 120f;
+            BPM = HeadBPM;
             BPMIndex = 0;
             BeatIndex = 0;
             LinesIndex = new int[MaxLines];

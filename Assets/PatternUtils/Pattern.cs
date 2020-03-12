@@ -8,6 +8,7 @@ namespace PatternUtils
     public partial class Pattern
     {
         public static int TickPerMeasure => 192;
+        public float BeatsPerMinute = 120f;
         public int EndTick = 0;
         public class Sound
         {

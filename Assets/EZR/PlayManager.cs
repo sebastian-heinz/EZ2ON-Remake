@@ -142,6 +142,7 @@ namespace EZR
             TimeLine.EndTick = pattern.EndTick;
             TimeLine.SoundList = pattern.SoundList;
             // bpm
+            TimeLine.HeadBPM = pattern.BeatsPerMinute;
             TimeLine.BPMList = pattern.BPMList;
             // beat
             TimeLine.BeatList = pattern.BeatList;

@@ -16,6 +16,7 @@ namespace PatternUtils
                 var jobj = JObject.Parse(data);
 
                 pattern.EndTick = (int)jobj["headerData"]["endTick"];
+                pattern.BeatsPerMinute = (float)jobj["headerData"]["bpm"];
                 // 读取声音列表
                 foreach (var sound in jobj["soundList"].Children())
                 {
