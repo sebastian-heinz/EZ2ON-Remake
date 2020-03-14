@@ -1,5 +1,40 @@
 # Changelog
 
+## [v0.9.1](https://github.com/mob-sakai/SoftMaskForUGUI/tree/v0.9.1) (2020-01-28)
+
+[Full Changelog](https://github.com/mob-sakai/SoftMaskForUGUI/compare/v0.9.0...v0.9.1)
+
+**Implemented enhancements:**
+
+- Add the parameter to control mask transparency [\#62](https://github.com/mob-sakai/SoftMaskForUGUI/pull/62) ([IIzzaya](https://github.com/IIzzaya))
+
+**Fixed bugs:**
+
+- Projection Matrix check always true when using world space canvas [\#67](https://github.com/mob-sakai/SoftMaskForUGUI/issues/67)
+- Update softmask not working when canvas component was deactivated [\#66](https://github.com/mob-sakai/SoftMaskForUGUI/issues/66)
+- Raycast coordinates are incorrect [\#52](https://github.com/mob-sakai/SoftMaskForUGUI/issues/52)
+
+## [v0.9.0](https://github.com/mob-sakai/SoftMaskForUGUI/tree/v0.9.0) (2019-08-27)
+
+[Full Changelog](https://github.com/mob-sakai/SoftMaskForUGUI/compare/v0.8.1...v0.9.0)
+
+**Implemented enhancements:**
+
+- Improved work in prefab view [\#55](https://github.com/mob-sakai/SoftMaskForUGUI/pull/55) ([ManeFunction](https://github.com/ManeFunction))
+
+**Fixed bugs:**
+
+- Prefab Mode in Play Mode is not supported [\#60](https://github.com/mob-sakai/SoftMaskForUGUI/issues/60)
+- Missing .meta file [\#59](https://github.com/mob-sakai/SoftMaskForUGUI/issues/59)
+
+## [v0.8.1](https://github.com/mob-sakai/SoftMaskForUGUI/tree/v0.8.1) (2019-05-07)
+
+[Full Changelog](https://github.com/mob-sakai/SoftMaskForUGUI/compare/v0.8.0...v0.8.1)
+
+**Fixed bugs:**
+
+- Unity 2018.x compile failed [\#51](https://github.com/mob-sakai/SoftMaskForUGUI/issues/51)
+
 ## [v0.8.0](https://github.com/mob-sakai/SoftMaskForUGUI/tree/v0.8.0) (2019-05-01)
 
 [Full Changelog](https://github.com/mob-sakai/SoftMaskForUGUI/compare/v0.7.2...v0.8.0)

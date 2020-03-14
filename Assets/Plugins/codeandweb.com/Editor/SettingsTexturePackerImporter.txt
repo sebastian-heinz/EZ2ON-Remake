@@ -1,30 +1,9 @@
 version: 2
 importPivots: 1
 tpsheetFileNames:
-- Assets/UI/Option/Option.tpsheet
-- Assets/UI/Result/Result.tpsheet
 - Assets/UI/SelectSong/SelectSong.tpsheet
-- Assets/UI/Skin/Common.tpsheet
-- Assets/UI/Skin/Note/Note.tpsheet
-- Assets/UI/Skin/Panel/001/001.tpsheet
-- Assets/UI/Skin/Panel/007/007.tpsheet
-- Assets/UI/Skin/Panel/R14/R14.tpsheet
 textureFileNames:
-- Assets/UI/Option/Option.png
-- Assets/UI/Result/Result.png
 - Assets/UI/SelectSong/SelectSong.png
-- Assets/UI/Skin/Common.png
-- Assets/UI/Skin/Note/Note.png
-- Assets/UI/Skin/Panel/001/001.png
-- Assets/UI/Skin/Panel/007/007.png
-- Assets/UI/Skin/Panel/R14/R14.png
 normalmapFileNames:
-- 
-- 
-- 
-- 
-- 
-- 
-- 
 - 
 enableDebugOutput: 0

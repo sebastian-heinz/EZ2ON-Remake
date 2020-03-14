@@ -28,6 +28,9 @@ public class SingleSelectSongUI : MonoBehaviour
     string currentSongName = EZR.PlayManager.SongName;
 
     float speed = EZR.PlayManager.FallSpeed;
+    EZR.EffectTpye.Fade effectFade = EZR.EffectTpye.Fade.None;
+    EZR.EffectTpye.Random effectRandom = EZR.EffectTpye.Random.None;
+    EZR.EffectTpye.Auto effectAuto = EZR.EffectTpye.Auto.None;
 
     Coroutine delayPlay;
     bool isStreamFirstTime = true;

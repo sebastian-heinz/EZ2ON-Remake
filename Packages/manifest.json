@@ -1,17 +1,12 @@
 {
   "dependencies": {
-    "com.unity.2d.sprite": "1.0.0",
-    "com.unity.2d.tilemap": "1.0.0",
-    "com.unity.ads": "2.0.8",
-    "com.unity.analytics": "3.3.5",
+    "com.litefeel.bitmapfontimporter": "https://github.com/litefeel/Unity-BitmapFontImporter.git#upm",
     "com.unity.collab-proxy": "1.2.16",
-    "com.unity.ext.nunit": "1.0.0",
     "com.unity.ide.rider": "1.1.4",
-    "com.unity.ide.vscode": "1.1.4",
-    "com.unity.purchasing": "2.0.6",
+    "com.unity.ide.vscode": "1.2.0",
     "com.unity.test-framework": "1.1.11",
     "com.unity.textmeshpro": "2.0.1",
-    "com.unity.timeline": "1.2.13",
+    "com.unity.timeline": "1.2.12",
     "com.unity.ugui": "1.0.0",
     "com.unity.modules.ai": "1.0.0",
     "com.unity.modules.androidjni": "1.0.0",
@@ -44,5 +39,11 @@
     "com.unity.modules.vr": "1.0.0",
     "com.unity.modules.wind": "1.0.0",
     "com.unity.modules.xr": "1.0.0"
+  },
+  "lock": {
+    "com.litefeel.bitmapfontimporter": {
+      "revision": "upm",
+      "hash": "c5f7fa867854ace2d30bc5cfb0f1f2a570abf54e"
+    }
   }
 }
