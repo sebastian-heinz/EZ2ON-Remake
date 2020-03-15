@@ -80,9 +80,9 @@ namespace EZR
             FMODUnity.RuntimeManager.CoreSystem.createChannelGroup("BGM", out BGM);
             FMODUnity.RuntimeManager.CoreSystem.createChannelGroup("Game", out Game);
 
-            var ezrPath = Path.Combine(Master.GameResourcesFolder, "SoundUI.ezr");
-            var soundUINames = DataLoader.GetNames(ezrPath);
-            DataLoader.OpenStream(ezrPath);
+            var gpkPath = Path.Combine(Master.GameResourcesFolder, "SoundUI.gpk");
+            var soundUINames = DataLoader.GetNames(gpkPath);
+            DataLoader.OpenStream(gpkPath);
             foreach (var name in soundUINames)
             {
                 var ext = Path.GetExtension(name);

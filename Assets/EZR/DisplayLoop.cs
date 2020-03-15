@@ -65,6 +65,7 @@ namespace EZR
         public ObjectPool measureLinePool;
 
         MediaPlayer mediaPlayer;
+        DisplayUGUI displayUGUI;
 
         GameObject autoObj;
 
@@ -101,6 +102,9 @@ namespace EZR
                 target.transform.parent.localPosition.y + (int)PlayManager.TargetLineType,
                 0);
 
+            // 找音符节点
+            noteArea = (RectTransform)panel.transform.Find("NoteArea");
+
             // 节奏线
             measureLine = panel.GetComponent<Panel>().MeasureLine;
 
@@ -116,6 +120,7 @@ namespace EZR
                             for (int j = 0; j < 20; j++)
                             {
                                 var note = Instantiate(notes[PlayManager.NumLines - 4].NotePrefab[i]);
+                                note.transform.SetParent(noteArea, false);
                                 note.GetComponent<NoteInLine>().Recycle(notePoolA);
                             }
                         }
@@ -127,6 +132,7 @@ namespace EZR
                             for (int j = 0; j < 15; j++)
                             {
                                 var note = Instantiate(notes[PlayManager.NumLines - 4].NotePrefab[i]);
+                                note.transform.SetParent(noteArea, false);
                                 note.GetComponent<NoteInLine>().Recycle(notePoolB);
                             }
                         }
@@ -138,6 +144,7 @@ namespace EZR
                             for (int j = 0; j < 10; j++)
                             {
                                 var note = Instantiate(notes[PlayManager.NumLines - 4].NotePrefab[i]);
+                                note.transform.SetParent(noteArea, false);
                                 note.GetComponent<NoteInLine>().Recycle(notePoolC);
                             }
                         }
@@ -151,6 +158,7 @@ namespace EZR
                 for (int i = 0; i < 2; i++)
                 {
                     var line = Instantiate(measureLine);
+                    line.transform.SetParent(noteArea, false);
                     line.GetComponent<MeasureLine>().Recycle(measureLinePool);
                 }
             }
@@ -178,9 +186,6 @@ namespace EZR
                 else
                     lines.SetActive(false);
             }
-
-            // 找音符节点
-            noteArea = (RectTransform)panel.transform.Find("NoteArea");
 
             // 初始化按键火花特效
             flarePlayList = new FlareAnimCTL[PlayManager.NumLines];
@@ -216,6 +221,7 @@ namespace EZR
             }
 
             mediaPlayer = GameObject.Find("MediaPlayer").GetComponent<MediaPlayer>();
+            displayUGUI = GameObject.Find("Canvas").transform.Find("BGA").GetComponent<DisplayUGUI>();
 
             string bgaUrl;
             if (PlayManager.GameType == GameType.EZ2ON || PlayManager.GameType == GameType.EZ2DJ)
@@ -252,6 +258,7 @@ namespace EZR
             else
             {
                 Destroy(mediaPlayer);
+                Destroy(displayUGUI);
             }
 
             // 找毛玻璃
@@ -280,9 +287,10 @@ namespace EZR
             PlayManager.GameMode < EZR.GameMode.Mode.FourKey) &&
             PlayManager.BGADelay <= 0)
             {
-                if (mediaPlayer != null)
+                if (mediaPlayer != null && displayUGUI != null)
                 {
                     mediaPlayer.Control.Play();
+                    displayUGUI.color = Color.white;
                     mediaPlayer.Control.Seek(-PlayManager.BGADelay * 1000);
                 }
             }
@@ -338,7 +346,7 @@ namespace EZR
                 readyFrame++;
                 if (readyFrame > 10)
                 {
-                    if (mediaPlayer != null)
+                    if (mediaPlayer != null && displayUGUI != null)
                     {
                         if (mediaPlayer.VideoOpened) StartPlay();
                     }
@@ -404,8 +412,11 @@ namespace EZR
             if (PlayManager.IsPlayBGA)
             {
                 PlayManager.IsPlayBGA = false;
-                if (mediaPlayer != null)
+                if (mediaPlayer != null && displayUGUI != null)
+                {
                     mediaPlayer.Control.Play();
+                    displayUGUI.color = Color.white;
+                }
             }
 
             // Unity smoothDeltaTime计算Position 用于消除音符抖动
@@ -420,8 +431,11 @@ namespace EZR
                 PlayManager.GameMode < EZR.GameMode.Mode.FourKey) &&
                 PlayManager.BGADelay > 0 && PlayManager.BGADelay <= time)
                 {
-                    if (mediaPlayer != null)
+                    if (mediaPlayer != null && displayUGUI != null)
+                    {
                         mediaPlayer.Control.Play();
+                        displayUGUI.color = Color.white;
+                    }
                     bgaPlayed = true;
                 }
             }

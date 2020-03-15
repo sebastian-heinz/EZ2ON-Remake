@@ -60,8 +60,8 @@ namespace EZR
         public static void LoadPattern()
         {
             string jsonPath = PatternUtils.Pattern.GetFileName(SongName, GameType, GameMode, GameDifficult);
-            var ezrPath = EZR.DataLoader.GetEZRDataPath(GameType, SongName);
-            var buffer = DataLoader.LoadFile(ezrPath, jsonPath);
+            var gpkPath = EZR.DataLoader.GetPackagePath(GameType, SongName);
+            var buffer = DataLoader.LoadFile(gpkPath, jsonPath);
             Debug.Log(jsonPath);
             if (buffer == null)
             {
@@ -106,7 +106,7 @@ namespace EZR
             if (pattern == null) return;
 
             // 读取所有音频
-            DataLoader.OpenStream(ezrPath);
+            DataLoader.OpenStream(gpkPath);
             for (int i = 0; i < pattern.SoundList.Count; i++)
             {
                 var fileName = pattern.SoundList[i].filename;

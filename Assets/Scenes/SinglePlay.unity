@@ -641,8 +641,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 0
+  m_Color: {r: 0, g: 0, b: 0, a: 1}
+  m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -655,9 +655,9 @@ MonoBehaviour:
     height: 1
   _setNativeSize: 0
   _scaleMode: 0
-  _noDefaultDisplay: 0
+  _noDefaultDisplay: 1
   _displayInEditor: 1
-  _defaultTexture: {fileID: 2800000, guid: c4382cb17fc115547b9891bb37ae6602, type: 3}
+  _defaultTexture: {fileID: 0}
 --- !u!222 &1615735830
 CanvasRenderer:
   m_ObjectHideFlags: 0

@@ -32,7 +32,7 @@ public class Launcher : MonoBehaviour
         DontDestroyOnLoad(EZR.Master.Tooltips);
         DontDestroyOnLoad(GameObject.Find("PersistentCanvas"));
 
-        var buffer = EZR.DataLoader.LoadFile(Path.Combine(EZR.Master.GameResourcesFolder, "SongList.ezr"), "SongList.json");
+        var buffer = EZR.DataLoader.LoadFile(Path.Combine(EZR.Master.GameResourcesFolder, "SongList.gpk"), "SongList.json");
         string songListData = null;
         if (buffer != null) songListData = Encoding.UTF8.GetString(buffer);
         EZR.SongList.Parse(songListData);

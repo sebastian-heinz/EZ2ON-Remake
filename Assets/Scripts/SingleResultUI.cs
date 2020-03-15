@@ -167,7 +167,7 @@ public class SingleResultUI : MonoBehaviour
                     fileName = "song_pic_f_" + EZR.PlayManager.SongName + "_" + ((int)EZR.PlayManager.GameDifficult - (int)EZR.GameDifficult.Difficult.DJMAX_EZ).ToString().PadLeft(2, '0') + ".png";
                 break;
         }
-        var buffer = EZR.DataLoader.LoadFile(EZR.DataLoader.GetEZRDataPath(EZR.PlayManager.GameType, EZR.PlayManager.SongName), fileName);
+        var buffer = EZR.DataLoader.LoadFile(EZR.DataLoader.GetPackagePath(EZR.PlayManager.GameType, EZR.PlayManager.SongName), fileName);
         if (buffer == null && EZR.PlayManager.GameDifficult == EZR.GameDifficult.Difficult.EX)
         {
             switch (EZR.PlayManager.GameType)
@@ -179,7 +179,7 @@ public class SingleResultUI : MonoBehaviour
                     fileName = EZR.PlayManager.SongName + EZR.GameDifficult.GetString(EZR.GameDifficult.Difficult.SHD) + ".bmp";
                     break;
             }
-            buffer = EZR.DataLoader.LoadFile(EZR.DataLoader.GetEZRDataPath(EZR.PlayManager.GameType, EZR.PlayManager.SongName), fileName);
+            buffer = EZR.DataLoader.LoadFile(EZR.DataLoader.GetPackagePath(EZR.PlayManager.GameType, EZR.PlayManager.SongName), fileName);
         }
         if (buffer != null)
         {

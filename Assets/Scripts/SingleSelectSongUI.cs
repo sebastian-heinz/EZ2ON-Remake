@@ -830,7 +830,7 @@ public class SingleSelectSongUI : MonoBehaviour
                     fileName = "song_pic_f_" + currentSongName + "_" + ((int)currentDifficult - (int)EZR.GameDifficult.Difficult.DJMAX_EZ).ToString().PadLeft(2, '0') + ".png";
                 break;
         }
-        var buffer = await EZR.DataLoader.LoadFileAsync(EZR.DataLoader.GetEZRDataPath(currentType, currentSongName), fileName);
+        var buffer = await EZR.DataLoader.LoadFileAsync(EZR.DataLoader.GetPackagePath(currentType, currentSongName), fileName);
         if (buffer == null && currentDifficult == EZR.GameDifficult.Difficult.EX)
         {
             switch (currentType)
@@ -842,7 +842,7 @@ public class SingleSelectSongUI : MonoBehaviour
                     fileName = currentSongName + EZR.GameDifficult.GetString(EZR.GameDifficult.Difficult.SHD) + ".bmp";
                     break;
             }
-            buffer = await EZR.DataLoader.LoadFileAsync(EZR.DataLoader.GetEZRDataPath(currentType, currentSongName), fileName);
+            buffer = await EZR.DataLoader.LoadFileAsync(EZR.DataLoader.GetPackagePath(currentType, currentSongName), fileName);
         }
         if (buffer != null)
         {
@@ -917,7 +917,7 @@ public class SingleSelectSongUI : MonoBehaviour
 
     async void playPreview(string fileName, string songName)
     {
-        var ezrPath = EZR.DataLoader.GetEZRDataPath(currentType, currentSongName);
+        var gpkPath = EZR.DataLoader.GetPackagePath(currentType, currentSongName);
         var isExists = false;
         for (int i = 0; i < 3; i++)
         {
@@ -934,10 +934,10 @@ public class SingleSelectSongUI : MonoBehaviour
                     soundFileName = fileName + ".mp3";
                     break;
             }
-            if (EZR.DataLoader.Exists(ezrPath, soundFileName))
+            if (EZR.DataLoader.Exists(gpkPath, soundFileName))
             {
                 isExists = true;
-                var buffer = await EZR.DataLoader.LoadFileAsync(ezrPath, soundFileName);
+                var buffer = await EZR.DataLoader.LoadFileAsync(gpkPath, soundFileName);
                 if (songName == currentSongName)
                     EZR.MemorySound.PlaySound(buffer, true);
                 break;
@@ -945,7 +945,7 @@ public class SingleSelectSongUI : MonoBehaviour
         }
         if (!isExists && currentType == EZR.GameType.DJMAX)
         {
-            var buffer = await EZR.DataLoader.LoadFileAsync(Path.Combine(EZR.Master.GameResourcesFolder, "BGM.ezr"), "FreeMode.ogg");
+            var buffer = await EZR.DataLoader.LoadFileAsync(Path.Combine(EZR.Master.GameResourcesFolder, "BGM.gpk"), "FreeMode.ogg");
             EZR.MemorySound.PlaySound(buffer, true);
         }
     }
@@ -956,21 +956,21 @@ public class SingleSelectSongUI : MonoBehaviour
         if (!btn.interactable) return;
         else btn.interactable = false;
 
-        var ezrPath = EZR.DataLoader.GetEZRDataPath(currentType, currentSongName);
+        var gpkPath = EZR.DataLoader.GetPackagePath(currentType, currentSongName);
 
-        if (File.Exists(ezrPath))
+        if (File.Exists(gpkPath))
         {
             // 检查sha2
-            // var ezrDataBuffer = new byte[0];
+            // var gpkDataBuffer = new byte[0];
             // await Task.Run(async () =>
             // {
-            //     using (var stream = File.OpenRead(ezrPath))
+            //     using (var stream = File.OpenRead(gpkPath))
             //     {
-            //         ezrDataBuffer = new byte[stream.Length];
-            //         await stream.ReadAsync(ezrDataBuffer, 0, (int)stream.Length);
+            //         gpkDataBuffer = new byte[stream.Length];
+            //         await stream.ReadAsync(gpkDataBuffer, 0, (int)stream.Length);
             //     }
             // });
-            // var sha2 = await EZR.Hash.Sha2Async(ezrDataBuffer);
+            // var sha2 = await EZR.Hash.Sha2Async(gpkDataBuffer);
 
             // if (sha2.ToLower() != EZR.SongsList.List[currentSongIndex].sha1.ToLower())
             // {
@@ -994,7 +994,7 @@ public class SingleSelectSongUI : MonoBehaviour
 
         // 检查json文件是否存在
         var jsonFileName = PatternUtils.Pattern.GetFileName(currentSongName, currentType, mode, currentDifficult);
-        if (!EZR.DataLoader.Exists(ezrPath, jsonFileName))
+        if (!EZR.DataLoader.Exists(gpkPath, jsonFileName))
         {
             var messageBox = Instantiate(EZR.Master.MessageBox);
             messageBox.transform.SetParent(transform.parent, false);
@@ -1017,7 +1017,7 @@ public class SingleSelectSongUI : MonoBehaviour
                 fileName = "eyecatch_" + currentSongName + ".png";
                 break;
         }
-        var buffer = await EZR.DataLoader.LoadFileAsync(ezrPath, fileName);
+        var buffer = await EZR.DataLoader.LoadFileAsync(gpkPath, fileName);
 
         var eyecatch = Instantiate(Eyecatch);
         eyecatch.transform.SetParent(transform.parent, false);

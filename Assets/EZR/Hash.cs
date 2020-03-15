@@ -11,7 +11,7 @@ namespace EZR
             string hex = "";
             await Task.Run(() =>
             {
-                var sha2 = new SHA256Managed();
+                var sha2 = new SHA256CryptoServiceProvider();
                 var result = sha2.ComputeHash(data);
 
                 for (int i = 0; i < result.Length; i++)
@@ -24,7 +24,7 @@ namespace EZR
         public static string Sha2(byte[] data)
         {
             string hex = "";
-            var sha2 = new SHA256Managed();
+            var sha2 = new SHA256CryptoServiceProvider();
             var result = sha2.ComputeHash(data);
 
             for (int i = 0; i < result.Length; i++)
