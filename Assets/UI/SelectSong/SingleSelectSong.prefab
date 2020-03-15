@@ -2121,7 +2121,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\u8FD4\u56DE"
+  m_Text: "\u9000\u51FA"
 --- !u!1 &1612247894704042920
 GameObject:
   m_ObjectHideFlags: 0
@@ -2542,6 +2542,7 @@ GameObject:
   - component: {fileID: 4112991211868577142}
   - component: {fileID: 1461576126240180682}
   - component: {fileID: 2525983470417228015}
+  - component: {fileID: 7120290237421561434}
   m_Layer: 5
   m_Name: BtnExit
   m_TagString: Untagged
@@ -2652,8 +2653,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 6113065881481119074}
-        m_MethodName: BtnBack
+      - m_Target: {fileID: 7120290237421561434}
+        m_MethodName: BtnExit
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2663,6 +2664,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &7120290237421561434
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2296514212973439450}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5933abb61c8ef1a46969764cc5a8d9e4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2370087791437708782
 GameObject:
   m_ObjectHideFlags: 0

@@ -1162,13 +1162,6 @@ public class SingleSelectSongUI : MonoBehaviour
         EZR.MemorySound.PlaySound("e_count_1");
     }
 
-    // 暂时退出程序
-    public void BtnBack()
-    {
-        EZR.MemorySound.PlaySound("e_motion");
-        Application.Quit();
-    }
-
     // 打开设置面板
     public void BtnOption()
     {
