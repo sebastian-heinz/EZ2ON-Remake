@@ -32,7 +32,7 @@ namespace PatternUtils
                 {
                     pattern.BPMList.Add(new BPM
                     {
-                        position = (int)bpm["position"],
+                        position = (int)bpm["pos"],
                         bpm = (float)bpm["bpm"]
                     });
                 }
@@ -43,7 +43,7 @@ namespace PatternUtils
                     {
                         pattern.BeatList.Add(new Beat
                         {
-                            position = (int)beat["position"],
+                            position = (int)beat["pos"],
                             beat = (int)beat["beat"]
                         });
                     }
@@ -56,11 +56,11 @@ namespace PatternUtils
                     {
                         pattern.TrackList[pattern.TrackList.Count - 1].Notes.Add(new Note
                         {
-                            position = (int)note["position"],
+                            position = (int)note["pos"],
                             id = (int)note["id"],
-                            vol = getVol((int)note["vol"]),
+                            volume = getVolume((int)note["vol"]),
                             pan = getPan((int)note["pan"]),
-                            length = (int)note["length"],
+                            length = (int)note["len"],
                         });
                     }
                 }
@@ -73,7 +73,7 @@ namespace PatternUtils
             return pattern;
         }
 
-        static float getVol(int vol)
+        static float getVolume(int vol)
         {
             return Mathf.Pow(vol / 127f, 4f);
         }

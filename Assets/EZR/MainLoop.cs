@@ -69,7 +69,7 @@ namespace EZR
                         note.id == 0)
                             IsPlayBGA = true;
 
-                        MemorySound.PlaySound(note.id, note.vol, note.pan, MemorySound.BGM);
+                        MemorySound.PlaySound(note.id, note.volume, note.pan, MemorySound.BGM);
 
                         // debug事件
                         if (DebugEvent != null)
@@ -77,7 +77,7 @@ namespace EZR
                             DebugEvent(string.Format(
                                 "[{3}] Sound: {0}\n[vol: {1}] [pan:{2}]",
                                 TimeLine.SoundList[note.id].filename,
-                                (int)(note.vol * 100),
+                                (int)(note.volume * 100),
                                 (int)(note.pan * 100),
                                 (int)Position
                             ), note.id);

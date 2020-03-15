@@ -38,7 +38,7 @@ namespace PatternUtils
         {
             public int position = 0;
             public int id = 0;
-            public float vol = 0;
+            public float volume = 0;
             public float pan = 0;
             public int length = 0;
         }
