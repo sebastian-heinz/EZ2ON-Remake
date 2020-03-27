@@ -102,10 +102,12 @@ public class SinglePlay : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Delete))
         {
-            var bga = GameObject.Find("Canvas").transform.Find("BGA");
-            if (bga != null && bga.gameObject.activeSelf)
+            var mediaPlayer = GameObject.Find("MediaPlayer");
+            var bga = GameObject.Find("Canvas").transform.Find("BGA").gameObject;
+            if (bga != null && bga.activeSelf)
             {
-                Destroy(bga.gameObject);
+                Destroy(mediaPlayer);
+                Destroy(bga);
                 EZR.MemorySound.PlaySound("e_count_1");
             }
         }

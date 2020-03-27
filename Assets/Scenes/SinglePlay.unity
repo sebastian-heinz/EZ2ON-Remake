@@ -655,9 +655,9 @@ MonoBehaviour:
     height: 1
   _setNativeSize: 0
   _scaleMode: 0
-  _noDefaultDisplay: 1
+  _noDefaultDisplay: 0
   _displayInEditor: 1
-  _defaultTexture: {fileID: 0}
+  _defaultTexture: {fileID: 2800000, guid: c4382cb17fc115547b9891bb37ae6602, type: 3}
 --- !u!222 &1615735830
 CanvasRenderer:
   m_ObjectHideFlags: 0
